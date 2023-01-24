@@ -55,11 +55,44 @@ E: Epic
 U: User Story  
 T: Task  
 
-7. [E] 
-    1. [U]
+3. [E] User Information Access
+    1. [U] As a user, I would like to have all of my Steam account statistics in one organized page.
         a. [T]
         b. [T]
-    2. [U]
+    2. [U] As a user, I would like to have my owned-game library displayed on a page.
+
+11. [E] Achievement Tracking
+    4. [U] As a user, I would like to have information regarding my in-game achievements displayed on another page.
+        a. [T]
+    5. [U] As a user, I would like to be able to initiate custom events that capture user achievements within a timespan.
+        a. [T]
+    6. [U] As a user, I would like to be able to invite other users to have their achievements recorded alongside mine.
+        a. [T]
+    7. [U] As a user, I would like to be able to view relative leaderboard positions for other users participating in events.
+        a. [T]
+    8. [U] As a user, I would like to be able to publicly display that I have placed in specific events.
+        a. [T]
+    9. [U] As a user, I would like to have the choice on how an event is completed.
+        a. [T]
+    10. [U] As a user, I would like to be able to designate teams for these events.
+        a. [T]
+
+15. [E] Game Curation
+    12. [U] As a user, I would like to be able to navigate to a page that displays news about games.
+        a. [T]
+    13. [U] As a user, I would like to be able to select which games' news and information I want to see.
+        a. [T]
+    14. [U] As a user, I'd like to be presented with interesting information regarding popular games.
+        a. [T]
+
+20. [E] SMS Interaction
+    16. [U] As a user, I'd like to receive texts when news comes out regarding my favourite games
+        a. [T]
+    17. [U] As a user, I'd like to receive texts regarding the events I'm participating in.
+        a. [T]
+    18. [U] As a user, I would like to be able to request information regarding myself via text.
+        a. [T]
+    19. [U] As a user, I would like to be able to opt out of texts via text.
         a. [T]
 
 ## Initial Architecture Envisioning

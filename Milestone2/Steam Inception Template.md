@@ -2,7 +2,13 @@ Project Inception Worksheet
 =====================================
 
 ## Summary of Our Approach to Software Development
-    Agile, using git workflow described by Scot.
+    Our approach to software development for this senior project is to use Scrum from the Agile software development methodology. 
+    The project will be broken down into sprints, with each sprint consisting of a planning meeting, daily stand-up meetings, 
+    and a retrospective at the end of the sprint. The team will prioritize and select user stories to be completed during each sprint, 
+    with the goal of delivering a potentially releasable product increment at the end of each sprint. 
+    The team will also use Scrum ceremonies such as the sprint planning, daily stand-ups, sprint review,
+    and sprint retrospective to continuously improve the development process. Additionally, we will use agile development tools such as 
+    Jira to track progress and manage tasks.
 
 ## Initial Vision Discussion with Stakeholders
     App with news tracking for Steam users, will also provide achievement tracking and competition arrangement.
@@ -55,44 +61,44 @@ E: Epic
 U: User Story  
 T: Task  
 
-3. [E] User Information Access
+## [E] User Information Access
     1. [U] As a user, I would like to have all of my Steam account statistics in one organized page.
         a. [T]
         b. [T]
     2. [U] As a user, I would like to have my owned-game library displayed on a page.
 
-11. [E] Achievement Tracking
-    4. [U] As a user, I would like to have information regarding my in-game achievements displayed on another page.
+## [E] Achievement Tracking
+    2. [U] As a user, I would like to have information regarding my in-game achievements displayed on another page.
         a. [T]
-    5. [U] As a user, I would like to be able to initiate custom events that capture user achievements within a timespan.
+    3. [U] As a user, I would like to be able to initiate custom events that capture user achievements within a timespan.
         a. [T]
-    6. [U] As a user, I would like to be able to invite other users to have their achievements recorded alongside mine.
+    4. [U] As a user, I would like to be able to invite other users to have their achievements recorded alongside mine.
         a. [T]
-    7. [U] As a user, I would like to be able to view relative leaderboard positions for other users participating in events.
+    5. [U] As a user, I would like to be able to view relative leaderboard positions for other users participating in events.
         a. [T]
-    8. [U] As a user, I would like to be able to publicly display that I have placed in specific events.
+    6. [U] As a user, I would like to be able to publicly display that I have placed in specific events.
         a. [T]
-    9. [U] As a user, I would like to have the choice on how an event is completed.
+    7. [U] As a user, I would like to have the choice on how an event is completed.
         a. [T]
-    10. [U] As a user, I would like to be able to designate teams for these events.
-        a. [T]
-
-15. [E] Game Curation
-    12. [U] As a user, I would like to be able to navigate to a page that displays news about games.
-        a. [T]
-    13. [U] As a user, I would like to be able to select which games' news and information I want to see.
-        a. [T]
-    14. [U] As a user, I'd like to be presented with interesting information regarding popular games.
+    8. [U] As a user, I would like to be able to designate teams for these events.
         a. [T]
 
-20. [E] SMS Interaction
-    16. [U] As a user, I'd like to receive texts when news comes out regarding my favourite games
+## [E] Game Curation
+    1. [U] As a user, I would like to be able to navigate to a page that displays news about games.
         a. [T]
-    17. [U] As a user, I'd like to receive texts regarding the events I'm participating in.
+    2. [U] As a user, I would like to be able to select which games' news and information I want to see.
         a. [T]
-    18. [U] As a user, I would like to be able to request information regarding myself via text.
+    3. [U] As a user, I'd like to be presented with interesting information regarding popular games.
         a. [T]
-    19. [U] As a user, I would like to be able to opt out of texts via text.
+
+## [E] SMS Interaction
+    1. [U] As a user, I'd like to receive texts when news comes out regarding my favourite games
+        a. [T]
+    2. [U] As a user, I'd like to receive texts regarding the events I'm participating in.
+        a. [T]
+    3. [U] As a user, I would like to be able to request information regarding myself via text.
+        a. [T]
+    4. [U] As a user, I would like to be able to opt out of texts via text.
         a. [T]
 
 ## Initial Architecture Envisioning

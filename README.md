@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="Milestone1/Team++ Letterhead.png" height="150" width="500">
+    <img src="/Milestones/Milestone1/Team++ Letterhead.png" height="150" width="500">
 </div>
 <hr>
 

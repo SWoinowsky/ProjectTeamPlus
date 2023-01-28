@@ -1,0 +1,59 @@
+@startuml
+
+left to right direction
+
+:Users:                     as users
+:System / Database:         as sdb
+:Steam API:                 as steam
+
+:OpenID API:                as oid
+:Twilio API:                as twilio
+:OpenAI API:                as oai
+
+
+rectangle System {
+
+    (Login)                 as login
+    (Verify Steam)          as verify
+    (View User Stats)       as statsview
+    (Follow Games)          as follow
+
+    (Send News for Follows) as newssend
+    (Track Achievements)    as achievements
+    (Compare to Friends)    as compare
+
+}
+
+
+sdb <-- login
+users <-- login
+
+
+users <-- verify 
+verify --> oid
+
+
+users <-- statsview
+statsview <--> steam
+
+
+users <-- follow
+follow <-- steam
+
+
+users <-- newssend
+newssend --> twilio
+newssend <--> oai
+
+
+users <-- achievements
+achievements <--> steam
+achievements --> sdb
+
+
+users <-- compare
+compare <--> steam
+sdb <-- compare
+
+
+@enduml

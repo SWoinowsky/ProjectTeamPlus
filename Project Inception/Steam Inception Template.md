@@ -85,9 +85,9 @@ T: Task
 ## [E] Achievement Tracking
     1. [U] As a user, I would like to have information regarding my in-game achievements displayed on another page.
         a. [T]
-    2. [U] As a user, I would like to be able to initiate custom events that capture user achievements within a timespan.
+    2. [U] As a user, I would like to be able to invite other users to have their achievements recorded alongside mine in an "event"
         a. [T]
-    3. [U] As a user, I would like to be able to invite other users to have their achievements recorded alongside mine.
+    3. [U] As a user, I would like to be able to set a date in which these "events" stop recording.
         a. [T]
     4. [U] As a user, I would like to be able to view relative leaderboard positions for other users participating in events.
         a. [T]

@@ -55,24 +55,30 @@ Project Inception Worksheet
 ### Other Elicitation Activities?
     As needed
 
-## List of Needs and Features
-#### Needs
-    1. A User needs to be able to login to their steam account securely.
-    2. A User needs to be able to see the games they have registered with their steam account.
-    3. A User needs to be able to see updates and news for their games in a centralized location.
-    4. A User needs to be able to see what achievement they have for each game.
-    5. A User needs to be able to see their friends registered with their steam account.
-    6. A User needs to be able to access news about their games away from their computer.
-    7. A User needs to be able to see their steam friends achievements.
-    8. A User needs to be able to start a competition with their friend or friends.
-    9. A User needs to be able to see a leaderboard of some kind to compare their results with others. 
+## Needs and Features
+    Need: A user needs to stay up to date on news for their favorite games
+        Feature: A custom dashboard with the latest gaming news tailored to them
+        Feature: Receive quick, summarized news regarding their favorite games via SMS
+        Feature: A centralized platform much easier to navigate and use compared to current solutions
+        Feature: Subscribe to news for games currently owned, or get recommended new games based on your library
 
+    Need: A user needs to see what achievements they have earned for the games in their library
+        Feature: A dedicated page that shows the user's achievements earned for each of their games
+        Feature: A search bar to find the game they are looking for easier
+        Feature: Ability to navigate to a friend's page and see and compare their achievements
 
-#### Features
-    1. Access to Steam Web API, already collected and tested using CURL. Further implementation / demonstration is doable.
-    2. Access to Twilio SMS API. Strong need to sign up and test this.
-    3. Access to OpenID API. Also strong need to figure out the implementation here.
-    4. Connection / Integration with SQL Server DB. For purposes of tracking users' activity on website.
+    Need: A user needs to compete with other achievement hunters
+        Feature: A competitive leaderboard with scheduled races for all sorts of games and popular race categories
+        Feature: Ability to join and create teams to work together in competitions and win  
+        Feature: Custom badges awarded to individuals and teams to flaunt
+        Feature: Special titles that appear on a user's profile earned by winning achievement races
+    
+    Need: A user needs a trustworthy platform to do all of these
+        Feature: A clean looking, modern website to be a part of
+        Feature: Steam sanctioned log-in 
+        Feature: No private data is saved or required to create an account
+        Feature: Detach a user's account and sign in with another Steam account
+
 
 ## Initial Modeling
 

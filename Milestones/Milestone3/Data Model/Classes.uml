@@ -8,6 +8,8 @@ class User {
     + SteamName : string
     + ProfileUrl : string
     + AvatarUrl : string
+    + PersonaState : int
+    + PlayerLevel : int
 }
 
 class Friend {
@@ -15,6 +17,12 @@ class Friend {
     - RootId : int
     - SteamId : int
     + SteamName : string
+    + PersonaState: int
+    + AvatarUrl : string
+    + LastLogOff : int
+    + GameExtraInfo : ?string
+    + GameId : ?int
+
 }
 
 class Game {
@@ -60,7 +68,8 @@ Game ||--{ GameAchievement
 User ||--{ UserAchievement
 User ||--{ Friend
 
-
+GameAchievement --> Achievement : Inherits
+UserAchievement --> Achievement : Inherits
 
 
 @enduml

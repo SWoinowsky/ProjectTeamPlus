@@ -1,0 +1,75 @@
+@startuml
+
+left to right direction
+
+class User {
+    - Id : int
+    - SteamId : int
+    + SteamName : string
+    + ProfileUrl : string
+    + AvatarUrl : string
+    + PersonaState : int
+    + PlayerLevel : int
+}
+
+class Friend {
+    - Id : int
+    - RootId : int
+    - SteamId : int
+    + SteamName : string
+    + PersonaState: int
+    + AvatarUrl : string
+    + LastLogOff : int
+    + GameExtraInfo : ?string
+    + GameId : ?int
+
+}
+
+class Game {
+    - appId : int
+    - UserId : int
+    + Name : String
+    + Playtime : int
+    + IconUrl : string
+    + LastPlayed : int
+}
+
+
+class Achievement {
+    - Id : int
+    - GameId : int
+    - ApiName : string
+    + DisplayName : string
+}
+
+class GameAchievement {
+    - Id : int
+    - GameId : int
+    - ApiName : string
+    + DisplayName : string
+    + IconAchievedUrl : string
+    + IconHiddenUrl : string
+    + HiddenFromUsers : bool
+}
+
+class UserAchievement {
+    - Id : int
+    - UserId : int
+    - GameId : int
+    - ApiName : string
+    + DisplayName : string
+    + Achieved : bool
+    + UnlockTime : int
+}
+
+
+User ||--{ Game
+Game ||--{ GameAchievement
+User ||--{ UserAchievement
+User ||--{ Friend
+
+GameAchievement --> Achievement : Inherits
+UserAchievement --> Achievement : Inherits
+
+
+@enduml

@@ -73,5 +73,6 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-.idea/*
-
+.vs/*
+src/.vs/*
+src/SteamProject/.vs/*

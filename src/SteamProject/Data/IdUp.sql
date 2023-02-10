@@ -1,4 +1,7 @@
-﻿USE [SteamInfoAuth];
+﻿--CREATE DATABASE [SteamInfoAuth];
+
+
+USE [SteamInfoAuth];
 
 IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN

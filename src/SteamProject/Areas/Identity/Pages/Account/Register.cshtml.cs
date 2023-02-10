@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SteamProject.Data;
 
 namespace SteamProject.Areas.Identity.Pages.Account
 {
@@ -29,13 +30,15 @@ namespace SteamProject.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly SteamInfoDbContext _steamInfoDbContext;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            SteamInfoDbContext steamInfoDbContext)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +46,7 @@ namespace SteamProject.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _steamInfoDbContext = steamInfoDbContext;
         }
 
         /// <summary>
@@ -121,6 +125,15 @@ namespace SteamProject.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Creation of our user for database
+                    Models.User newEntry = new Models.User 
+                    {
+                        AspNetUserId = user.Id
+                    };
+
+                    _steamInfoDbContext.Add(newEntry);
+                    await _steamInfoDbContext.SaveChangesAsync();
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

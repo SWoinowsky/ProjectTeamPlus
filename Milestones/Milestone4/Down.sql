@@ -2,8 +2,7 @@ USE [SteamInfo];
 
 ALTER TABLE [Friend] DROP CONSTRAINT [Friend_Fk_User];
 ALTER TABLE [Game] DROP CONSTRAINT [Game_Fk_User];
-ALTER TABLE [GameAchievement] DROP CONSTRAINT [GameAchievement_Fk_Game];
-ALTER TABLE [UserAchievement] DROP CONSTRAINT [UserAchievement_Fk_Game];
+ALTER TABLE [UserAchievement] DROP CONSTRAINT [UserAchievement_Fk_User];
 
 DROP TABLE [User];
 DROP TABLE [Friend];

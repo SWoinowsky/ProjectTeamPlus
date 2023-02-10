@@ -1,0 +1,65 @@
+@model IEnumerable<SteamProject.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SteamId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SteamName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfileUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvatarUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonaState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlayerLevel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteamId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteamName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvatarUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonaState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlayerLevel)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

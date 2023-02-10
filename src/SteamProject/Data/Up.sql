@@ -7,7 +7,7 @@ USE [SteamInfo];
 CREATE TABLE [User]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
-	,[AspNetUserId]		INT				NOT NULL
+	,[AspNetUserId]		NVARCHAR(450)	NOT NULL
 	,[SteamId]			INT
 	,[SteamName]		NVARCHAR(50)
 	,[ProfileUrl]		NVARCHAR(100)

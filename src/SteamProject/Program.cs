@@ -6,6 +6,7 @@ using SteamProject.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 const bool localDbSource = false;
+const bool azurePublish = true;
 // Add services to the container.
 
 //Local Connection Strings
@@ -24,20 +25,34 @@ if (localDbSource == true)
 //Azure Connection Strings
 if (localDbSource == false)
 {
-    var stringBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("SteamInfoConnectionAzure"))
+    if (azurePublish == true)
     {
-        Password = builder.Configuration["SteamInfo:DBPassword"]
-    };
-    builder.Services.AddDbContext<SteamInfoDbContext>(options =>
-        options.UseSqlServer(stringBuilder.ConnectionString));
+        var connectionString = builder.Configuration.GetConnectionString("SteamInfoAuthConnectionAzure") ?? throw new InvalidOperationException("Connection string 'AuthenticationConnection' not found.");
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(connectionString));
+
+        var connectionStringTwo = builder.Configuration.GetConnectionString("SteamInfoConnectionAzure") ?? throw new InvalidOperationException("Connection string 'SteamInfoConnection' not found.");
+        builder.Services.AddDbContext<SteamInfoDbContext>(options =>
+            options.UseSqlServer(connectionStringTwo));
+    }
+    else
+    {
+        var stringBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("SteamInfoConnectionAzure"))
+        {
+            Password = builder.Configuration["SteamInfo:DBPassword"]
+        };
+        builder.Services.AddDbContext<SteamInfoDbContext>(options =>
+            options.UseSqlServer(stringBuilder.ConnectionString));
 
 
-    var authStringBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("SteamInfoAuthConnectionAzure"))
-    {
-        Password = builder.Configuration["SteamInfo:DBPassword"]
-    };
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(authStringBuilder.ConnectionString));
+        var authStringBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("SteamInfoAuthConnectionAzure"))
+        {
+            Password = builder.Configuration["SteamInfo:DBPassword"]
+        };
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(authStringBuilder.ConnectionString));
+    }
+
 }
 
 

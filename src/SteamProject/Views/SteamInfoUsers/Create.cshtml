@@ -1,0 +1,58 @@
+@model SteamProject.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SteamId" class="control-label"></label>
+                <input asp-for="SteamId" class="form-control" />
+                <span asp-validation-for="SteamId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SteamName" class="control-label"></label>
+                <input asp-for="SteamName" class="form-control" />
+                <span asp-validation-for="SteamName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfileUrl" class="control-label"></label>
+                <input asp-for="ProfileUrl" class="form-control" />
+                <span asp-validation-for="ProfileUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvatarUrl" class="control-label"></label>
+                <input asp-for="AvatarUrl" class="form-control" />
+                <span asp-validation-for="AvatarUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonaState" class="control-label"></label>
+                <input asp-for="PersonaState" class="form-control" />
+                <span asp-validation-for="PersonaState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlayerLevel" class="control-label"></label>
+                <input asp-for="PlayerLevel" class="form-control" />
+                <span asp-validation-for="PlayerLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

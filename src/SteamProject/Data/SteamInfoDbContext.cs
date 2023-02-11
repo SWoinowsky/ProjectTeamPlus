@@ -33,7 +33,7 @@ public partial class SteamInfoDbContext : DbContext
     {
         modelBuilder.Entity<Friend>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07B30DD20A");
+            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07959170DA");
 
             entity.ToTable("Friend");
 
@@ -49,7 +49,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC070FB0FDFC");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07F3A862F1");
 
             entity.ToTable("Game");
 
@@ -64,7 +64,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<GameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC07E1E89745");
+            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC0750ABD000");
 
             entity.ToTable("GameAchievement");
 
@@ -76,10 +76,11 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC072AE1004A");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC07AEA1915E");
 
             entity.ToTable("User");
 
+            entity.Property(e => e.AspNetUserId).HasMaxLength(450);
             entity.Property(e => e.AvatarUrl).HasMaxLength(100);
             entity.Property(e => e.ProfileUrl).HasMaxLength(100);
             entity.Property(e => e.SteamName).HasMaxLength(50);
@@ -87,7 +88,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC0792EB7993");
+            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC0763F1EF9D");
 
             entity.ToTable("UserAchievement");
 

@@ -7,6 +7,8 @@ public partial class User
 {
     public int Id { get; set; }
 
+    public string AspNetUserId { get; set; } = null!;
+
     public int? SteamId { get; set; }
 
     public string? SteamName { get; set; }

@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using SteamProject.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+var SteamApiToken = builder.Configuration["SteamKey"];
 
-const bool localDbSource = false;
-const bool azurePublish = true;
+
+const bool localDbSource = true;
+const bool azurePublish = !localDbSource;
 // Add services to the container.
 
 //Local Connection Strings

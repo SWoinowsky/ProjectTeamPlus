@@ -2,10 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SteamProject.Data;
+using SteamProject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var SteamApiToken = builder.Configuration["SteamKey"];
-
 
 const bool localDbSource = true;
 const bool azurePublish = !localDbSource;
@@ -57,6 +56,8 @@ if (localDbSource == false)
 
 }
 
+var SteamApiToken = builder.Configuration["SteamKey"];
+builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

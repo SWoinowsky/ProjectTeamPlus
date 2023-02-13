@@ -104,12 +104,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.MapControllerRoute(
-    name: "signin-steam",
-    pattern: "signin-steam/{steamId}",
-    defaults: new { controller = "Authentication", action = "Link" });
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

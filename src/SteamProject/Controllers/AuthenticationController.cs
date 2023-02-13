@@ -32,7 +32,7 @@ public class AuthenticationController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Link(string? steamId)
+    public async Task<IActionResult> Link(string[]? steamId)
     {
         string id = _userManager.GetUserId((User));
         IdentityUser user = await _userManager.GetUserAsync(User);
@@ -43,7 +43,7 @@ public class AuthenticationController : Controller
             fu = _context.Users.FirstOrDefault(u => u.AspNetUserId == id);
             if (fu != null)
             {
-                fu.SteamId = steamId;
+                fu.SteamId = steamId[0];
 
                 try
                 {
@@ -58,9 +58,8 @@ public class AuthenticationController : Controller
             }
         }
 
-      
 
-        return View();
+        return RedirectToAction("Index", "Home");
     }
 
     [HttpGet("~/signin")]
@@ -84,7 +83,7 @@ public class AuthenticationController : Controller
         // Instruct the middleware corresponding to the requested external identity
         // provider to redirect the user agent to its own authorization endpoint.
         // Note: the authenticationScheme parameter must match the value configured in Startup.cs
-        var result = Challenge(new AuthenticationProperties { RedirectUri = "/" }, provider);
+        var result = Challenge(new AuthenticationProperties { RedirectUri = "/Authentication/Link" }, provider);
         return result;
     }
 

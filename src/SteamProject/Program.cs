@@ -1,3 +1,7 @@
+using System.Security.Claims;
+using AspNet.Security.OpenId;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +10,7 @@ using SteamProject.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 const bool localDbSource = false;
-const bool azurePublish = true;
+const bool azurePublish = false;
 // Add services to the container.
 
 //Local Connection Strings
@@ -60,6 +64,18 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+builder.Services.AddAuthentication()
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+    })
+    .AddSteam();
+
+
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
@@ -85,6 +101,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -149,7 +149,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                 User? currentUser = null;
                 if (userId != null)
                 {
-                    
+                    //Store steamid in database here somehow
 
                     if (steamId != null)
                     {
@@ -158,7 +158,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                         try
                         {
                             
-                            _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Sid, steamId));
+                            
                         }
                         catch (DbUpdateConcurrencyException)
                         {

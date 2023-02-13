@@ -26,12 +26,14 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<UserAchievement> UserAchievements { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer("Name=SteamInfoConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Friend>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07959170DA");
+            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07099CA990");
 
             entity.ToTable("Friend");
 
@@ -47,7 +49,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07F3A862F1");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07FE23D212");
 
             entity.ToTable("Game");
 
@@ -62,7 +64,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<GameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC0750ABD000");
+            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC07FA1E64A7");
 
             entity.ToTable("GameAchievement");
 
@@ -74,19 +76,20 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC07AEA1915E");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0761EA18E8");
 
             entity.ToTable("User");
 
             entity.Property(e => e.AspNetUserId).HasMaxLength(450);
             entity.Property(e => e.AvatarUrl).HasMaxLength(100);
             entity.Property(e => e.ProfileUrl).HasMaxLength(100);
+            entity.Property(e => e.SteamId).HasMaxLength(50);
             entity.Property(e => e.SteamName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC0763F1EF9D");
+            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC07FC996993");
 
             entity.ToTable("UserAchievement");
 

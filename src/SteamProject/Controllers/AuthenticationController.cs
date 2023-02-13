@@ -31,17 +31,16 @@ public class AuthenticationController : Controller
         return View();
     }
 
-
-    public async Task<IActionResult> Link(int? steamId)
+    [HttpGet]
+    public async Task<IActionResult> Link(string? steamId)
     {
         string id = _userManager.GetUserId((User));
         IdentityUser user = await _userManager.GetUserAsync(User);
-        
 
-        User fu = null;
+        User? fu = null;
         if (id != null)
         {
-            fu = _context.Users.Where(u => u.AspNetUserId == id).FirstOrDefault();
+            fu = _context.Users.FirstOrDefault(u => u.AspNetUserId == id);
             if (fu != null)
             {
                 fu.SteamId = steamId;
@@ -53,14 +52,7 @@ public class AuthenticationController : Controller
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (fu.AspNetUserId == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction("Index", "Home");
             }

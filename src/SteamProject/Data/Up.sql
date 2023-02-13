@@ -8,7 +8,7 @@ CREATE TABLE [User]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[AspNetUserId]		NVARCHAR(450)	NOT NULL
-	,[SteamId]			INT
+	,[SteamId]			NVARCHAR(50)
 	,[SteamName]		NVARCHAR(50)
 	,[ProfileUrl]		NVARCHAR(100)
 	,[AvatarUrl]		NVARCHAR(100)

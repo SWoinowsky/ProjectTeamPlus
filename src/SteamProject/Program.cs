@@ -5,8 +5,8 @@ using SteamProject.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-const bool localDbSource = false;
-const bool azurePublish = true;
+const bool localDbSource = true;
+const bool azurePublish = false;
 // Add services to the container.
 
 //Local Connection Strings

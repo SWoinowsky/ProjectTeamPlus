@@ -10,7 +10,6 @@ namespace SteamProject.DAL.Concrete
     {
         public GameRepository(SteamInfoDbContext ctx) : base(ctx)
         {
-
         }
 
         public IEnumerable<Game> GetGames(string userId)

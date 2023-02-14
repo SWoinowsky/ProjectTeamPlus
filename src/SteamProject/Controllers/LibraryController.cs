@@ -15,16 +15,19 @@ namespace SteamProject.Controllers;
 public class LibraryController: Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly IUserRepository _userRepostory;
 
-    public LibraryController(UserManager<IdentityUser> userManager)
+    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository)
     {
         _userManager = userManager;
+        _userRepostory = userRepository;
     }
 
     public IActionResult Index()
     {
         var id = _userManager.GetUserId(User);
-        return View();
+        var user = _userRepostory.GetUser(id);
+        return View(user);
     }
 
 }

@@ -3,11 +3,14 @@
     ViewData["Title"] = "Game Library";
 }
 
-@if (Model == null)
+@if (Model.SteamId == null)
 {
     <h1>This will be your library page once you sign in with a linked account.</h1>
 }
 else
 {
-    
+    <h1>I have your model now.</h1>
+    <p>
+        Your steam id is: @Model.SteamId<br> 
+    </p>
 }

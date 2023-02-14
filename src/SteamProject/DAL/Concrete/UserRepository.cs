@@ -12,6 +12,27 @@ public class UserRepository : Repository<User>, IUserRepository
 
     }
 
+    public User GetUser(string userId)
+    {
+        var currentUser = new User();
+        var users = GetAll().ToList();
+        if(users.Count() > 0)
+        {
+            foreach(var user in users)
+            {
+                if(user.AspNetUserId == userId)
+                {
+                    return user;
+                }
+            }
+        }
+        else
+        {
+            throw new System.ArgumentNullException();
+        }
+        return null;
+    }
+
 
 
 }

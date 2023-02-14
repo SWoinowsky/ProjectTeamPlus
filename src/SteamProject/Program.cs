@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 using SteamProject.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -74,7 +76,9 @@ builder.Services.AddAuthentication()
     })
     .AddSteam();
 
-
+builder.Services.AddScoped<DbContext, SteamInfoDbContext>();             // Need this line since our generic repository is based on DbContext directly
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));    // Easy way to register all the generic repositories 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

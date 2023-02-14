@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using SteamProject.DAL.Abstract;
 using SteamProject.Data;
 using SteamProject.Models;
 
@@ -23,18 +25,18 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IUserStore<IdentityUser> _userStore;
-        private readonly SteamInfoDbContext _context;
+        private IUserRepository _userRepo;
 
 
         public ExternalLoginsModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore, SteamInfoDbContext context)
+            IUserStore<IdentityUser> userStore, IUserRepository userRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userStore = userStore;
-            _context = context;
+            _userRepo = userRepo;
         }
 
         /// <summary>
@@ -153,18 +155,21 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
 
                     if (steamId != null)
                     {
+                        currentUser = _userRepo.GetAll().Where(u => u.AspNetUserId == userId).FirstOrDefault();
+                       
 
-                        
-                        try
-                        {
-                            
-                            
+                        if(currentUser != null) {
+                            try
+                            {
+                                currentUser.SteamId = steamId;
+                                _userRepo.AddOrUpdate(currentUser);
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                throw;
+                            }
+                            return RedirectToAction("Index", "Home");
                         }
-                        catch (DbUpdateConcurrencyException)
-                        {
-                            throw;
-                        }
-                        return RedirectToAction("Index", "Home");
                     }
                 }
             }

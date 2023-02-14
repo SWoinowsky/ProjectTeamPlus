@@ -1,6 +1,12 @@
+using System.Security.Claims;
+using AspNet.Security.OpenId;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 using SteamProject.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,6 +66,20 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+builder.Services.AddAuthentication()
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+    })
+    .AddSteam();
+
+builder.Services.AddScoped<DbContext, SteamInfoDbContext>();             // Need this line since our generic repository is based on DbContext directly
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));    // Easy way to register all the generic repositories 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
@@ -85,11 +105,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+    
 app.MapRazorPages();
 
 app.Run();

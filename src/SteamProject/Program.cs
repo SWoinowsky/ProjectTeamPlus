@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
-using SteamProject.Data;
+using SteamProject.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

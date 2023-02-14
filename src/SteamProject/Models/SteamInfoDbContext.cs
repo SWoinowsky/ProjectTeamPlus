@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SteamProject.Models;
 
-namespace SteamProject.Data;
+namespace SteamProject.Models;
 
 public partial class SteamInfoDbContext : DbContext
 {

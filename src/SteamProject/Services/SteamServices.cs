@@ -32,7 +32,7 @@ namespace SteamProject.Services
                 tempGame.FromJson(gamesArray[i].ToString(), userId, user);
                 games.Add(tempGame);
             }
-            return games;
+            return games.OrderBy(g => g.AppId);
         }
 
         // This is a singleton, we are only supposed to have one per application

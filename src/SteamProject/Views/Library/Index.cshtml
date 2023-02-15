@@ -9,12 +9,22 @@
 }
 else
 {
-    <h1>@Model.SteamName's Steam Library</h1>
-    <p>
-        <img src="@Model.AvatarUrl"/><br>    
-    </p>
+    <div class="row" style="background: #002424"></div>
+        <h1>@Model.SteamName's Steam Library</h1>
+        <row>
+            <img src="@Model.AvatarUrl"/>
+        </row>
+    <div class="col-md">   
+    @foreach(var game in Model.Games)
+    { 
+        <div class="row">
+            <div class="games">
+                <ul>
+                    <li class="gameList"; style="font-weight: bold">@game.Name</li>
+                    <li class="gameList"><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px"; width="150px"/></li>
+                </ul>
+            </div>
+        </div>
+    }
+    </div>
 }
-
-<div class="footer">
-    Your full Steam profile is located <a href="@Model.ProfileUrl">here</a>.
-</div>

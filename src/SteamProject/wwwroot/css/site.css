@@ -21,10 +21,6 @@ body {
   margin-bottom: 60px;
 }
 
-.footer {
-  position: fixed;
-  left: 5%;
-  bottom: 7%;
-  width: 100%;
-  text-align: left;
+.gameList {
+  list-style: none;
 }

@@ -11,11 +11,5 @@ namespace SteamProject.DAL.Concrete
         public GameRepository(SteamInfoDbContext ctx) : base(ctx)
         {
         }
-
-        public ICollection<Game> GetGames(string userId)
-        {
-            var gameList = new List<Game>();
-            return null;
-        }
     }
 }

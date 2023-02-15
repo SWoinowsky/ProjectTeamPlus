@@ -1,7 +1,6 @@
 using SteamProject.Models;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
-using SteamProject.Models.DTO;
 
 namespace SteamProject.Services
 {
@@ -19,9 +18,9 @@ namespace SteamProject.Services
             SetCredentials(token);
         }
 
-        public IEnumerable<Game> GetGames(string userId)
+        public IEnumerable<Game> GetGames(string userSteamId, int userId, User user)
         {
-            string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid={1}&format=json&include_appinfo=1", SteamToken, userId);
+            string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid={1}&format=json&include_appinfo=1", SteamToken, userSteamId);
             string jsonResponse = GetJsonStringFromEndpoint(source);
             var slicedResponse = jsonResponse[jsonResponse.IndexOf("[")..^2];
             var games = new List<Game>();
@@ -30,22 +29,10 @@ namespace SteamProject.Services
             for(int i = 0; i < gamesArray.Count; i++)
             {
                 var tempGame = new Game();
-                tempGame.FromJson(gamesArray[i].ToString(), userId);
+                tempGame.FromJson(gamesArray[i].ToString(), userId, user);
                 games.Add(tempGame);
             }
-
-            List<SteamGameDTO>? steamGameDTO = null;
-            try
-            {
-                steamGameDTO = System.Text.Json.JsonSerializer.Deserialize<List<SteamGameDTO>>(jsonResponse);
-            }
-            catch(System.Text.Json.JsonException)
-            {
-                // Log it, figure out how to handle
-                steamGameDTO = null;
-            }
-
-            return null;
+            return games;
         }
 
         // This is a singleton, we are only supposed to have one per application

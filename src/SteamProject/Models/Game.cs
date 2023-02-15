@@ -8,7 +8,7 @@ public partial class Game
 {
     public int Id { get; set; }
 
-    public string OwnerId { get; set; }
+    public int OwnerId { get; set; }
 
     public int AppId { get; set; }
 
@@ -24,7 +24,7 @@ public partial class Game
 
     public virtual User Owner { get; set; } = null!;
 
-    public void FromJson(string obj, string userId)
+    public void FromJson(string obj, int userId, User user)
     {
         JObject userGames = JObject.Parse(obj);
         AppId = (int) userGames["appid"];
@@ -33,5 +33,6 @@ public partial class Game
         IconUrl = (string) userGames["img_icon_url"];
         LastPlayed = (int) userGames["rtime_last_played"];
         OwnerId = userId;
+        Owner = user;
     }
 }

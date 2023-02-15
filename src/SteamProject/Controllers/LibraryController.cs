@@ -32,7 +32,11 @@ public class LibraryController: Controller
     {
         var id = _userManager.GetUserId(User);
         var user = _userRepostory.GetUser(id);
-        var games = _steamServices.GetGames(user.SteamId);
+        var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+        foreach(var game in games)
+        {
+            user.Games.Add(game);
+        }
         return View(user);
     }
 

@@ -2,29 +2,66 @@
 @{
     ViewData["Title"] = "Game Library";
 }
-
 @if (Model.SteamId == null)
 {
     <h1>This will be your library page once you sign in with a linked account.</h1>
 }
 else
 {
-    <div class="row" style="background: #002424"></div>
-        <h1>@Model.SteamName's Steam Library</h1>
-        <row>
-            <img src="@Model.AvatarUrl"/>
-        </row>
-    <div class="col-md">   
-    @foreach(var game in Model.Games)
-    { 
+    <div class="container">
         <div class="row">
-            <div class="games">
-                <ul>
-                    <li class="gameList"; style="font-weight: bold">@game.Name</li>
-                    <li class="gameList"><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px"; width="150px"/></li>
-                </ul>
+            <div class="col-sm-3">
+                <div>
+                    <img src="@Model.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h1 style="color: white">@Model.SteamName's Steam Library</h1>
+                <div style="color: white">
+                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="col-md">
+    @{ 
+        var game1 = new Game();
+        var game2 = new Game();
+        var game3 = new Game();
+        var i = 0;
     }
+    <div class="container"></div>
+        @foreach(var game in Model.Games)
+        {
+            if(i == 0)
+            {
+                game1 = game;
+                i++;
+            }
+            else if(i == 1)
+            {
+                game2 = game;
+                i++;
+            }
+            else if(i == 2)
+            {
+                game3 = game;
+                i++;
+            }
+            else
+            {
+                i = 0;
+                <table>
+                    <tbody>
+                        <th><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game1.AppId)" style="height:200px"; width="300px"/></th>
+                        <td><p style="color: white">The first games description will go here. </p></td>
+                        <th><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game2.AppId)" style="height:200px"; width="300px"/></th>
+                        <td><p style="color: white">The second games description will go here. </p></td>
+                        <th><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game3.AppId)" style="height:200px"; width="300px"/></th>
+                        <td><p style="color: white">The third games description will go here. </p></td>
+                    </tbody>
+                </table>
+            }
+        }
     </div>
 }

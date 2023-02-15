@@ -19,8 +19,5 @@ html {
 
 body {
   margin-bottom: 60px;
-}
-
-.gameList {
-  list-style: none;
+  background-image: linear-gradient(to left, #171a21, #2a475e, #171a21);
 }

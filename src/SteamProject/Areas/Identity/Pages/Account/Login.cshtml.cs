@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using SteamProject.Services;
 
 namespace SteamProject.Areas.Identity.Pages.Account
 {
@@ -90,6 +91,7 @@ namespace SteamProject.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
+
 
             returnUrl ??= Url.Content("~/");
 

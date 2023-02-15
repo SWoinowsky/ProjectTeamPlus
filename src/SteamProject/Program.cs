@@ -3,6 +3,9 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SteamProject.Data;
 using SteamProject.Services;
+using SteamProject.Models;
+using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +61,8 @@ if (localDbSource == false)
 
 var SteamApiToken = builder.Configuration["SteamKey"];
 builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

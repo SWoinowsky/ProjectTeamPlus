@@ -20,7 +20,7 @@ CREATE TABLE [Friend]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[RootId]			INT				NOT NULL
-	,[SteamId]			INT				NOT NULL
+	,[SteamId]			NVARCHAR(50)	NOT NULL
 	,[SteamName]		NVARCHAR(50)	NOT NULL
 	,[PersonaState]		INT				NOT NULL
 	,[AvatarUrl]		NVARCHAR(100)	NOT NULL
@@ -32,7 +32,7 @@ CREATE TABLE [Friend]
 CREATE TABLE [Game]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
-	,[OwnerId]			INT				NOT NULL
+	,[OwnerId]			NVARCHAR(50		NOT NULL
 	,[AppId]			INT				NOT NULL
 	,[Name]				NVARCHAR(50)	NOT NULL
 	,[PlayTime]			INT				NOT NULL
@@ -55,7 +55,7 @@ CREATE TABLE [GameAchievement]
 CREATE TABLE [UserAchievement]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
-	,[OwnerId]			INT				NOT NULL
+	,[OwnerId]			NVARCHAR(50)	NOT NULL
 	,[GameId]			INT				NOT NULL
 	,[ApiName]			NVARCHAR(100)	NOT NULL
 	,[DisplayName]		NVARCHAR(50)	NOT NULL

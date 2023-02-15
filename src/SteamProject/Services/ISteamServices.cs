@@ -4,6 +4,7 @@ namespace SteamProject.Services
 {
     public interface ISteamServices
     {
-        IEnumerable<Game> GetGames();
+        void SetCredentials(string token);
+        IEnumerable<Game> GetGames(string userId);
     }
 }

@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using SteamProject.Models;
+using SteamProject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var token = builder.Configuration["steamkey"];
 
 const bool localDbSource = true;
 const bool azurePublish = false;
@@ -80,6 +82,7 @@ builder.Services.AddScoped<DbContext, SteamInfoDbContext>();             // Need
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));    // Easy way to register all the generic repositories 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<ISteamServices, SteamServices>(s => new SteamServices(token));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

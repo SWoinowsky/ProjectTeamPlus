@@ -79,6 +79,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddScoped<DbContext, SteamInfoDbContext>();             // Need this line since our generic repository is based on DbContext directly
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));    // Easy way to register all the generic repositories 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

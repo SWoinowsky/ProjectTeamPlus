@@ -16,17 +16,20 @@ public class LibraryController: Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepostory;
+    private readonly IGameRepository _gameRepository;
 
-    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository)
+    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository)
     {
         _userManager = userManager;
         _userRepostory = userRepository;
+        _gameRepository = gameRepository;
     }
 
     public IActionResult Index()
     {
         var id = _userManager.GetUserId(User);
         var user = _userRepostory.GetUser(id);
+        //user.Games.Add();
         return View(user);
     }
 

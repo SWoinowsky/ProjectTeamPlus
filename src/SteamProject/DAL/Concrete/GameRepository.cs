@@ -12,7 +12,7 @@ namespace SteamProject.DAL.Concrete
         {
         }
 
-        public IEnumerable<Game> GetGames(string userId)
+        public ICollection<Game> GetGames(string userId)
         {
             var gameList = new List<Game>();
             return null;

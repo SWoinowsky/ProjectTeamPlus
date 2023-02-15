@@ -9,8 +9,12 @@
 }
 else
 {
-    <h1>I have your model now.</h1>
+    <h1>@Model.SteamName's Steam Library</h1>
     <p>
-        Your steam id is: @Model.SteamId<br> 
+        <img src="@Model.AvatarUrl"/><br>    
     </p>
 }
+
+<div class="footer">
+    Your full Steam profile is located <a href="@Model.ProfileUrl">here</a>.
+</div>

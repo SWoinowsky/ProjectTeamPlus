@@ -11,6 +11,6 @@ namespace SteamProject.DAL.Abstract
         /// </summary>
         /// <param name="userId">The id of the user that we are fetching games for</param>
         /// <returns> List of games </returns>
-        IEnumerable<Game> GetGames(string userId);
+        ICollection<Game> GetGames(string userId);
     }
 }

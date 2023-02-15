@@ -1,0 +1,29 @@
+using Microsoft.AspNetCore.Mvc;
+using SteamProject.Models;
+using SteamProject.Services;
+using System.Diagnostics;
+using System.Text.Json;
+
+
+namespace SteamProject.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+
+public class SteamController : ControllerBase
+{
+    private readonly ISteamService _steamService;
+
+    public SteamController( ISteamService steamService )
+    {
+        _steamService = steamService;
+    }
+
+    [HttpGet("user")]
+    public ActionResult SteamUser(string steamid)
+    {
+        User user = _steamService.SteamUser(steamid);
+
+        return Ok(user);
+    }
+}

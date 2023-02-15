@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -9,7 +10,7 @@ public partial class User
 
     public string AspNetUserId { get; set; } = null!;
 
-    public int? SteamId { get; set; }
+    public string? SteamId { get; set; }
 
     public string? SteamName { get; set; }
 
@@ -26,4 +27,15 @@ public partial class User
     public virtual ICollection<Game> Games { get; } = new List<Game>();
 
     public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
+
+    public void TakeSteamPOCO ( SteamUserPOCO poco )
+    {
+        var userData = poco.response.players[0];
+        
+        SteamId = userData.steamid;
+        SteamName = userData.personaname;
+        ProfileUrl = userData.profileurl;
+        AvatarUrl = userData.avatarfull;
+        PersonaState = userData.personastate;        
+    }
 }

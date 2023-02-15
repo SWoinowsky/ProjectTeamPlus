@@ -30,14 +30,20 @@ public class LibraryController: Controller
 
     public IActionResult Index()
     {
-        var id = _userManager.GetUserId(User);
-        var user = _userRepostory.GetUser(id);
-        var games = _steamServices.GetGames(user.SteamId, user.Id, user);
-        foreach(var game in games)
+        if(_userManager.GetUserId(User) is null)
         {
-            user.Games.Add(game);
+            return View();
         }
-        return View(user);
+        else
+        {
+            var id = _userManager.GetUserId(User);
+            var user = _userRepostory.GetUser(id);
+            var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+            foreach(var game in games)
+            {
+                user.Games.Add(game);
+            }
+            return View(user);
+        }
     }
-
 }

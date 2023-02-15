@@ -4,7 +4,7 @@
 }
 @if (Model == null)
 {
-    <h1 style="color: white">This will be your library page once you sign in with a linked account.</h1>
+    <h1>This will be your library page once you sign in with a linked account.</h1>
 }
 else
 {
@@ -16,8 +16,8 @@ else
                 </div>
             </div>
             <div class="col-sm-6">
-                <h1 style="color: white">@Model.SteamName's Steam Library</h1>
-                <div style="color: white">
+                <h1>@Model.SteamName's Steam Library</h1>
+                <div>
                     Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a>
                 </div>
             </div>
@@ -54,11 +54,11 @@ else
                 <table>
                     <tbody>
                         <th><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game1.AppId)" style="height:200px"; width="300px"/></th>
-                        <td><p style="color: white">The first games description will go here. </p></td>
+                        <td><p>The first games description will go here. </p></td>
                         <th><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game2.AppId)" style="height:200px"; width="300px"/></th>
-                        <td><p style="color: white">The second games description will go here. </p></td>
+                        <td><p>The second games description will go here. </p></td>
                         <th><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game3.AppId)" style="height:200px"; width="300px"/></th>
-                        <td><p style="color: white">The third games description will go here. </p></td>
+                        <td><p>The third games description will go here. </p></td>
                     </tbody>
                 </table>
             }

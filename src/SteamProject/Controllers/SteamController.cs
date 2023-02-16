@@ -22,7 +22,7 @@ public class SteamController : ControllerBase
     [HttpGet("user")]
     public ActionResult SteamUser(string steamid)
     {
-        User user = _steamService.SteamUser(steamid);
+        User user = _steamService.GetSteamUser(steamid);
 
         return Ok(user);
     }

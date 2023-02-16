@@ -38,4 +38,13 @@ public partial class User
         AvatarUrl = userData.avatarfull;
         PersonaState = userData.personastate;        
     }
+
+    public void AddSteamInfo ( User user )
+    {
+        SteamId = user.SteamId;
+        SteamName = user.SteamName;
+        ProfileUrl = user.ProfileUrl;
+        AvatarUrl = user.AvatarUrl;
+        PersonaState = user.PersonaState; 
+    }
 }

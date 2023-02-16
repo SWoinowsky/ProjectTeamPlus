@@ -4,5 +4,6 @@ namespace SteamProject.Services;
 
 public interface ISteamService
 {
-    User SteamUser(string steamid);
+    User GetSteamUser(string steamid);
+    int GetUserLevel(string steamid);
 }

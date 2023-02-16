@@ -6,7 +6,27 @@
 }
 
 <h3>@ViewData["Title"]</h3>
-<h1> Welcome @Model.SteamName!</h1>
+
+<br>
+
+
+@* DISPLAY USER INFORMATION FROM STEAM *@
+@if(Model.SteamName != "" && Model.SteamName != null)
+{
+    <div class="row">
+        <div class="col-sm-4" id="divSteamAvatar" style="text-align: center;">
+            <img src="@Model.SteamAvatar">
+        </div>
+        <div class="col-sm-8" style="position: relative;">
+            <div id="divSteamNameLevel" style="margin: 0; position: absolute; top: 50%; transform: translateY(-50%);">
+                <h1> @Model.SteamName @Model.SteamLevel </h1>
+            </div>
+        </div>
+    </div>
+}
+
+<br>
+
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">

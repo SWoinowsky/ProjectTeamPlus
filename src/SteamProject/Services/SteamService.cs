@@ -37,7 +37,7 @@ public class SteamService : ISteamService
 
     }
 
-    public User SteamUser(string steamid)
+    public User GetSteamUser(string steamid)
     {
         string uri = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={Token}&steamids={steamid}";
         string? jsonResponse = GetJsonStringFromEndpoint( uri );
@@ -48,6 +48,15 @@ public class SteamService : ISteamService
         returnMe.TakeSteamPOCO(poco);
 
         return returnMe;
+    }
 
+    public int GetUserLevel(string steamid)
+    {
+        string uri = $"https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key={Token}&steamid={steamid}";
+        string? jsonResponse = GetJsonStringFromEndpoint( uri );
+
+        var returnMe = JsonSerializer.Deserialize<UserLevelPOCO>(jsonResponse).response.player_level;
+
+        return returnMe;
     }
 }

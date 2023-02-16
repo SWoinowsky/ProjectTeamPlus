@@ -70,18 +70,41 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         }
 
         public string SteamName;
+        public int? SteamLevel;
+        public string SteamAvatar;
 
         private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var steamid = _userRepository.GetUser(_userManager.GetUserId(User)).SteamId;
+            var currentUser = _userRepository.GetUser(_userManager.GetUserId(User));
 
-            SteamName = _steamService.SteamUser(steamid).SteamName;
+            var steamid = currentUser.SteamId;
+            if( steamid != null && steamid != "" )
+            {
+                if( currentUser.SteamName == null || currentUser.SteamName == "")
+                {
+                    var steamUser = _steamService.GetSteamUser(steamid);
+                    SteamName = steamUser.SteamName;
+                    SteamAvatar = steamUser.AvatarUrl;
+                    SteamLevel = _steamService.GetUserLevel(steamid);
 
+                    currentUser.AddSteamInfo( steamUser );
+                    currentUser.PlayerLevel = SteamLevel;
+
+                    _userRepository.AddOrUpdate(currentUser);
+                }
+                else
+                {
+                    SteamName = currentUser.SteamName;
+                    SteamLevel = currentUser.PlayerLevel;
+                    SteamAvatar = currentUser.AvatarUrl;
+                }
+            }
 
 
             Username = userName;
+
 
             Input = new InputModel
             {

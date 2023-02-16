@@ -168,7 +168,8 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                             {
                                 throw;
                             }
-                            return RedirectToAction("Index", "Home");
+
+                            return Redirect("/Identity/Account/Manage");
                         }
                     }
                 }

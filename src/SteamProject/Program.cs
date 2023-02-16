@@ -9,8 +9,8 @@ using SteamProject.DAL.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
-const bool localDbSource = true;
-const bool azurePublish = !localDbSource;
+const bool localDbSource = false;
+const bool azurePublish = false;
 // Add services to the container.
 
 //Local Connection Strings
@@ -59,6 +59,7 @@ if (localDbSource == false)
 
 }
 
+
 var SteamApiToken = builder.Configuration["SteamKey"];
 builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -68,6 +69,15 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication()
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+    })
+    .AddSteam();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
@@ -93,7 +103,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

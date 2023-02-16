@@ -5,16 +5,17 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SteamProject.Data;
+using SteamProject.Services;
+using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
-using SteamProject.Models;
-using SteamProject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var token = builder.Configuration["steamkey"];
 
 const bool localDbSource = true;
-const bool azurePublish = false;
+const bool azurePublish = !localDbSource;
 // Add services to the container.
 
 //Local Connection Strings
@@ -63,6 +64,10 @@ if (localDbSource == false)
 
 }
 
+var SteamApiToken = builder.Configuration["SteamKey"];
+builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

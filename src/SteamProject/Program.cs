@@ -9,8 +9,8 @@ using SteamProject.DAL.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
-const bool localDbSource = false;
-const bool azurePublish = false;
+const bool localDbSource = true;
+const bool azurePublish = !localDbSource;
 // Add services to the container.
 
 //Local Connection Strings

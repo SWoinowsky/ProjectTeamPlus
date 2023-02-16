@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using SteamProject.Data;
+using SteamProject.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -35,6 +35,20 @@ namespace SteamProject.Services
             return games.OrderBy(g => g.Name);
         }
 
+        public IEnumerable<Game> GetGameDescriptions(IEnumerable<Game> games)
+        {
+            foreach(var game in games)
+            {
+                string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
+                string jsonResponse = GetJsonStringFromEndpoint(source);
+                //JArray gamesArray = JArray.Parse(jsonResponse);
+                // tempGame.FromJson(gamesArray[i].ToString(), game);
+                // i++;
+                // Need to make a DTO to transfer this info into then pull it out and put it in game.
+            }
+            return games;
+        }
+
         // This is a singleton, we are only supposed to have one per application
         public static readonly HttpClient _httpClient = new HttpClient();
 

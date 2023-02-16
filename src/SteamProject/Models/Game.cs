@@ -39,4 +39,10 @@ public partial class Game
         OwnerId = userId;
         Owner = user;
     }
+
+    public void FromJson(string obj, Game game)
+    {
+        JObject userGames = JObject.Parse(obj);
+        game.DescLong = (string)userGames["detailed_description"];
+    }
 }

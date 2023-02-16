@@ -35,6 +35,8 @@ CREATE TABLE [Game]
 	,[OwnerId]			INT				NOT NULL
 	,[AppId]			INT				NOT NULL
 	,[Name]				NVARCHAR(50)	NOT NULL
+	,[DescShort]		NVARCHAR(512)	NOT NULL
+	,[DescLong]			NVARCHAR(1024)	NOT NULL
 	,[PlayTime]			INT				NOT NULL
 	,[IconUrl]			NVARCHAR(100)	NOT NULL
 	,[LastPlayed]		INT				NOT NULL

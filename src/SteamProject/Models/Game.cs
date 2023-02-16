@@ -14,6 +14,10 @@ public partial class Game
 
     public string Name { get; set; } = null!;
 
+    public string DescShort { get; set; } = null!;
+
+    public string DescLong { get; set; } = null!;
+
     public int PlayTime { get; set; }
 
     public string IconUrl { get; set; } = null!;

@@ -102,6 +102,29 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                 return RedirectToPage();
             }
 
+            User? currentUser = null;
+            if (user != null)
+            {
+
+                if (user.Id != null)
+                {
+                    currentUser = _userRepo.GetAll().Where(u => u.AspNetUserId == user.Id).FirstOrDefault();
+
+                    if (currentUser != null)
+                    {
+                        try
+                        {
+                            currentUser.SteamId = null;
+                            _userRepo.AddOrUpdate(currentUser);
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "The external login was removed.";
             return RedirectToPage();

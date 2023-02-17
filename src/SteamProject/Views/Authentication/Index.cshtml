@@ -1,0 +1,13 @@
+﻿<div class="jumbotron">
+    
+    <p>
+        @foreach (var claim in Context.User.Claims)
+        {
+            <div><code>SteamID</code>: <strong>@claim.Value</strong></div>
+        }
+    </p>
+
+    <h1>Welcome, anonymous</h1>
+        <a class="btn btn-lg btn-success" href="/signin?returnUrl=%2F">Sign in</a>
+    
+</div>

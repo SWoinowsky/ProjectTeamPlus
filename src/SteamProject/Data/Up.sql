@@ -34,11 +34,11 @@ CREATE TABLE [Game]
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[OwnerId]			INT				NOT NULL
 	,[AppId]			INT				NOT NULL
-	,[Name]				NVARCHAR(50)	NOT NULL
+	,[Name]				NVARCHAR(512)	NOT NULL
 	,[DescShort]		NVARCHAR(512)	NOT NULL
 	,[DescLong]			NVARCHAR(1024)	NOT NULL
 	,[PlayTime]			INT				NOT NULL
-	,[IconUrl]			NVARCHAR(100)	NOT NULL
+	,[IconUrl]			NVARCHAR(512)	NOT NULL
 	,[LastPlayed]		INT				NOT NULL
 	,[Hidden]			BIT				NOT NULL
 );

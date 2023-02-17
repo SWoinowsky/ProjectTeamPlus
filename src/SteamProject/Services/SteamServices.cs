@@ -32,28 +32,26 @@ namespace SteamProject.Services
             {
                 var tempGame = new Game();
                 tempGame.FromJson(gamesArray[i].ToString(), userId, user);
-                tempGame.Name = tempGame.Name.TrimStart(' ');
+                tempGame.DescShort = "";
+                tempGame.DescLong = "";
                 games.Add(tempGame);
             }
             return games.OrderBy(g => g.Name);
         }
 
-        public IEnumerable<Game> GetGameDescriptions(IEnumerable<Game> games)
+        public Game GetGameDescription(Game game)
         {
-            foreach(var game in games)
-            {
-                string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
-                string jsonResponse = GetJsonStringFromEndpoint(source);
-                
-                if(jsonResponse != null)
-                {   
-                    var regex = new Regex(Regex.Escape(game.AppId.ToString()));
-                    jsonResponse = regex.Replace(jsonResponse, "response", 1);
-                    var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
-                    game.TakeGameInfoPOCO(poco);
-                }
+            string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
+            string jsonResponse = GetJsonStringFromEndpoint(source);
+            
+            if(jsonResponse != null)
+            {   
+                var regex = new Regex(Regex.Escape(game.AppId.ToString()));
+                jsonResponse = regex.Replace(jsonResponse, "response", 1);
+                var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
+                game.TakeGameInfoPOCO(poco);
             }
-            return games;
+            return game;
         }
 
         // This is a singleton, we are only supposed to have one per application

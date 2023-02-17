@@ -37,28 +37,28 @@ public class LibraryController: Controller
         {
             var id = _userManager.GetUserId(User);
             var user = _userRepository.GetUser(id);
-            if(_gameRepository.FindById(user.Id) == null)
+            var temp = _gameRepository.GetAll(g => g.OwnerId == user.Id).ToList();
+            if(temp.Count() == 0)
             {
-                var tempGames = _steamServices.GetGames(user.SteamId, user.Id, user);
-                var games = _steamServices.GetGameDescriptions(tempGames);
+                var games = _steamServices.GetGames(user.SteamId, user.Id, user);
                 foreach(var game in games)
                 {
-                    try
-                    {
+                    try{
                         _gameRepository.AddOrUpdate(game);
                     }
                     catch
                     {
-                        //Need to do something here to catch this.
+                        throw new Exception("Current game couldn't be saved to the db!" + game.Name);
                     }
                 }
             }
             else
             {
-                var games = _gameRepository.GetAll(g => g.OwnerId == user.Id);
+                var games = _steamServices.GetGames(user.SteamId, user.Id, user);
                 user.Games.Clear();
                 foreach(var game in games)
-                {
+                {  
+                    user.Games.Add(game);
                 }
             }
             return View(user);

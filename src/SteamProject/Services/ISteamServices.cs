@@ -20,6 +20,6 @@ namespace SteamProject.Services
         /// <returns>Nothing, it's just setting a key</returns>
         IEnumerable<Game> GetGames(string userSteamId, int userId, User user);
 
-        IEnumerable<Game> GetGameDescriptions(IEnumerable<Game> games);
+        Game GetGameDescription(Game game);
     }
 }

@@ -27,13 +27,8 @@ else
         @{
             foreach(var game in Model.Games)
             {
-                <div id="@game.Name" style="width: 600px">
-                    <div class="col" style="size:50%">
-                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/>
-                    </div>
-                    <div class="col" style="size:50%">
-                        <div class="scroll">@game.DescLong</div>
-                    </div>
+                <div class="col" id="@game.Name" style="padding-bottom:10px">
+                    <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/>
                 </div>
             }
         }

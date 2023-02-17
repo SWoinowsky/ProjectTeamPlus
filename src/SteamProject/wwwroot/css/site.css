@@ -30,7 +30,7 @@ body {
 .scroll {
   overflow-y: auto;
   height: 200px;
-  width: 200px;
+  padding-right: 30px;
   display: inline-block;
   text-align: bottom;
 }

@@ -32,6 +32,7 @@ namespace SteamProject.Services
             {
                 var tempGame = new Game();
                 tempGame.FromJson(gamesArray[i].ToString(), userId, user);
+                tempGame.Name = tempGame.Name.TrimStart(' ');
                 games.Add(tempGame);
             }
             return games.OrderBy(g => g.Name);
@@ -45,8 +46,11 @@ namespace SteamProject.Services
                 string jsonResponse = GetJsonStringFromEndpoint(source);
                 var regex = new Regex(Regex.Escape(game.AppId.ToString()));
                 jsonResponse = regex.Replace(jsonResponse, "response", 1);
-                var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
-                game.TakeGameInfoPOCO(poco);
+                if(jsonResponse != null)
+                {
+                    var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
+                    game.TakeGameInfoPOCO(poco);
+                }
             }
             return games;
         }

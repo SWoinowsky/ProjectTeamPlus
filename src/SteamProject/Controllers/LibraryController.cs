@@ -44,7 +44,6 @@ public class LibraryController: Controller
                 foreach(var game in games)
                 {
                     _gameRepository.AddOrUpdate(game);
-                    user.Games.Add(game);
                 }
             }
             return View(user);

@@ -27,7 +27,7 @@ else
         @{
             foreach(var game in Model.Games)
             {
-                <div class="col" id="@game.Name" style="padding-bottom:10px">
+                <div class="flex-item" id="@game.Name" style="padding: 2px;">
                     <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/>
                 </div>
             }

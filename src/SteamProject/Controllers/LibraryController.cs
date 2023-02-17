@@ -15,14 +15,14 @@ namespace SteamProject.Controllers;
 public class LibraryController: Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly IUserRepository _userRepostory;
+    private readonly IUserRepository _userRepository;
     private readonly IGameRepository _gameRepository;
     private readonly ISteamServices _steamServices;
 
     public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, ISteamServices steamServices)
     {
         _userManager = userManager;
-        _userRepostory = userRepository;
+        _userRepository = userRepository;
         _gameRepository = gameRepository;
         _steamServices = steamServices;
     }
@@ -36,12 +36,16 @@ public class LibraryController: Controller
         else
         {
             var id = _userManager.GetUserId(User);
-            var user = _userRepostory.GetUser(id);
-            var tempGames = _steamServices.GetGames(user.SteamId, user.Id, user);
-            var games = _steamServices.GetGameDescriptions(tempGames);
-            foreach(var game in games)
+            var user = _userRepository.GetUser(id);
+            if(_gameRepository.FindById(user.Id) == null)
             {
-                user.Games.Add(game);
+                var tempGames = _steamServices.GetGames(user.SteamId, user.Id, user);
+                var games = _steamServices.GetGameDescriptions(tempGames);
+                foreach(var game in games)
+                {
+                    _gameRepository.AddOrUpdate(game);
+                    user.Games.Add(game);
+                }
             }
             return View(user);
         }

@@ -63,16 +63,19 @@ if (localDbSource == false)
 
 }
 
+
 var SteamApiToken = builder.Configuration["SteamKey"];
 builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<ISteamServices, SteamServices>(s => new SteamServices(token));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
 builder.Services.AddAuthentication()
     .AddCookie(options =>
@@ -81,12 +84,6 @@ builder.Services.AddAuthentication()
         options.LogoutPath = "/Identity/Account/Logout";
     })
     .AddSteam();
-
-builder.Services.AddScoped<DbContext, SteamInfoDbContext>();             // Need this line since our generic repository is based on DbContext directly
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));    // Easy way to register all the generic repositories 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IGameRepository, GameRepository>();
-builder.Services.AddScoped<ISteamServices, SteamServices>(s => new SteamServices(token));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
@@ -115,6 +112,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

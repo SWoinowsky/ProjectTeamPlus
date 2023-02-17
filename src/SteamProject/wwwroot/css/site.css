@@ -31,3 +31,11 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+label.form-label {
+  color: black;
+}
+
+label.Input_Email {
+  color: black;
+}

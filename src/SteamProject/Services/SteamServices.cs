@@ -24,19 +24,20 @@ namespace SteamProject.Services
         {
             string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid={1}&format=json&include_appinfo=1", SteamToken, userSteamId);
             string jsonResponse = GetJsonStringFromEndpoint(source);
-            var slicedResponse = jsonResponse[jsonResponse.IndexOf("[")..^2];
-            var games = new List<Game>();
-            JArray gamesArray = JArray.Parse(slicedResponse);
-            
-            for(int i = 0; i < gamesArray.Count; i++)
+            if(jsonResponse == null)
+                return null;
+            else
             {
-                var tempGame = new Game();
-                tempGame.FromJson(gamesArray[i].ToString(), userId, user);
-                tempGame.DescShort = "";
-                tempGame.DescLong = "";
-                games.Add(tempGame);
-            }
-            return games.OrderBy(g => g.Name);
+                var poco = JsonSerializer.Deserialize<LibraryPOCO>(jsonResponse);
+                var games = new List<Game>();
+                foreach(var game in poco.response.games)
+                {
+                    var temp = new Game();
+                    temp = temp.TakeLibraryInfoPOCO(game, userId);
+                    games.Add(temp);
+                }
+                return games.OrderBy(g => g.Name);
+            }          
         }
 
         public Game GetGameDescription(Game game)

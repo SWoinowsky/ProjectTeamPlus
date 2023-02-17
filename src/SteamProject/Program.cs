@@ -80,7 +80,11 @@ builder.Services.AddAuthentication()
         options.LoginPath = "/Identity/Account/Login";
         options.LogoutPath = "/Identity/Account/Logout";
     })
-    .AddSteam();
+    .AddSteam(options =>
+                    {
+                        options.CorrelationCookie.SameSite = SameSiteMode.None;
+                        options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+                    });
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

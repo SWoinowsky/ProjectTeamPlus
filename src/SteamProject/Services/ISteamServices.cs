@@ -19,5 +19,7 @@ namespace SteamProject.Services
         /// <param name="user">The User stored in the DB to assign a game to them</param>
         /// <returns>Nothing, it's just setting a key</returns>
         IEnumerable<Game> GetGames(string userSteamId, int userId, User user);
+
+        IEnumerable<Game> GetGameDescriptions(IEnumerable<Game> games);
     }
 }

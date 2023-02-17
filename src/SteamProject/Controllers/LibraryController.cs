@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SteamProject.DAL.Abstract;
-using SteamProject.Data;
 using SteamProject.Models;
 using Microsoft.AspNetCore.Identity;
 using SteamProject.Services;
@@ -38,7 +37,8 @@ public class LibraryController: Controller
         {
             var id = _userManager.GetUserId(User);
             var user = _userRepostory.GetUser(id);
-            var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+            var tempGames = _steamServices.GetGames(user.SteamId, user.Id, user);
+            var games = _steamServices.GetGameDescriptions(tempGames);
             foreach(var game in games)
             {
                 user.Games.Add(game);

@@ -1,6 +1,8 @@
 using SteamProject.Models;
-using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using SteamProject.Models.DTO;
+using System.Text.RegularExpressions;
 
 namespace SteamProject.Services
 {
@@ -41,10 +43,11 @@ namespace SteamProject.Services
             {
                 string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
                 string jsonResponse = GetJsonStringFromEndpoint(source);
-                //JArray gamesArray = JArray.Parse(jsonResponse);
-                // tempGame.FromJson(gamesArray[i].ToString(), game);
-                // i++;
-                // Need to make a DTO to transfer this info into then pull it out and put it in game.
+                var regex = new Regex(Regex.Escape(game.AppId.ToString()));
+                jsonResponse = regex.Replace(jsonResponse, "response", 1);
+                var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
+                
+                game.TakeGameInfoPOCO(poco);
             }
             return games;
         }

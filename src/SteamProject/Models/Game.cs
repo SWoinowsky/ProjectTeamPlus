@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -40,9 +41,19 @@ public partial class Game
         Owner = user;
     }
 
-    public void FromJson(string obj, Game game)
+    public void TakeGameInfoPOCO(GameInfoPOCO poco)
     {
-        JObject userGames = JObject.Parse(obj);
-        game.DescLong = (string)userGames["detailed_description"];
+        try
+        {
+            var userData = poco.response.data;
+            DescLong = userData.detailed_description;
+            DescShort = userData.short_description;
+        }
+        catch
+        {
+            DescLong = "Not available";
+            DescShort = "Not available";
+        }
     }
+
 }

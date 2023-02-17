@@ -25,8 +25,6 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<UserAchievement> UserAchievements { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=SteamInfoConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

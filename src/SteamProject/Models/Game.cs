@@ -46,19 +46,22 @@ public partial class Game
         if(poco.response.data != null)
         {
             var userData = poco.response.data;
-            if(userData.detailed_description == null) 
-                DescLong = "No description available";
-            else
-                DescLong = userData.detailed_description;
             if(userData.short_description == null)
+            {
                 DescShort = "No description available";
+                DescLong = "No description available";
+            }
             else
-                DescShort = userData.short_description;
+                DescShort = "No description available";
+                if(userData.short_description.Count() > 200)
+                    DescLong = userData.short_description[..200] + "...";
+                else
+                    DescLong = userData.short_description;
         }
         else
         {
-            DescLong = "No description available";
             DescShort = "No description available";
+            DescLong = "No description available";
         }
     }
 

@@ -44,10 +44,11 @@ namespace SteamProject.Services
             {
                 string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
                 string jsonResponse = GetJsonStringFromEndpoint(source);
-                var regex = new Regex(Regex.Escape(game.AppId.ToString()));
-                jsonResponse = regex.Replace(jsonResponse, "response", 1);
+                
                 if(jsonResponse != null)
-                {
+                {   
+                    var regex = new Regex(Regex.Escape(game.AppId.ToString()));
+                    jsonResponse = regex.Replace(jsonResponse, "response", 1);
                     var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
                     game.TakeGameInfoPOCO(poco);
                 }

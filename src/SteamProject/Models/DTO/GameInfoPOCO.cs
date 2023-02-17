@@ -19,7 +19,6 @@ public class Category
 
 public class Data
 {
-    public string detailed_description { get; set; }
     public string short_description { get; set; }
     public PcRequirements pc_requirements { get; set; }
     public List<string> developers { get; set; }

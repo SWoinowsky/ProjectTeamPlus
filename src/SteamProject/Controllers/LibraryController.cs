@@ -43,7 +43,22 @@ public class LibraryController: Controller
                 var games = _steamServices.GetGameDescriptions(tempGames);
                 foreach(var game in games)
                 {
-                    _gameRepository.AddOrUpdate(game);
+                    try
+                    {
+                        _gameRepository.AddOrUpdate(game);
+                    }
+                    catch
+                    {
+                        //Need to do something here to catch this.
+                    }
+                }
+            }
+            else
+            {
+                var games = _gameRepository.GetAll(g => g.OwnerId == user.Id);
+                user.Games.Clear();
+                foreach(var game in games)
+                {
                 }
             }
             return View(user);

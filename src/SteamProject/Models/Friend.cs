@@ -9,7 +9,7 @@ public partial class Friend
 
     public int RootId { get; set; }
 
-    public int SteamId { get; set; }
+    public string SteamId { get; set; }
 
     public string SteamName { get; set; } = null!;
 

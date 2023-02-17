@@ -1,0 +1,36 @@
+@model SteamProject.Models.User
+@{
+    ViewData["Title"] = "Game Library";
+}
+@if (Model == null)
+{
+    <h1>This will be your library page once you sign in with a linked account.</h1>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div>
+                    <img src="@Model.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h1>@Model.SteamName's Steam Library</h1>
+                <div>
+                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-container">
+        @{
+            foreach(var game in Model.Games)
+            {
+                <div class="flex-item" id="@game.Name" style="padding: 2px;">
+                    <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/>
+                </div>
+            }
+        }
+    </div>
+}

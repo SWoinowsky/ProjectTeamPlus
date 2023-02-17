@@ -23,44 +23,16 @@ else
             </div>
         </div>
     </div>
-    <div class="col-md">
-    @{ 
-        var game1 = new Game();
-        var game2 = new Game();
-        var game3 = new Game();
-        var i = 0;
-    }
-    <div class="container"></div>
-        @foreach(var game in Model.Games)
-        {
-            if(i == 0)
+    <div class="flex-container">
+        @{
+            foreach(var game in Model.Games)
             {
-                game1 = game;
-                i++;
-            }
-            else if(i == 1)
-            {
-                game2 = game;
-                i++;
-            }
-            else if(i == 2)
-            {
-                game3 = game;
-                i++;
-            }
-            else
-            {
-                i = 0;
-                <table>
-                    <tbody>
-                        <th id="@game1.Name"><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game1.AppId)" style=height:"200px", width="300px"/></th>
-                        <td><p>@game1.DescShort</p></td>
-                        <th id="@game2.Name"><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game2.AppId)" style=height:"200px", width="300px"/></th>
-                        <td><p>@game2.DescShort</p></td>
-                        <th id="@game3.Name"><img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game3.AppId)" style=height:"200px", width="300px"/></th>
-                        <td><p>@game3.DescShort</p></td>
-                    </tbody>
-                </table>
+                <div id="@game.Name">
+                    <div class="col">
+                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/>
+                        <div class="scroll">@game.DescShort</div>
+                    </div>
+                </div>
             }
         }
     </div>

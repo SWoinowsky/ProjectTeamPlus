@@ -46,7 +46,6 @@ namespace SteamProject.Services
                 var regex = new Regex(Regex.Escape(game.AppId.ToString()));
                 jsonResponse = regex.Replace(jsonResponse, "response", 1);
                 var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
-                
                 game.TakeGameInfoPOCO(poco);
             }
             return games;

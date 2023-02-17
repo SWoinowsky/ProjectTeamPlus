@@ -43,16 +43,22 @@ public partial class Game
 
     public void TakeGameInfoPOCO(GameInfoPOCO poco)
     {
-        try
+        if(poco.response.data != null)
         {
             var userData = poco.response.data;
-            DescLong = userData.detailed_description;
-            DescShort = userData.short_description;
+            if(userData.detailed_description == null) 
+                DescLong = "No description available";
+            else
+                DescLong = userData.detailed_description;
+            if(userData.short_description == null)
+                DescShort = "No description available";
+            else
+                DescShort = userData.short_description;
         }
-        catch
+        else
         {
-            DescLong = "Not available";
-            DescShort = "Not available";
+            DescLong = "No description available";
+            DescShort = "No description available";
         }
     }
 

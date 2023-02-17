@@ -21,3 +21,16 @@ body {
   margin-bottom: 60px;
   background-image: linear-gradient(to left, #171a21, #2a475e, #171a21);
 }
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.scroll {
+  overflow-y: auto;
+  height: 200px;
+  width: 200px;
+  display: inline-block;
+  text-align: bottom;
+}

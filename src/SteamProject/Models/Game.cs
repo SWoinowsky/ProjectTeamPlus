@@ -41,6 +41,19 @@ public partial class Game
         Owner = user;
     }
 
+    public Game TakeLibraryInfoPOCO(Games game, int userId)
+    {
+        var temp = new Game();
+        temp.OwnerId = userId;
+        temp.AppId = game.appid;
+        temp.Name = game.name;
+        temp.PlayTime = game.playtime_forever;
+        temp.IconUrl = game.img_icon_url;
+        temp.DescLong = "";
+        temp.DescShort = "";
+        return temp;
+    }
+
     public void TakeGameInfoPOCO(GameInfoPOCO poco)
     {
         // if(poco.response.data != null)

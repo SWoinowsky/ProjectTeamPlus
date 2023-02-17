@@ -41,6 +41,8 @@ public class LibraryController: Controller
             if(temp.Count() == 0)
             {
                 var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+                if(games == null)
+                    return View();
                 foreach(var game in games)
                 {
                     try{
@@ -55,6 +57,8 @@ public class LibraryController: Controller
             else
             {
                 var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+                if(games == null)
+                    return View();
                 user.Games.Clear();
                 foreach(var game in games)
                 {  

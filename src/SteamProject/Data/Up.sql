@@ -25,8 +25,8 @@ CREATE TABLE [Friend]
 	,[PersonaState]		INT				NOT NULL
 	,[AvatarUrl]		NVARCHAR(100)	NOT NULL
 	,[LastLogOff]		INT				NOT NULL
-	,[GameExtraInfo]	NVARCHAR(100)
-	,[GameId]			INT
+	,[GameExtraInfo]	NVARCHAR(512)
+	,[GameId]			NVARCHAR(50)
 );
 
 CREATE TABLE [Game]

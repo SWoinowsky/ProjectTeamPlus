@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SteamProject.DAL.Abstract;
+using SteamProject.Models;
 using SteamProject.Services;
 
 namespace SteamProject.Areas.Identity.Pages.Account.Manage
@@ -20,18 +21,21 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ISteamService _steamService;
         private readonly IUserRepository _userRepository;
+        private readonly IFriendRepository _friendRepository;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ISteamService steamService,
-            IUserRepository userRepository
+            IUserRepository userRepository,
+            IFriendRepository friendRepository
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _steamService = steamService;
             _userRepository = userRepository;
+            _friendRepository = friendRepository;
         }
 
         /// <summary>
@@ -72,6 +76,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         public string SteamName;
         public int? SteamLevel;
         public string SteamAvatar;
+        public List<Friend> Friends;
 
         private async Task LoadAsync(IdentityUser user)
         {
@@ -100,7 +105,19 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                     SteamLevel = currentUser.PlayerLevel;
                     SteamAvatar = currentUser.AvatarUrl;
                 }
+
+                Friends = _friendRepository.GetFriends(currentUser.Id);
+                if( Friends.Count() == 0 )
+                {
+                    Friends = _steamService.GetFriendsList( currentUser.SteamId, currentUser.Id );
+                    foreach( var friend in Friends )
+                    {
+                        _friendRepository.AddOrUpdate( friend );
+                    }
+                }
             }
+
+            
 
 
             Username = userName;

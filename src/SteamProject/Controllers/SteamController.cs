@@ -26,4 +26,12 @@ public class SteamController : ControllerBase
 
         return Ok(user);
     }
+
+    [HttpGet("friends")]
+    public ActionResult SteamFriends(string steamid, int userId)
+    {
+        var listFriends = _steamService.GetFriendsList(steamid, userId);
+
+        return Ok(listFriends);
+    }
 }

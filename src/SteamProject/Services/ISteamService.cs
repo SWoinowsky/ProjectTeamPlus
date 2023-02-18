@@ -6,4 +6,6 @@ public interface ISteamService
 {
     User GetSteamUser(string steamid);
     int GetUserLevel(string steamid);
+
+    User[] GetFriendsList(string steamid);
 }

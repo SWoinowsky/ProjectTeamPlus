@@ -59,4 +59,10 @@ public class SteamService : ISteamService
 
         return returnMe;
     }
+
+    public User[] GetFriendsList(string steamid)
+    {
+        string uri = $"https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key={Token}&steamid={steamid}";
+        string? jsonResponse = GetJsonStringFromEndpoint( uri );
+    }
 }

@@ -77,6 +77,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         public int? SteamLevel;
         public string SteamAvatar;
         public List<Friend> Friends;
+        public string[] States = {"offline", "online", "busy", "away", "snooze"};
 
         private async Task LoadAsync(IdentityUser user)
         {

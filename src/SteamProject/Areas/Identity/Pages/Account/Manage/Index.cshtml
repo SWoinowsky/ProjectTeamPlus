@@ -51,16 +51,10 @@
                 @foreach( var friend in Model.Friends )
                 {
                     <tr class="FriendEntry">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <img src=@friend.AvatarUrl>
-                            </div>
-                            <div class="col-sm-8">
-                                @friend.SteamName
-                            </div>
-                        </div>
+                        <td> <img src=@friend.AvatarUrl> </td>
+                        <td> @friend.SteamName </td>
+                        <td> <i> @Model.States[friend.PersonaState ?? 0] </i> </td>
                     </tr>
-                    <br>
                 }
             </table>
         </div>

@@ -8,7 +8,8 @@
 <h3>@ViewData["Title"]</h3>
 
 <br>
-
+<input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
+<input type="hidden" id="Id" name="Id" value="@Model.Id">
 
 @* DISPLAY USER INFORMATION FROM STEAM *@
 @if(Model.SteamName != "" && Model.SteamName != null)
@@ -53,8 +54,8 @@
                     <tr class="FriendEntry">
                         <td> <img src=@friend.AvatarUrl> </td>
                         <td> @friend.SteamName </td>
-                        <td> <i> @Model.States[friend.PersonaState ?? 0] </i> </td>
-                        <td> @friend.GameExtraInfo </td>
+                        <td class="FriendStateTd"> <i> @Model.States[friend.PersonaState ?? 0] </i> </td>
+                        <td class="FriendGame"> @friend.GameExtraInfo </td>
                     </tr>
                 }
             </table>
@@ -64,4 +65,6 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script> console.log( "Hello World!\n" ) </script>
+    <script type="text/javascript" src="~/js/ProfileIndex.js"></script>
 }

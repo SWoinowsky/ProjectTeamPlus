@@ -82,8 +82,8 @@ builder.Services.AddAuthentication()
     })
     .AddSteam(options =>
                     {
-                      options.CorrelationCookie.SameSite = SameSiteMode.None;
-                      options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+                        options.CorrelationCookie.SameSite = SameSiteMode.None;
+                        options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
                     });
 
 builder.Services.AddControllersWithViews();

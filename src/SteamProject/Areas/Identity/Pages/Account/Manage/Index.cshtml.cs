@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SteamProject.DAL.Abstract;
+using SteamProject.Models;
 using SteamProject.Services;
 
 namespace SteamProject.Areas.Identity.Pages.Account.Manage
@@ -72,6 +73,10 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         public string SteamName;
         public int? SteamLevel;
         public string SteamAvatar;
+        public List<Friend> Friends;
+        public string[] States = {"offline", "online", "busy", "away", "snooze"};
+        public int Id;
+        public string SteamId;
 
         private async Task LoadAsync(IdentityUser user)
         {

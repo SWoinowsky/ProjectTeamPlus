@@ -1,7 +1,7 @@
 $( function () {
     ajaxFetch();
 
-    setInterval( ajaxFetch, 5000);
+    setInterval( ajaxFetch, 60000);
 });
 
 function errorOnAjax() {

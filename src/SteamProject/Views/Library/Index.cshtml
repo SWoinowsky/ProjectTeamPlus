@@ -29,18 +29,18 @@ else
             {
                 if(game.Hidden == false)
                 {
-                    <div class="flex-item" id="@game.Name" style="padding: 2px;">
+                    <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
                         <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/><br>
                         @{
                             var index = game.Name.IndexOf("'");
                             if(index > -1)
                             {
                                 var name = game.Name.Substring(0, index) + "\\" + game.Name.Substring(index);
-                                <button onclick="hideGame('@name')">Hide game</button>
+                                <button onclick="setHiddenGame('@name')">Hide game</button>
                             }
                             else
                             {
-                                <button onclick="hideGame('@game.Name')">Hide game</button>
+                                <button onclick="setHiddenGame('@game.Name')" name=@game.AppId>Hide game</button>
                             }
                         } 
                     </div>
@@ -52,5 +52,5 @@ else
 
 @section Scripts
 {
-    <script type="text/javascript"  src="@(Url.Content("~/js/main.js"))"></script>
+    <script type="text/javascript" src="~/js/hideGame.js"></script>
 }

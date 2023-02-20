@@ -8,7 +8,8 @@
 <h3>@ViewData["Title"]</h3>
 
 <br>
-
+<input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
+<input type="hidden" id="Id" name="Id" value="@Model.Id">
 
 @* DISPLAY USER INFORMATION FROM STEAM *@
 @if(Model.SteamName != "" && Model.SteamName != null)
@@ -28,8 +29,8 @@
 <br>
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
+<div class="row" style="height: 35%; width: 80%; overflow-y: hidden; position: fixed;">
+    <div class="col-md-6" style="width: 30%;">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
@@ -44,8 +45,26 @@
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
+    @if(Model.SteamName != "" && Model.SteamName != null)
+    {
+        <div class="col-md-6" id="friendsListDiv" style="height: 70%; overflow-y: scroll;">
+            <table id="friendsListTable" style="width: 100%; " >
+                @foreach( var friend in Model.Friends )
+                {
+                    <tr class="FriendEntry">
+                        <td> <img src=@friend.AvatarUrl> </td>
+                        <td> @friend.SteamName </td>
+                        <td class="FriendStateTd"> <i> @Model.States[friend.PersonaState ?? 0] </i> </td>
+                        <td class="FriendGame"> @friend.GameExtraInfo </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script> console.log( "Hello World!\n" ) </script>
+    <script type="text/javascript" src="~/js/ProfileIndex.js"></script>
 }

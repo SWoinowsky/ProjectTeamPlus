@@ -27,17 +27,18 @@ public class SteamController : ControllerBase
         return Ok(user);
     }
 
-    [HttpPost("hide")]
-    public ActionResult Hide(int id)
-    {
-        return Ok();
-    }
-    
     [HttpGet("friends")]
     public ActionResult SteamFriends(string steamid, int userId)
     {
         var listFriends = _steamService.GetFriendsList(steamid, userId);
 
         return Ok(listFriends);
+    }    
+    
+    [HttpPost("hide")]
+    public ActionResult Hide(int id)
+    {
+        var x = id;
+        return Ok();
     }
 }

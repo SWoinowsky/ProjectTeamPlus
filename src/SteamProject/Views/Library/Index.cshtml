@@ -19,7 +19,7 @@ else
                 <h1>@Model.SteamName's Steam Library</h1>
                 <div>
                     Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a><br>
-                    <button onclick="getAllGames('@Model.Id')">Show hidden games</button>
+                    <button onclick="showHiddenGamesModal()">Show hidden games</button>
                 </div>
             </div>
         </div>
@@ -58,15 +58,23 @@ else
                     <div class="modal-body">
                         <div class="flex-container">
                             @{
-                                foreach(var game in Model.Games)
+                                var temp = Model.Games.Where(g => g.Hidden == true).ToList();
+                                if(temp.Count() > 0)
                                 {
-                                    if(game.Hidden)
+                                    foreach(var game in Model.Games)
                                     {
-                                    <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
-                                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px; width=120px"/>
-                                    </div>
-                                    }
-                                } 
+                                        if(game.Hidden)
+                                        {
+                                        <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
+                                            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px; width=120px"/>
+                                        </div>
+                                        }
+                                    } 
+                                }
+                                else
+                                {
+                                    <div>You have no hidden games, go hide some! If you just hid a game, try refreshing the page.</div>
+                                }
                             }
                         </div>
                     </div>

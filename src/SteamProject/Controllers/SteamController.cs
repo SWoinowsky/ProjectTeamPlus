@@ -38,11 +38,4 @@ public class SteamController : ControllerBase
         _gameRepository.AddOrUpdate(game);
         return Ok();
     }
-
-    [HttpGet("games")]
-    public ActionResult HiddenGames(string id)
-    {
-        var games = _gameRepository.GetAll(g => g.OwnerId == Int32.Parse(id)).ToList().Where(g => g.Hidden == true);
-        return Ok(games);
-    }
 }

@@ -17,28 +17,11 @@ function hideGame(gameName)
     gameName.hidden = true;
 }
 
-function getAllGames(userId)
-{
-    $.ajax({
-        type: "GET",
-        dataType: "text",
-        url: `/api/Steam/games?id=${userId}`,
-        success: showHiddenGames,
-        error: errorOnAjax
-    })
-}
-
-function showHiddenGames(data)
+function showHiddenGamesModal()
 {
     var modal = document.getElementById("hidden-game-table");
     $("#hidden-game-modal").modal("show");
     console.log("Modal was shown");
-    // var gamesDiv = document.getElementById("hidden-games");
-    // console.log("div was grabbed");
-    // for(let i = 0; i < data.length; i++)
-    // {
-    //     let div = document.createElement("div");
-    // }
 }
 
 function errorOnAjax() {

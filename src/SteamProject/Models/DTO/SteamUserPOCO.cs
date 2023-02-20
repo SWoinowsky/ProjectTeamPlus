@@ -27,7 +27,5 @@ public class Player
     public string primaryclanid { get; set; }
     public int timecreated { get; set; }
     public int personastateflags { get; set; }
-    public string? gameextrainfo { get; set; }
-    public string? gameid { get; set; }
 }
 

@@ -9,6 +9,7 @@ using SteamProject.DAL.Abstract;
 using SteamProject.Models;
 using Microsoft.AspNetCore.Identity;
 using SteamProject.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SteamProject.Controllers;
 
@@ -27,6 +28,7 @@ public class LibraryController: Controller
         _steamServices = steamServices;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
         if(_userManager.GetUserId(User) is null)
@@ -56,7 +58,7 @@ public class LibraryController: Controller
             }
             else
             {
-                var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+                var games = temp;
                 if(games == null)
                     return View();
                 user.Games.Clear();

@@ -4,9 +4,9 @@ function setHiddenGame(name)
     var gameId = gameName.getAttribute('value');
     $.ajax({
         type: "POST",
-        dataType: "json",
+        dataType: "text",
         url: "/api/Steam/hide",
-        data: JSON.stringify(gameId),
+        data: gameId,
         success: hideGame(gameName),
         error: errorOnAjax
     })

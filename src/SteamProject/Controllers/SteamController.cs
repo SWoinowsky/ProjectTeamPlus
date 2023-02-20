@@ -57,6 +57,7 @@ public class SteamController : ControllerBase
     public ActionResult SteamFriends(string steamid, int userId)
     {
         var listFriends = _steamService.GetFriendsList(steamid, userId);
+        listFriends.OrderBy( x => x.Id );
 
         return Ok(listFriends);
     }

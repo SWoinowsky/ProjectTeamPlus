@@ -1,7 +1,7 @@
 $( function () {
     ajaxFetch();
 
-    setInterval( ajaxFetch, 60000);
+    setInterval( ajaxFetch, 5000);
 });
 
 function errorOnAjax() {
@@ -10,9 +10,16 @@ function errorOnAjax() {
 
 function updateFriendStatuses( data ) {
     var Statuses = document.getElementsByClassName("FriendStateTd");
+    var statusArr = Array.prototype.slice.call(Statuses);
     var Games = document.getElementsByClassName("FriendGame");
+    var gamesArr = Array.prototype.slice.call(Games);
 
-    var i = 0;
+    var table = document.getElementById("friendsListTable");
+    table.innerHTML = "";
+    data.sort((a, b) => a.steamName.localeCompare(b.steamName) > 0);
+
+    var tdList = [];
+
     $.each( data, function ( index, item ) {
         var game = item.gameExtraInfo;
         if( game == null ) {
@@ -20,11 +27,27 @@ function updateFriendStatuses( data ) {
         }
 
         var state = item.personaState;
+        if( state == null ) {
+            state = 0;
+        }
+
         var states = ["offline", "online", "busy", "away", "snooze"];
-        Statuses[i].innerHTML = ` <i> ${states[state]} </i>`;
-        Games[i].innerHTML = `${game}`;
-        i = i + 1;
+
+        var entry = document.createElement("tr");
+        entry.className = "FriendEntry";
+        entry.id = item.steamName;
+        entry.innerHTML = 
+        `
+            <td> <img src=${item.avatarUrl}> </td>
+            <td> ${item.steamName} </td>
+            <td class="FriendStateTd"> <i> ${states[state]} </i> </td>
+            <td class="FriendGame"> ${game} </td>
+        `
+        ;
+
+        table.append(entry);
     });
+
 }
 
 function ajaxFetch() {

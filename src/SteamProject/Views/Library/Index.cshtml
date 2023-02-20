@@ -24,6 +24,9 @@ else
             </div>
         </div>
     </div>
+
+    <input id="search-input" type="search" placeholder= "🔍 search for a game...">
+
     <div class="flex-container">
         @{
             foreach(var game in Model.Games)
@@ -88,7 +91,21 @@ else
     </div>
 }
 
+
+<style>
+
+    #search-input {
+        width: 235px;
+        border: 2px solid #000;
+        border-radius: 2rem;
+        background-color: #fff;
+        padding-left: 1rem;
+    }
+
+</style>
+
 @section Scripts
 {
-    <script type="text/javascript" src="~/js/hideGame.js"></script>
+<script type="text/javascript"  src="@(Url.Content("~/js/search.js"))"></script>
+<script type="text/javascript" src="~/js/hideGame.js"></script>
 }

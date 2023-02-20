@@ -39,15 +39,3 @@ label.form-label {
 label.Input_Email {
   color: black;
 }
-
-#friendsListTable {
-  text-align: left;
-  overflow-x: scroll;
-  text-overflow: clip;
-  border-collapse: collapse;
-  table-layout: auto;
-  margin: auto;
-  padding: 1%;
-}
-
-#friendsListTable tr:nth-child(even){background-color: rgb(43, 64, 104);};

@@ -10,7 +10,7 @@ function setHiddenGame(name)
         error: errorOnAjax
     })
 }
-
+ 
 function hideGame(gameName)
 {
     gameName.style.display = "none";

@@ -3,6 +3,7 @@ using SteamProject.Models;
 using SteamProject.Services;
 using System.Diagnostics;
 using System.Text.Json;
+using SteamProject.DAL.Abstract;
 
 
 namespace SteamProject.Controllers;
@@ -13,10 +14,12 @@ namespace SteamProject.Controllers;
 public class SteamController : ControllerBase
 {
     private readonly ISteamService _steamService;
+    private readonly IGameRepository _gameRepository;
 
-    public SteamController( ISteamService steamService )
+    public SteamController( ISteamService steamService, IGameRepository gameRepository )
     {
         _steamService = steamService;
+        _gameRepository = gameRepository;
     }
 
     [HttpGet("user")]
@@ -30,7 +33,9 @@ public class SteamController : ControllerBase
     [HttpPost("hide")]
     public ActionResult Hide(string id)
     {
-        var x = id;
+        var game = _gameRepository.GetAll(g => g.AppId == Int32.Parse(id)).ToList()[0];
+        game.Hidden = true;
+        _gameRepository.AddOrUpdate(game);
         return Ok();
     }
     

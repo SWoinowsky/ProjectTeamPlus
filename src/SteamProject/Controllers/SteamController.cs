@@ -26,4 +26,10 @@ public class SteamController : ControllerBase
 
         return Ok(user);
     }
+
+    [HttpPost("hide")]
+    public ActionResult Hide(int id)
+    {
+        return Ok();
+    }
 }

@@ -21,8 +21,5 @@ namespace SteamProject.Services
         IEnumerable<Game> GetGames(string userSteamId, int userId, User user);
 
         Game GetGameDescription(Game game);
-
-        AchievementRoot GetAchievements(string userSteamId, int appId);
-        SchemaRoot GetSchema(int appId);
     }
 }

@@ -20,5 +20,4 @@ public partial class UserAchievement
     public int? UnlockTime { get; set; }
 
     public virtual User Owner { get; set; } = null!;
-    
 }

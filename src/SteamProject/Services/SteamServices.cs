@@ -1,7 +1,6 @@
 using SteamProject.Models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-// using System.Text.Json;
+using System.Text.Json;
 using SteamProject.Models.DTO;
 using System.Text.RegularExpressions;
 
@@ -29,7 +28,7 @@ namespace SteamProject.Services
                 return null;
             else
             {
-                var poco = JsonConvert.DeserializeObject<LibraryPOCO>(jsonResponse);
+                var poco = JsonSerializer.Deserialize<LibraryPOCO>(jsonResponse);
                 var games = new List<Game>();
                 foreach(var game in poco.response.games)
                 {
@@ -50,37 +49,10 @@ namespace SteamProject.Services
             {   
                 var regex = new Regex(Regex.Escape(game.AppId.ToString()));
                 jsonResponse = regex.Replace(jsonResponse, "response", 1);
-                var poco = JsonConvert.DeserializeObject<GameInfoPOCO>(jsonResponse);
+                var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
                 game.TakeGameInfoPOCO(poco);
             }
             return game;
-        }
-
-
-        public AchievementRoot GetAchievements(string userSteamId, int appId)
-        {
-            string source = string.Format("http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?appid={0}&key={1}&steamid={2}&l=en", appId, SteamToken, userSteamId);
-            string response = GetJsonStringFromEndpoint(source);
-            if (response == null)
-            {
-                return null;
-            }
-            // IEnumerable<Achievement> userAchievements = JsonSerializer.Deserialize<IEnumerable<Achievement>>(response)!;
-            AchievementRoot deserialized = JsonConvert.DeserializeObject<AchievementRoot>(response)!;
-            return deserialized;
-        }
-
-        public SchemaRoot GetSchema(int appId)
-        {
-            string source = string.Format("https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?appid={0}&key={1}&l=en", appId, SteamToken);
-            string response = GetJsonStringFromEndpoint(source);
-            if (response == null)
-            {
-                return null;
-            }
-            // IEnumerable<Achievement> userAchievements = JsonSerializer.Deserialize<IEnumerable<Achievement>>(response)!;
-            SchemaRoot deserialized = JsonConvert.DeserializeObject<SchemaRoot>(response)!;
-            return deserialized;
         }
 
         // This is a singleton, we are only supposed to have one per application

@@ -41,6 +41,11 @@ label.Input_Email {
   color: black;
 }
 
+.modal-header, .modal-body, .modal-footer {
+  background-image: linear-gradient(to left, #222731, #2f526e, #222731);
+  border: none;
+}
+
 .loading-spinner {
   width: 96px;
   height: 96px;
@@ -55,10 +60,6 @@ border-radius: 50%;
 border: 10px solid #4FE3BB;
 border-color: #4FE3BB transparent #4FE3BB transparent;
 animation: loading-spinner 1s linear infinite;
-}
-
-.modal-header, .modal-body, .modal-footer {
-  background-image: linear-gradient(to left, #222731, #2f526e, #222731);
 }
 
 @keyframes loading-spinner {

@@ -57,6 +57,10 @@ border-color: #4FE3BB transparent #4FE3BB transparent;
 animation: loading-spinner 1s linear infinite;
 }
 
+.modal-header, .modal-body, .modal-footer {
+  background-image: linear-gradient(to left, #222731, #2f526e, #222731);
+}
+
 @keyframes loading-spinner {
 0% {
   transform: rotate(0deg);
@@ -64,6 +68,4 @@ animation: loading-spinner 1s linear infinite;
 100% {
   transform: rotate(360deg);
 }
-.modal-header, .modal-body, .modal-footer {
-  background-image: linear-gradient(to left, #222731, #2f526e, #222731);
 }

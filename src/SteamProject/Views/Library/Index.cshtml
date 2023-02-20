@@ -31,14 +31,10 @@ else
         @{
             foreach(var game in Model.Games)
             {
-                <div class="flex-item" id="@game.Name" style="padding: 2px;">
-                    <button class="achievement-btn" id="@game.AppId"></button>
-                    <img class="game-image" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/>
-                </div>
-                
                 if(game.Hidden == false)
                 {
                     <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
+                        <button class="achievement-btn" id="@game.AppId"></button>
                         <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/><br>
                         @{
                             var index = game.Name.IndexOf("'");
@@ -133,11 +129,6 @@ else
 
 
 <style>
-
-    .flex-item {
-        display: flex;
-        justify-content: flex-end;
-    }
 
     .achievement-btn {
         position: absolute;

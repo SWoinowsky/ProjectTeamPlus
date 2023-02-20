@@ -17,6 +17,22 @@ function hideGame(gameName)
     gameName.hidden = true;
 }
 
+function getAllGames(userId)
+{
+    $.ajax({
+        type: "GET",
+        dataType: "text",
+        url: `/api/Steam/games?id=${userId}`,
+        success: showHiddenGames,
+        error: errorOnAjax
+    })
+}
+
+function showHiddenGames(data)
+{
+    console.log(data);
+}
+
 function errorOnAjax() {
     console.log("ERROR on ajax request");
 }

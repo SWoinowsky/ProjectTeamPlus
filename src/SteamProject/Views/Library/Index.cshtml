@@ -18,7 +18,8 @@ else
             <div class="col-sm-6">
                 <h1>@Model.SteamName's Steam Library</h1>
                 <div>
-                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a>
+                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a><br>
+                    <button onclick="getAllGames('@Model.Id')">Show hidden games</button>
                 </div>
             </div>
         </div>

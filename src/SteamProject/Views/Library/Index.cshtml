@@ -48,15 +48,27 @@ else
                 }
             }
         }
-        <div  id="hidden-game-modal" class="modal fade">
-            <div class="modal-dialog">
+        <div id="hidden-game-modal" class="modal fade">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4>Hidden Games</h4>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        
+                        <div class="flex-container">
+                            @{
+                                foreach(var game in Model.Games)
+                                {
+                                    if(game.Hidden)
+                                    {
+                                    <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
+                                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px; width=120px"/>
+                                    </div>
+                                    }
+                                } 
+                            }
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

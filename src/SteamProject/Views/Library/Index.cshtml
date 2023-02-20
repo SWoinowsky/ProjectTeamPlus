@@ -18,7 +18,8 @@ else
             <div class="col-sm-6">
                 <h1>@Model.SteamName's Steam Library</h1>
                 <div>
-                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a>
+                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a><br>
+                    <button onclick="showHiddenGamesModal()">Show hidden games</button>
                 </div>
             </div>
         </div>
@@ -50,6 +51,43 @@ else
                 }
             }
         }
+        <div id="hidden-game-modal" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Hidden Games</h4>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="flex-container">
+                            @{
+                                var temp = Model.Games.Where(g => g.Hidden == true).ToList();
+                                if(temp.Count() > 0)
+                                {
+                                    foreach(var game in Model.Games)
+                                    {
+                                        if(game.Hidden)
+                                        {
+                                        <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
+                                            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px; width=120px"/>
+                                        </div>
+                                        }
+                                    } 
+                                }
+                                else
+                                {
+                                    <div>You have no hidden games, go hide some! If you just hid a game, try refreshing the page.</div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 }
 
@@ -68,6 +106,6 @@ else
 
 @section Scripts
 {
-  <script type="text/javascript"  src="@(Url.Content("~/js/search.js"))"></script>
-  <script type="text/javascript" src="~/js/hideGame.js"></script>
+<script type="text/javascript"  src="@(Url.Content("~/js/search.js"))"></script>
+<script type="text/javascript" src="~/js/hideGame.js"></script>
 }

@@ -17,6 +17,13 @@ function hideGame(gameName)
     gameName.hidden = true;
 }
 
+function showHiddenGamesModal()
+{
+    var modal = document.getElementById("hidden-game-table");
+    $("#hidden-game-modal").modal("show");
+    console.log("Modal was shown");
+}
+
 function errorOnAjax() {
     console.log("ERROR on ajax request");
 }

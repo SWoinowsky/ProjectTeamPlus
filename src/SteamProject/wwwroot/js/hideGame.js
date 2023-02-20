@@ -31,6 +31,8 @@ function getAllGames(userId)
 function showHiddenGames(data)
 {
     console.log(data);
+    var modal = document.getElementById("hidden-game-table");
+    $("#hidden-game-modal").modal("show");
 }
 
 function errorOnAjax() {

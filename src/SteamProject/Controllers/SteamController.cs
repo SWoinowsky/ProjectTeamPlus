@@ -38,12 +38,4 @@ public class SteamController : ControllerBase
         _gameRepository.AddOrUpdate(game);
         return Ok();
     }
-    
-    [HttpGet("friends")]
-    public ActionResult SteamFriends(string steamid, int userId)
-    {
-        var listFriends = _steamService.GetFriendsList(steamid, userId);
-
-        return Ok(listFriends);
-    }
 }

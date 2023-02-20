@@ -39,10 +39,6 @@ button.accept-policy {
   line-height: inherit;
 }
 
-body {
-  height: 100%;
-}
-
 .footer {
   position: absolute;
   bottom: 0;

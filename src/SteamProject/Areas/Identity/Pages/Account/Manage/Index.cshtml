@@ -44,6 +44,22 @@
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
+    @if(Model.SteamName != "" && Model.SteamName != null)
+    {
+        <div class="col-md-6" id="friendsListDiv" style="height: 70%; overflow-y: scroll;">
+            <table id="friendsListTable" >
+                @foreach( var friend in Model.Friends ) 
+                {
+                    <tr class="FriendEntry">
+                        <td> <img src=@friend.AvatarUrl> </td>
+                        <td> @friend.SteamName </td>
+                        <td class="FriendStateTd"> <i> @Model.States[friend.PersonaState ?? 0] </i> </td>
+                        <td class="FriendGame"> @friend.GameExtraInfo </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 </div>
 
 @section Scripts {

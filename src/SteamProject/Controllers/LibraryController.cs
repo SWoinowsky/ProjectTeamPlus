@@ -58,7 +58,7 @@ public class LibraryController: Controller
             }
             else
             {
-                var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+                var games = temp;
                 if(games == null)
                     return View();
                 user.Games.Clear();

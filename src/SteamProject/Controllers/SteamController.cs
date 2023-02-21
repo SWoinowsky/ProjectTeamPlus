@@ -14,13 +14,11 @@ namespace SteamProject.Controllers;
 public class SteamController : ControllerBase
 {
     private readonly ISteamService _steamService;
-    private readonly ISteamServices _steamServices;
     private readonly IGameRepository _gameRepository;
 
-    public SteamController( ISteamService steamService, IGameRepository gameRepository, ISteamServices steamServices )
+    public SteamController( ISteamService steamService, IGameRepository gameRepository )
     {
         _steamService = steamService;
-        _steamServices = steamServices;
         _gameRepository = gameRepository;
     }
 
@@ -35,13 +33,13 @@ public class SteamController : ControllerBase
     [HttpGet("achievements")]
     public ActionResult<AchievementRoot> UserAchievements(string steamid, int appId)
     {
-        return _steamServices.GetAchievements(steamid, appId);
+        return _steamService.GetAchievements(steamid, appId);
     }
 
     [HttpGet("schema")]
     public ActionResult<SchemaRoot> GameSchema(int appId)
     {
-        return _steamServices.GetSchema(appId);
+        return _steamService.GetSchema(appId);
     }
     
     [HttpPost("hide")]

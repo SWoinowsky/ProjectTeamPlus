@@ -68,7 +68,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IFriendRepository, FriendRepository>();
-
+ 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

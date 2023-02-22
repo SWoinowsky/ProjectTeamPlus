@@ -107,7 +107,7 @@ namespace SteamProject.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                }); 
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",

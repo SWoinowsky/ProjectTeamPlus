@@ -1,0 +1,257 @@
+@model SteamProject.Models.User
+@{
+    ViewData["Title"] = "Game Library";
+}
+@if (Model == null)
+{
+    <h1>This will be your library page once you sign in with a linked account, and we pull your Steam library.</h1>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div>
+                    <img class="user-avatar" id="@Model.SteamId" src="@Model.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h1>@Model.SteamName's Steam Library</h1>
+                <div>
+                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a><br>
+                    <button onclick="showHiddenGamesModal()">Show hidden games</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input id="search-input" type="search" placeholder= "🔍 search for a game...">
+
+    <div class="flex-container">
+        @{
+            foreach(var game in Model.Games)
+            {
+                if(game.Hidden == false)
+                {
+                    <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
+                        <button class="achievement-btn" id="@game.AppId"></button>
+                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/><br>
+                        @{
+                            var index = game.Name.IndexOf("'");
+                            if(index > -1)
+                            {
+                                var name = game.Name.Substring(0, index) + "\\" + game.Name.Substring(index);
+                                <button onclick="setHiddenGame('@name')">Hide game</button>
+                            }
+                            else
+                            {
+                                <button onclick="setHiddenGame('@game.Name')" name=@game.AppId>Hide game</button>
+                            }
+                        } 
+                    </div>
+                }
+            }
+        }
+        <div id="hidden-game-modal" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Hidden Games</h4>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="flex-container">
+                            @{
+                                var temp = Model.Games.Where(g => g.Hidden == true).ToList();
+                                if(temp.Count() > 0)
+                                {
+                                    foreach(var game in Model.Games)
+                                    {
+                                        if(game.Hidden)
+                                        {
+                                        <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
+                                            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px; width=120px"/>
+                                        </div>
+                                        }
+                                    } 
+                                }
+                                else
+                                {
+                                    <div>You have no hidden games, go hide some! If you just hid a game, try refreshing the page.</div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ach-modal" tabindex="-1" role="dialog" aria-labelledby="ach-modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><g><rect height="15.4956" opacity="0" width="15.4859" x="0" y="0"/><path d="M0.252699 15.2429C0.594496 15.575 1.1609 15.575 1.49293 15.2429L7.74293 8.99293L13.9929 15.2429C14.325 15.575 14.9011 15.5847 15.2332 15.2429C15.5652 14.9011 15.5652 14.3445 15.2332 14.0125L8.98317 7.7527L15.2332 1.5027C15.5652 1.17067 15.575 0.604261 15.2332 0.27223C14.8914-0.0695668 14.325-0.0695668 13.9929 0.27223L7.74293 6.52223L1.49293 0.27223C1.1609-0.0695668 0.58473-0.0793324 0.252699 0.27223C-0.0793324 0.614027-0.0793324 1.17067 0.252699 1.5027L6.5027 7.7527L0.252699 14.0125C-0.0793324 14.3445-0.0890981 14.9109 0.252699 15.2429Z" fill="#000000" fill-opacity="0.25"/></g></svg>
+                </button>
+                <br>
+                </div>
+            <div class="modal-body" style="height: 30rem">
+                <div class="loading-spinner"></div>
+                <div class="container" id="modal-container">
+                    <div class="row">
+                        <div class="col-md-4" id="modal-left">
+                            <h5 class="earned-label">Achievements Earned:</h5>
+                            <h4 class="ach-earned"></h4>
+                            <div class="progress">
+                                <div class="progress-value"></div>
+                            </div>
+                            <img class="modal-img">
+                        </div>
+                        <div class="col-md-8" id="modal-right">
+                            <div id="ach-row" class="row"></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="error">
+                        <h2 class="error-ach">There are no achievements for this title.</h2>
+                        <h2 class="error-ser">An error occurred while requesting info from Steam.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .achievement-btn {
+        position: absolute;
+        background-color: #000;
+        opacity: 0%;
+        border: none;
+        transition: all 0.5s ease;
+        background-image: url('../assets/achievement.png');
+    }
+
+    .achievement-btn:hover {
+        opacity: 92%; 
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 1rem;
+        background-color: #000;
+        background-image: url('../assets/steam_gradient.png');
+    }
+
+    .modal-header {
+        border-bottom: none;
+        justify-content: flex-end;
+    }
+
+    .close {
+        background: none;
+        border: none;
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-container {
+        height: 30rem;
+    }
+
+    .modal-img {
+        align-self: flex-end;
+        height: 250px;
+        width: 166px;
+        border: 3px solid #4FE3BB;
+    }
+
+    h1, h4, h5, h6 {
+        color: #fff;
+        align-self: flex-start;
+    }
+
+    #modal-left {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .earned-label {
+        white-space: nowrap;
+        flex-wrap: wrap;
+        height: fit-content;
+    }
+
+    .progress {
+        background-color: #fff;
+        width: 200px;
+        height: 10px;
+        border-radius: 20px;
+    }
+    .progress-value {
+        background-color: #FF4600;
+        position: absolute;
+        height: 10px;
+        border-radius: 20px;
+    }
+
+    #modal-right {
+        height: 368px;
+        overflow: scroll;
+    }
+
+    #ach-row {
+        align-items: flex-end;
+    }
+
+    .ach-name {
+        font-size: 0.69rem; 
+        white-space: pre-line;
+    }
+
+    .ach-img {
+        height: 64px;
+        width: 64px;
+        border-radius: 10px;
+    }
+
+    .col-md-3 .ach-col {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;   
+    }
+
+    .ach-col {
+        margin-bottom: 1rem;
+    }
+    
+    .unearned {
+        opacity: 40%;  
+    }
+
+    #search-input {
+        width: 235px;
+        border: 2px solid #000;
+        border-radius: 2rem;
+        background-color: #fff;
+        padding-left: 1rem;
+    } 
+
+</style>
+
+@section Scripts
+{
+  <script type="text/javascript" src="~/js/hideGame.js"></script>
+  <script type="text/javascript"  src="@(Url.Content("~/js/search.js"))"></script>
+  <script type="text/javascript"  src="@(Url.Content("~/js/achievements.js"))"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+}

@@ -1,12 +1,19 @@
+using System.Security.Claims;
+using AspNet.Security.OpenId;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SteamProject.Services;
 using SteamProject.Models;
+using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
-const bool localDbSource = false;
-const bool azurePublish = true;
+const bool localDbSource = true;
+const bool azurePublish = !localDbSource;
 // Add services to the container.
 
 //Local Connection Strings
@@ -55,11 +62,31 @@ if (localDbSource == false)
 
 }
 
+var SteamApiToken = builder.Configuration["SteamKey"];
+builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IFriendRepository, FriendRepository>();
+ 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication()
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+    })
+    .AddSteam(options =>
+                    {
+                        options.CorrelationCookie.SameSite = SameSiteMode.None;
+                        options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+                    });
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
@@ -85,11 +112,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+    
 app.MapRazorPages();
 
 app.Run();

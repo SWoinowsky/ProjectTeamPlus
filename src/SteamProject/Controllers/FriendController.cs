@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
 using SteamProject.Models;
+using SteamProject.Models.ViewModels;
 using SteamProject.Services;
 
 namespace SteamProject.Controllers;
@@ -46,7 +47,12 @@ public class FriendController : Controller
         var theirGames = _steamService.GetGames( friendSteamId, 0 );
 
         var sharedGames = myGames.Join(theirGames, g1 => g1.AppId, g2 => g2.AppId, (g1, g2) => g1 ).ToList<Game>();
-        return View( sharedGames );
+
+        var viewModel = new FriendsVM( sharedGames, friend );
+        viewModel.Id = currentUser.Id;
+        viewModel.SteamId = currentUser.SteamId;
+        
+        return View( viewModel );
 
 
         // return View( _gameRepository.GetAll().Where( g => g.OwnerId == CurrentUser.Id ).ToList<Game>() );

@@ -59,4 +59,12 @@ public class SteamController : ControllerBase
 
         return Ok(listFriends);
     }
+
+    [HttpGet("friendSpecific")]
+    public ActionResult SpecificFriend( string userSteamId, int userId, string friendSteamId )
+    {
+        var friend = _steamService.GetFriendSpecific( userSteamId, userId, friendSteamId );
+
+        return Ok( friend );
+    }
 }

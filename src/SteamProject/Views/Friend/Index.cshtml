@@ -1,18 +1,22 @@
 
-@model List<Game>
+@model SteamProject.Models.ViewModels.FriendsVM
+
 @{
     ViewData["Title"] = "Friend's Page";
 }
 
+<input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
+<input type="hidden" id="FriendSteamId" name="FriendSteamId" value="@Model.Friend.SteamId">
+<input type="hidden" id="Id" name="Id" value="@Model.Id">
 
 
 <div class="text-center">
-    This page will be the home for your friend's information and will provide you with their current activity and a list of the games you both share.
-    
+    <h1> @Model.Friend.SteamName </h1>
+    <h3 id="friendPageStatus"> </h3>
 </div>
 
 <div class="row" style="align-items: center;">
-    @foreach (var game in Model)
+    @foreach (var game in Model.SharedGames)
     {
         
         <div class="col-md-4" style="margin:auto;">
@@ -32,3 +36,8 @@
     }
 </div>
 
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="~/js/friendPage.js"></script>
+}

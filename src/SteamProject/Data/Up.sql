@@ -1,14 +1,14 @@
 -- Highlight then ctrl+k, ctrl+c to uncomment / recomment
 
 --CREATE DATABASE [SteamInfo];
---CREATE DATABASE [SteamInfoAuth];
 
 USE [SteamInfo];
 
 CREATE TABLE [User]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
-	,[SteamId]			INT
+	,[AspNetUserId]		NVARCHAR(450)	NOT NULL
+	,[SteamId]			NVARCHAR(50)
 	,[SteamName]		NVARCHAR(50)
 	,[ProfileUrl]		NVARCHAR(100)
 	,[AvatarUrl]		NVARCHAR(100)
@@ -20,7 +20,7 @@ CREATE TABLE [Friend]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[RootId]			INT				NOT NULL
-	,[SteamId]			INT				NOT NULL
+	,[SteamId]			NVARCHAR(50)	NOT NULL
 	,[SteamName]		NVARCHAR(50)	NOT NULL
 	,[PersonaState]		INT				NOT NULL
 	,[AvatarUrl]		NVARCHAR(100)	NOT NULL
@@ -34,9 +34,11 @@ CREATE TABLE [Game]
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[OwnerId]			INT				NOT NULL
 	,[AppId]			INT				NOT NULL
-	,[Name]				NVARCHAR(50)	NOT NULL
+	,[Name]				NVARCHAR(512)	NOT NULL
+	,[DescShort]		NVARCHAR(512)	NOT NULL
+	,[DescLong]			NVARCHAR(1024)	NOT NULL
 	,[PlayTime]			INT				NOT NULL
-	,[IconUrl]			NVARCHAR(100)	NOT NULL
+	,[IconUrl]			NVARCHAR(512)	NOT NULL
 	,[LastPlayed]		INT				NOT NULL
 	,[Hidden]			BIT				NOT NULL
 );

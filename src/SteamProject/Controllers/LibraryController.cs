@@ -18,14 +18,14 @@ public class LibraryController: Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly IGameRepository _gameRepository;
-    private readonly ISteamServices _steamServices;
+    private readonly ISteamService _steamService;
 
-    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, ISteamServices steamServices)
+    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, ISteamService steamService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _gameRepository = gameRepository;
-        _steamServices = steamServices;
+        _steamService = steamService;
     }
 
     [Authorize]
@@ -42,7 +42,7 @@ public class LibraryController: Controller
             var temp = _gameRepository.GetAll(g => g.OwnerId == user.Id).ToList();
             if(temp.Count() == 0)
             {
-                var games = _steamServices.GetGames(user.SteamId, user.Id, user);
+                var games = _steamService.GetGames(user.SteamId, user.Id);
                 if(games == null)
                     return View();
                 foreach(var game in games)

@@ -117,9 +117,16 @@ app.UseAuthorization();
 
 
 app.MapControllerRoute(
+    "Friend",
+    "Friend/{friendSteamId?}",
+    defaults: new { controller = "Friend", action = "Index" }
+);
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-    
+
+
 app.MapRazorPages();
 
 app.Run();

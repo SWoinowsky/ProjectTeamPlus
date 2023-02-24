@@ -71,6 +71,8 @@ animation: loading-spinner 1s linear infinite;
 }
 }
 
+/* PROFILE PAGE WORK */
+
 #friendsListTable {
   text-align: left;
   overflow-x: scroll;
@@ -82,3 +84,14 @@ animation: loading-spinner 1s linear infinite;
 }
 
 #friendsListTable tr:nth-child(even){background-color: rgb(43, 64, 104);};
+
+/* FRIENDS PAGE WORK */
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.5s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
+}

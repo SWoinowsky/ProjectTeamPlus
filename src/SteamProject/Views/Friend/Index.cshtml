@@ -1,0 +1,36 @@
+
+@model List<Game>
+@{
+    ViewData["Title"] = "Friend's Page";
+}
+
+
+
+<div class="text-center">
+    This page will be the home for your friend's information and will provide you with their current activity and a list of the games you both share.
+    
+</div>
+
+<div class="row" style="align-items: center;">
+    @foreach (var game in Model)
+    {
+        @* <tr class="FriendGame">
+            <td> <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/> </td>
+        </tr> *@
+        <div class="col-md-4" style="margin:auto;">
+
+            <br>
+
+            <div class="card" style="width: 18rem; margin: auto; ">
+                <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-title" style="color: rgb(0, 0, 0); overflow: hidden; white-space: nowrap;">@game.Name</p>
+                </div>
+            </div>
+
+
+        </div>
+
+    }
+</div>
+

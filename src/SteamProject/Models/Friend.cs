@@ -18,6 +18,8 @@ public partial class Friend
 
     public string AvatarUrl { get; set; } = null!;
 
+    public string AvatarFullUrl { get; set; } = null!;
+
     public int LastLogOff { get; set; }
 
     public string? GameExtraInfo { get; set; }

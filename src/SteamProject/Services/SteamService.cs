@@ -113,13 +113,16 @@ public class SteamService : ISteamService
         {
             var poco = JsonSerializer.Deserialize<LibraryPOCO>(jsonResponse);
             var games = new List<Game>();
-            if( poco.response.games.Count() != 0 )
+            if( poco.response.games is not null )
             {
-                foreach(var game in poco.response.games)
+                if( poco.response.games.Count() != 0 )
                 {
-                    var temp = new Game();
-                    temp = temp.TakeLibraryInfoPOCO(game, userId);
-                    games.Add(temp);
+                    foreach(var game in poco.response.games)
+                    {
+                        var temp = new Game();
+                        temp = temp.TakeLibraryInfoPOCO(game, userId);
+                        games.Add(temp);
+                    }
                 }
             }
             return games.OrderBy(g => g.Name);

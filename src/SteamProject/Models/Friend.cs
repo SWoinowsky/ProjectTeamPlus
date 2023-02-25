@@ -18,13 +18,11 @@ public partial class Friend
 
     public string AvatarUrl { get; set; } = null!;
 
-    public string AvatarFullUrl { get; set; } = null!;
-
     public int LastLogOff { get; set; }
 
     public string? GameExtraInfo { get; set; }
 
-    public string? GameId { get; set; }
+    public int? GameId { get; set; }
 
     public virtual User Root { get; set; } = null!;
 
@@ -37,6 +35,6 @@ public partial class Friend
         AvatarFullUrl = userPOCOIn.avatarfull;
         LastLogOff = userPOCOIn.lastlogoff;
         GameExtraInfo = userPOCOIn.gameextrainfo;
-        GameId = userPOCOIn.gameid;
+        //GameId = userPOCOIn.gameid;
     }
 }

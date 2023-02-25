@@ -24,27 +24,27 @@ public partial class User
 
     public virtual ICollection<Friend> Friends { get; } = new List<Friend>();
 
-    public virtual ICollection<Game> Games { get; } = new List<Game>();
-
     public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
 
-    public void TakeSteamPOCO ( SteamUserPOCO poco )
+    public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
+
+    public void TakeSteamPOCO(SteamUserPOCO poco)
     {
         var userData = poco.response.players[0];
-        
+
         SteamId = userData.steamid;
         SteamName = userData.personaname;
         ProfileUrl = userData.profileurl;
         AvatarUrl = userData.avatarfull;
-        PersonaState = userData.personastate;        
+        PersonaState = userData.personastate;
     }
 
-    public void AddSteamInfo ( User user )
+    public void AddSteamInfo(User user)
     {
         SteamId = user.SteamId;
         SteamName = user.SteamName;
         ProfileUrl = user.ProfileUrl;
         AvatarUrl = user.AvatarUrl;
-        PersonaState = user.PersonaState; 
+        PersonaState = user.PersonaState;
     }
 }

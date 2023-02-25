@@ -43,6 +43,9 @@ function updateFriendStatuses( data ) {
             <td class="FriendStateTd"> <i> ${states[state]} </i> </td>
             <td class="FriendGame"> ${game} </td>
         `
+        entry.onclick = function () {
+            location.href = `/friend/${item.steamId}`
+        }
         ;
 
         table.append(entry);

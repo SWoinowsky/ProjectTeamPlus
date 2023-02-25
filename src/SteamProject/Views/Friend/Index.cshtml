@@ -11,7 +11,7 @@
 
 
 <div class="text-center">
-    <img src="@Model.Friend.AvatarFullUrl">
+    <img src="@Model.Friend.AvatarFullUrl" >
     <h1> @Model.Friend.SteamName </h1>
     <h3 id="friendPageStatus"> </h3>
     <i id="friendGameStatus"> </i>
@@ -26,7 +26,7 @@
             <br>
 
             <div class="card friendCard" style="width: 18rem; margin: auto; background-image: linear-gradient(to bottom right, rgb(26, 28, 76), rgb(59, 52, 80), rgb(26, 28, 76)); ">
-                <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px" alt="@string.Format("{0}", @game.Name)">
+                <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:215px; width=460px" alt="@string.Format("{0}", @game.Name)">
                 <div class="card-body">
                     <p class="card-title" style="overflow: hidden; white-space: nowrap;">@game.Name</p>
                 </div>

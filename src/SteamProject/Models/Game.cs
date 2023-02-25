@@ -9,8 +9,6 @@ public partial class Game
 {
     public int Id { get; set; }
 
-    public int OwnerId { get; set; }
-
     public int AppId { get; set; }
 
     public string Name { get; set; } = null!;
@@ -25,9 +23,7 @@ public partial class Game
 
     public int LastPlayed { get; set; }
 
-    public bool Hidden { get; set; }
-
-    public virtual User Owner { get; set; } = null!;
+    public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
 
     public void FromJson(string obj, int userId, User user)
     {
@@ -37,14 +33,14 @@ public partial class Game
         PlayTime = (int) userGames["playtime_forever"];
         IconUrl = (string) userGames["img_icon_url"];
         LastPlayed = (int) userGames["rtime_last_played"];
-        OwnerId = userId;
-        Owner = user;
+        //OwnerId = userId;
+        //Owner = user;
     }
     
     public Game TakeLibraryInfoPOCO(Games game, int userId)
     {
         var temp = new Game();
-        temp.OwnerId = userId;
+        //temp.OwnerId = userId;
         temp.AppId = game.appid;
         temp.Name = game.name;
         temp.PlayTime = game.playtime_forever;
@@ -54,27 +50,8 @@ public partial class Game
         return temp;
     }
 
-    public void TakeGameInfoPOCO(GameInfoPOCO poco)
+    internal void TakeGameInfoPOCO(GameInfoPOCO? poco)
     {
-        // if(poco.response.data != null)
-        // {
-        //     var userData = poco.response.data;
-        //     if(userData.short_description == null)
-        //     {
-        //         DescShort = "No description available";
-        //         DescLong = "No description available";
-        //     }
-        //     else
-        //         DescShort = "No description available";
-        //         if(userData.short_description.Count() > 200)
-        //             DescLong = userData.short_description[..200] + "...";
-        //         else
-        //             DescLong = userData.short_description;
-        // }
-        // else
-        // {
-        //     DescShort = "No description available";
-        //     DescLong = "No description available";
-        // }
+        throw new NotImplementedException();
     }
 }

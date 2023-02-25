@@ -25,6 +25,8 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<UserAchievement> UserAchievements { get; set; }
 
+    public virtual DbSet<UserGameInfo> UserGameInfos { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=SteamInfoConnection");
 
@@ -32,7 +34,7 @@ public partial class SteamInfoDbContext : DbContext
     {
         modelBuilder.Entity<Friend>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07E2DF4165");
+            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC0726DEB105");
 
             entity.ToTable("Friend");
 
@@ -50,7 +52,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC078FFF72FF");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC072FCA775A");
 
             entity.ToTable("Game");
 
@@ -58,16 +60,11 @@ public partial class SteamInfoDbContext : DbContext
             entity.Property(e => e.DescShort).HasMaxLength(512);
             entity.Property(e => e.IconUrl).HasMaxLength(512);
             entity.Property(e => e.Name).HasMaxLength(512);
-
-            entity.HasOne(d => d.Owner).WithMany(p => p.Games)
-                .HasForeignKey(d => d.OwnerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Game_Fk_User");
         });
 
         modelBuilder.Entity<GameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC0741B80733");
+            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC071CE3F716");
 
             entity.ToTable("GameAchievement");
 
@@ -79,7 +76,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC07221D6F63");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0716E16B05");
 
             entity.ToTable("User");
 
@@ -92,17 +89,38 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC07AFFA8A7B");
+            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC07F0A47871");
 
             entity.ToTable("UserAchievement");
 
-            entity.Property(e => e.ApiName).HasMaxLength(100);
-            entity.Property(e => e.DisplayName).HasMaxLength(50);
+            entity.Property(e => e.UnlockTime).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Achievement).WithMany(p => p.UserAchievements)
+                .HasForeignKey(d => d.AchievementId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("UserAchievement_FK_Achievement");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.UserAchievements)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("UserAchievement_Fk_User");
+        });
+
+        modelBuilder.Entity<UserGameInfo>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC073D2489EF");
+
+            entity.ToTable("UserGameInfo");
+
+            entity.HasOne(d => d.Game).WithMany(p => p.UserGameInfos)
+                .HasForeignKey(d => d.GameId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("UserGameInfo_FK_Game");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.UserGameInfos)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("UserGameInfo_FK_User");
         });
 
         OnModelCreatingPartial(modelBuilder);

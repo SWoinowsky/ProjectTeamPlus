@@ -1,0 +1,68 @@
+
+@model SteamProject.Models.ViewModels.FriendsVM
+
+@{
+    ViewData["Title"] = "Friend's Page";
+}
+
+<input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
+<input type="hidden" id="FriendSteamId" name="FriendSteamId" value="@Model.Friend.SteamId">
+<input type="hidden" id="Id" name="Id" value="@Model.Id">
+
+
+<div class="text-center">
+    <img src="@Model.Friend.AvatarFullUrl" >
+    <h1> @Model.Friend.SteamName </h1>
+    <h3 id="friendPageStatus"> </h3>
+    <i id="friendGameStatus"> </i>
+</div>
+
+@if( Model.SharedGames.Count() == 0 )
+{
+    <br>
+    <h1> It seems like this list is empty! A couple things could have happened:</h1>
+    <br>
+    <ul>
+        <li>
+            <h3> You and your friend have no games in common </h3>
+        </li>       
+
+        <li>
+            <h3> Your friend's steam library is set to private </h3> 
+        </li>
+        
+        <li>
+            <h3> There was an error on our end. If this is the case, we are deeply sorry. </h3>
+            <i> We are working to make this application as bulletproof as possible!
+                If refreshing the page doesn't work, try again in a few minutes! </i>
+        </li>
+
+    </ul>
+}
+
+<div class="row" style="align-items: center;">
+    @foreach (var game in Model.SharedGames)
+    {
+        
+        <div class="col-md-4" style="margin:auto;">
+
+            <br>
+
+            <div class="card friendCard" style="width: 18rem; margin: auto; background-image: linear-gradient(to bottom right, rgb(26, 28, 76), rgb(59, 52, 80), rgb(26, 28, 76)); ">
+                <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:215px; width=460px" alt="@string.Format("{0}", @game.Name)">
+                <div class="card-body">
+                    <p class="card-title" style="overflow: hidden; white-space: nowrap;">@game.Name</p>
+                </div>
+            </div>
+
+
+        </div>
+
+    }
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="~/js/friendPage.js"></script>
+}

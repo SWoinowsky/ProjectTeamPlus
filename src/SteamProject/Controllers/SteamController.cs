@@ -48,7 +48,7 @@ public class SteamController : ControllerBase
     [HttpPost("hide")]
     public ActionResult Hide(string id)
     {
-        var game = _userGameInfoRepository.GetAll(g => g.GameId == Int32.Parse(id)).ToList()[0];
+        var game = _userGameInfoRepository.GetAll().Where(g => g.Game.AppId == Int32.Parse(id)).First();
         game.Hidden = true;
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
@@ -61,5 +61,13 @@ public class SteamController : ControllerBase
         listFriends.OrderBy( x => x.Id );
 
         return Ok(listFriends);
+    }
+
+    [HttpGet("friendSpecific")]
+    public ActionResult SpecificFriend( string userSteamId, int userId, string friendSteamId )
+    {
+        var friend = _steamService.GetFriendSpecific( userSteamId, userId, friendSteamId );
+
+        return Ok( friend );
     }
 }

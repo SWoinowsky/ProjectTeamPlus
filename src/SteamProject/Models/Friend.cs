@@ -18,6 +18,8 @@ public partial class Friend
 
     public string AvatarUrl { get; set; } = null!;
 
+    public string AvatarFullUrl { get; set; } = null!;
+
     public int LastLogOff { get; set; }
 
     public string? GameExtraInfo { get; set; }
@@ -26,12 +28,13 @@ public partial class Friend
 
     public virtual User Root { get; set; } = null!;
 
-    public void TakePlayerPOCO(Player userPOCOIn)
+    public void TakePlayerPOCO( Player userPOCOIn )
     {
         SteamId = userPOCOIn.steamid;
         SteamName = userPOCOIn.personaname;
         PersonaState = userPOCOIn.personastate;
         AvatarUrl = userPOCOIn.avatar;
+        AvatarFullUrl = userPOCOIn.avatarfull;
         LastLogOff = userPOCOIn.lastlogoff;
         GameExtraInfo = userPOCOIn.gameextrainfo;
         //GameId = userPOCOIn.gameid;

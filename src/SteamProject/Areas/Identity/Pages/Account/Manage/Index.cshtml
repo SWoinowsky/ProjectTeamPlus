@@ -54,7 +54,7 @@
                     <tr class="FriendEntry">
                         <td> <img src=@friend.AvatarUrl> </td>
                         <td> @friend.SteamName </td>
-                        <td class="FriendStateTd" id=@friend.SteamName> <i> @Model.States[friend.PersonaState ?? 0] </i> </td>
+                        <td class="FriendStateTd" id=@friend.SteamName> <i> @Model.States[friend.PersonaState] </i> </td>
                         <td class="FriendGame" id=@friend.SteamName > @friend.GameExtraInfo </td>
                     </tr>
                 }

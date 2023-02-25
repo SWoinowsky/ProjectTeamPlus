@@ -66,6 +66,7 @@ var SteamApiToken = builder.Configuration["SteamKey"];
 builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserGameInfoRepository, UserGameInfoRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IFriendRepository, FriendRepository>();
  

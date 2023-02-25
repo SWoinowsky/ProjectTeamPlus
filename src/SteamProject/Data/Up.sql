@@ -24,9 +24,10 @@ CREATE TABLE [Friend]
 	,[SteamName]		NVARCHAR(50)	NOT NULL
 	,[PersonaState]		INT				NOT NULL
 	,[AvatarUrl]		NVARCHAR(100)	NOT NULL
+	,[AvatarFullUrl]	NVARCHAR(100)	NOT NULL
 	,[LastLogOff]		INT				NOT NULL
 	,[GameExtraInfo]	NVARCHAR(100)
-	,[GameId]			INT
+	,[GameId]			NVARCHAR(100)
 );
 
 CREATE TABLE [Game]

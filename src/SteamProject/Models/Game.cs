@@ -40,7 +40,7 @@ public partial class Game
         OwnerId = userId;
         Owner = user;
     }
-
+    
     public Game TakeLibraryInfoPOCO(Games game, int userId)
     {
         var temp = new Game();
@@ -77,5 +77,4 @@ public partial class Game
         //     DescLong = "No description available";
         // }
     }
-
 }

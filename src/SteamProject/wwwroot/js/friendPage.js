@@ -12,7 +12,7 @@ function updateFriendStatus( data )
 {
     var states = ["offline", "online", "busy", "away", "snooze"];
     var state =  data.personaState;
-
+    
     if( state == null )
     {
         state = 0;

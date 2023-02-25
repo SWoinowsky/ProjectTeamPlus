@@ -95,7 +95,7 @@ animation: loading-spinner 1s linear infinite;
 
 .friendCard {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 1s;
+  transition: 0.5s;
 }
 
 .friendCard:hover {

@@ -9,16 +9,13 @@ public partial class UserAchievement
 
     public int OwnerId { get; set; }
 
-    public int GameId { get; set; }
-
-    public string ApiName { get; set; } = null!;
-
-    public string DisplayName { get; set; } = null!;
+    public int AchievementId { get; set; }
 
     public bool Achieved { get; set; }
 
-    public int? UnlockTime { get; set; }
+    public DateTime? UnlockTime { get; set; }
+
+    public virtual GameAchievement Achievement { get; set; } = null!;
 
     public virtual User Owner { get; set; } = null!;
-    
 }

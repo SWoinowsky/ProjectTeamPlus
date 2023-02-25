@@ -38,7 +38,7 @@ function updateFriendStatuses( data ) {
         entry.id = item.steamName;
         entry.innerHTML = 
         `
-            <td> <img src=${item.avatarUrl}> </td>
+            <td> <img src=${item.avatarUrl} > </td>
             <td> ${item.steamName} </td>
             <td class="FriendStateTd"> <i> ${states[state]} </i> </td>
             <td class="FriendGame"> ${game} </td>

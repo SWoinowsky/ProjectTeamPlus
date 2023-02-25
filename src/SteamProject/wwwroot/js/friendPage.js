@@ -20,6 +20,12 @@ function updateFriendStatus( data )
 
     var statusElement = document.getElementById("friendPageStatus");
     statusElement.innerHTML = states[state];
+
+    if( data.gameExtraInfo != null )
+    {
+        var gameElement = document.getElementById("friendGameStatus");
+        gameElement.innerHTML = `Playing ${data.gameExtraInfo}`;
+    }
 }
 
 function ajaxFetch() {

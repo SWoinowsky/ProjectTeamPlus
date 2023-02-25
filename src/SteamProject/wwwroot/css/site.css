@@ -85,6 +85,12 @@ animation: loading-spinner 1s linear infinite;
 
 #friendsListTable tr:nth-child(even){background-color: rgb(43, 64, 104);};
 
+.FriendImage
+{
+  height:32px; 
+  width: 32px;
+}
+
 /* FRIENDS PAGE WORK */
 
 .friendCard {

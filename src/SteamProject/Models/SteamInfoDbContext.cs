@@ -38,6 +38,7 @@ public partial class SteamInfoDbContext : DbContext
 
             entity.ToTable("Friend");
 
+            entity.Property(e => e.AvatarFullUrl).HasMaxLength(100);
             entity.Property(e => e.AvatarUrl).HasMaxLength(100);
             entity.Property(e => e.GameExtraInfo).HasMaxLength(100);
             entity.Property(e => e.SteamId).HasMaxLength(50);

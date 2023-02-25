@@ -27,12 +27,14 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<UserGameInfo> UserGameInfos { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer("Name=SteamInfoConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Friend>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC0738B70A91");
+            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC0726DEB105");
 
             entity.ToTable("Friend");
 
@@ -49,7 +51,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07562F0D64");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC072FCA775A");
 
             entity.ToTable("Game");
 
@@ -61,7 +63,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<GameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC0743F0BF22");
+            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC071CE3F716");
 
             entity.ToTable("GameAchievement");
 
@@ -73,7 +75,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0721232D6B");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0716E16B05");
 
             entity.ToTable("User");
 
@@ -86,7 +88,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC070C764DF8");
+            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC07F0A47871");
 
             entity.ToTable("UserAchievement");
 
@@ -105,7 +107,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserGameInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC07599E5A3B");
+            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC073D2489EF");
 
             entity.ToTable("UserGameInfo");
 

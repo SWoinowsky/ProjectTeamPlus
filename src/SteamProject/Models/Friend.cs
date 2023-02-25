@@ -1,6 +1,6 @@
-﻿using SteamProject.Models.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -25,11 +25,6 @@ public partial class Friend
     public int? GameId { get; set; }
 
     public virtual User Root { get; set; } = null!;
-
-    public void TakeSteamPOCO(FriendPOCO poco, string rootId)
-    {
-        SteamId = poco.steamid;
-    }
 
     public void TakePlayerPOCO(Player userPOCOIn)
     {

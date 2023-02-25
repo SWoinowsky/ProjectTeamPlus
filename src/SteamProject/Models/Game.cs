@@ -24,7 +24,8 @@ public partial class Game
     public int LastPlayed { get; set; }
 
     public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
-        public void FromJson(string obj, int userId, User user)
+
+    public void FromJson(string obj, int userId, User user)
     {
         JObject userGames = JObject.Parse(obj);
         AppId = (int) userGames["appid"];
@@ -49,28 +50,8 @@ public partial class Game
         return temp;
     }
 
-    public void TakeGameInfoPOCO(GameInfoPOCO poco)
+    internal void TakeGameInfoPOCO(GameInfoPOCO? poco)
     {
-        // if(poco.response.data != null)
-        // {
-        //     var userData = poco.response.data;
-        //     if(userData.short_description == null)
-        //     {
-        //         DescShort = "No description available";
-        //         DescLong = "No description available";
-        //     }
-        //     else
-        //         DescShort = "No description available";
-        //         if(userData.short_description.Count() > 200)
-        //             DescLong = userData.short_description[..200] + "...";
-        //         else
-        //             DescLong = userData.short_description;
-        // }
-        // else
-        // {
-        //     DescShort = "No description available";
-        //     DescLong = "No description available";
-        // }
+        throw new NotImplementedException();
     }
-
 }

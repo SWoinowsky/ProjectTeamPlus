@@ -1,6 +1,6 @@
-﻿using SteamProject.Models.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -27,6 +27,7 @@ public partial class User
     public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
 
     public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
+
     public void TakeSteamPOCO(SteamUserPOCO poco)
     {
         var userData = poco.response.players[0];

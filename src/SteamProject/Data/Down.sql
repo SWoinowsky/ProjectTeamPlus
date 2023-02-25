@@ -12,4 +12,4 @@ DROP TABLE [Friend];
 DROP TABLE [Game];
 DROP TABLE [GameAchievement];
 DROP TABLE [UserAchievement];
-DROP TABLE [UserGameInfo]
+DROP TABLE [UserGameInfo];

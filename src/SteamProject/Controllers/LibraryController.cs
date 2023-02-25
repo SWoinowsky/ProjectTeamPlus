@@ -45,6 +45,9 @@ public class LibraryController: Controller
             var user = _userRepository.GetUser(id);
             userLibraryVM._user = user;
             var tempGameInfo = _userGameInfoRepository.GetAll(g => g.OwnerId == user.Id).ToList();
+
+            userLibraryVM._games = new List<Game>();
+            
             if(tempGameInfo.Count() == 0)
             {
                 var games = _steamService.GetGames(user.SteamId, user.Id);
@@ -71,6 +74,10 @@ public class LibraryController: Controller
                     {
                         throw new Exception("Current game couldn't be saved to the db!" + game.Name);
                     }
+
+                    userLibraryVM._games.Add(game);
+
+
                 }
             }
             else
@@ -78,7 +85,7 @@ public class LibraryController: Controller
                 var games = tempGameInfo;
                 if(games == null)
                     return View();
-                userLibraryVM._games = new List<Game>();
+                // userLibraryVM._games = new List<Game>();
                 foreach(var game in games)
                 {  
                     var tempGame = _gameRepository.FindById(game.GameId);

@@ -10,6 +10,7 @@ using SteamProject.Models;
 using Microsoft.AspNetCore.Identity;
 using SteamProject.Services;
 using Microsoft.AspNetCore.Authorization;
+using SteamProject.ViewModels;
 
 namespace SteamProject.Controllers;
 
@@ -19,18 +20,21 @@ public class LibraryController: Controller
     private readonly IUserRepository _userRepository;
     private readonly IGameRepository _gameRepository;
     private readonly ISteamService _steamService;
+    private readonly IUserGameInfoRepository _userGameInfoRepository;
 
-    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, ISteamService steamService)
+    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository,IUserGameInfoRepository userGameInfoRepository, ISteamService steamService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _gameRepository = gameRepository;
         _steamService = steamService;
+        _userGameInfoRepository = userGameInfoRepository;
     }
 
     [Authorize]
     public IActionResult Index()
     {
+        var userLibraryVM = new UserLibraryVM();
         if(_userManager.GetUserId(User) is null)
         {
             return View();
@@ -39,8 +43,9 @@ public class LibraryController: Controller
         {
             var id = _userManager.GetUserId(User);
             var user = _userRepository.GetUser(id);
-            var temp = _gameRepository.GetAll(g => g.OwnerId == user.Id).ToList();
-            if(temp.Count() == 0)
+            userLibraryVM._user = user;
+            var tempGameInfo = _userGameInfoRepository.GetAll(g => g.OwnerId == user.Id).ToList();
+            if(tempGameInfo.Count() == 0)
             {
                 var games = _steamService.GetGames(user.SteamId, user.Id);
                 if(games == null)
@@ -48,6 +53,18 @@ public class LibraryController: Controller
                 foreach(var game in games)
                 {
                     try{
+                        _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
+                            OwnerId = user.Id,
+                            GameId = game.AppId,
+                            PlayTime = game.PlayTime,
+                            LastPlayed = game.LastPlayed,
+                            Hidden = false,
+                            Followed = false,
+                            Game = game,
+                            Owner = user
+                        });
+                        game.PlayTime = 0;
+                        game.LastPlayed = 0;
                         _gameRepository.AddOrUpdate(game);
                     }
                     catch
@@ -58,16 +75,17 @@ public class LibraryController: Controller
             }
             else
             {
-                var games = temp;
+                var games = tempGameInfo;
                 if(games == null)
                     return View();
-                user.Games.Clear();
+                userLibraryVM._games = new List<Game>();
                 foreach(var game in games)
                 {  
-                    user.Games.Add(game);
+                    var tempGame = _gameRepository.FindById(game.GameId);
+                    userLibraryVM._games.Add(tempGame);
                 }
             }
-            return View(user);
+            return View(userLibraryVM);
         }
     }
 }

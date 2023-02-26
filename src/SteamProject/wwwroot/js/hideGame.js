@@ -2,6 +2,7 @@ function setHiddenGame(name)
 {
     var gameName = document.getElementById(name);
     var gameId = gameName.getAttribute('value');
+    console.log("Hid " + name);
     $.ajax({
         type: "POST",
         dataType: "text",
@@ -15,6 +16,7 @@ function setUnhideGame(name)
 {
     var gameName = document.getElementById(name);
     var gameId = gameName.getAttribute('value');
+    console.log("Unhid " + name);
     $.ajax({
         type: "POST",
         dataType: "text",
@@ -23,13 +25,18 @@ function setUnhideGame(name)
         error: errorOnAjax
     })
 }
- 
-function hideGame(gameName)
-{
-    gameName.style.display = "none";
-    gameName.hidden = true;
-}
 
+function refreshLibrary()
+{
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/Steam/refresh`,
+        success: console.log("Library refreshed"),
+        error: errorOnAjax
+    })
+}
+ 
 function hideGame(gameName)
 {
     gameName.style.display = "none";

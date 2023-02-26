@@ -19,7 +19,8 @@ else
                 <h1>@Model._user.SteamName's Steam Library</h1>
                 <div>
                     Your full steam profile can be found here: <a href="@Model._user.ProfileUrl">@Model._user.SteamName</a><br>
-                    <button onclick="showHiddenGamesModal()">Show hidden games</button>
+                    <button onclick="showHiddenGamesModal()">Show hidden games</button><br>
+                    <button onclick="refreshLibrary()">Refresh library</button>
                 </div>
             </div>
         </div>

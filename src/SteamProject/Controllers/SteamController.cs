@@ -63,6 +63,13 @@ public class SteamController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("refresh")]
+    public ActionResult RefreshLibrary()
+    {
+        
+        return Ok();
+    }
+
     [HttpGet("friends")]
     public ActionResult SteamFriends(string steamid, int userId)
     {

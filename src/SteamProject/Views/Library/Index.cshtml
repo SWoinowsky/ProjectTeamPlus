@@ -1,4 +1,4 @@
-@model SteamProject.Models.User
+@model SteamProject.ViewModels.UserLibraryVM
 @{
     ViewData["Title"] = "Game Library";
 }
@@ -12,13 +12,13 @@ else
         <div class="row">
             <div class="col-sm-3">
                 <div>
-                    <img class="user-avatar" id="@Model.SteamId" src="@Model.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
+                    <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
                 </div>
             </div>
             <div class="col-sm-6">
-                <h1>@Model.SteamName's Steam Library</h1>
+                <h1>@Model._user.SteamName's Steam Library</h1>
                 <div>
-                    Your full steam profile can be found here: <a href="@Model.ProfileUrl">@Model.SteamName</a><br>
+                    Your full steam profile can be found here: <a href="@Model._user.ProfileUrl">@Model._user.SteamName</a><br>
                     <button onclick="showHiddenGamesModal()">Show hidden games</button>
                 </div>
             </div>
@@ -29,23 +29,24 @@ else
 
     <div class="flex-container">
         @{
-            foreach(var game in Model.Games)
+            foreach(var game in Model._user.UserGameInfos)
             {
+                var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
                 if(game.Hidden == false)
                 {
-                    <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
-                        <button class="achievement-btn" id="@game.AppId"></button>
-                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:200px; width=200px"/><br>
+                    <div class="flex-item" id="@tempGame.Name" value="@game.Game.AppId" style="padding: 2px;">
+                        <button class="achievement-btn" id="@game.Game.AppId"></button>
+                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:200px; width=200px"/><br>
                         @{
-                            var index = game.Name.IndexOf("'");
+                            var index = tempGame.Name.IndexOf("'");
                             if(index > -1)
                             {
-                                var name = game.Name.Substring(0, index) + "\\" + game.Name.Substring(index);
+                                var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
                                 <button onclick="setHiddenGame('@name')">Hide game</button>
                             }
                             else
                             {
-                                <button onclick="setHiddenGame('@game.Name')" name=@game.AppId>Hide game</button>
+                                <button onclick="setHiddenGame('@tempGame.Name')" name=@game.Game.AppId>Hide game</button>
                             }
                         } 
                     </div>
@@ -62,16 +63,28 @@ else
                     <div class="modal-body">
                         <div class="flex-container">
                             @{
-                                var temp = Model.Games.Where(g => g.Hidden == true).ToList();
+                                var temp = Model._user.UserGameInfos.Where(g => g.Hidden == true).ToList();
                                 if(temp.Count() > 0)
                                 {
-                                    foreach(var game in Model.Games)
+                                    foreach(var game in Model._user.UserGameInfos)
                                     {
                                         if(game.Hidden)
                                         {
-                                        <div class="flex-item" id="@game.Name" value="@game.AppId" style="padding: 2px;">
-                                            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:100px; width=120px"/>
-                                        </div>
+                                            var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
+                                            <div class="flex-item" id="@tempGame.Name" value="@game.Game.AppId" style="padding: 2px;">
+                                                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px; width=120px"/><br>
+                                                @{var index = tempGame.Name.IndexOf("'");
+                                                    if(index > -1)
+                                                    {
+                                                        var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
+                                                        <button onclick="setUnhideGame('@name')">Unhide game</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button onclick="setUnhideGame('@tempGame.Name')" name=@game.Game.AppId>Unhide game</button>
+                                                    }
+                                                }
+                                            </div>
                                         }
                                     } 
                                 }

@@ -32,7 +32,7 @@ function refreshLibrary()
         type: "GET",
         dataType: "json",
         url: `/api/Steam/refresh`,
-        success: console.log("Library refreshed"),
+        success: window.location.reload(),
         error: errorOnAjax
     })
 }

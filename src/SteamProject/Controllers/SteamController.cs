@@ -54,6 +54,15 @@ public class SteamController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("unhide")]
+    public ActionResult Unhide(string id)
+    {
+        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
+        game.Hidden = false;
+        _userGameInfoRepository.AddOrUpdate(game);
+        return Ok();
+    }
+
     [HttpGet("friends")]
     public ActionResult SteamFriends(string steamid, int userId)
     {

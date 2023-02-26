@@ -10,7 +10,26 @@ function setHiddenGame(name)
         error: errorOnAjax
     })
 }
+
+function setUnhideGame(name)
+{
+    var gameName = document.getElementById(name);
+    var gameId = gameName.getAttribute('value');
+    $.ajax({
+        type: "POST",
+        dataType: "text",
+        url: `/api/Steam/unhide?id=${gameId}`,
+        success: hideGame(gameName),
+        error: errorOnAjax
+    })
+}
  
+function hideGame(gameName)
+{
+    gameName.style.display = "none";
+    gameName.hidden = true;
+}
+
 function hideGame(gameName)
 {
     gameName.style.display = "none";

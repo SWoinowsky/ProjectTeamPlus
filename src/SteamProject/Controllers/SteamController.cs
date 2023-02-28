@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text.Json;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace SteamProject.Controllers;
@@ -14,12 +15,16 @@ namespace SteamProject.Controllers;
 
 public class SteamController : ControllerBase
 {
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly IUserRepository _userRepository;
     private readonly ISteamService _steamService;
     private readonly IGameRepository _gameRepository;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
 
-    public SteamController( ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository )
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository )
     {
+        _userManager = userManager;
+        _userRepository = userRepository;
         _steamService = steamService;
         _gameRepository = gameRepository;
         _userGameInfoRepository = userGameInfoRepository;
@@ -48,10 +53,28 @@ public class SteamController : ControllerBase
     [HttpPost("hide")]
     public ActionResult Hide(string id)
     {
-        var game = _userGameInfoRepository.GetAll().Where(g => g.Game.AppId == Int32.Parse(id)).First();
+        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
         game.Hidden = true;
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
+    }
+
+    [HttpPost("unhide")]
+    public ActionResult Unhide(string id)
+    {
+        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
+        game.Hidden = false;
+        _userGameInfoRepository.AddOrUpdate(game);
+        return Ok();
+    }
+
+    [HttpGet("refresh")]
+    public ActionResult RefreshLibrary()
+    {
+        var routeValues = new RouteValueDictionary {
+            {"refresh", true}
+        };
+        return RedirectToAction("Index", "Library", routeValues);
     }
 
     [HttpPost("follow")]

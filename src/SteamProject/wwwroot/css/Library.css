@@ -23,13 +23,15 @@
     right: 5px;
 }
 
+
 .hide-btn, .follow-btn {
+    transition: all 1s ease;
     position: absolute;
     opacity: 30%;
-    transition: all 1s ease;
     border-radius: 15%;
-    font-size: 1.5rem
+    font-size: 1.5rem;
 }
+
 
 .gameContainer {
     transition: all 1s ease;

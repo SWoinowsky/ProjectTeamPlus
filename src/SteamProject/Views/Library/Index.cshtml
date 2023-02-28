@@ -13,14 +13,14 @@
 }
 else
 {
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-lg-3">
                 <div>
                     <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-lg-6">
                 <h1>@Model._user.SteamName's Steam Library</h1>
                 <div>
                     Your full steam profile can be found here: <a href="@Model._user.ProfileUrl">@Model._user.SteamName</a><br>
@@ -40,8 +40,11 @@ else
                 if(game.Hidden == false)
                 {
                     <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.AppId" data-toggle="tooltip" title="@game.Game.Name" style="padding: 2px; position: relative">
+                        
                         <button class="achievement-btn" data-toggle="tooltip" title="View Achievements" id="@game.Game.AppId"></button>
+                        
                         <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:200px; width=200px"/><br>
+                        
                         @{
                             var index = tempGame.Name.IndexOf("'");
                             if(index > -1)

@@ -14,8 +14,8 @@
             @foreach (var login in Model.CurrentLogins)
             {
                 <tr>
-                    <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName ID</td>
-                    <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderKey</td>
+                    <td style="color: ivory" id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName ID</td>
+                    <td style="color: ivory" id="@($"login-provider-{login.LoginProvider}")">@login.ProviderKey</td>
                     <td>
                         @if (Model.ShowRemoveButton)
                         {
@@ -46,7 +46,7 @@
             <p>
                 @foreach (var provider in Model.OtherLogins)
                 {
-                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn mx-auto" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png"/></button>
+                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn mx-auto" name="provider" value="@provider.Name" style="color: aqua" title="Log in using your @provider.DisplayName account"><img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png"/></button>
                 }
             </p>
         </div>

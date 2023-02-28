@@ -10,7 +10,7 @@
 
 
 .achievement-btn:hover {
-    opacity: 92%;
+    opacity: 92% !important;
 }
 
 .hide-btn {
@@ -43,9 +43,9 @@
     transition: all 1s ease;
 }
 
-.gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn {
-    opacity: 30%;
-}
+    .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn {
+        opacity: 35%;
+    }
 
 .hide-btn:hover, .follow-btn:hover {
     opacity: 1 !important;

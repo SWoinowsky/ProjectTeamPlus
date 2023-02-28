@@ -14,10 +14,4 @@ public class FriendRepository : Repository<Friend>, IFriendRepository
     {
         return GetAll().Where(x => x.RootId == userId ).ToList<Friend>();
     }
-
-    public Friend GetSpecificFriend(string steamId)
-    {
-        return GetAll().Where( f => f.SteamId == steamId ).FirstOrDefault();
-    }
-    
 }

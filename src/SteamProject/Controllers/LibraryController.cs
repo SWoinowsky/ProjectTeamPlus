@@ -32,8 +32,12 @@ public class LibraryController: Controller
     }
 
     [Authorize]
-    public IActionResult Index()
+    public IActionResult Index(bool refresh)
     {
+        if(refresh == null)
+        {
+            refresh = false;
+        }
         var userLibraryVM = new UserLibraryVM();
         if(_userManager.GetUserId(User) is null)
         {
@@ -45,10 +49,8 @@ public class LibraryController: Controller
             var user = _userRepository.GetUser(id);
             userLibraryVM._user = user;
             var tempGameInfo = _userGameInfoRepository.GetAll(g => g.OwnerId == user.Id).ToList();
-
             userLibraryVM._games = new List<Game>();
-            
-            if(tempGameInfo.Count() == 0)
+            if(tempGameInfo.Count() == 0 || refresh)
             {
                 var games = _steamService.GetGames(user.SteamId, user.Id);
                 if(games == null)
@@ -56,28 +58,36 @@ public class LibraryController: Controller
                 foreach(var game in games)
                 {
                     try{
-                        _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
-                            OwnerId = user.Id,
-                            GameId = game.AppId,
-                            PlayTime = game.PlayTime,
-                            LastPlayed = game.LastPlayed,
-                            Hidden = false,
-                            Followed = false,
-                            Game = game,
-                            Owner = user
-                        });
-                        game.PlayTime = 0;
-                        game.LastPlayed = 0;
-                        _gameRepository.AddOrUpdate(game);
+                        var temp1 = _gameRepository.GetAll(g => g.AppId == game.AppId).ToList();
+                        var checkGameRepo = temp1.Count() == 0;
+                        if(checkGameRepo)
+                        {
+                            var temp2 = _userGameInfoRepository.GetAll(g => g.Id == game.Id).ToList();
+                            var checkUserGameRepo = temp2.Count() == 0;
+                            if(checkUserGameRepo)
+                            {
+                                _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
+                                    OwnerId = user.Id,
+                                    GameId = game.AppId,
+                                    PlayTime = game.PlayTime,
+                                    LastPlayed = game.LastPlayed,
+                                    Hidden = false,
+                                    Followed = false,
+                                    Game = game,
+                                    Owner = user
+                                });
+                                userLibraryVM._games.Add(game);
+                            }
+                            game.PlayTime = 0;
+                            game.LastPlayed = 0;
+                            _gameRepository.AddOrUpdate(game);
+                        }
                     }
                     catch
                     {
                         throw new Exception("Current game couldn't be saved to the db!" + game.Name);
                     }
-
-                    userLibraryVM._games.Add(game);
-
-
+                    
                 }
             }
             else

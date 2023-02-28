@@ -54,6 +54,24 @@ public class SteamController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("follow")]
+    public ActionResult Follow(string id)
+    {
+        var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
+
+        if (game.Followed != true)
+        {
+            game.Followed = true;
+        }
+        else
+        {
+            game.Followed = false;
+        }
+        
+        _userGameInfoRepository.AddOrUpdate(game);
+        return Ok();
+    }
+
     [HttpGet("friends")]
     public ActionResult SteamFriends(string steamid, int userId)
     {

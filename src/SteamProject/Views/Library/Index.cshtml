@@ -19,7 +19,8 @@ else
                 <h1>@Model._user.SteamName's Steam Library</h1>
                 <div>
                     Your full steam profile can be found here: <a href="@Model._user.ProfileUrl">@Model._user.SteamName</a><br>
-                    <button onclick="showHiddenGamesModal()">Show hidden games</button>
+                    <button onclick="showHiddenGamesModal()">Show hidden games</button><br>
+                    <button onclick="refreshLibrary()">Refresh library</button>
                 </div>
             </div>
         </div>
@@ -72,7 +73,18 @@ else
                                         {
                                             var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
                                             <div class="flex-item" id="@tempGame.Name" value="@game.Game.AppId" style="padding: 2px;">
-                                                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px; width=120px"/>
+                                                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px; width=120px"/><br>
+                                                @{var index = tempGame.Name.IndexOf("'");
+                                                    if(index > -1)
+                                                    {
+                                                        var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
+                                                        <button onclick="setUnhideGame('@name')">Unhide game</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button onclick="setUnhideGame('@tempGame.Name')" name=@game.Game.AppId>Unhide game</button>
+                                                    }
+                                                }
                                             </div>
                                         }
                                     } 
@@ -252,7 +264,7 @@ else
 
 @section Scripts
 {
-  <script type="text/javascript" src="~/js/hideGame.js"></script>
+  <script type="text/javascript" src="~/js/libraryPage.js"></script>
   <script type="text/javascript"  src="@(Url.Content("~/js/search.js"))"></script>
   <script type="text/javascript"  src="@(Url.Content("~/js/achievements.js"))"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

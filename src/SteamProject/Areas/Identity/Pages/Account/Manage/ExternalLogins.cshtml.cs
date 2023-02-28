@@ -102,7 +102,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                 return RedirectToPage();
             }
 
-            User currentUser = null;
+            User? currentUser = null;
             if (user != null)
             {
 
@@ -171,7 +171,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                 string[] urlSplit = info.ProviderKey.Split('/');
                 string steamId = urlSplit.Last();
 
-                User currentUser = null;
+                User? currentUser = null;
                 if (userId != null)
                 {
                     //Store steamid in database here somehow

@@ -96,13 +96,6 @@ public class SteamService : ISteamService
         return FriendsList;
     }
 
-    public Friend GetFriendSpecific( string userSteamId, int userId, string friendSteamId )
-    {
-        var returnMe = GetFriendsList(userSteamId, userId).Where( f => f.SteamId == friendSteamId ).FirstOrDefault();
-
-        return returnMe;
-    }
-
     public IEnumerable<Game> GetGames(string userSteamId, int userId)
     {
         string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid={1}&format=json&include_appinfo=1", Token, userSteamId);
@@ -113,17 +106,11 @@ public class SteamService : ISteamService
         {
             var poco = JsonSerializer.Deserialize<LibraryPOCO>(jsonResponse);
             var games = new List<Game>();
-            if( poco.response.games is not null )
+            foreach(var game in poco.response.games)
             {
-                if( poco.response.games.Count() != 0 )
-                {
-                    foreach(var game in poco.response.games)
-                    {
-                        var temp = new Game();
-                        temp = temp.TakeLibraryInfoPOCO(game, userId);
-                        games.Add(temp);
-                    }
-                }
+                var temp = new Game();
+                temp = temp.TakeLibraryInfoPOCO(game, userId);
+                games.Add(temp);
             }
             return games.OrderBy(g => g.Name);
         }          

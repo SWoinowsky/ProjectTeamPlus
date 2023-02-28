@@ -18,6 +18,7 @@ function followGame(gameName, gameId) {
     var followIcon = document.getElementById(`${gameId} followicon`);
     $(followIcon).toggleClass('bi bi-bookmark-dash-fill');
     $(followIcon).toggleClass('bi bi-bookmark-plus');
+    $(followIcon).attr('color', 'green');
 
 }
      

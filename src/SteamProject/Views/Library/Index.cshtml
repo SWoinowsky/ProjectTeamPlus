@@ -71,7 +71,7 @@ else
                                     <i  fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
                                 </button>
 
-                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow Game" onclick="setFollowedGame('@tempGame.Name')" name=@game.Game.AppId>
+                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow/Unfollow Game" onclick="setFollowedGame('@tempGame.Name')" name=@game.Game.AppId>
                                     @if(game.Followed == true)
                                     {
                                         <i fill="CurrentColor" id="@game.Game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>

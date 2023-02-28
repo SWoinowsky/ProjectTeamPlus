@@ -18,16 +18,22 @@
     right: 5px;
 }
 
+
 .follow-btn {
     bottom: 5px;
     right: 5px;
 }
 
+.bi-bookmark-dash-fill {
+    color: lightgreen !important;
+}
+
+
 
 .hide-btn, .follow-btn {
     transition: all 1s ease;
     position: absolute;
-    opacity: 30%;
+    opacity: 0%;
     border-radius: 15%;
     font-size: 1.5rem;
 }
@@ -38,11 +44,11 @@
 }
 
 .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn {
-    opacity: 90%;
+    opacity: 30%;
 }
 
 .hide-btn:hover, .follow-btn:hover {
-    opacity: 1;
+    opacity: 1 !important;
 }
 
 .modal-content {

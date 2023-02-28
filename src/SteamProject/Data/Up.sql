@@ -24,24 +24,34 @@ CREATE TABLE [Friend]
 	,[SteamName]		NVARCHAR(50)	NOT NULL
 	,[PersonaState]		INT				NOT NULL
 	,[AvatarUrl]		NVARCHAR(100)	NOT NULL
+	,[AvatarFullUrl]	NVARCHAR(100)	NOT NULL
 	,[LastLogOff]		INT				NOT NULL
 	,[GameExtraInfo]	NVARCHAR(100)
-	,[GameId]			INT
+	,[GameId]			NVARCHAR(100)
 );
 
 CREATE TABLE [Game]
 (
+    [Id]                INT                NOT NULL IDENTITY(1,1) PRIMARY KEY
+    ,[AppId]            INT                NOT NULL
+    ,[Name]                NVARCHAR(512)    NOT NULL
+    ,[DescShort]        NVARCHAR(512)    NOT NULL
+    ,[DescLong]            NVARCHAR(1024)    NOT NULL
+    ,[PlayTime]            INT                NOT NULL
+    ,[IconUrl]            NVARCHAR(512)    NOT NULL
+    ,[LastPlayed]        INT                NOT NULL
+);
+
+CREATE TABLE [UserGameInfo]
+(
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[OwnerId]			INT				NOT NULL
-	,[AppId]			INT				NOT NULL
-	,[Name]				NVARCHAR(512)	NOT NULL
-	,[DescShort]		NVARCHAR(512)	NOT NULL
-	,[DescLong]			NVARCHAR(1024)	NOT NULL
+	,[GameId]			INT				NOT NULL
 	,[PlayTime]			INT				NOT NULL
-	,[IconUrl]			NVARCHAR(512)	NOT NULL
 	,[LastPlayed]		INT				NOT NULL
 	,[Hidden]			BIT				NOT NULL
-);
+	,[Followed]			BIT				NOT NULL
+)
 
 CREATE TABLE [GameAchievement]
 (
@@ -58,15 +68,16 @@ CREATE TABLE [UserAchievement]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[OwnerId]			INT				NOT NULL
-	,[GameId]			INT				NOT NULL
-	,[ApiName]			NVARCHAR(100)	NOT NULL
-	,[DisplayName]		NVARCHAR(50)	NOT NULL
+	,[AchievementId]	INT				NOT NULL
 	,[Achieved]			BIT				NOT NULL
-	,[UnlockTime]		INT				
+	,[UnlockTime]		DATETIME			
 );
 
 ALTER TABLE [Friend] ADD CONSTRAINT [Friend_Fk_User] FOREIGN KEY ([RootId]) REFERENCES [User] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE [Game] ADD CONSTRAINT [Game_Fk_User] FOREIGN KEY ([OwnerId]) REFERENCES [User] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE	[UserGameInfo] ADD CONSTRAINT [UserGameInfo_FK_User] FOREIGN KEY ([OwnerId]) REFERENCES [User] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE	[UserGameInfo] ADD CONSTRAINT [UserGameInfo_FK_Game] FOREIGN KEY ([GameId]) REFERENCES [Game] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [UserAchievement] ADD CONSTRAINT [UserAchievement_Fk_User] FOREIGN KEY ([OwnerId]) REFERENCES [User] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE	[UserAchievement] ADD CONSTRAINT [UserAchievement_FK_Achievement] FOREIGN KEY ([AchievementId]) REFERENCES [GameAchievement] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 
 

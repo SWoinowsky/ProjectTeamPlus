@@ -10,26 +10,23 @@ public partial class Friend
 
     public int RootId { get; set; }
 
-    public string SteamId { get; set; }
+    public string SteamId { get; set; } = null!;
 
     public string SteamName { get; set; } = null!;
 
-    public int? PersonaState { get; set; }
+    public int PersonaState { get; set; }
 
     public string AvatarUrl { get; set; } = null!;
 
-    public int? LastLogOff { get; set; }
+    public string AvatarFullUrl { get; set; } = null!;
+
+    public int LastLogOff { get; set; }
 
     public string? GameExtraInfo { get; set; }
 
-    public string? GameId { get; set; }
+    public int? GameId { get; set; }
 
     public virtual User Root { get; set; } = null!;
-
-    public void TakeSteamPOCO ( FriendPOCO poco, string rootId )
-    {
-        SteamId = poco.steamid;
-    }
 
     public void TakePlayerPOCO( Player userPOCOIn )
     {
@@ -37,8 +34,9 @@ public partial class Friend
         SteamName = userPOCOIn.personaname;
         PersonaState = userPOCOIn.personastate;
         AvatarUrl = userPOCOIn.avatar;
+        AvatarFullUrl = userPOCOIn.avatarfull;
         LastLogOff = userPOCOIn.lastlogoff;
         GameExtraInfo = userPOCOIn.gameextrainfo;
-        GameId = userPOCOIn.gameid;
+        //GameId = userPOCOIn.gameid;
     }
 }

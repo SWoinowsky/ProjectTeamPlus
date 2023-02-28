@@ -18,4 +18,6 @@ public partial class GameAchievement
     public string IconHiddenUrl { get; set; } = null!;
 
     public bool HiddenFromUsers { get; set; }
+
+    public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
 }

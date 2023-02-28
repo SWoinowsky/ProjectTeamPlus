@@ -44,12 +44,14 @@ else
                             {
                                 var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
                                 <button onclick="setHiddenGame('@name')">Hide game</button>
+                                
                             }
                             else
                             {
                                 <button onclick="setHiddenGame('@tempGame.Name')" name=@game.Game.AppId>Hide game</button>
                             }
-                        } 
+                            <button onclick="showMoreInfo('@game.Game.AppId')">game info here</button>
+                        }
                     </div>
                 }
             }

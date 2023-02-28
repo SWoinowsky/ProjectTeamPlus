@@ -26,6 +26,18 @@ function setUnhideGame(name)
     })
 }
 
+function showMoreInfo(id)
+{
+    var appId = id;
+    $.ajax({
+        type: "POST",
+        dataType: "text",
+        url: `/api/Steam/info?id=${appId}`,
+        success: console.log("Sending user to game info page."),
+        error: errorOnAjax
+    })
+}
+
 function refreshLibrary()
 {
     $.ajax({
@@ -36,7 +48,7 @@ function refreshLibrary()
         error: errorOnAjax
     })
 }
- 
+
 function hideGame(gameName)
 {
     gameName.style.display = "none";

@@ -77,6 +77,15 @@ public class SteamController : ControllerBase
         return RedirectToAction("Index", "Library", routeValues);
     }
 
+    [HttpPost("info")]
+    public ActionResult ShowMoreInfo(string id)
+    {
+        var routeValues = new RouteValueDictionary {
+            {"appId", id}
+        };
+        return RedirectToAction("GameInfo", "Library", routeValues);
+    }
+
     [HttpGet("friends")]
     public ActionResult SteamFriends(string steamid, int userId)
     {

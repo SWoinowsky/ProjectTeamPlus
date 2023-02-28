@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using SteamProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using SteamProject.ViewModels;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Controllers;
 
@@ -103,5 +104,12 @@ public class LibraryController: Controller
             }
             return View(userLibraryVM);
         }
+    }
+
+    [HttpPost]
+    public IActionResult GameInfo(string appId)
+    {
+        var x = appId;
+        return View();
     }
 }

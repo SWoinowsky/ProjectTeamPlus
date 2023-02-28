@@ -11,6 +11,7 @@
 
 .achievement-btn:hover {
     opacity: 92% !important;
+    border-radius: 5%;
 }
 
 .hide-btn {
@@ -34,8 +35,8 @@
     transition: all 1s ease;
     position: absolute;
     opacity: 0%;
-    border-radius: 15%;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    outline: 3px inset black;
 }
 
 
@@ -43,12 +44,13 @@
     transition: all 1s ease;
 }
 
-    .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn {
-        opacity: 35%;
-    }
+.gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn {
+    opacity: 35%;
+}
 
 .hide-btn:hover, .follow-btn:hover {
     opacity: 1 !important;
+    border-radius: 25%;
 }
 
 .modal-content {

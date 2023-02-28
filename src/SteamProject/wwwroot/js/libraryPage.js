@@ -28,11 +28,10 @@ function setUnhideGame(name)
 
 function showMoreInfo(id)
 {
-    var appId = id;
     $.ajax({
         type: "POST",
         dataType: "text",
-        url: `/api/Steam/info?id=${appId}`,
+        url: `/api/Steam/info?id=${id}`,
         success: console.log("Sending user to game info page."),
         error: errorOnAjax
     })

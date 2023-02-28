@@ -109,7 +109,6 @@ public class LibraryController: Controller
     [HttpPost]
     public IActionResult GameInfo(string appId)
     {
-        var x = appId;
         return View();
     }
 }

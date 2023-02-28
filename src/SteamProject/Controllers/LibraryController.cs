@@ -95,7 +95,6 @@ public class LibraryController: Controller
                 var games = tempGameInfo;
                 if(games == null)
                     return View();
-                // userLibraryVM._games = new List<Game>();
                 foreach(var game in games)
                 {  
                     var tempGame = _gameRepository.FindById(game.GameId);

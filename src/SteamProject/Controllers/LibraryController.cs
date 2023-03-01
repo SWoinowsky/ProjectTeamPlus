@@ -108,7 +108,9 @@ public class LibraryController: Controller
     public IActionResult ShowMoreInfo(int appId)
     {
         var game = _gameRepository.GetAll(g => g.AppId == appId).FirstOrDefault();
-        var gameVM = new GameVM(game, appId);
+        var gameVM = _steamService.GetGameInfo(game);
+        gameVM._game = game;
+        gameVM._appId = appId;
         return View(gameVM);
     }
 }

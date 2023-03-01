@@ -26,17 +26,6 @@ function setUnhideGame(name)
     })
 }
 
-function showMoreInfo(id)
-{
-    $.ajax({
-        type: "POST",
-        dataType: "text",
-        url: `/api/Steam/info?id=${id}`,
-        success: console.log("Sending user to game info page."),
-        error: errorOnAjax
-    })
-}
-
 function refreshLibrary()
 {
     $.ajax({

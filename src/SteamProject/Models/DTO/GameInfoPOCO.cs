@@ -11,12 +11,6 @@ public class GameResponse
     public Data data { get; set; }
 }
 
-public class Category
-{
-    public int id { get; set; }
-    public string description { get; set; }
-}
-
 public class Data
 {
     public string short_description { get; set; }
@@ -27,7 +21,6 @@ public class Data
     public PriceOverview price_overview { get; set; }
     public Platforms platforms { get; set; }
     public Metacritic metacritic { get; set; }
-    public List<Category> categories { get; set; }
     public List<Genre> genres { get; set; }
 }
 

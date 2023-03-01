@@ -12,13 +12,11 @@ namespace SteamProject.ViewModels
 {
     public class GameVM
     {
-        public Game _game {get; set;}
         public int _appId {get; set;}
-
-        public GameVM(Game game, int id)
+        public Game _game {get; set;}
+         public GameInfoPOCO _poco {get; set;}
+        public GameVM()
         {
-            _game = game;
-            _appId = id;
         }
     }
 }

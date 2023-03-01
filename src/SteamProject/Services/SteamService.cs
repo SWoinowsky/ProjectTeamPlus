@@ -3,6 +3,7 @@ using SteamProject.Models;
 using SteamProject.Models.DTO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using SteamProject.ViewModels;
 
 namespace SteamProject.Services;
 
@@ -129,8 +130,9 @@ public class SteamService : ISteamService
         }          
     }
 
-    public Game GetGameDescription(Game game)
+    public GameVM GetGameInfo(Game game)
     {
+        var gameVM = new GameVM();
         string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
         string jsonResponse = GetJsonStringFromEndpoint(source);
         
@@ -138,10 +140,9 @@ public class SteamService : ISteamService
         {   
             var regex = new Regex(Regex.Escape(game.AppId.ToString()));
             jsonResponse = regex.Replace(jsonResponse, "response", 1);
-            var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
-            game.TakeGameInfoPOCO(poco);
+            gameVM._poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
         }
-        return game;
+        return gameVM;
     }
 
     public AchievementRoot GetAchievements(string userSteamId, int appId)

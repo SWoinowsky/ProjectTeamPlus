@@ -9,6 +9,7 @@ using SteamProject.Services;
 using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,7 +70,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserGameInfoRepository, UserGameInfoRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IFriendRepository, FriendRepository>();
- 
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -87,6 +88,9 @@ builder.Services.AddAuthentication()
                         options.CorrelationCookie.SameSite = SameSiteMode.None;
                         options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
                     });
+
+// var SendGridToken = builder.Configuration["SendGridKey"];
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

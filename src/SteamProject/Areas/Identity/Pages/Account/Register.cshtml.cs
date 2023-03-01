@@ -151,9 +151,7 @@ namespace SteamProject.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        //waiting until we get an email provider setup
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                       
                     }
                     else
                     {

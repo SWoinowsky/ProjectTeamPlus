@@ -23,9 +23,15 @@ else
             <div class="col-lg-6">
                 <h1>@Model._user.SteamName's Steam Library</h1>
                 <div>
-                    Your full steam profile can be found here: <a href="@Model._user.ProfileUrl">@Model._user.SteamName</a><br>
-                    <button onclick="showHiddenGamesModal()">Show hidden games</button><br>
-                    <button onclick="refreshLibrary()">Refresh library</button>
+                    <button class="btn btn-secondary profile-btn"><a href="@Model._user.ProfileUrl" style="color:white; text-decoration:none">@Model._user.SteamName's Steam Profile</a></button>
+                    <br><br>
+                    <button class="btn btn-secondary show-hidden-btn" data-toggle="tooltip" title="Show Hidden Games" onclick="showHiddenGamesModal()" style="margin-bottom:5px">
+                        <i fill="CurrentColor" class="bi bi-eye"></i> Show hidden games
+                    </button><br><br>
+                    <button class="btn btn-secondary refresh-btn" data-toggle="tooltip" title="Refresh Library" onclick="refreshLibrary()" style="margin-bottom:5px">
+                        <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library
+                    </button><br>
+                    
                 </div>
             </div>
         </div>
@@ -53,7 +59,7 @@ else
                             {
                                 var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
                                 <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@name')">
-                                    <i  fill="CurrentColor" class="bi bi-eye-slash-fill" style="font-size:1.5rem"></i>
+                                    <i  fill="CurrentColor" class="bi bi-eye-slash-fill" style="font-size:1.5em"></i>
                                 </button>
 
                                 <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow Game" onclick="setFollowedGame('@name')">
@@ -84,7 +90,9 @@ else
                                     }
                                 </button>
                             }
-                            <button onclick="showMoreInfo('@game.Game.AppId')">game info here</button>
+                            <button type="button" class="btn btn-outline-info show-btn" data-toggle="tooltip" title="More Game Info" onclick="showMoreInfo('@game.Game.AppId')">
+                                <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                            </button>
                         }
                     </div>
                 }
@@ -114,11 +122,15 @@ else
                                                     if(index > -1)
                                                     {
                                                         var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
-                                                        <button onclick="setUnhideGame('@name')">Unhide game</button>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name')" name=@game.Game.AppId>
+                                                            <i fill="CurrentColor" class="bi bi-eye-fill"></i>
+                                                        </button>
                                                     }
                                                     else
                                                     {
-                                                        <button onclick="setUnhideGame('@tempGame.Name')" name=@game.Game.AppId>Unhide game</button>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name')" name=@game.Game.AppId>
+                                                            <i fill="CurrentColor" class="bi bi-eye-fill"></i>
+                                                        </button>
                                                     }
                                                 }
                                             </div>
@@ -133,7 +145,7 @@ else
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="refreshLibrary()">Close</button>
                     </div>
                 </div>
             </div>

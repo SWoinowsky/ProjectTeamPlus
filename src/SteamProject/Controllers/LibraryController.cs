@@ -105,8 +105,7 @@ public class LibraryController: Controller
             return View(userLibraryVM);
         }
     }
-
-    [HttpPost]
+    
     public IActionResult GameInfo(string appId)
     {
         return View();

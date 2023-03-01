@@ -59,18 +59,26 @@ public class LibraryController: Controller
                 {
                     try{
                         var temp1 = _gameRepository.GetAll(g => g.AppId == game.AppId).ToList();
-                        var checkGameRepo = temp1.Count() == 0;
-                        if(checkGameRepo)
+                        var checkGameRepo = temp1.Any();
+
+                        int playTime = game.LastPlayed;
+                        int lastPlayed = game.LastPlayed;
+
+                        game.PlayTime = 0;
+                        game.LastPlayed = 0;
+
+                        if (checkGameRepo == false)
                         {
                             var temp2 = _userGameInfoRepository.GetAll(g => g.Id == game.Id).ToList();
                             var checkUserGameRepo = temp2.Count() == 0;
-                            if(checkUserGameRepo)
+
+                            if (checkUserGameRepo)
                             {
                                 _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
                                     OwnerId = user.Id,
                                     GameId = game.AppId,
-                                    PlayTime = game.PlayTime,
-                                    LastPlayed = game.LastPlayed,
+                                    PlayTime = playTime,
+                                    LastPlayed = lastPlayed,
                                     Hidden = false,
                                     Followed = false,
                                     Game = game,
@@ -78,10 +86,32 @@ public class LibraryController: Controller
                                 });
                                 userLibraryVM._games.Add(game);
                             }
-                            game.PlayTime = 0;
-                            game.LastPlayed = 0;
+
                             _gameRepository.AddOrUpdate(game);
                         }
+                        else
+                        {
+                            var temp2 = _userGameInfoRepository.GetAll(g => g.Id == game.Id).ToList();
+                            var checkUserGameRepo = temp2.Count() == 0;
+                            if (checkUserGameRepo)
+                            {
+
+                                _userGameInfoRepository.AddOrUpdate(new UserGameInfo
+                                {
+                                    OwnerId = user.Id,
+                                    GameId = game.AppId,
+                                    PlayTime = playTime,
+                                    LastPlayed = lastPlayed,
+                                    Hidden = false,
+                                    Followed = false,
+                                    Game = game,
+                                    Owner = user
+                                });
+                                userLibraryVM._games.Add(game);
+
+                            }
+                        }
+
                     }
                     catch
                     {

@@ -26,17 +26,21 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private IUserRepository _userRepo;
+        private IUserGameInfoRepository _userGameInfoRepo;
+        private IFriendRepository _friendRepo;
 
 
         public ExternalLoginsModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore, IUserRepository userRepo)
+            IUserStore<IdentityUser> userStore, IUserRepository userRepo, IUserGameInfoRepository userGameInfoRepo, IFriendRepository friendRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userStore = userStore;
             _userRepo = userRepo;
+            _userGameInfoRepo = userGameInfoRepo;
+            _friendRepo = friendRepo;
         }
 
         /// <summary>
@@ -108,13 +112,34 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
 
                 if (user.Id != null)
                 {
-                    currentUser = _userRepo.GetAll().Where(u => u.AspNetUserId == user.Id).FirstOrDefault();
+                    currentUser = _userRepo.GetAll().FirstOrDefault(u => u.AspNetUserId == user.Id);
+                    var currentUserGameInfo = _userGameInfoRepo.GetAll().Where(g => g.OwnerId == currentUser.Id).ToList();
+                    var friendInfo = _friendRepo.GetAll().Where(f => f.RootId == currentUser.Id).ToList();
 
                     if (currentUser != null)
                     {
                         try
                         {
                             currentUser.SteamId = null;
+                            currentUser.AvatarUrl = null;
+                            currentUser.ProfileUrl = null;
+                            currentUser.SteamName = null;
+                            currentUser.PlayerLevel = null;
+                            
+                            currentUser.UserAchievements.Clear();
+
+
+                            for (int i = 0; i < currentUserGameInfo.Count; i++)
+                            {
+                                _userGameInfoRepo.Delete(currentUserGameInfo[i]);
+                            }
+
+                            for (int i = 0; i < friendInfo.Count(); i++)
+                            {
+                                _friendRepo.Delete(friendInfo[i]);
+                            }
+                            
+
                             _userRepo.AddOrUpdate(currentUser);
                         }
                         catch (DbUpdateConcurrencyException)
@@ -185,6 +210,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                             try
                             {
                                 currentUser.SteamId = steamId;
+                                
                                 _userRepo.AddOrUpdate(currentUser);
                             }
                             catch (DbUpdateConcurrencyException)

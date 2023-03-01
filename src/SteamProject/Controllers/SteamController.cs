@@ -83,7 +83,7 @@ public class SteamController : ControllerBase
         var routeValues = new RouteValueDictionary {
             {"appId", id}
         };
-        return RedirectToAction("GameInfo", "Library", routeValues);
+        return RedirectToAction("ShowMoreInfo", "Library", routeValues);
     }
 
     [HttpPost("follow")]

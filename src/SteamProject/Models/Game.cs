@@ -52,6 +52,6 @@ public partial class Game
 
     internal void TakeGameInfoPOCO(GameInfoPOCO? poco)
     {
-        throw new NotImplementedException();
+        
     }
 }

@@ -90,9 +90,11 @@ else
                                     }
                                 </button>
                             }
-                            <button type="button" class="btn btn-outline-info show-btn" data-toggle="tooltip" title="More Game Info" onclick="showMoreInfo('@game.Game.AppId')">
-                                <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
-                            </button>
+                            <a href='@Url.Action("ShowMoreInfo", "Library", new {appId = @game.Game.AppId})'>
+                                <button type="submit" class="btn btn-outline-info show-btn" data-toggle="tooltip" title="More Game Info">
+                                    <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                </button>
+                            </a>
                         }
                     </div>
                 }

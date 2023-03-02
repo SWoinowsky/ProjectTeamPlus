@@ -89,7 +89,6 @@ builder.Services.AddAuthentication()
                         options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
                     });
 
-// var SendGridToken = builder.Configuration["SendGridKey"];
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();

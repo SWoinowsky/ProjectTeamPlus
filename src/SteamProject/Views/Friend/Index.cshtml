@@ -5,9 +5,14 @@
     ViewData["Title"] = "Friend's Page";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/Library.css">
+</head>
+
 <input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
 <input type="hidden" id="FriendSteamId" name="FriendSteamId" value="@Model.Friend.SteamId">
 <input type="hidden" id="Id" name="Id" value="@Model.Id">
+<input type="hidden" id="ClickedGame" name="ClickedGame" value="">
 
 
 <div class="text-center">
@@ -48,10 +53,12 @@
 
             <br>
 
-            <div class="card friendCard" style="width: 18rem; margin: auto; background-image: linear-gradient(to bottom right, rgb(26, 28, 76), rgb(59, 52, 80), rgb(26, 28, 76)); ">
-                <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:215px; width=460px" alt="@string.Format("{0}", @game.Name)">
-                <div class="card-body">
-                    <p class="card-title" style="overflow: hidden; white-space: nowrap;">@game.Name</p>
+            <div class="friendDiv" id="@game.AppId" value="@game.Name">
+                <div class="card friendCard" style="background-image: linear-gradient(to bottom right, rgb(26, 28, 76), rgb(59, 52, 80), rgb(26, 28, 76)); ">
+                    <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:215px;" alt="@string.Format("{0}", @game.Name)">
+                    <div class="card-body">
+                        <p class="card-title" style="overflow: hidden; white-space: nowrap;">@game.Name</p>
+                    </div>
                 </div>
             </div>
 
@@ -61,8 +68,46 @@
     }
 </div>
 
+<div id="compareModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="compareModalHeader" >
+                <button type="button" class="close" id="modalCloser" data-dismiss="modal" aria-label="Close">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><g><rect height="15.4956" opacity="0" width="15.4859" x="0" y="0"/><path d="M0.252699 15.2429C0.594496 15.575 1.1609 15.575 1.49293 15.2429L7.74293 8.99293L13.9929 15.2429C14.325 15.575 14.9011 15.5847 15.2332 15.2429C15.5652 14.9011 15.5652 14.3445 15.2332 14.0125L8.98317 7.7527L15.2332 1.5027C15.5652 1.17067 15.575 0.604261 15.2332 0.27223C14.8914-0.0695668 14.325-0.0695668 13.9929 0.27223L7.74293 6.52223L1.49293 0.27223C1.1609-0.0695668 0.58473-0.0793324 0.252699 0.27223C-0.0793324 0.614027-0.0793324 1.17067 0.252699 1.5027L6.5027 7.7527L0.252699 14.0125C-0.0793324 14.3445-0.0890981 14.9109 0.252699 15.2429Z" fill="#000000" fill-opacity="0.25"/></g></svg>
+                </button>
+            </div>
+            
+            <div class="modal-body" style="height: 30rem;">
+                <div class="loading-spinner" id="loading-spinner" ></div>
+                <div class="row" id="informationRow" style="height: 100%; width: 100%; display:none;">
+                    <div class="col-md-4" id="gameImageCol">
+                        <img class="modal-img" id="gameImage" style="margin: auto">
+                    </div>
+                    <div class="col-md-8" style="height:100%; overflow-y: scroll; align-items: left;">
+                        <div class="row" style="height:100%; overflow-y: scroll;">
+                            <div class="col-md-4" id="userAchievements" style="height:100%; width:50%; margin: auto;">
+                                <i>Your achievements</i>
+                            </div>
+                            <div class="col-md-4" id="friendAchievements" style="height:100%; width:50%; margin:auto;">
+                                <i>Their achievements</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="error">
+                    <h2 class="error-ach" id="error-ach" style="display: none;">There are no achievements for this title.</h2>
+                    <h2 class="error-ser" id="error-ser" style="display: none;">An error occurred while requesting info from Steam.</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script type="text/javascript" src="~/js/friendPage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
 }

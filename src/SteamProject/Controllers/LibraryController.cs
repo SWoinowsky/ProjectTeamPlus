@@ -39,7 +39,7 @@ public class LibraryController: Controller
 
         if (refresh == null)
         {
-            refresh = 0;
+            refresh = false;
         }
 
         var userLibraryVM = new UserLibraryVM();
@@ -57,13 +57,13 @@ public class LibraryController: Controller
 
             if (gameInfo.Count == 0)
             {
-                refresh = 1;
+                refresh = true;
             }
             if (user.SteamId == null)
             {
                 return View();
             }
-            if(refresh == 1)
+            if(refresh == true)
             {
                 List<Game>? games = _steamService.GetGames(user.SteamId, user.Id).ToList();
 

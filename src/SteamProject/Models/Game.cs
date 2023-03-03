@@ -44,6 +44,7 @@ public partial class Game
         temp.AppId = game.appid;
         temp.Name = game.name;
         temp.PlayTime = game.playtime_forever;
+        temp.LastPlayed = game.rtime_last_played;
         temp.IconUrl = game.img_icon_url;
         temp.DescLong = "";
         temp.DescShort = "";

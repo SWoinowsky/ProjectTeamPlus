@@ -13,15 +13,15 @@ public partial class Game
 
     public string Name { get; set; } = null!;
 
-    public string DescShort { get; set; } = null!;
+    public string? DescShort { get; set; }
 
-    public string DescLong { get; set; } = null!;
+    public string? DescLong { get; set; }
 
-    public int PlayTime { get; set; }
+    public int? PlayTime { get; set; }
 
-    public string IconUrl { get; set; } = null!;
+    public string? IconUrl { get; set; }
 
-    public int LastPlayed { get; set; }
+    public int? LastPlayed { get; set; }
 
     public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
 
@@ -41,6 +41,7 @@ public partial class Game
         temp.AppId = game.appid;
         temp.Name = game.name;
         temp.PlayTime = game.playtime_forever;
+        temp.LastPlayed = game.rtime_last_played;
         temp.IconUrl = game.img_icon_url;
         temp.DescLong = "";
         temp.DescShort = "";

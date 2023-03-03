@@ -12,19 +12,19 @@ public partial class Friend
 
     public string SteamId { get; set; } = null!;
 
-    public string SteamName { get; set; } = null!;
+    public string? SteamName { get; set; }
 
-    public int PersonaState { get; set; }
+    public int? PersonaState { get; set; }
 
-    public string AvatarUrl { get; set; } = null!;
+    public string? AvatarUrl { get; set; }
 
-    public string AvatarFullUrl { get; set; } = null!;
+    public string? AvatarFullUrl { get; set; }
 
-    public int LastLogOff { get; set; }
+    public int? LastLogOff { get; set; }
 
     public string? GameExtraInfo { get; set; }
 
-    public int? GameId { get; set; }
+    public string? GameId { get; set; }
 
     public virtual User Root { get; set; } = null!;
 

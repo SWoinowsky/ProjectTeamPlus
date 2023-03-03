@@ -10,6 +10,7 @@ using SteamProject.Models;
 using Microsoft.AspNetCore.Identity;
 using SteamProject.Services;
 using Microsoft.AspNetCore.Authorization;
+using SteamProject.Models.DTO;
 using SteamProject.ViewModels;
 
 namespace SteamProject.Controllers;
@@ -34,43 +35,65 @@ public class LibraryController: Controller
     [Authorize]
     public IActionResult Index(bool refresh)
     {
-        if(refresh == null)
+        string? id = _userManager.GetUserId(User);
+
+        if (refresh == null)
         {
             refresh = false;
         }
+
         var userLibraryVM = new UserLibraryVM();
-        if(_userManager.GetUserId(User) is null)
+
+        if(id is null)
         {
             return View();
         }
         else
         {
-            var id = _userManager.GetUserId(User);
-            var user = _userRepository.GetUser(id);
+            User user = _userRepository.GetUser(id);
             userLibraryVM._user = user;
-            var tempGameInfo = _userGameInfoRepository.GetAll(g => g.OwnerId == user.Id).ToList();
+            List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
             userLibraryVM._games = new List<Game>();
-            if(tempGameInfo.Count() == 0 || refresh)
+
+            if (gameInfo.Count == 0)
             {
-                var games = _steamService.GetGames(user.SteamId, user.Id);
-                if(games == null)
+                refresh = true;
+            }
+            if (user.SteamId == null)
+            {
+                return View();
+            }
+            if(refresh == true)
+            {
+                List<Game>? games = _steamService.GetGames(user.SteamId, user.Id).ToList();
+
+                if(games.Count == 0)
                     return View();
+
                 foreach(var game in games)
                 {
-                    try{
-                        var temp1 = _gameRepository.GetAll(g => g.AppId == game.AppId).ToList();
-                        var checkGameRepo = temp1.Count() == 0;
-                        if(checkGameRepo)
+                    try
+                    {
+                        var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+
+                        int? playTime = game.PlayTime;
+                        int? lastPlayed = game.LastPlayed;
+
+                        game.PlayTime = 0;
+                        game.LastPlayed = 0;
+
+                        UserGameInfo? currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.Id, user.Id);
+
+                        //Check if game is in database, if not add it
+                        if (currentGame == null)
                         {
-                            var temp2 = _userGameInfoRepository.GetAll(g => g.Id == game.Id).ToList();
-                            var checkUserGameRepo = temp2.Count() == 0;
-                            if(checkUserGameRepo)
+                            if (currentUserInfo == null)
                             {
                                 _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
                                     OwnerId = user.Id,
-                                    GameId = game.AppId,
-                                    PlayTime = game.PlayTime,
-                                    LastPlayed = game.LastPlayed,
+                                    GameId = game.Id,
+                                    PlayTime = playTime,
+                                    LastPlayed = lastPlayed,
                                     Hidden = false,
                                     Followed = false,
                                     Game = game,
@@ -78,28 +101,48 @@ public class LibraryController: Controller
                                 });
                                 userLibraryVM._games.Add(game);
                             }
-                            game.PlayTime = 0;
-                            game.LastPlayed = 0;
                             _gameRepository.AddOrUpdate(game);
+                        }
+                        else
+                        {
+                            if (currentUserInfo == null)
+                            {
+
+                                UserGameInfo newInfo = new UserGameInfo
+                                {
+                                    OwnerId = user.Id,
+                                    GameId = currentGame.Id,
+                                    PlayTime = playTime,
+                                    LastPlayed = lastPlayed,
+                                    Hidden = false,
+                                    Followed = false,
+                                    Owner = user,
+                                    Game = currentGame
+                                };
+                                _userGameInfoRepository.AddOrUpdate(newInfo);
+
+                                userLibraryVM._games.Add(game);
+
+                            }
                         }
                     }
                     catch
                     {
                         throw new Exception("Current game couldn't be saved to the db!" + game.Name);
                     }
-                    
                 }
             }
             else
             {
-                var games = tempGameInfo;
-                if(games == null)
-                    return View();
-                foreach(var game in games)
-                {  
-                    var tempGame = _gameRepository.FindById(game.GameId);
-                    userLibraryVM._games.Add(tempGame);
-                }
+                // var games = tempGameInfo;
+                // if(games == null)
+                //     return View();
+                // foreach(var game in games)
+                // {  
+                //     var tempGame = _gameRepository.FindById(game.GameId);
+                //     userLibraryVM._games.Add(tempGame);
+                // }
+                userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
             return View(userLibraryVM);
         }

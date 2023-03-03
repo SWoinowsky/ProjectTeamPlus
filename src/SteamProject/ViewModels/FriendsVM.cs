@@ -1,5 +1,7 @@
 
-namespace SteamProject.Models.ViewModels;
+using SteamProject.Models;
+
+namespace SteamProject.ViewModels;
 
 public class FriendsVM
 {

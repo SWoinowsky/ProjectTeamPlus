@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
 using SteamProject.Models;
-using SteamProject.Models.ViewModels;
+using SteamProject.ViewModels;
 using SteamProject.Services;
 
 namespace SteamProject.Controllers;

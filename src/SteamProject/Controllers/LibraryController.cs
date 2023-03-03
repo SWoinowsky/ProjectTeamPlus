@@ -33,16 +33,11 @@ public class LibraryController: Controller
     }
 
     [Authorize]
-    public IActionResult Index(int? refresh)
+    public IActionResult Index(bool refresh)
     {
         string? id = _userManager.GetUserId(User);
 
         if (refresh == null)
-        {
-            refresh = 0;
-        }
-
-        if (refresh == 1)
         {
             refresh = 0;
         }
@@ -92,7 +87,6 @@ public class LibraryController: Controller
                         //Check if game is in database, if not add it
                         if (currentGame == null)
                         {
-
                             if (currentUserInfo == null)
                             {
                                 _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
@@ -107,7 +101,6 @@ public class LibraryController: Controller
                                 });
                                 userLibraryVM._games.Add(game);
                             }
-
                             _gameRepository.AddOrUpdate(game);
                         }
                         else
@@ -132,13 +125,11 @@ public class LibraryController: Controller
 
                             }
                         }
-
                     }
                     catch
                     {
                         throw new Exception("Current game couldn't be saved to the db!" + game.Name);
                     }
-                    
                 }
             }
             else

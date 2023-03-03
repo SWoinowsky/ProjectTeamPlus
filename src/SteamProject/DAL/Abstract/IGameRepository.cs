@@ -10,7 +10,7 @@ namespace SteamProject.DAL.Abstract
     {
         Game? GetGameByAppId(int appId);
 
-        List<Game> GetGamesList(List<UserGameInfo> userInfo);
+        List<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo);
 
     }
 }

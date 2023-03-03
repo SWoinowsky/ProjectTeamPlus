@@ -134,7 +134,7 @@ public class LibraryController: Controller
             }
             else
             {
-                userLibraryVM._games = _gameRepository.GetGamesList(gameInfo);
+                userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
             return View(userLibraryVM);
         }

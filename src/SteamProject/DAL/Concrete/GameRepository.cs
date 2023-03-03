@@ -19,7 +19,7 @@ namespace SteamProject.DAL.Concrete
             return this.GetAll(g => g.AppId == appId).SingleOrDefault();
         }
 
-        public List<Game> GetGamesList(List<UserGameInfo> userInfo)
+        public List<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo)
         {
             List<Game> returnList = new List<Game>();
 

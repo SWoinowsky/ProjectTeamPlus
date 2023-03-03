@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RepositoryTesting\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SteamProject\SteamProject.csproj" />
   </ItemGroup>
 

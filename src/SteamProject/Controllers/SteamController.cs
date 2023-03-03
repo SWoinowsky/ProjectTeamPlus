@@ -53,7 +53,9 @@ public class SteamController : ControllerBase
     [HttpPost("hide")]
     public ActionResult Hide(string id)
     {
-        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
+        // Need to put this into model to get game for ID instead of having this line in here so it can be tested.
+        //var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
+        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).FirstOrDefault();
         game.Hidden = true;
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
@@ -62,7 +64,9 @@ public class SteamController : ControllerBase
     [HttpPost("unhide")]
     public ActionResult Unhide(string id)
     {
-        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
+        // Need to put this into model to get game for ID instead of having this line in here so it can be tested.
+        //var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
+        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).FirstOrDefault();
         game.Hidden = false;
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();

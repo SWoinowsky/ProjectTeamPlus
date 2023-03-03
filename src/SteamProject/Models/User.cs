@@ -22,11 +22,11 @@ public partial class User
 
     public int? PlayerLevel { get; set; }
 
-    public virtual ICollection<Friend> Friends { get; } = new List<Friend>();
+    public virtual ICollection<Friend> Friends { get; set; } = new List<Friend>();
 
-    public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
+    public virtual ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
 
-    public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
+    public virtual ICollection<UserGameInfo> UserGameInfos { get; set; } = new List<UserGameInfo>();
 
     public void TakeSteamPOCO(SteamUserPOCO poco)
     {

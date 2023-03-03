@@ -45,7 +45,7 @@ else
                         <button class="achievement-btn" data-toggle="tooltip" title="View Achievements" id="@game.Game.AppId"></button>
 
 
-                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:200px; width=200px"/><br>
+                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:200px"/><br>
                         
                         @{
                             var index = tempGame.Name.IndexOf("'");
@@ -108,7 +108,7 @@ else
                                         {
                                             var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
                                             <div class="flex-item" id="@tempGame.Name" value="@game.Game.AppId" style="padding: 2px;">
-                                                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px; width=120px"/><br>
+                                                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px"/><br>
                                                 @{var index = tempGame.Name.IndexOf("'");
                                                     if(index > -1)
                                                     {

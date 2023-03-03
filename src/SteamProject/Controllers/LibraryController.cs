@@ -76,8 +76,8 @@ public class LibraryController: Controller
                     {
                         var currentGame = _gameRepository.GetGameByAppId(game.AppId);
 
-                        int playTime = game.PlayTime;
-                        int lastPlayed = game.LastPlayed;
+                        int? playTime = game.PlayTime;
+                        int? lastPlayed = game.LastPlayed;
 
                         game.PlayTime = 0;
                         game.LastPlayed = 0;

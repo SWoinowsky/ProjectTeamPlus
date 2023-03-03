@@ -11,9 +11,9 @@ public partial class UserGameInfo
 
     public int GameId { get; set; }
 
-    public int PlayTime { get; set; }
+    public int? PlayTime { get; set; }
 
-    public int LastPlayed { get; set; }
+    public int? LastPlayed { get; set; }
 
     public bool Hidden { get; set; }
 

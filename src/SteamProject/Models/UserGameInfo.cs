@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SteamProject.DAL.Abstract;
 
 namespace SteamProject.Models;
 
@@ -22,4 +23,10 @@ public partial class UserGameInfo
     public virtual Game Game { get; set; } = null!;
 
     public virtual User Owner { get; set; } = null!;
+
+    public UserGameInfo GetGameById (int id, IUserGameInfoRepository userGameInfoRepository)
+    {
+       UserGameInfo returnGame = userGameInfoRepository.GetAll(g => g.Game.AppId == id).FirstOrDefault();
+       return returnGame;
+    }
 }

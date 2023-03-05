@@ -134,20 +134,11 @@ public class LibraryController: Controller
             }
             else
             {
-                // var games = tempGameInfo;
-                // if(games == null)
-                //     return View();
-                // foreach(var game in games)
-                // {  
-                //     var tempGame = _gameRepository.FindById(game.GameId);
-                //     userLibraryVM._games.Add(tempGame);
-                // }
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
             return View(userLibraryVM);
         }
     }
-
     public IActionResult ShowMoreInfo(int appId)
     {
         var game = _gameRepository.GetAll(g => g.AppId == appId).FirstOrDefault();

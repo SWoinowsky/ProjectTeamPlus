@@ -53,9 +53,8 @@ public class SteamController : ControllerBase
     [HttpPost("hide")]
     public ActionResult Hide(string id)
     {
-        // Need to put this into model to get game for ID instead of having this line in here so it can be tested.
-        //var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
-        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).FirstOrDefault();
+        UserGameInfo game = new UserGameInfo();
+        game = game.GetGameById(Int32.Parse(id), _userGameInfoRepository);
         game.Hidden = true;
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();

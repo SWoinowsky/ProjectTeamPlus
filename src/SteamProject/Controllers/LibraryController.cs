@@ -54,6 +54,7 @@ public class LibraryController: Controller
             userLibraryVM._user = user;
             List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
             userLibraryVM._games = new List<Game>();
+            UserGameInfo? currentUserInfo = new UserGameInfo();
 
             if (gameInfo.Count == 0)
             {
@@ -82,16 +83,25 @@ public class LibraryController: Controller
                         game.PlayTime = 0;
                         game.LastPlayed = 0;
 
-                        UserGameInfo? currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.Id, user.Id);
+                        try
+                        {
+                            currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(currentGame.Id, user.Id);
+                        }
+                        catch
+                        {
+                             currentUserInfo = null;
+                        }
 
                         //Check if game is in database, if not add it
                         if (currentGame == null)
                         {
+                            _gameRepository.AddOrUpdate(game);
                             if (currentUserInfo == null)
                             {
+                                var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
                                 _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
                                     OwnerId = user.Id,
-                                    GameId = game.Id,
+                                    GameId = temp.Id,
                                     PlayTime = playTime,
                                     LastPlayed = lastPlayed,
                                     Hidden = false,
@@ -101,7 +111,7 @@ public class LibraryController: Controller
                                 });
                                 userLibraryVM._games.Add(game);
                             }
-                            _gameRepository.AddOrUpdate(game);
+                            
                         }
                         else
                         {

@@ -118,6 +118,12 @@ app.UseAuthorization();
 
 
 app.MapControllerRoute(
+    "Dashboard",
+    "Dashboard/",
+    defaults: new { controller = "Home", action = "Dashboard" }
+);
+
+app.MapControllerRoute(
     "Friend",
     "Friend/{friendSteamId?}",
     defaults: new { controller = "Friend", action = "Index" }

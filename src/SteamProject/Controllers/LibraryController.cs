@@ -176,6 +176,7 @@ public class LibraryController: Controller
         gameVM._game = game;
         gameVM._appId = appId;
         gameVM.cleanRequirements();
+        gameVM.cleanDescriptions();
         return View(gameVM);
     }
 }

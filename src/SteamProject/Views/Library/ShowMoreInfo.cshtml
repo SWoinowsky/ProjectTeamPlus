@@ -5,16 +5,26 @@
     var gameData = Model._game;
 }
 
-<p>This is the game description</p>
-    <li>@pocoData.short_description</li>
-
-<p>These are the categories for @Model._game.Name</p>
-@{
-    foreach(var cat in pocoData.categories)
-    {
-        <li>@cat.description</li>
-    }
-}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3" style="width: 500px">
+            <div>
+                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height:200px"/>
+            </div>
+        </div>
+        <div class="col-lg-6" style="padding-top: 40px;">
+            <p>@pocoData.short_description</p>
+        </div>
+    </div>
+    <div class="row">
+        @{
+            foreach(var cat in pocoData.categories)
+            {
+                <li style="list-style-type: none">@cat.description</li>
+            }
+        }
+    </div>
+</div>
 <p>These are the developers</p>
 @{
     foreach(var dev in pocoData.developers)

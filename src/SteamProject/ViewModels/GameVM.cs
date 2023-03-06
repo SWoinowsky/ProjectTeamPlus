@@ -19,9 +19,15 @@ namespace SteamProject.ViewModels
         public GameVM()
         {
         }
+        public void cleanDescriptions()
+        {
+            this._poco.response.data.detailed_description = Regex.Replace(this._poco.response.data.detailed_description, @"<[^>]+>|&nbsp;", "").Trim();
+            this._poco.response.data.short_description = Regex.Replace(this._poco.response.data.short_description, @"<[^>]+>|&nbsp;", "").Trim();
+        }
         public void cleanRequirements()
         {
             //These are the try catch to remove the HTML styling that Steam provides with the requirement descriptions.
+            
             //Linux Minimum
             try
             {
@@ -49,6 +55,7 @@ namespace SteamProject.ViewModels
             {
                 this._poco.response.data.pc_requirements.minimum = "Steam doesn\'t provide minimum pc requirements for this title.";
             }
+
             //PC recommended
             try
             {

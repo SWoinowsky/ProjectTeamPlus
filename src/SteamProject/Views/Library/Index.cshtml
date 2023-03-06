@@ -51,8 +51,6 @@ else
                     <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.AppId" data-toggle="tooltip" title="@game.Game.Name" style="padding: 2px; position: relative">
                         
                         <button class="achievement-btn" data-toggle="tooltip" title="View Achievements" id="@game.Game.AppId"></button>
-
-
                         <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:200px"/><br>
                         
                         @{
@@ -63,7 +61,6 @@ else
                                 <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@name')">
                                     <i  fill="CurrentColor" class="bi bi-eye-slash-fill" style="font-size:1.5em"></i>
                                 </button>
-
                                 <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow Game" onclick="setFollowedGame('@name')">
                                     @if(game.Followed == true)
                                     {
@@ -80,7 +77,6 @@ else
                                 <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@tempGame.Name')" name=@game.Game.AppId>
                                     <i  fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
                                 </button>
-
                                 <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow/Unfollow Game" onclick="setFollowedGame('@tempGame.Name')" name=@game.Game.AppId>
                                     @if(game.Followed == true)
                                     {

@@ -171,7 +171,6 @@ public class LibraryController: Controller
     }
     public IActionResult ShowMoreInfo(int appId)
     {
-        //Game game = _gameRepository.GetAll(g => g.AppId == appId).FirstOrDefault();
         Game game = _gameRepository.GetGameByAppId(appId);
         GameVM gameVM = _steamService.GetGameInfo(game);
         gameVM._game = game;

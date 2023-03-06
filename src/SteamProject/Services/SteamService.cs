@@ -140,6 +140,24 @@ public class SteamService : ISteamService
         {   
             var regex = new Regex(Regex.Escape(game.AppId.ToString()));
             jsonResponse = regex.Replace(jsonResponse, "response", 1);
+            try
+            {
+                regex = new Regex(Regex.Escape("linux_requirements\":[]"));
+                jsonResponse = regex.Replace(jsonResponse, "linux_requirements\":{}", 1);
+            }
+            catch {}
+            try
+            {
+                regex = new Regex(Regex.Escape("mac_requirements\":[]"));
+                jsonResponse = regex.Replace(jsonResponse, "mac_requirements\":{}", 1);
+            }
+            catch {}
+            try
+            {
+                regex = new Regex(Regex.Escape("pc_requirements\":[]"));
+                jsonResponse = regex.Replace(jsonResponse, "pc_requirements\":{}", 1);
+            }
+            catch {}
             gameVM._poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
         }
         return gameVM;

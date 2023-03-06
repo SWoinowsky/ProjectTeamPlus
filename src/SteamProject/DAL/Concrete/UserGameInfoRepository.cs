@@ -14,7 +14,7 @@ public class UserGameInfoRepository : Repository<UserGameInfo>, IUserGameInfoRep
 
     public UserGameInfo? GetUserInfoForGame(int gameId, int userId)
     {
-        return this.GetAll(g => g.Id == gameId).SingleOrDefault(u => u.Id == userId);
+        return this.GetAll(g => g.Id == gameId).SingleOrDefault(u => u.OwnerId == userId);
     }
 
     public List<UserGameInfo> GetAllUserGameInfo(int userId)

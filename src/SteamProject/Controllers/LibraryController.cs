@@ -96,9 +96,10 @@ public class LibraryController: Controller
                         if (currentGame == null)
                         {
                             _gameRepository.AddOrUpdate(game);
+                            var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
                             if (currentUserInfo == null)
                             {
-                                var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
+                                
                                 _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
                                     OwnerId = user.Id,
                                     GameId = temp.Id,
@@ -111,7 +112,15 @@ public class LibraryController: Controller
                                 });
                                 userLibraryVM._games.Add(game);
                             }
-                            
+                            else
+                            {
+                                UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == temp.Id);
+                                currentGameInfo.LastPlayed = lastPlayed;
+                                currentGameInfo.PlayTime = playTime;
+
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
+                            }
                         }
                         else
                         {
@@ -134,6 +143,15 @@ public class LibraryController: Controller
                                 userLibraryVM._games.Add(game);
 
                             }
+                            else
+                            {
+                                UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == currentGame.Id);
+                                currentGameInfo.LastPlayed = lastPlayed;
+                                currentGameInfo.PlayTime = playTime;
+
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
+                            }
                         }
                     }
                     catch
@@ -146,6 +164,7 @@ public class LibraryController: Controller
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
+            userLibraryVM._user.UserGameInfos = userLibraryVM._user.UserGameInfos.OrderBy(g => g.Game.Name).ToList();
             return View(userLibraryVM);
         }
     }

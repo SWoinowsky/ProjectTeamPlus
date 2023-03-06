@@ -28,9 +28,11 @@ else
                     <button class="btn btn-secondary show-hidden-btn" data-toggle="tooltip" title="Show Hidden Games" onclick="showHiddenGamesModal()" style="margin-bottom:5px">
                         <i fill="CurrentColor" class="bi bi-eye"></i> Show hidden games
                     </button><br><br>
-                    <button class="btn btn-secondary refresh-btn" data-toggle="tooltip" title="Refresh Library" onclick="refreshLibrary()" style="margin-bottom:5px">
-                        <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library
-                    </button><br>
+                    <a href='@Url.Action("Index", "Library", new {refresh = true})'>
+                        <button class="btn btn-secondary refresh-btn" data-toggle="tooltip" title="Refresh Library" style="margin-bottom:5px">
+                            <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library
+                        </button><br>
+                    </a>
                     
                 </div>
             </div>

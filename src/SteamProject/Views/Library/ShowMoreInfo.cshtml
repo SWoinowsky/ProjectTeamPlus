@@ -1,4 +1,65 @@
 @model SteamProject.ViewModels.GameVM;
 @{
     ViewData["Title"] = "ShowMoreInfo";
+    var pocoData = Model._poco.response.data;
 }
+
+
+<p>These are the categories for @Model._game.Name</p>
+@{
+    foreach(var cat in pocoData.categories)
+    {
+        <li>@cat.description</li>
+    }
+}
+<p>These are the developers</p>
+@{
+    foreach(var dev in pocoData.developers)
+    {
+        <li>@dev</li>
+    }
+}
+
+<p>These are the genres</p>
+@{
+    foreach(var genre in pocoData.genres)
+    {
+        <li>@genre.description</li>
+    }
+}
+
+<p>This is the Metacritic rating</p>
+@{
+    if(pocoData.metacritic != null)
+    {
+        <li>@pocoData.metacritic.score</li>
+    }
+    else
+    {
+        <li>No rating available</li>
+    }
+}
+
+<p>These are the PC requirements</p>
+@{
+    <div>@pocoData.pc_requirements.minimum</div>
+}
+
+<p>These are the Linux requirements</p>
+@{
+    <div>@pocoData.linux_requirements.minimum</div>
+}
+
+<p>These are the Mac requirements</p>
+@{
+    <div>@pocoData.mac_requirements.minimum</div>
+}
+
+<p>These are the publishers</p>
+@{
+    foreach(var pub in pocoData.publishers)
+    {
+        <li>@pub</li>
+    }
+}
+

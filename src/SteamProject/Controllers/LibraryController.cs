@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -170,10 +171,13 @@ public class LibraryController: Controller
     }
     public IActionResult ShowMoreInfo(int appId)
     {
-        var game = _gameRepository.GetAll(g => g.AppId == appId).FirstOrDefault();
-        var gameVM = _steamService.GetGameInfo(game);
+        Game game = _gameRepository.GetAll(g => g.AppId == appId).FirstOrDefault();
+        GameVM gameVM = _steamService.GetGameInfo(game);
         gameVM._game = game;
         gameVM._appId = appId;
+        gameVM._poco.response.data.linux_requirements.minimum = Regex.Replace(gameVM._poco.response.data.linux_requirements.minimum, @"<[^>]+>|&nbsp;", "").Trim();
+        gameVM._poco.response.data.mac_requirements.minimum = Regex.Replace(gameVM._poco.response.data.mac_requirements.minimum, @"<[^>]+>|&nbsp;", "").Trim();
+        gameVM._poco.response.data.pc_requirements.minimum = Regex.Replace(gameVM._poco.response.data.pc_requirements.minimum, @"<[^>]+>|&nbsp;", "").Trim();
         return View(gameVM);
     }
 }

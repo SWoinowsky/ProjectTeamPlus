@@ -48,6 +48,7 @@ public class HomeController : Controller
         else
         {
             UserDashboardVM dashboardVm = new UserDashboardVM();
+            dashboardVm.gameTuples = new List<Tuple<Game, Game, Game>>();
             User user = _userRepository.GetUser(id);
             dashboardVm._user = user;
 
@@ -65,7 +66,16 @@ public class HomeController : Controller
 
                 if (games.Any())
                 {
+
                     dashboardVm._games = games;
+                    for (var i = 0; i < games.Count; i+=3)
+                    {
+                        var var3 = games.GetRange(i,3).ToList();
+
+                        var game = games[i];
+                        var newTuple = new Tuple<Game, Game, Game>(var3[0], var3[1], var3[2]);
+                        dashboardVm.gameTuples.Add(newTuple);
+                    }
 
                     return View(dashboardVm);
                 }

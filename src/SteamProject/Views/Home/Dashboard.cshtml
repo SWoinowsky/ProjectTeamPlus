@@ -4,7 +4,7 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css/Library.css">
+    <link rel="stylesheet" href="~/css/Dashboard.css">
 </head>
 
 @if (Model == null)
@@ -13,7 +13,7 @@
 }
 else
 {
-    <div>
+    <div class="container-fluid mx-auto"> 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3">
@@ -22,8 +22,8 @@ else
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <h1>@Model._user.SteamName</h1>
-                    <h2>Level @Model._user.PlayerLevel</h2>
+                    <h2>@Model._user.SteamName</h2>
+                    <h3>Level @Model._user.PlayerLevel</h3>
                 </div>
                 <div class="col-lg-5">
                     <h1></h1>
@@ -32,60 +32,106 @@ else
                 </div>
             </div>
         </div>
-    </div>
 
-    <button onclick="showFollowedGamesModal()">Manage Followed Games</button>
-    <br />
-    
-    <h3>Recently Played Games</h3>
-    <div id="recentGamesCarousel" class="carousel slide" data-ride="carousel">
 
-        <ol class="carousel-indicators">
-            <li data-target="#recentGamesCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#recentGamesCarousel" data-slide-to="1"></li>
-            <li data-target="#recentGamesCarousel" data-slide-to="2"></li>
-        </ol>
+        <button onclick="showFollowedGamesModal()">Manage Followed Games</button>
+        <br/>
 
-        <div class="carousel-inner" style="width: 616px; height: 353px;">
-            @{
-                foreach(var game in Model._games)
-                {
-                    <div class="carousel-item">
-                        <img class="d-block" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @game.AppId)" style="height: 616px; width: 353px;">
+        <div class="container-fluid" >
+            <h1>Your News</h1>
+            <div class="row">
+                <div id="recentGamesCarousel" class="carousel slide" data-ride="carousel">
+                    
+                    <div class="carousel-inner">
+                        <div class="carousel-item mx-auto active">
+                            <div class="row">
+                                <div class="card col-md-4 mb-3">
+                                    <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.gameTuples[0].Item1.AppId)" alt="@string.Format("{0}", @game.Item1.Name)">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Special title treatment</h4>
+                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="card col-md-4 mb-3">
+                                    <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.gameTuples[0].Item2.AppId)" alt="@string.Format("{0}", @game.Item2.Name)">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Special title treatment</h4>
+                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                    </div>
+                                </div>
+
+                                <div class="card col-md-4 mb-3">
+                                    <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.gameTuples[0].Item3.AppId)" alt="@string.Format("{0}", @game.Item3.Name)">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Special title treatment</h4>
+                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @for (var index = 1; index < Model.gameTuples.Count; index++)
+                        {
+                            var game = Model.gameTuples[index];
+                            <div class="carousel-item mx-auto">
+                                <div class="row"> 
+                                    <div class="card col-md-4 mb-3">
+                                        <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @game.Item1.AppId)" alt="@string.Format("{0}", @game.Item1.Name)">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Special title treatment</h4>
+                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card col-md-4 mb-3">
+                                        <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @game.Item2.AppId)" alt="@string.Format("{0}", @game.Item2.Name)">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Special title treatment</h4>
+                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="card col-md-4 mb-3">
+                                        <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @game.Item3.AppId)" alt="@string.Format("{0}", @game.Item3.Name)">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Special title treatment</h4>
+                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <a class="carousel-control-prev" href="#recentGamesCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+
+                        <a class="carousel-control-next" href="#recentGamesCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
-                }
-            }
-        </div>
 
-        <a class="carousel-control-prev" href="#recentGamesCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#recentGamesCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
 
-    </div>
 
-    <div class="container-fluid">
-        <h3>Your News</h3>
-        <div class="row">
-            <div class="col-md-4">
-
+                </div>
             </div>
         </div>
     </div>
 
     <div class="container-fluid">
-        <h3>Your Race Results</h3>
+
+        <h1>Your Race Results</h1>
         <div class="row">
             <div class="col-md-4">
-
             </div>
         </div>
     </div>
-
 }
 @section Scripts
 {

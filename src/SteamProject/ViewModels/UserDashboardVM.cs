@@ -14,6 +14,8 @@ namespace SteamProject.ViewModels
         public User _user {get; set;}
         public List<Game> _games {get; set;}
 
+        public List<Tuple<Game, Game, Game>> gameTuples { get; set; }
+
         public List<Game> followedGames { get; set; }
 
         public UserDashboardVM()

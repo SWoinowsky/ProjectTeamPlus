@@ -31,7 +31,7 @@ namespace SteamProject.ViewModels
             //Linux Minimum
             try
             {
-                this._poco.response.data.linux_requirements.minimum = Regex.Replace(this._poco.response.data.linux_requirements.minimum, @"<[^>]+>|&nbsp;", "").Trim();
+                this._poco.response.data.linux_requirements.minimum = Regex.Replace(this._poco.response.data.linux_requirements.minimum, @"<[^>]+>|&nbsp;", " ").Trim();
             }
             catch 
             {
@@ -40,7 +40,7 @@ namespace SteamProject.ViewModels
             //Mac minimum
             try
             {
-                this._poco.response.data.mac_requirements.minimum = Regex.Replace(this._poco.response.data.mac_requirements.minimum, @"<[^>]+>|&nbsp;", "").Trim();
+                this._poco.response.data.mac_requirements.minimum = Regex.Replace(this._poco.response.data.mac_requirements.minimum, @"<[^>]+>|&nbsp;", " ").Trim();
             }
             catch 
             {
@@ -49,7 +49,7 @@ namespace SteamProject.ViewModels
             //PC minimum
             try
             {
-                this._poco.response.data.pc_requirements.minimum = Regex.Replace(this._poco.response.data.pc_requirements.minimum, @"<[^>]+>|&nbsp;", "").Trim();
+                this._poco.response.data.pc_requirements.minimum = Regex.Replace(this._poco.response.data.pc_requirements.minimum, @"<[^>]+>|&nbsp;", " ").Trim();
             }
             catch 
             {
@@ -59,7 +59,7 @@ namespace SteamProject.ViewModels
             //PC recommended
             try
             {
-                this._poco.response.data.pc_requirements.recommended = Regex.Replace(this._poco.response.data.pc_requirements.recommended, @"<[^>]+>|&nbsp;", "").Trim();
+                this._poco.response.data.pc_requirements.recommended = Regex.Replace(this._poco.response.data.pc_requirements.recommended, @"<[^>]+>|&nbsp;", " ").Trim();
             }
             catch 
             {
@@ -68,7 +68,7 @@ namespace SteamProject.ViewModels
             //Linux recommended
             try
             {
-                this._poco.response.data.linux_requirements.recommended = Regex.Replace(this._poco.response.data.linux_requirements.recommended, @"<[^>]+>|&nbsp;", "").Trim();
+                this._poco.response.data.linux_requirements.recommended = Regex.Replace(this._poco.response.data.linux_requirements.recommended, @"<[^>]+>|&nbsp;", " ").Trim();
             }
             catch 
             {
@@ -77,7 +77,7 @@ namespace SteamProject.ViewModels
             //Mac recommended
             try
             {
-                this._poco.response.data.mac_requirements.recommended = Regex.Replace(this._poco.response.data.mac_requirements.recommended, @"<[^>]+>|&nbsp;", "").Trim();
+                this._poco.response.data.mac_requirements.recommended = Regex.Replace(this._poco.response.data.mac_requirements.recommended, @"<[^>]+>|&nbsp;", " ").Trim();
             }
             catch 
             {

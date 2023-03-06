@@ -17,41 +17,59 @@
         </div>
     </div>
     <div class="row">
-        @{
-            foreach(var cat in pocoData.categories)
-            {
-                <li style="list-style-type: none">@cat.description</li>
-            }
-        }
+        <table id="generalInfoTable" class="table table-striped">
+            <tr>
+                <th>General Categories:</th>
+                @{
+                    foreach(var cat in pocoData.categories)
+                    {
+                        <td>@cat.description</td>
+                    }
+                }
+            </tr>
+            <tr>
+                <th>Developers:</th>
+                @{
+                    foreach(var dev in pocoData.developers)
+                    {
+                        <td>@dev</td>
+                    }
+                }
+            </tr>
+            <tr>
+                <th>Publishers:</th>
+                @{
+                    foreach(var pub in pocoData.publishers)
+                    {
+                        <td>@pub</td>
+                    }
+                }
+            </tr>
+            <tr>
+                <th>Game Genres:</th>
+                @{
+                    foreach(var genre in pocoData.genres)
+                    {
+                        <td>@genre.description</td>
+                    }
+                }
+            </tr>
+            <tr>
+                <th>Ratings:</th>
+                @{
+                    if(pocoData.metacritic != null)
+                    {
+                        <td>Metacritic: @pocoData.metacritic.score</td>
+                    }
+                    else
+                    {
+                        <td>No Metacritic rating available</td>
+                    }
+                }
+            </tr>
+        </table>
     </div>
 </div>
-<p>These are the developers</p>
-@{
-    foreach(var dev in pocoData.developers)
-    {
-        <li>@dev</li>
-    }
-}
-
-<p>These are the genres</p>
-@{
-    foreach(var genre in pocoData.genres)
-    {
-        <li>@genre.description</li>
-    }
-}
-
-<p>This is the Metacritic rating</p>
-@{
-    if(pocoData.metacritic != null)
-    {
-        <li>@pocoData.metacritic.score</li>
-    }
-    else
-    {
-        <li>No rating available</li>
-    }
-}
 
 <p>These are the PC requirements</p>
 @{
@@ -67,12 +85,3 @@
 @{
     <div>@pocoData.mac_requirements.minimum</div>
 }
-
-<p>These are the publishers</p>
-@{
-    foreach(var pub in pocoData.publishers)
-    {
-        <li>@pub</li>
-    }
-}
-

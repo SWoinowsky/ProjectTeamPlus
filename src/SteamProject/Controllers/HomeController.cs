@@ -48,7 +48,8 @@ public class HomeController : Controller
         else
         {
             UserDashboardVM dashboardVm = new UserDashboardVM();
-            dashboardVm.gameTuples = new List<Tuple<Game, Game, Game>>();
+            dashboardVm.recentGames = new List<List<Game>>();
+            dashboardVm.followedGames = new List<List<Game>>();
             User user = _userRepository.GetUser(id);
             dashboardVm._user = user;
 
@@ -60,21 +61,25 @@ public class HomeController : Controller
                 //get games list for user
                 List<Game>? games = _gameRepository.GetGamesListByUserInfo(currentUserInfo).Take(12).ToList();
 
-                dashboardVm.followedGames = _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
+                List<Game>? followedGames = _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
+
 
                 //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
 
                 if (games.Any())
                 {
 
-                    dashboardVm._games = games;
                     for (var i = 0; i < games.Count; i+=3)
                     {
-                        var var3 = games.GetRange(i,3).ToList();
+                        var threeGames = games.Skip(i).Take(3).ToList();
+                        dashboardVm.recentGames.Add(threeGames);
 
-                        var game = games[i];
-                        var newTuple = new Tuple<Game, Game, Game>(var3[0], var3[1], var3[2]);
-                        dashboardVm.gameTuples.Add(newTuple);
+                    }
+
+                    for (var i = 0; i < followedGames.Count; i += 3)
+                    {
+                        var threeGames = followedGames.Skip(i).Take(3).ToList();
+                        dashboardVm.followedGames.Add(threeGames);
                     }
 
                     return View(dashboardVm);

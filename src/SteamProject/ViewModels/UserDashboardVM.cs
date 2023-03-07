@@ -12,11 +12,10 @@ namespace SteamProject.ViewModels
     public class UserDashboardVM
     {
         public User _user {get; set;}
-        public List<Game> _games {get; set;}
 
-        public List<Tuple<Game, Game, Game>> gameTuples { get; set; }
+        public List<List<Game>> recentGames { get; set; }
 
-        public List<Game> followedGames { get; set; }
+        public List<List<Game>> followedGames { get; set; }
 
         public UserDashboardVM()
         {

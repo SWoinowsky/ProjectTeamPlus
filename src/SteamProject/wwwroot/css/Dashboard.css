@@ -121,15 +121,17 @@ body {
 }
 
 .show-followed-btn {
-    width: 100%;
+    width: 70%;
     border-radius: 0;
     border-radius: 0 0 35px 35px;
     color: white;
     background-color: #2f526e;
+    margin-bottom: 20px;
+
 }
 
 .user-avatar {
     border-radius: 50px 50px 0 0;
-    width: 100%;
+    width: 70%;
     position: relative;
 }

@@ -3,10 +3,12 @@
     ViewData["Title"] = "ShowMoreInfo";
     var pocoData = Model._poco.response.data;
     var gameData = Model._game;
+    var userData = Model._userGame;
 }
 
 <head>
     <link rel="stylesheet" href="~/css/ShowMoreInfo.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <div class="container-fluid">
@@ -19,6 +21,7 @@
         <div class="col-lg-6" style="padding-top: 40px;">
             <h3 style="text-align: center;">@gameData.Name</h3>
             <p>@pocoData.short_description</p>
+            <p>Youve played @gameData.Name for @Model.playTime hour(s)</p>
         </div>
     </div>
     <br>
@@ -68,6 +71,7 @@
                 </div>
             </div>
         </div>
+        <br>
         <div class="card gameInfoCard">
             <div class="card-body">
                 <h5 class="card-title">
@@ -102,6 +106,53 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<br><br>
+<div class="conatiner">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 400px; width: 800px">
+        <div class="carousel-indicators">
+            @{
+                for(var i = 0; i < pocoData.screenshots.Count(); i++)
+                {
+                    if(i == 0)
+                    {
+                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
+                    }
+                    else
+                    {
+                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to=@i></button>
+                    }
+                }
+            }
+        </div>
+        <div class="carousel-inner">
+        @{
+            var tempCounter = 0;
+            foreach(var shot in pocoData.screenshots)
+            {
+                if(tempCounter == 0)
+                {
+                    <div class="carousel-item active" style="text-align: center;">
+                        <img src=@shot.path_thumbnail>
+                    </div>
+                    tempCounter = tempCounter + 1;
+                }
+                else
+                {
+                    <div class="carousel-item" style="text-align: center;">
+                        <img class="center" src=@shot.path_thumbnail>
+                    </div>
+                }
+            }
+        }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
     </div>
 </div>
 <br><br>

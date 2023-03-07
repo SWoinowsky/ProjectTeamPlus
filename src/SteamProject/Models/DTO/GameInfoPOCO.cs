@@ -17,6 +17,11 @@ public class Category
     public string? description { get; set; }
 }
 
+public class ScreenShot
+{
+        public string path_thumbnail { get; set; }
+}
+
 public class Data
 {
     public string? detailed_description { get; set; }
@@ -31,6 +36,7 @@ public class Data
     public Platforms? platforms { get; set; }
     public Metacritic? metacritic { get; set; }
     public List<Category>? categories { get; set; }
+    public List<ScreenShot>? screenshots {get; set;}
     public List<Genre>? genres { get; set; }
 }
 

@@ -180,6 +180,8 @@ public class LibraryController: Controller
         gameVM._game = game;
         gameVM._appId = appId;
         gameVM._userGame = _userGameInfoRepository.GetAll(g => g.GameId == game.Id).FirstOrDefault();
+        
+        gameVM.playTime = Math.Round(Convert.ToDouble(gameVM._userGame.PlayTime)/60, 1);
 
         gameVM.cleanRequirements();
         gameVM.cleanDescriptions();

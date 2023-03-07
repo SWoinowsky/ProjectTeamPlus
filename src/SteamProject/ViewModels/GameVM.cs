@@ -18,16 +18,7 @@ namespace SteamProject.ViewModels
         public UserGameInfo _userGame {get; set;}
         public Game _game {get; set;}
         public GameInfoPOCO _poco {get; set;}
-
-        public class Requirements 
-        {
-            public string? _minimum {get; set;}
-            public string? _operatingSystem {get; set;}
-            public string? _processor {get; set;}
-            public string? _memory {get; set;}
-            public string? _graphics {get; set;}
-            public string? _storage {get; set;}
-        }
+        public double playTime {get; set;}
         public GameVM()
         {
         }

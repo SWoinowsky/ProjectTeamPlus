@@ -56,13 +56,13 @@
         <div class="card gameInfoCard">
             <div class="card-body">
                 <h5 class="card-title">
-                    Publishers
+                    Game Genres
                 </h5>
                 <div class="scrollable">
                     @{
-                        foreach(var pub in pocoData.publishers)
+                        foreach(var genre in pocoData.genres)
                         {
-                            <p class="card-text">@pub</p>
+                            <p class="card-text">@genre.description</p>
                         }
                     }
                 </div>
@@ -71,13 +71,13 @@
         <div class="card gameInfoCard">
             <div class="card-body">
                 <h5 class="card-title">
-                    Game Genres
+                    Publishers
                 </h5>
                 <div class="scrollable">
                     @{
-                        foreach(var genre in pocoData.genres)
+                        foreach(var pub in pocoData.publishers)
                         {
-                            <p class="card-text">@genre.description</p>
+                            <p class="card-text">@pub</p>
                         }
                     }
                 </div>

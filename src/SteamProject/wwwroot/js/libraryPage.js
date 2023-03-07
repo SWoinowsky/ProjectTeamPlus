@@ -36,7 +36,7 @@ function refreshLibrary()
         error: errorOnAjax
     })
 }
- 
+
 function hideGame(gameName)
 {
     gameName.style.display = "none";

@@ -24,13 +24,21 @@
     right: 5px;
 }
 
+.show-btn {
+    top: 38%;
+    right: 5px;
+}
+
 .bi-bookmark-dash-fill {
     color: lightgreen !important;
 }
 
+.refresh-btn, .show-hidden-btn, .profile-btn {
+    outline: 2px inset black;
+    transition: all 1s ease;
+}
 
-
-.hide-btn, .follow-btn {
+.hide-btn, .follow-btn, .show-btn {
     transition: all 1s ease;
     position: absolute;
     opacity: 0%;
@@ -38,16 +46,18 @@
     outline: 3px inset black;
 }
 
-
 .gameContainer {
     transition: all 1s ease;
 }
 
-.gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn {
+.gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
+.gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn {
     opacity: 35%;
 }
 
-.hide-btn:hover, .follow-btn:hover {
+
+
+.hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover {
     opacity: 1 !important;
     border-radius: 25%;
 }

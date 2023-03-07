@@ -17,10 +17,18 @@ public class Category
     public string? description { get; set; }
 }
 
+public class ScreenShot
+{
+        public string path_thumbnail { get; set; }
+}
+
 public class Data
 {
+    public string? detailed_description { get; set; }
     public string? short_description { get; set; }
     public PcRequirements? pc_requirements { get; set; }
+    public MacRequirements? mac_requirements { get; set; }
+    public LinuxRequirements? linux_requirements { get; set; }
     public List<string>? developers { get; set; }
     public List<string>? publishers { get; set; }
     public List<Demo>? demos { get; set; }
@@ -28,6 +36,7 @@ public class Data
     public Platforms? platforms { get; set; }
     public Metacritic? metacritic { get; set; }
     public List<Category>? categories { get; set; }
+    public List<ScreenShot>? screenshots {get; set;}
     public List<Genre>? genres { get; set; }
 }
 
@@ -51,8 +60,20 @@ public class Metacritic
 public class PcRequirements
 {
     public string? minimum { get; set; }
+    public string? recommended {get; set;}
 }
 
+public class LinuxRequirements
+{
+    public string? minimum { get; set; }
+    public string? recommended { get; set; }
+}
+
+public class MacRequirements
+{
+    public string? minimum { get; set; }
+    public string? recommended { get; set; }
+}
 public class Platforms
 {
     public bool? windows { get; set; }

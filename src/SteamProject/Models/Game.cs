@@ -33,14 +33,11 @@ public partial class Game
         PlayTime = (int) userGames["playtime_forever"];
         IconUrl = (string) userGames["img_icon_url"];
         LastPlayed = (int) userGames["rtime_last_played"];
-        //OwnerId = userId;
-        //Owner = user;
     }
     
     public Game TakeLibraryInfoPOCO(Games game, int userId)
     {
         var temp = new Game();
-        //temp.OwnerId = userId;
         temp.AppId = game.appid;
         temp.Name = game.name;
         temp.PlayTime = game.playtime_forever;
@@ -51,8 +48,4 @@ public partial class Game
         return temp;
     }
 
-    internal void TakeGameInfoPOCO(GameInfoPOCO? poco)
-    {
-        throw new NotImplementedException();
-    }
 }

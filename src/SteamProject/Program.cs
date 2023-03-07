@@ -9,6 +9,7 @@ using SteamProject.Services;
 using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +88,8 @@ builder.Services.AddAuthentication()
                         options.CorrelationCookie.SameSite = SameSiteMode.None;
                         options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
                     });
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

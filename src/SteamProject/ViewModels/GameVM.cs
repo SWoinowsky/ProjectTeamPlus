@@ -15,6 +15,7 @@ namespace SteamProject.ViewModels
     public class GameVM
     {
         public int _appId {get; set;}
+        public UserGameInfo _userGame {get; set;}
         public Game _game {get; set;}
         public GameInfoPOCO _poco {get; set;}
 

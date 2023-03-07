@@ -86,7 +86,7 @@ public class LibraryController: Controller
 
                         try
                         {
-                            currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(currentGame.Id, user.Id);
+                            currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.AppId);
                         }
                         catch
                         {
@@ -171,12 +171,19 @@ public class LibraryController: Controller
     }
     public IActionResult ShowMoreInfo(int appId)
     {
+        string? id = _userManager.GetUserId(User);
+        User user = _userRepository.GetUser(id);
+
         Game game = _gameRepository.GetGameByAppId(appId);
         GameVM gameVM = _steamService.GetGameInfo(game);
+
         gameVM._game = game;
         gameVM._appId = appId;
+        gameVM._userGame = _userGameInfoRepository.GetAll(g => g.GameId == game.Id).FirstOrDefault();
+
         gameVM.cleanRequirements();
         gameVM.cleanDescriptions();
+
         return View(gameVM);
     }
 }

@@ -39,7 +39,8 @@ namespace SteamProject.ViewModels
         public void cleanRequirements()
         {
             //These are the try catch to remove the HTML styling that Steam provides with the requirement descriptions.
-            
+
+            // MINIMUM
             //Linux Minimum
             try
             {
@@ -68,6 +69,7 @@ namespace SteamProject.ViewModels
                 this._poco.response.data.pc_requirements.minimum = "Steam doesn\'t provide minimum pc requirements for this title.";
             }
 
+            // RECOMMENDED
             //PC recommended
             try
             {
@@ -95,23 +97,14 @@ namespace SteamProject.ViewModels
             {
                 this._poco.response.data.mac_requirements.recommended = "Steam doesn\'t provide recommended mac requirements for this title.";
             }
-        }
+            this._poco.response.data.pc_requirements.minimum = Regex.Replace(this._poco.response.data.pc_requirements.minimum, @"\s+", " ");
+            this._poco.response.data.pc_requirements.recommended = Regex.Replace(this._poco.response.data.pc_requirements.recommended, @"\s+", " ");
 
-        public void GetRequirementsFromJson(List<string> pcRequirements, List<string> linuxRequirements, List<string> macRequirements)
-        {
-            string pcMinRequirements = pcRequirements[0];
-            string pcRecommendedRequirements = pcRequirements[1];
-            string linuxMinRequirements = pcRequirements[0];
-            string linuxRecommendedRequirements = pcRequirements[1];
-            string macMinRequirements = pcRequirements[0];
-            string macRecommendedRequirements = pcRequirements[1];
-            
-            JObject pcMinRequirementsJSON = JObject.Parse(pcMinRequirements);
-            JObject linuxMinRequirementsJSON = JObject.Parse(linuxMinRequirements);
-            JObject macMinRequirementsJSON = JObject.Parse(macMinRequirements);
-            JObject pcRecommendedRequirementsJSON = JObject.Parse(pcRecommendedRequirements);
-            JObject linuxRecommendedRequirementsJSON = JObject.Parse(linuxRecommendedRequirements);
-            JObject macRecommendedRequirementsJSON = JObject.Parse(macRecommendedRequirements);
+            this._poco.response.data.linux_requirements.minimum = Regex.Replace(this._poco.response.data.linux_requirements.minimum, @"\s+", " ");
+            this._poco.response.data.linux_requirements.recommended = Regex.Replace(this._poco.response.data.linux_requirements.recommended, @"\s+", " ");
+
+            this._poco.response.data.mac_requirements.minimum = Regex.Replace(this._poco.response.data.mac_requirements.minimum, @"\s+", " ");
+            this._poco.response.data.mac_requirements.recommended = Regex.Replace(this._poco.response.data.mac_requirements.recommended, @"\s+", " ");
         }
     }
 

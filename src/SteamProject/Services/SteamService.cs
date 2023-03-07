@@ -127,7 +127,7 @@ public class SteamService : ISteamService
                 }
             }
             return games.OrderBy(g => g.Name);
-        }          
+        }
     }
 
     public GameVM GetGameInfo(Game game)

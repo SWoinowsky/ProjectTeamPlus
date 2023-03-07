@@ -5,6 +5,10 @@
     var gameData = Model._game;
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/ShowMoreInfo.css">
+</head>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-3" style="width: 500px">
@@ -99,32 +103,47 @@
         </div>
     </div>
 </div>
-
-
-<p>These are the PC requirements</p>
-@{
-    <div>@pocoData.pc_requirements.minimum</div>
-}
-<br>
-@{
-    <div>@pocoData.pc_requirements.recommended</div>
-}
 <br><br>
-
-<p>These are the Linux requirements</p>
-@{
-    <div>@pocoData.linux_requirements.minimum</div>
-}
-<br>
-@{
-    <div>@pocoData.linux_requirements.recommended</div>
-}
-<br><br>
-<p>These are the Mac requirements</p>
-@{
-    <div>@pocoData.mac_requirements.minimum</div>
-}
-<br>
-@{
-    <div>@pocoData.mac_requirements.recommended</div>
-}
+<div class="col">
+    <table class ="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th style="text-align: center;" colspan="3">Computer Requirements by OS</th>
+            </tr>
+            <tr>
+                <th>Minimum/Recommended</th>
+                <th>PC requirements</th>
+                <th>Linux requirements</th>
+                <th>Mac requirements</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                <tr>
+                    <th>Minimum</th>
+                    <td>
+                        @pocoData.pc_requirements.minimum
+                    </td>
+                    <td>
+                        @pocoData.linux_requirements.minimum
+                    </td>
+                    <td>
+                        @pocoData.mac_requirements.minimum
+                    </td>
+                </tr>
+                <tr>
+                    <th>Recommended</th>
+                    <td>
+                        @pocoData.pc_requirements.recommended
+                    </td>
+                    <td>
+                        @pocoData.linux_requirements.recommended
+                    </td>
+                    <td>
+                        @pocoData.mac_requirements.recommended
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -16,60 +16,90 @@
             <p>@pocoData.short_description</p>
         </div>
     </div>
-    <div class="row">
-        <table id="generalInfoTable" class="table table-striped">
-            <tr>
-                <th>General Categories:</th>
-                @{
-                    foreach(var cat in pocoData.categories)
-                    {
-                        <td>@cat.description</td>
+    <br>
+    <div class="flex-container">
+        <div class="card gameInfoCard">
+            <div class="card-body">
+                <h5 class="card-title">
+                    General Categories
+                </h5>
+                <div class="scrollable">
+                    @{
+                        foreach(var cat in pocoData.categories)
+                        {
+                            <p class="card-text">@cat.description</p>
+                        }
                     }
-                }
-            </tr>
-            <tr>
-                <th>Developers:</th>
-                @{
-                    foreach(var dev in pocoData.developers)
-                    {
-                        <td>@dev</td>
+                </div>
+            </div>
+        </div>
+        <div class="card gameInfoCard">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Developers
+                </h5>
+                <div class="scrollable">
+                    @{
+                        foreach(var dev in pocoData.developers)
+                        {
+                            <p class="card-text">@dev</p>
+                        }
                     }
-                }
-            </tr>
-            <tr>
-                <th>Publishers:</th>
-                @{
-                    foreach(var pub in pocoData.publishers)
-                    {
-                        <td>@pub</td>
+                </div>
+            </div>
+        </div>
+        <div class="card gameInfoCard">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Publishers
+                </h5>
+                <div class="scrollable">
+                    @{
+                        foreach(var pub in pocoData.publishers)
+                        {
+                            <p class="card-text">@pub</p>
+                        }
                     }
-                }
-            </tr>
-            <tr>
-                <th>Game Genres:</th>
-                @{
-                    foreach(var genre in pocoData.genres)
-                    {
-                        <td>@genre.description</td>
+                </div>
+            </div>
+        </div>
+        <div class="card gameInfoCard">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Game Genres
+                </h5>
+                <div class="scrollable">
+                    @{
+                        foreach(var genre in pocoData.genres)
+                        {
+                            <p class="card-text">@genre.description</p>
+                        }
                     }
-                }
-            </tr>
-            <tr>
-                <th>Ratings:</th>
-                @{
-                    if(pocoData.metacritic != null)
-                    {
-                        <td>Metacritic: @pocoData.metacritic.score</td>
+                </div>
+            </div>
+        </div>
+        <div class="card gameInfoCard">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Ratings
+                </h5>
+                <div class="scrollable">
+                    @{
+                        if(pocoData.metacritic != null)
+                        {
+                            <p class="card-text">Metacritic: @pocoData.metacritic.score</p>
+                        }
+                        else
+                        {
+                            <p class="card-text">No Metacritic rating available</p>
+                        }
                     }
-                    else
-                    {
-                        <td>No Metacritic rating available</td>
-                    }
-                }
-            </tr>
-        </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <p>These are the PC requirements</p>
 @{

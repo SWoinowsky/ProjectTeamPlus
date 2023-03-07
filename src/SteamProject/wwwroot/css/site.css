@@ -105,3 +105,16 @@ animation: loading-spinner 1s linear infinite;
 .friendCard:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }
+
+/* GAME INFO PAGE */
+.gameInfoCard {
+  background-image: linear-gradient(to left, #222731, #2f526e, #222731); 
+  width: 20rem;
+  padding: 2px;
+  height: 200px;
+}
+
+.scrollable {
+  overflow-y: auto;
+  max-height: 140px;
+}

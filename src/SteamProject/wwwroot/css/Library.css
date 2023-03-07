@@ -50,7 +50,8 @@
     transition: all 1s ease;
 }
 
-.gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, .gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn {
+.gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
+.gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn {
     opacity: 35%;
 }
 

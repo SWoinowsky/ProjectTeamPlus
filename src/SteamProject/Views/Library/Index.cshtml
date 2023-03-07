@@ -59,7 +59,7 @@ else
                             {
                                 var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
                                 <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@name')">
-                                    <i  fill="CurrentColor" class="bi bi-eye-slash-fill" style="font-size:1.5em"></i>
+                                    <i  fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
                                 </button>
                                 <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow Game" onclick="setFollowedGame('@name')">
                                     @if(game.Followed == true)
@@ -89,7 +89,7 @@ else
                                 </button>
                             }
                             <a href='@Url.Action("ShowMoreInfo", "Library", new {appId = @game.Game.AppId})'>
-                                <button type="submit" class="btn btn-outline-info show-btn" data-toggle="tooltip" title="More Game Info">
+                                <button class="btn btn-outline-info show-btn" data-toggle="tooltip" title="More Game Info">
                                     <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
                                 </button>
                             </a>

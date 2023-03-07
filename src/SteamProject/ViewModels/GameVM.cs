@@ -99,13 +99,22 @@ namespace SteamProject.ViewModels
                 this._poco.response.data.mac_requirements.recommended = "Steam doesn\'t provide recommended mac requirements for this title.";
             }
             this._poco.response.data.pc_requirements.minimum = Regex.Replace(this._poco.response.data.pc_requirements.minimum, @"\s+", " ");
+            this._poco.response.data.pc_requirements.minimum = Regex.Replace(this._poco.response.data.pc_requirements.minimum, @"Minimum:", "");
+
             this._poco.response.data.pc_requirements.recommended = Regex.Replace(this._poco.response.data.pc_requirements.recommended, @"\s+", " ");
+            this._poco.response.data.pc_requirements.recommended = Regex.Replace(this._poco.response.data.pc_requirements.recommended, @"Recommended:", "");
 
             this._poco.response.data.linux_requirements.minimum = Regex.Replace(this._poco.response.data.linux_requirements.minimum, @"\s+", " ");
+            this._poco.response.data.linux_requirements.minimum = Regex.Replace(this._poco.response.data.linux_requirements.minimum, @"Minimum:", "");
+
             this._poco.response.data.linux_requirements.recommended = Regex.Replace(this._poco.response.data.linux_requirements.recommended, @"\s+", " ");
+            this._poco.response.data.linux_requirements.recommended = Regex.Replace(this._poco.response.data.linux_requirements.recommended, @"Recommended:", "");
 
             this._poco.response.data.mac_requirements.minimum = Regex.Replace(this._poco.response.data.mac_requirements.minimum, @"\s+", " ");
+            this._poco.response.data.mac_requirements.minimum = Regex.Replace(this._poco.response.data.pc_requirements.minimum, @"Minimum:", "");
+
             this._poco.response.data.mac_requirements.recommended = Regex.Replace(this._poco.response.data.mac_requirements.recommended, @"\s+", " ");
+            this._poco.response.data.mac_requirements.recommended = Regex.Replace(this._poco.response.data.mac_requirements.recommended, @"Recommended:", "");
         }
     }
 

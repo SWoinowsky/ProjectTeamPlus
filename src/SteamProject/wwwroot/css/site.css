@@ -42,10 +42,10 @@ html {
   min-height: 100%;
 }
 
-body{
+/* body{
   margin-bottom: 60px;
   background-image: linear-gradient(to left, #171a21, #2a475e, #171a21);
-}
+} */
 
 .flex-container {
   display: flex;
@@ -127,6 +127,258 @@ animation: loading-spinner 1s linear infinite;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }
 
+/* Landing, Navbar, Footer Styling  */
+
+.short-logo-img {
+  height: 50px;
+  width: 50px;
+}
+
+.long-logo-img {
+  display: none;
+}
+
+.litem-label {
+  display: none;
+}
+
+.navbar {
+  background-color: #000;
+  height: 69px;
+  box-shadow: 0px 6px 6px #000;
+  align-content: center;
+  z-index: 1;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  margin-right: 3rem;
+}
+
+.nav-link {
+  color: #fff;;
+}
+.nav-link:hover {
+  color: #666666;;
+}
+
+.vert-nav {
+  background-color: #000;
+  height: 350px;
+  width: 65px;
+  border-radius: 8px;
+  border: 1px solid #979797;
+  top: 80px;
+  position: fixed;
+  border-radius: 65px;
+  z-index: 2;
+}
+
+.vert-nav:hover .short-logo-img {
+  display: none;
+  transition: all .7s ease;
+}
+.vert-nav:hover .long-logo-img {
+  display: flex;
+  height: 40px;
+  width: 145px;
+  margin-top: 1rem;
+  transition: all .1s linear;
+}
+
+.vert-nav:hover .litem-label {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  transition: all .7s ease;
+}
+
+.vert-nav:hover {
+  background-color: #000;
+  height: 350px;
+  width: 180px;
+  border-radius: 65px;
+  border: 1px solid #979797;
+  transition: all .7s ease;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  margin-top: 10px;
+}
+
+.nav-body {
+  display: flex;
+  align-content: center;
+  flex-flow: column wrap;
+  color: #fff;
+}
+
+a {
+  display: flex;
+  text-decoration: none;
+  color: none;
+}
+
+.nav-litem {
+  border-top: 1px solid #979797;
+  padding: .6rem;
+  display: flex;
+  justify-content: center;
+}
+
+.litem-img {
+  height: 21px;
+  contain: content;
+}
+
+.litem-label {
+  color: #fff;
+}
+
+#landingCarouselInner {
+  background-image: url(../assets/gamemural.png);
+  height: 400px;
+  display: flex;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.carousel-item.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  height: 100px;
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.54) 0%, #000000 50%);
+  display: flex;
+  align-items: flex-end;
+}
+
+.footer-privacy,.footer-privacy:hover,.footer-privacy:active {
+  color: #666666;
+}
+
+.footer-content {
+  color: #666666;
+  width: 100%;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+div {
+  color: #000;
+}
+
+.land-section {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column wrap;
+}
+
+.minor1, .minor2 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.major1, .major2 {
+  font-weight: 600;
+  text-align: center;
+}
+
+.major1 {
+  background-image: linear-gradient(90deg, #FFAA00 0%, #FF00EE 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 3rem;
+}
+
+.steam-pill { 
+  background-image: url(../assets/steamGradient.png);
+  border-radius: 65px;
+  width: 300px;
+  height: 55px;
+  font-size: 1.5rem;
+  color: #fff;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+}
+
+.register-link, .register-link:hover {
+  color: #fff;
+}
+
+.major2 {
+  background-image: linear-gradient(90deg, #6600FF 0%, #FF0066 100%);
+  color: transparent;
+  -webkit-background-clip: text;
+  font-size: 3.5rem;
+  width: 75%;
+}
+
+.testimonials {
+  padding-top: 50px;
+}
+
+.test {
+  width: 25%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+.test-img {
+  height: 100px;
+  border-radius: 8px;
+}
+
+.test-text {
+  text-align: center;
+}
+
+.github-plug {
+  margin-top: 150px;
+  background-image: radial-gradient(circle at 50% 50%, #49319E 0%, #5C0982 120%);
+  border-radius: 15px;
+  width: 600px;
+  height: 150px;
+}
+
+.bi.bi-github {
+  color: #fff;
+  font-size: 4.5rem;
+}
+
+.github-link {
+  color: #fff;
+  font-size: 1.6rem;
+  height: 150px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.github-anchor,.github-anchor:hover,.github-anchor:active {
+  color: #FF5454;
+}
+
+.pb-3 {
+  margin-bottom: 200px;
+  }
+  
 /* GAME INFO PAGE */
 .gameInfoCard {
   background-image: linear-gradient(to left, #222731, #2f526e, #222731); 

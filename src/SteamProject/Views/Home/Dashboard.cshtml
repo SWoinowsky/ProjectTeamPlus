@@ -14,25 +14,65 @@
 else
 {
 
-    <div class="container-fluid"> 
+
+    <div class="container-fluid">
+        <h1>User Dashboard</h1>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-md-3 center">
+                    <h2 class="center">@Model._user.SteamName</h2>
+                    <h3 class="center">Level @Model._user.PlayerLevel</h3>
                     <div id="userAvatar">
                         <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-top: 10px"/>
-                        <button class="btn show-followed-btn" data-toggle="tooltip" title="Show Followed Games" onclick="showFollowedGamesModal()">
+                        <button class="btn show-followed-btn" data-toggle="modal" title="Show Followed Games" data-target="#followModal">
                             <i fill="CurrentColor" class="bi bi-bookmark"></i> Followed Games
                         </button>
                     </div>
 
                 </div>
-                <div class="col-lg-2">
-                    <h2>@Model._user.SteamName</h2>
-                    <h3>Level @Model._user.PlayerLevel</h3>
-                </div>
-                <div class="col-lg-7">
-                    <h1></h1>
+                <div class="col-md-9">
                     <div>
+                        <p>Here is a centralized location to receive updates and news for the games you are interested in </p>
+                        <ul>
+                            <li>See the games you recently played</li>
+                            <li>See the games you follow</li>
+                            <li>See the results of your achievement competitions</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="followModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" id="followModalHeader">
+                        <button type="button" class="btn-close" id="modalCloser" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row" id="informationRow">
+                            @foreach (List<Game> gameList in Model.followedGames)
+                            {
+                                @foreach (Game game in gameList)
+                                {
+                                    <div class="card followCard col-md-4 mb-3">
+                                        <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
+                                        <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setFollowedGame('@game.Name')">
+                                            <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
+                                        </button>
+                                        <div class="card-body">
+                                            <h4 class="card-title">@game.Name</h4>
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                        </div>
+                        <div class="error">
+                            <h2 class="error-fol" id="error-ach" style="display: none;">There are no followed games to be displayed</h2>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,7 +82,7 @@ else
 
         <h1>Your News</h1>
         <br/>
-        <div class="flex-container" >
+        <div class="container">
             <h4>Recently Played Games</h4>
             <div class="row">
                 <div id="recentGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -52,11 +92,11 @@ else
                                 @for (var i = 0; i < Model.recentGames[0].Count; i++)
                                 {
 
-                                    <div class="card col-md-4 mb-3">
-                                        <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
+                                    <div class="card userCard col-md-4 mb-3">
+                                        <img class="img-fluid" alt="@Model.recentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
                                         <div class="card-body">
                                             <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
-                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                            <p class="card-text">Recent News</p>
                                         </div>
                                     </div>
 
@@ -71,11 +111,11 @@ else
                                 <div class="row">
                                     @for (var i = 0; i < Model.recentGames[index].Count; i++)
                                     {
-                                        <div class="card col-md-4 mb-3">
-                                            <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                        <div class="card userCard col-md-4 mb-3">
+                                            <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
                                             <div class="card-body">
                                                 <h4 class="card-title">@game[i].Name</h4>
-                                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                                <p class="card-text">Recent News</p>
                                             </div>
                                         </div>
                                     }
@@ -96,7 +136,7 @@ else
                 </div>
             </div>
             <br/>
-            
+
             <h4>Followed Games</h4>
             <div id="followedGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -104,11 +144,11 @@ else
                         <div class="row">
                             @for (var i = 0; i < Model.followedGames[0].Count; i++)
                             {
-                                <div class="card col-md-4 mb-3">
-                                    <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.followedGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
+                                <div class="card userCard col-md-4 mb-3">
+                                    <img class="img-fluid" alt="@Model.followedGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.followedGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
                                     <div class="card-body">
                                         <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
-                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                        <p class="card-text">Recent News</p>
                                     </div>
                                 </div>
                             }
@@ -123,11 +163,11 @@ else
                                 @for (var i = 0; i < Model.followedGames[index].Count; i++)
                                 {
 
-                                    <div class="card col-md-4 mb-3">
-                                        <img class="img-fluid" alt="100%x280" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                    <div class="card userCard col-md-4 mb-3">
+                                        <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
                                         <div class="card-body">
                                             <h4 class="card-title">@game[i].Name</h4>
-                                            <p class="card-text">Recent News:</p>
+                                            <p class="card-text">Recent News</p>
                                         </div>
                                     </div>
 
@@ -161,5 +201,6 @@ else
 }
 @section Scripts
 {
+    <script type="text/javascript" src="~/js/followGame.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 }

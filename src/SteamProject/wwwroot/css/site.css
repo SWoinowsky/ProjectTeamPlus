@@ -8,6 +8,27 @@ html {
   }
 }
 
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #858585; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2a475e; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #171a21; 
+}
+
 th, tr, td {
   color: white;
 }

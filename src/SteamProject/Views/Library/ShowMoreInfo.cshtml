@@ -21,7 +21,7 @@
         <div class="col-lg-6" style="padding-top: 40px;">
             <h3 style="text-align: center;">@gameData.Name</h3>
             <p>@pocoData.short_description</p>
-            <p>You've played @gameData.Name for @Model.playTime hour(s).</p>
+            <p><strong>You've played @gameData.Name for @Model.playTime hour(s).</strong></p>
         </div>
     </div>
     <br>
@@ -158,19 +158,19 @@
     <table class ="table table-sm table-bordered">
         <thead>
             <tr>
-                <th style="text-align: center;" colspan="4">Computer Requirements by OS</th>
+                <th style="text-align: center;" colspan="4"><h3>Computer Requirements by OS</h3></th>
             </tr>
             <tr>
-                <th>Minimum/Recommended</th>
-                <th>PC requirements</th>
-                <th>Linux requirements</th>
-                <th>Mac requirements</th>
+                <th><h4>Minimum/Recommended</h4></th>
+                <th><h4>PC requirements</h4></th>
+                <th><h4>Linux requirements</h4></th>
+                <th><h4>Mac requirements</h4></th>
             </tr>
         </thead>
         <tbody>
             @{
                 <tr>
-                    <th>Minimum</th>
+                    <th><h3>Minimum</h3></th>
                     <td>
                         @pocoData.pc_requirements.minimum
                     </td>
@@ -182,7 +182,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Recommended</th>
+                    <th><h3>Recommended</h3></th>
                     <td>
                         @pocoData.pc_requirements.recommended
                     </td>

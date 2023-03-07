@@ -175,8 +175,12 @@ public class LibraryController: Controller
         GameVM gameVM = _steamService.GetGameInfo(game);
         gameVM._game = game;
         gameVM._appId = appId;
-        gameVM.cleanRequirements();
-        gameVM.cleanDescriptions();
+        // gameVM.cleanRequirements();
+        // gameVM.cleanDescriptions();
+        // List<string> pcRequirements = new List<string>{gameVM._poco.response.data.pc_requirements.minimum, gameVM._poco.response.data.pc_requirements.recommended};
+        // List<string> linuxRequirements = new List<string>{gameVM._poco.response.data.linux_requirements.minimum, gameVM._poco.response.data.linux_requirements.recommended};
+        // List<string> macRequirements = new List<string>{gameVM._poco.response.data.mac_requirements.minimum, gameVM._poco.response.data.mac_requirements.recommended};
+        // gameVM.GetRequirementsFromJson(pcRequirements, linuxRequirements, macRequirements);
         return View(gameVM);
     }
 }

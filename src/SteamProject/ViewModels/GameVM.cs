@@ -8,6 +8,7 @@ using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SteamProject.Models.DTO;
+using Newtonsoft.Json.Linq;
 
 namespace SteamProject.ViewModels
 {
@@ -15,10 +16,21 @@ namespace SteamProject.ViewModels
     {
         public int _appId {get; set;}
         public Game _game {get; set;}
-         public GameInfoPOCO _poco {get; set;}
+        public GameInfoPOCO _poco {get; set;}
+
+        public class Requirements 
+        {
+            public string? _minimum {get; set;}
+            public string? _operatingSystem {get; set;}
+            public string? _processor {get; set;}
+            public string? _memory {get; set;}
+            public string? _graphics {get; set;}
+            public string? _storage {get; set;}
+        }
         public GameVM()
         {
         }
+
         public void cleanDescriptions()
         {
             this._poco.response.data.detailed_description = Regex.Replace(this._poco.response.data.detailed_description, @"<[^>]+>|&nbsp;", "").Trim();
@@ -83,6 +95,23 @@ namespace SteamProject.ViewModels
             {
                 this._poco.response.data.mac_requirements.recommended = "Steam doesn\'t provide recommended mac requirements for this title.";
             }
+        }
+
+        public void GetRequirementsFromJson(List<string> pcRequirements, List<string> linuxRequirements, List<string> macRequirements)
+        {
+            string pcMinRequirements = pcRequirements[0];
+            string pcRecommendedRequirements = pcRequirements[1];
+            string linuxMinRequirements = pcRequirements[0];
+            string linuxRecommendedRequirements = pcRequirements[1];
+            string macMinRequirements = pcRequirements[0];
+            string macRecommendedRequirements = pcRequirements[1];
+            
+            JObject pcMinRequirementsJSON = JObject.Parse(pcMinRequirements);
+            JObject linuxMinRequirementsJSON = JObject.Parse(linuxMinRequirements);
+            JObject macMinRequirementsJSON = JObject.Parse(macMinRequirements);
+            JObject pcRecommendedRequirementsJSON = JObject.Parse(pcRecommendedRequirements);
+            JObject linuxRecommendedRequirementsJSON = JObject.Parse(linuxRecommendedRequirements);
+            JObject macRecommendedRequirementsJSON = JObject.Parse(macRecommendedRequirements);
         }
     }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,6 +55,7 @@ public class LibraryController: Controller
             userLibraryVM._user = user;
             List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
             userLibraryVM._games = new List<Game>();
+            UserGameInfo? currentUserInfo = new UserGameInfo();
 
             if (gameInfo.Count == 0)
             {
@@ -82,16 +84,26 @@ public class LibraryController: Controller
                         game.PlayTime = 0;
                         game.LastPlayed = 0;
 
-                        UserGameInfo? currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.Id, user.Id);
+                        try
+                        {
+                            currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.AppId);
+                        }
+                        catch
+                        {
+                             currentUserInfo = null;
+                        }
 
                         //Check if game is in database, if not add it
                         if (currentGame == null)
                         {
+                            _gameRepository.AddOrUpdate(game);
+                            var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
                             if (currentUserInfo == null)
                             {
+                                
                                 _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
                                     OwnerId = user.Id,
-                                    GameId = game.Id,
+                                    GameId = temp.Id,
                                     PlayTime = playTime,
                                     LastPlayed = lastPlayed,
                                     Hidden = false,
@@ -101,7 +113,15 @@ public class LibraryController: Controller
                                 });
                                 userLibraryVM._games.Add(game);
                             }
-                            _gameRepository.AddOrUpdate(game);
+                            else
+                            {
+                                UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == temp.Id);
+                                currentGameInfo.LastPlayed = lastPlayed;
+                                currentGameInfo.PlayTime = playTime;
+
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
+                            }
                         }
                         else
                         {
@@ -124,6 +144,15 @@ public class LibraryController: Controller
                                 userLibraryVM._games.Add(game);
 
                             }
+                            else
+                            {
+                                UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == currentGame.Id);
+                                currentGameInfo.LastPlayed = lastPlayed;
+                                currentGameInfo.PlayTime = playTime;
+
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
+                            }
                         }
                     }
                     catch
@@ -136,7 +165,27 @@ public class LibraryController: Controller
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
+            userLibraryVM._user.UserGameInfos = userLibraryVM._user.UserGameInfos.OrderBy(g => g.Game.Name).ToList();
             return View(userLibraryVM);
         }
+    }
+    public IActionResult ShowMoreInfo(int appId)
+    {
+        string? id = _userManager.GetUserId(User);
+        User user = _userRepository.GetUser(id);
+
+        Game game = _gameRepository.GetGameByAppId(appId);
+        GameVM gameVM = _steamService.GetGameInfo(game);
+
+        gameVM._game = game;
+        gameVM._appId = appId;
+        gameVM._userGame = _userGameInfoRepository.GetAll(g => g.GameId == game.Id).FirstOrDefault();
+        
+        gameVM.playTime = Math.Round(Convert.ToDouble(gameVM._userGame.PlayTime)/60, 1);
+
+        gameVM.cleanRequirements();
+        gameVM.cleanDescriptions();
+
+        return View(gameVM);
     }
 }

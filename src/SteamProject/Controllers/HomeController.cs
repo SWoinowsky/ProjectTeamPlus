@@ -59,7 +59,7 @@ public class HomeController : Controller
                 List<UserGameInfo> currentUserInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id).OrderByDescending(u => u.LastPlayed).ToList();
 
                 //get games list for user
-                List<Game>? games = _gameRepository.GetGamesListByUserInfo(currentUserInfo).Take(13).ToList();
+                List<Game>? games = _gameRepository.GetGamesListByUserInfo(currentUserInfo).Take(12).ToList();
 
                 List<Game>? followedGames = _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
 

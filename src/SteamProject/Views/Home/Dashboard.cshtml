@@ -15,8 +15,10 @@ else
 {
 
 
-    <div class="container-fluid">
+    <div class="container">
+
         <h1>User Dashboard</h1>
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 center">
@@ -70,20 +72,24 @@ else
                                 }
                             }
                         </div>
+
                         <div class="error">
                             <h2 class="error-fol" id="error-ach" style="display: none;">There are no followed games to be displayed</h2>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-
         <br/>
 
         <h1>Your News</h1>
+
         <br/>
-        <div class="container">
+        <div class="container-fluid">
+
             <h4>Recently Played Games</h4>
+
             <div class="row">
                 <div id="recentGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -91,14 +97,16 @@ else
                             <div class="row">
                                 @for (var i = 0; i < Model.recentGames[0].Count; i++)
                                 {
-
-                                    <div class="card userCard col-md-4 mb-3">
-                                        <img class="img-fluid" alt="@Model.recentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
-                                        <div class="card-body">
-                                            <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
-                                            <p class="card-text">Recent News</p>
+                                    <div class="col-lg-4">
+                                        <div class="card userCard">
+                                            <img class="img-fluid" alt="@Model.recentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
+                                            <div class="card-body">
+                                                <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
+                                                <p class="card-text">Recent News</p>
+                                            </div>
                                         </div>
                                     </div>
+
 
                                 }
                             </div>
@@ -111,11 +119,13 @@ else
                                 <div class="row">
                                     @for (var i = 0; i < Model.recentGames[index].Count; i++)
                                     {
-                                        <div class="card userCard col-md-4 mb-3">
-                                            <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
-                                            <div class="card-body">
-                                                <h4 class="card-title">@game[i].Name</h4>
-                                                <p class="card-text">Recent News</p>
+                                        <div class="col-lg-4">
+                                            <div class="card userCard">
+                                                <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">@game[i].Name</h4>
+                                                    <p class="card-text">Recent News</p>
+                                                </div>
                                             </div>
                                         </div>
                                     }
@@ -138,57 +148,64 @@ else
             <br/>
 
             <h4>Followed Games</h4>
-            <div id="followedGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="row">
+            <div class="row" >
+                <div id="followedGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
                             @for (var i = 0; i < Model.followedGames[0].Count; i++)
                             {
-                                <div class="card userCard col-md-4 mb-3">
-                                    <img class="img-fluid" alt="@Model.followedGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.followedGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
-                                    <div class="card-body">
-                                        <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
-                                        <p class="card-text">Recent News</p>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-
-                    @for (var index = 1; index < Model.followedGames.Count; index++)
-                    {
-                        var game = Model.followedGames[index];
-                        <div class="carousel-item">
-                            <div class="row">
-                                @for (var i = 0; i < Model.followedGames[index].Count; i++)
-                                {
-
-                                    <div class="card userCard col-md-4 mb-3">
-                                        <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                <div class="col-lg-4">
+                                    <div class="card userCard">
+                                        <img class="img-fluid" alt="@Model.followedGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.followedGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
                                         <div class="card-body">
-                                            <h4 class="card-title">@game[i].Name</h4>
+                                            <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
                                             <p class="card-text">Recent News</p>
                                         </div>
                                     </div>
+                                </div>
 
-                                }
-                            </div>
+                            }
                         </div>
-                    }
+                    
+
+                        @for (var index = 1; index < Model.followedGames.Count; index++)
+                        {
+                            var game = Model.followedGames[index];
+                            <div class="carousel-item">
+                                <div class="row">
+                                    @for (var i = 0; i < Model.followedGames[index].Count; i++)
+                                    {
+                                        <div class="col-lg-4">
+                                            <div class="card userCard">
+                                                <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">@game[i].Name</h4>
+                                                    <p class="card-text">Recent News</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    <a class="carousel-control-prev" href="#followedGamesCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+
+                    <a class="carousel-control-next" href="#followedGamesCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
                 </div>
-
-                <a class="carousel-control-prev" href="#followedGamesCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only"></span>
-                </a>
-
-                <a class="carousel-control-next" href="#followedGamesCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only"></span>
-                </a>
             </div>
         </div>
     </div>
+
 
     <div class="container-fluid" style="height: 25%;">
 

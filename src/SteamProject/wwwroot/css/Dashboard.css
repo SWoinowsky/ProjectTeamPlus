@@ -12,10 +12,22 @@ h1 {
     text-align: center !important;
 }
 
+h2 {
+    color: #ffffff !important;
+}
+
 h3 {
     margin-top: 15px !important;
     margin-bottom: 5px !important;
     color: #87cefa !important;
+}
+
+h4 {
+    color: #ffffff !important;
+}
+
+li {
+    color: #ffffff !important;
 }
 
 
@@ -32,11 +44,6 @@ p {
     color: #ffffff !important;
 }
 
-.carousel-inner {
-    justify-content: center;
-    width: 100%;
-}
-
 .img-fluid {
     text-align: center;
     height: 226px;
@@ -48,11 +55,13 @@ p {
     text-align: center;
     justify-content: center;
     background: linear-gradient(to left, #222731, #2f526e, #222731);
-    padding: 15px;
     height: 450px;
     margin-top: 0px;
     margin: 0px;
+    padding: 5px;
     border-radius: 0;
+    min-width: 20rem;
+    
 }
 
 body {
@@ -64,12 +73,22 @@ body {
     justify-content: center;
     background: none;
     padding: 5px;
+}
+
+#recentGamesCarousel {
+    width: 100%;
+}
+
+#followedGamesCarousel {
+    width: 100%;
 
 }
 
+.carousel-item {
+    width: 100%;
+}
 
-
-.modal-lg{
+.modal-lg {
     border-radius: 200px;
     width: 100%
 }
@@ -90,7 +109,10 @@ body {
     border-color: #4ba0bc;
     border-radius: 20px;
     background-color: #222731;
+    justify-content: center;
+    width: 100%;
 }
+
 
 .show-follow-btn {
     display: block;

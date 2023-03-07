@@ -55,6 +55,10 @@ p {
     border-radius: 0;
 }
 
+body {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}
+
 .followCard {
     text-align: center;
     justify-content: center;

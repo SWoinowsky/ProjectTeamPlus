@@ -23,6 +23,9 @@ p {
     color: #ffffff !important;
 }
 
+li {
+    color: #d6d7d8 !important;
+}
 
 footer {
     display: flex;

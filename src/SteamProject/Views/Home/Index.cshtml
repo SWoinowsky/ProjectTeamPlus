@@ -10,7 +10,7 @@
     <li data-target="#landingCarousel" data-slide-to="2"></li>
     <li data-target="#landingCarousel" data-slide-to="3"></li>
   </ol>
-  <div class="carousel-inner">
+  <div id="landingCarouselInner" class="carousel-inner">
     <div class="carousel-item active">
       <img class="carousel-img" src="~/assets/slideOne.png" height="175px" alt="First slide">
     </div>
@@ -34,19 +34,25 @@
   </a>
 </div>
 <br><br>
+
 <div class="land-section">
-    <div class="minor1">
-        Get started instantly.
-    </div>
-    <br>
-    <div class="major1">
-        Sign-up and link with STEAM®
-    </div>
-    <br>
-    <div class="steam-pill">
-        Sign-up now
-    </div>
-    <br><br>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="minor1">
+            Get started instantly.
+        </div>
+        <br>
+        <div class="major1">
+            Sign-up and link with STEAM®
+        </div>
+        <br>
+        <div class="steam-pill">
+          <a class="register-link"  asp-area="Identity" asp-page="/Account/Register">
+            Sign-up now
+          </a>
+        </div>
+        <br><br>
+    }
     <div class="major2">
         "The best platform for achievement hunting."
     </div>
@@ -59,19 +65,19 @@
         <div class="row">
             <div class="test">
                 <img src="https://avatars.githubusercontent.com/u/63480959?v=4" alt="" class="test-img">
-                <div class="test-text">I had no idea how much my friends had done without me!</div>
+                <div class="test-text">"I had no idea how much my friends had done without me!"</div>
             </div>
             <div class="test">
                 <img src="https://avatars.githubusercontent.com/u/72096735?v=4" alt="" class="test-img">
-                <div class="test-text">Access all your steam information and game news in one place?</div>
+                <div class="test-text">"Access all your steam information and game news in one place?"</div>
             </div>
             <div class="test">
                 <img src="https://avatars.githubusercontent.com/u/63754468?v=4" alt="" class="test-img">
-                <div class="test-text"></div>
+                <div class="test-text">"Now I can have a good reason for being mad about losing to my friends"</div>
             </div>
             <div class="test">
                 <img src="https://avatars.githubusercontent.com/u/63754567?v=4" alt="" class="test-img">
-                <div class="test-text">This platform rocks! Stay tuned for more exciting features!</div>
+                <div class="test-text">"This platform rocks! Stay tuned for more exciting features!"</div>
             </div>
         </div>
     </div>

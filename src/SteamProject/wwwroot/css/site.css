@@ -125,6 +125,20 @@ animation: loading-spinner 1s linear infinite;
   z-index: 1;
 }
 
+.navbar-nav {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  margin-right: 3rem;
+}
+
+.nav-link {
+  color: #fff;;
+}
+.nav-link:hover {
+  color: #666666;;
+}
+
 .vert-nav {
   background-color: #000;
   height: 350px;
@@ -201,10 +215,12 @@ a {
   color: #fff;
 }
 
-.carousel-inner {
+#landingCarouselInner {
   background-image: url(../assets/gamemural.png);
-  height: 375px;
+  height: 400px;
   display: flex;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .carousel-item.active {
@@ -214,16 +230,23 @@ a {
 }
 
 footer {
-  display: flex;
   height: 100px;
   background-image: linear-gradient(180deg, rgba(255,255,255,0.54) 0%, #000000 50%);
+  display: flex;
   align-items: flex-end;
 }
 
+.footer-privacy,.footer-privacy:hover,.footer-privacy:active {
+  color: #666666;
+}
+
 .footer-content {
-  color: #fff;
+  color: #666666;
+  width: 100%;
   margin-bottom: 1rem;
   margin-left: 2rem;
+  display: flex;
+  justify-content: space-around;
 }
 
 div {
@@ -267,6 +290,10 @@ div {
   justify-content: center;
   align-content: center;
   align-self: center;
+}
+
+.register-link, .register-link:hover {
+  color: #fff;
 }
 
 .major2 {

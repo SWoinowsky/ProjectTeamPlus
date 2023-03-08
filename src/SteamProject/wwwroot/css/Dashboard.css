@@ -91,6 +91,8 @@ body {
 #toDoButton {
     outline: none;
     border: none;
+    margin-top: -15px;
+
 }
 
 .modal-lg {

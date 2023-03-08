@@ -92,9 +92,17 @@ body {
     outline: none;
     border: none;
     margin-top: -15px;
-
 }
 
+#steamIcon {
+    color: #4ba0bc;
+}
+
+#toDoButton:focus, .btn:active {
+    outline: none;
+    box-shadow: none;
+    background: none;
+}
 .modal-lg {
     border-radius: 200px;
     width: 100%

@@ -1,0 +1,152 @@
+
+body {
+    font-family: Arial, sans-serif !important;
+    font-size: 16px !important;
+    background-color: #333333 !important;
+}
+
+h1 {
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+    color: #ffffff !important;
+    text-align: center !important;
+}
+
+h2 {
+    color: #ffffff !important;
+}
+
+h3 {
+    margin-top: 15px !important;
+    margin-bottom: 5px !important;
+    color: #87cefa !important;
+}
+
+h4 {
+    color: #ffffff !important;
+}
+
+li {
+    color: #ffffff !important;
+}
+
+
+.center {
+    text-align: center !important;
+    justify-content: center;
+    margin: auto;
+    display: block;
+}
+
+
+p {
+    margin-bottom: 10px !important;
+    color: #ffffff !important;
+}
+
+.img-fluid {
+    text-align: center;
+    height: 226px;
+    width: 425px;
+    border-radius: 15px;
+}
+
+.userCard {
+    text-align: center;
+    justify-content: center;
+    background: linear-gradient(to left, #222731, #2f526e, #222731);
+    height: 450px;
+    margin-top: 0px;
+    margin: 0px;
+    padding: 5px;
+    border-radius: 0;
+    min-width: 20rem;
+    
+}
+
+body {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}
+
+.followCard {
+    text-align: center;
+    justify-content: center;
+    background: none;
+    padding: 5px;
+}
+
+#recentGamesCarousel {
+    width: 100%;
+}
+
+#followedGamesCarousel {
+    width: 100%;
+
+}
+
+.carousel-item {
+    width: 100%;
+}
+
+#toDoButton {
+    outline: none;
+    border: none;
+    margin-top: -15px;
+}
+
+#steamIcon {
+    color: #4ba0bc;
+}
+
+#toDoButton:focus, .btn:active {
+    outline: none;
+    box-shadow: none;
+    background: none;
+}
+.modal-lg {
+    border-radius: 200px;
+    width: 100%
+}
+
+
+.carousel-control-prev-icon {
+    margin-left: -225px;
+    
+}
+.carousel-control-next-icon {
+    margin-right: -225px;
+}
+
+
+.carousel-inner {
+    border-style: ridge;
+    border-width: 3px;
+    border-color: #4ba0bc;
+    border-radius: 20px;
+    background-color: #222731;
+    justify-content: center;
+    width: 100%;
+}
+
+
+.show-follow-btn {
+    display: block;
+    position: relative;
+    break-inside: avoid-column;
+}
+
+.show-followed-btn {
+    width: 70%;
+    border-radius: 0;
+    border-radius: 0 0 35px 35px;
+    color: white;
+    background-color: #2f526e;
+    margin-bottom: 20px;
+
+}
+
+.user-avatar {
+    border-radius: 50px 50px 0 0;
+    width: 70%;
+    position: relative;
+}

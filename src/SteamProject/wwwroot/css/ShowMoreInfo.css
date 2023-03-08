@@ -1,10 +1,11 @@
 th, tr, td {
-    color: #000;
+    color: black;
     width: 25%;
+    border-color:black;
 }
 
 h3, h4, td {
-    color: #000;
+    color: #ffffff;
 }
 
 .card-title, .card-text {
@@ -12,5 +13,24 @@ h3, h4, td {
 }
 
 .carousel-control-next-icon, .carousel-control-prev-icon {
-    background-color: #000;
+    background-color: #ffffff;
+}
+
+body {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}
+
+p {
+    color: #fff;
+}
+
+footer {
+    display: flex;
+    height: 100px;
+    background-image: linear-gradient(180deg, #333333 0%, #000000 50%);
+    align-items: flex-end;
+}
+
+header {
+    margin-bottom: 30px;
 }

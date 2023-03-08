@@ -34,7 +34,7 @@
 }
 
 .refresh-btn, .show-hidden-btn, .profile-btn {
-    outline: 2px inset black;
+    /* outline: 2px inset black; */
     transition: all 1s ease;
 }
 
@@ -67,6 +67,10 @@
     border-radius: 1rem;
     background-color: #000;
     background-image: url('../assets/steam_gradient.png');
+}
+
+.ach-modal-content {
+    background-image: url('../assets/steamGradient.png');
 }
 
 .modal-header {
@@ -137,6 +141,7 @@ h1, h4, h5, h6 {
 }
 
 .ach-name {
+    color: #fff;
     font-size: 0.69rem;
     white-space: pre-line;
 }

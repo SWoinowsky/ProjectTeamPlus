@@ -88,6 +88,11 @@ body {
     width: 100%;
 }
 
+#toDoButton {
+    outline: none;
+    border: none;
+}
+
 .modal-lg {
     border-radius: 200px;
     width: 100%

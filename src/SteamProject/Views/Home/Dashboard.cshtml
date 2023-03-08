@@ -18,6 +18,10 @@ else
     <div class="container">
 
         <h1>User Dashboard</h1>
+        <button type="button" id="toDoButton" class="btn btn-outline-info center" data-bs-toggle="collapse" data-bs-target="#toDoCollapse" title="Unhide Whats To Come">
+        <i fill="CurrentColor" class="bi bi-arrow-bar-down active"></i>
+        </button>
+        
 
         <div class="container-fluid">
             <div class="row">
@@ -33,12 +37,16 @@ else
 
                 </div>
                 <div class="col-md-9">
-                    <div>
-                        <p>Here is a centralized location to receive updates and news for the games you are interested in </p>
+                    <div id="toDoCollapse" class="collapse">
+                        <p>Here is a centralized location to receive updates and news for the games you are interested in. In the future it will host the following features: </p>
                         <ul>
-                            <li>See the games you recently played</li>
-                            <li>See the games you follow</li>
-                            <li>See the results of your achievement competitions</li>
+                            <li>Game News Tracking</li><ul>
+                                <li>See the games you follow</li>
+                                <li>Review the games you recently played</li>
+                            </ul>
+                            <li>ChatGPT based Summation of recent game updates</li>
+                            <li>Change-log's' in natural human language distilled to only key details </li>
+                            <li>See the results of your recent achievement competitions</li>
                         </ul>
 
                     </div>
@@ -91,65 +99,71 @@ else
             <h4>Recently Played Games</h4>
 
             <div class="row">
-                <div id="recentGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row">
-                                @for (var i = 0; i < Model.recentGames[0].Count; i++)
-                                {
-                                    <div class="col-lg-4">
-                                        <div class="card userCard">
-                                            <img class="img-fluid" alt="@Model.recentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
-                                            <div class="card-body">
-                                                <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
-                                                <p class="card-text">Recent News</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                }
-                            </div>
-                        </div>
-
-                        @for (var index = 1; index < Model.recentGames.Count; index++)
-                        {
-                            var game = Model.recentGames[index];
-                            <div class="carousel-item">
+                @if (Model.recentGames.Count > 0)
+                {
+                    <div id="recentGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
                                 <div class="row">
-                                    @for (var i = 0; i < Model.recentGames[index].Count; i++)
+                                    @for (var i = 0; i < Model.recentGames[0].Count; i++)
                                     {
                                         <div class="col-lg-4">
                                             <div class="card userCard">
-                                                <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                <img class="img-fluid" alt="@Model.recentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
                                                 <div class="card-body">
-                                                    <h4 class="card-title">@game[i].Name</h4>
+                                                    <h4 class="card-title">@Model.recentGames[0][i].Name</h4>
                                                     <p class="card-text">Recent News</p>
                                                 </div>
                                             </div>
                                         </div>
+
+
                                     }
                                 </div>
                             </div>
-                        }
+
+                            @for (var index = 1; index < Model.recentGames.Count; index++)
+                            {
+                                var game = Model.recentGames[index];
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        @for (var i = 0; i < Model.recentGames[index].Count; i++)
+                                        {
+                                            <div class="col-lg-4">
+                                                <div class="card userCard">
+                                                    <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">@game[i].Name</h4>
+                                                        <p class="card-text">Recent News</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <a class="carousel-control-prev" href="#recentGamesCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only"></span>
+                        </a>
+
+                        <a class="carousel-control-next" href="#recentGamesCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only"></span>
+                        </a>
                     </div>
+                }
 
-                    <a class="carousel-control-prev" href="#recentGamesCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
-                    </a>
-
-                    <a class="carousel-control-next" href="#recentGamesCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
             </div>
             <br/>
 
             <h4>Followed Games</h4>
-            <div class="row" >
-                <div id="followedGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="row">
+                @if(Model.followedGames.Count > 0)
+                {
+                    <div id="followedGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             @for (var i = 0; i < Model.followedGames[0].Count; i++)
@@ -166,7 +180,7 @@ else
 
                             }
                         </div>
-                    
+
 
                         @for (var index = 1; index < Model.followedGames.Count; index++)
                         {
@@ -202,6 +216,9 @@ else
                         <span class="sr-only"></span>
                     </a>
                 </div>
+                }
+
+                
             </div>
         </div>
     </div>

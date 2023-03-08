@@ -27,9 +27,12 @@ li {
     color: #d6d7d8 !important;
 }
 
+
+
 footer {
     display: flex;
     height: 100px;
     background-image: linear-gradient(180deg, #333333 0%, #000000 50%);
     align-items: flex-end;
+    
 }

@@ -7,3 +7,7 @@ width: 40%;
 .friendGameCard:hover {
 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
+
+body {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}

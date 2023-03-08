@@ -5,6 +5,10 @@
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
 }
 
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Identity.css" asp-append-version="true">
+</head>
+
 <partial name="_StatusMessage" for="StatusMessage" />
 @if (Model.CurrentLogins?.Count > 0)
 {

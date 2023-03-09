@@ -8,7 +8,7 @@
 <head>
     <link rel="stylesheet" href="~/css/Library.css">
 </head>
-
+<br><br>
 <input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
 <input type="hidden" id="FriendSteamId" name="FriendSteamId" value="@Model.Friend.SteamId">
 <input type="hidden" id="Id" name="Id" value="@Model.Id">
@@ -18,7 +18,7 @@
 <div class="text-center">
     <img src="@Model.Friend.AvatarFullUrl" >
     <h1> @Model.Friend.SteamName </h1>
-    <h3 id="friendPageStatus"> </h3>
+    <h3 id="friendPageStatus" style="color: white"> </h3>
     <i id="friendGameStatus"> </i>
 </div>
 
@@ -57,7 +57,7 @@
                 <div class="card friendCard" style="background-image: linear-gradient(to bottom right, rgb(26, 28, 76), rgb(59, 52, 80), rgb(26, 28, 76)); ">
                     <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:215px;" alt="@string.Format("{0}", @game.Name)">
                     <div class="card-body">
-                        <p class="card-title" style="overflow: hidden; white-space: nowrap;">@game.Name</p>
+                        <p class="card-title" style="overflow: hidden; white-space: nowrap; color: white">@game.Name</p>
                     </div>
                 </div>
             </div>
@@ -95,8 +95,8 @@
                     </div>
                 </div>
                 <div class="error">
-                    <h2 class="error-ach" id="error-ach" style="display: none;">There are no achievements for this title.</h2>
-                    <h2 class="error-ser" id="error-ser" style="display: none;">An error occurred while requesting info from Steam.</h2>
+                    <h2 class="error-ach" id="error-ach" style="display: none; color: white">There are no achievements for this title.</h2>
+                    <h2 class="error-ser" id="error-ser" style="display: none;  color: white">An error occurred while requesting info from Steam.</h2>
                 </div>
             </div>
         </div>
@@ -109,5 +109,4 @@
     <partial name="_ValidationScriptsPartial" />
     <script type="text/javascript" src="~/js/friendPage.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
 }

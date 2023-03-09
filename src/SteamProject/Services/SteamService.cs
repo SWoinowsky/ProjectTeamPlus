@@ -133,7 +133,7 @@ public class SteamService : ISteamService
     public GameVM GetGameInfo(Game game)
     {
         var gameVM = new GameVM();
-        string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
+        string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}&l=en", game.AppId);
         string jsonResponse = GetJsonStringFromEndpoint(source);
         
         if(jsonResponse != null)

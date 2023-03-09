@@ -6,7 +6,7 @@
 <head>
     <link rel="stylesheet" href="~/css/Library.css">
 </head>
-
+<br><br>
 @if (Model == null)
 {
     <h1>This will be your library page once you sign in with a linked account, and we pull your Steam library.</h1>
@@ -17,6 +17,7 @@ else
         <div class="row">
             <div class="col-lg-3">
                 <div>
+                    <br>
                     <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
                 </div>
             </div>
@@ -31,14 +32,11 @@ else
                     <a class="btn btn-secondary refresh-btn" title="Refresh Library" style="margin-bottom:5px" href='@Url.Action("Index", "Library", new {refresh = true})'>
                         <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library<br>
                     </a>
-                    
                 </div>
             </div>
         </div>
     </div>
-
     <input id="search-input" type="search" placeholder= "🔍 search for a game...">
-
     <div class="flex-container">
         @{
             foreach(var game in Model._user.UserGameInfos)
@@ -135,7 +133,7 @@ else
                                 }
                                 else
                                 {
-                                    <div>You have no hidden games, go hide some! If you just hid a game, try refreshing the page.</div>
+                                    <div style="color: white">You have no hidden games, go hide some! If you just hid a game, try refreshing the page.</div>
                                 }
                             }
                         </div>

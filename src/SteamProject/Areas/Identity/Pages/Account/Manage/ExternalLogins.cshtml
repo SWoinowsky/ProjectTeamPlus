@@ -18,8 +18,8 @@
             @foreach (var login in Model.CurrentLogins)
             {
                 <tr>
-                    <td style="color: ivory" id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName ID</td>
-                    <td style="color: ivory" id="@($"login-provider-{login.LoginProvider}")">@login.ProviderKey</td>
+                    <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName ID</td>
+                    <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderKey</td>
                     <td>
                         @if (Model.ShowRemoveButton)
                         {

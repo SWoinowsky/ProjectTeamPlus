@@ -29,10 +29,6 @@ html {
   background: #171a21; 
 }
 
-/* th, tr, td {
-  color: white;
-} */
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -41,11 +37,6 @@ html {
   position: relative;
   min-height: 100%;
 }
-
-/* body{
-  margin-bottom: 60px;
-  background-image: linear-gradient(to left, #171a21, #2a475e, #171a21);
-} */
 
 .flex-container {
   display: flex;
@@ -66,10 +57,10 @@ label.Input_Email {
   color: black;
 }
 
-/* .modal-header, .modal-body, .modal-footer {
+.modal-header, .modal-body, .modal-footer {
   background-image: linear-gradient(to left, #222731, #2f526e, #222731);
   border: none;
-} */
+} 
 
 .loading-spinner {
   width: 96px;

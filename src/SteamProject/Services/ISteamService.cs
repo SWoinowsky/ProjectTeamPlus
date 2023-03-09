@@ -8,6 +8,7 @@ public interface ISteamService
     User GetSteamUser(string steamid);
     int GetUserLevel(string steamid);
     List<Friend> GetFriendsList(string steamid, int userId);
+    public Friend GetFriendSpecific( string userSteamId, int userId, string friendSteamId );
     IEnumerable<Game> GetGames(string userSteamId, int userId);
     GameVM GetGameInfo(Game game);
     AchievementRoot GetAchievements(string userSteamId, int appId);

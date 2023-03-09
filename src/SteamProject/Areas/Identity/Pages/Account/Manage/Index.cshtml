@@ -56,7 +56,7 @@
                 @foreach( var friend in Model.Friends )
                 {
                     <tr class="FriendEntry">
-                        <td> <img src=@friend.AvatarUrl> </td>
+                        <td> <img class="FriendImage" src=@friend.AvatarUrl width="32" height="32"> </td>
                         <td> @friend.SteamName </td>
                         <td class="FriendStateTd" id=@friend.SteamName> <i> @Model.States[friend.PersonaState ?? 0] </i> </td>
                         <td class="FriendGame" id=@friend.SteamName > @friend.GameExtraInfo </td>
@@ -69,6 +69,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script> console.log( "Hello World!\n" ) </script>
     <script type="text/javascript" src="~/js/ProfileIndex.js"></script>
 }

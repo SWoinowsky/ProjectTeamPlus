@@ -1,0 +1,175 @@
+
+.achievement-btn {
+    position: absolute;
+    background-color: #000;
+    opacity: 0%;
+    border: none;
+    transition: all 0.5s ease;
+    background-image: url('../assets/achievement.png');
+}
+
+.achievement-btn:hover {
+    opacity: 92% !important;
+}
+
+body {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}
+
+.hide-btn {
+    top: 5px;
+    right: 5px;
+}
+
+.follow-btn {
+    bottom: 5px;
+    right: 5px;
+}
+
+.show-btn {
+    top: 38%;
+    right: 5px;
+}
+
+.bi-bookmark-dash-fill {
+    color: lightgreen !important;
+}
+
+.refresh-btn, .show-hidden-btn, .profile-btn {
+    outline: 2px inset black;
+    transition: all 1s ease;
+}
+
+.hide-btn, .follow-btn, .show-btn {
+    transition: all 1s ease;
+    position: absolute;
+    opacity: 0%;
+    font-size: 1.6rem;
+    outline: 3px inset black;
+}
+
+.gameContainer {
+    transition: all 1s ease;
+}
+
+.ach-modal-content {
+    background-image: url('../assets/steamGradient.png');
+}
+
+.gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
+.gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn {
+    opacity: 35%;
+}
+
+.hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover {
+    opacity: 1 !important;
+    border-radius: 25%;
+}
+
+.close {
+    background: none;
+    border: none;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 1rem;
+    background-color: #000;
+    background-image: url('../assets/steam_gradient.png');
+}
+
+.modal-header {
+    border-bottom: none;
+    justify-content: flex-end;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container {
+    height: 30rem;
+}
+
+.modal-img {
+    align-self: flex-end;
+    height: 250px;
+    width: 166px;
+    border: 3px solid #4FE3BB;
+}
+
+h1, h4, h5, h6 {
+    color: #fff;
+    align-self: flex-start;
+}
+
+#modal-left {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.earned-label {
+    white-space: nowrap;
+    flex-wrap: wrap;
+    height: fit-content;
+}
+
+.progress {
+    background-color: #fff;
+    width: 200px;
+    height: 10px;
+    border-radius: 20px;
+}
+
+.progress-value {
+    background-color: #FF4600;
+    position: absolute;
+    height: 10px;
+    border-radius: 20px;
+}
+
+#modal-right {
+    height: 368px;
+    overflow: scroll;
+}
+
+#ach-row {
+    align-items: flex-end;
+}
+
+.ach-name {
+    color: #fff;
+    font-size: 0.69rem;
+    white-space: pre-line;
+}
+
+.ach-img {
+    height: 64px;
+    width: 64px;
+    border-radius: 10px;
+}
+
+.col-md-3 .ach-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.ach-col {
+    margin-bottom: 1rem;
+}
+
+.unearned {
+    opacity: 40%;
+}
+
+#search-input {
+    width: 235px;
+    border: 2px solid #000;
+    border-radius: 2rem;
+    background-color: #fff;
+    padding-left: 1rem;
+}

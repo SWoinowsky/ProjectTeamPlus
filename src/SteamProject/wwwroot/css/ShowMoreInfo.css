@@ -1,0 +1,21 @@
+th, tr, td {
+    color: white;
+    width: 25%;
+    border-color:black;
+}
+
+.card-title, .card-text {
+    color: #fff;
+}
+
+h1, h2, h3, h4, p {
+    color: white;
+}
+
+body {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}
+
+header {
+    margin-bottom: 30px;
+}

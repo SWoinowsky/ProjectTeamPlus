@@ -11,11 +11,11 @@ public partial class GameAchievement
 
     public string ApiName { get; set; } = null!;
 
-    public string DisplayName { get; set; } = null!;
+    public string? DisplayName { get; set; }
 
-    public string IconAchievedUrl { get; set; } = null!;
+    public string? IconAchievedUrl { get; set; }
 
-    public string IconHiddenUrl { get; set; } = null!;
+    public string? IconHiddenUrl { get; set; }
 
     public bool HiddenFromUsers { get; set; }
 }

@@ -9,6 +9,7 @@ using SteamProject.Services;
 using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,7 @@ var SteamApiToken = builder.Configuration["SteamKey"];
 builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserGameInfoRepository, UserGameInfoRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IFriendRepository, FriendRepository>();
  
@@ -86,6 +88,8 @@ builder.Services.AddAuthentication()
                         options.CorrelationCookie.SameSite = SameSiteMode.None;
                         options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
                     });
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
@@ -117,9 +121,22 @@ app.UseAuthorization();
 
 
 app.MapControllerRoute(
+    "Dashboard",
+    "Dashboard/",
+    defaults: new { controller = "Home", action = "Dashboard" }
+);
+
+app.MapControllerRoute(
+    "Friend",
+    "Friend/{friendSteamId?}",
+    defaults: new { controller = "Friend", action = "Index" }
+);
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-    
+
+
 app.MapRazorPages();
 
 app.Run();

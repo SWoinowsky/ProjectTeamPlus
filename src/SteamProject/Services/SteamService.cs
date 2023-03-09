@@ -3,6 +3,7 @@ using SteamProject.Models;
 using SteamProject.Models.DTO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using SteamProject.ViewModels;
 
 namespace SteamProject.Services;
 
@@ -113,22 +114,40 @@ public class SteamService : ISteamService
                 games.Add(temp);
             }
             return games.OrderBy(g => g.Name);
-        }          
+        }
     }
 
-    public Game GetGameDescription(Game game)
+    public GameVM GetGameInfo(Game game)
     {
-        string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}", game.AppId);
+        var gameVM = new GameVM();
+        string source = string.Format("https://store.steampowered.com/api/appdetails?appids={0}&l=en", game.AppId);
         string jsonResponse = GetJsonStringFromEndpoint(source);
         
         if(jsonResponse != null)
         {   
             var regex = new Regex(Regex.Escape(game.AppId.ToString()));
             jsonResponse = regex.Replace(jsonResponse, "response", 1);
-            var poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
-            game.TakeGameInfoPOCO(poco);
+            try
+            {
+                regex = new Regex(Regex.Escape("linux_requirements\":[]"));
+                jsonResponse = regex.Replace(jsonResponse, "linux_requirements\":{}", 1);
+            }
+            catch {}
+            try
+            {
+                regex = new Regex(Regex.Escape("mac_requirements\":[]"));
+                jsonResponse = regex.Replace(jsonResponse, "mac_requirements\":{}", 1);
+            }
+            catch {}
+            try
+            {
+                regex = new Regex(Regex.Escape("pc_requirements\":[]"));
+                jsonResponse = regex.Replace(jsonResponse, "pc_requirements\":{}", 1);
+            }
+            catch {}
+            gameVM._poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
         }
-        return game;
+        return gameVM;
     }
 
     public AchievementRoot GetAchievements(string userSteamId, int appId)

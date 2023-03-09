@@ -51,10 +51,10 @@ public class SteamController : ControllerBase
     }
     
     [HttpPost("hide")]
-    public ActionResult Hide(string id)
+    public ActionResult Hide(string id, string userId)
     {
         UserGameInfo game = new UserGameInfo();
-        game = game.GetGameById(Int32.Parse(id), _userGameInfoRepository);
+        game = game.GetGameByIdAndUser(Int32.Parse(id), _userGameInfoRepository, Int32.Parse(userId));
         game.Hidden = true;
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();

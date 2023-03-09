@@ -12,9 +12,9 @@ public class UserGameInfoRepository : Repository<UserGameInfo>, IUserGameInfoRep
 
     }
 
-    public UserGameInfo? GetUserInfoForGame(int gameAppId)
+    public UserGameInfo? GetUserInfoForGame(int gameAppId, int userId)
     {
-        return this.GetAll(g => g.Game.AppId == gameAppId).SingleOrDefault();
+        return this.GetAll(g => g.Game.AppId == gameAppId).Where(g => g.OwnerId == userId ).SingleOrDefault();
     }
 
     public List<UserGameInfo> GetAllUserGameInfo(int userId)

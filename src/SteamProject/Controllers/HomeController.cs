@@ -90,6 +90,19 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult ShowMoreNews(int appId)
+    {
+        string? id = _userManager.GetUserId(User);
+        User user = _userRepository.GetUser(id);
+
+        Game game = _gameRepository.GetGameByAppId(appId);
+        GameNewsVM gameNewsVM = _steamService.GetGameNews(game);
+        gameNewsVM._game = game;
+
+        return View(gameNewsVM);
+
+    }
+
     public IActionResult Privacy()
     {
         return View();

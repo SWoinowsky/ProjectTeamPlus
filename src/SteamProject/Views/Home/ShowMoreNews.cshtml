@@ -1,0 +1,28 @@
+@model SteamProject.ViewModels.GameNewsVM;
+@{
+    ViewData["Title"] = "ShowMoreInfo";
+    var pocoData = Model._poco.appnews;
+    var gameData = Model._game;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/ShowMoreInfo.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3" style="width: 500px">
+            <div>
+                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height:200px"/>
+            </div>
+        </div>
+        <div class="col-lg-6" style="padding-top: 40px;">
+            <h3 style="text-align: center;">@gameData.Name</h3>
+            <p>@pocoData.newsitems[0].author</p>
+            <p><strong>You've played @gameData.Name for @Model.playTime hour(s).</strong></p>
+        </div>
+    </div>
+    <br>
+
+</div>

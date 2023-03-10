@@ -118,6 +118,9 @@ else
                                                     <p class="card-text">Recent News</p>
                                                 </div>
                                             </div>
+                                            <a class="btn btn-outline-info show-btn" title="More Game Info" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.recentGames[0][i].AppId})'>
+                                                <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                            </a>
                                         </div>
 
 
@@ -140,6 +143,9 @@ else
                                                         <p class="card-text">Recent News</p>
                                                     </div>
                                                 </div>
+                                                <a class="btn btn-outline-info show-btn" title="More Game Info" href='@Url.Action("ShowMoreNews", "Home", new {appId = @game[i].AppId})'>
+                                                    <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                                </a>
                                             </div>
                                         }
                                     </div>
@@ -179,6 +185,9 @@ else
                                             <p class="card-text">Recent News</p>
                                         </div>
                                     </div>
+                                        <a class="btn btn-outline-info show-btn" title="More Game Info" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.followedGames[0][i].AppId})'>
+                                        <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                    </a>
                                 </div>
 
                             }
@@ -201,8 +210,9 @@ else
                                                 </div>
                                             </div>
                                         </div>
-
-
+                                            <a class="btn btn-outline-info show-btn" title="More Game Info" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.followedGames[0][i].AppId})'>
+                                            <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                        </a>
                                     }
                                 </div>
                             </div>

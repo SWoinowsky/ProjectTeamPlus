@@ -163,6 +163,19 @@ public class SteamService : ISteamService
         return gameVM;
     }
 
+    public GameNewsVM GetGameNews(Game game)
+    {
+        var gameVM = new GameNewsVM();
+        string source = string.Format("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={0}&l=en", game.AppId);
+        string jsonResponse = GetJsonStringFromEndpoint(source);
+
+        if (jsonResponse != null)
+        {
+            gameVM._poco = JsonSerializer.Deserialize<GameNewsPoco>(jsonResponse);
+        }
+        return gameVM;
+    }
+
     public AchievementRoot GetAchievements(string userSteamId, int appId)
     {
         string source = string.Format("http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?appid={0}&key={1}&steamid={2}&l=en", appId, Token, userSteamId);

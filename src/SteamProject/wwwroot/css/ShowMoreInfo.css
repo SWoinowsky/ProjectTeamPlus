@@ -8,12 +8,23 @@ th, tr, td {
     color: #fff;
 }
 
-h1, h2, h3, h4, p {
-    color: white;
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    background-color: #ffffff;
 }
 
 body {
     background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}
+
+p {
+    color: #fff;
+}
+
+footer {
+    background-image: linear-gradient(180deg,#222731 0%, #000000 50%) !important;
+    height: 70px !important;
+}
+
 }
 
 header {

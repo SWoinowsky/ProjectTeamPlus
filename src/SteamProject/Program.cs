@@ -127,6 +127,12 @@ app.MapControllerRoute(
 );
 
 app.MapControllerRoute(
+    "Compete",
+    "Compete/{friendSteamId?}/{appId?}",
+    defaults: new { controller = "Compete", action = "Index" }
+);
+
+app.MapControllerRoute(
     "Friend",
     "Friend/{friendSteamId?}",
     defaults: new { controller = "Friend", action = "Index" }

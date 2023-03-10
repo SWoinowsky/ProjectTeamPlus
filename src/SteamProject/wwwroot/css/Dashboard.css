@@ -57,11 +57,9 @@ p {
     background: linear-gradient(to left, #222731, #2f526e, #222731);
     height: 450px;
     margin-top: 0px;
-    margin: 0px;
     padding: 5px;
     border-radius: 0;
-    min-width: 20rem;
-    
+    width: 100%;
 }
 
 body {
@@ -92,6 +90,11 @@ body {
     outline: none;
     border: none;
     margin-top: -15px;
+}
+
+
+.modal-content {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
 }
 
 #steamIcon {
@@ -149,4 +152,18 @@ body {
     border-radius: 50px 50px 0 0;
     width: 70%;
     position: relative;
+}
+
+footer {
+    height: 65px !important;
+    background-image: linear-gradient(180deg,#222731 0%, #000000 50%) !important;
+    display: flex;
+    align-items: flex-end;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.followModal {
+    width: 100%
 }

@@ -16,6 +16,11 @@ body {
     background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
 }
 
+footer {
+    background-image: linear-gradient(180deg,#222731 0%, #000000 60%) !important;
+    height: 65px !important;
+}
+
 .hide-btn {
     top: 5px;
     right: 5px;
@@ -173,3 +178,4 @@ h1, h4, h5, h6 {
     background-color: #fff;
     padding-left: 1rem;
 }
+

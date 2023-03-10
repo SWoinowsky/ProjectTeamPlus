@@ -70,6 +70,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserGameInfoRepository, UserGameInfoRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IFriendRepository, FriendRepository>();
+builder.Services.AddScoped<IGameAchievementRepository, GameAchievementRepository>();
+
  
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

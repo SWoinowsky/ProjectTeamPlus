@@ -37,7 +37,7 @@ public class CompeteController : Controller
     [HttpGet]
     public IActionResult Index( string friendSteamId, int appId )
     {
-        var ViewString = $"Friend Id: {friendSteamId}; App Id: {appId}.";
-        return View((object)ViewString);
+        
+        return View();
     }
 }

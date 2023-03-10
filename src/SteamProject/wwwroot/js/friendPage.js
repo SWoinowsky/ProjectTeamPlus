@@ -151,7 +151,16 @@ function modalActivations() {
     }
 
     for( card of cards ) {
-        card.onclick = function () {var infoDisplay = document.getElementById("informationRow");
+        card.onclick = function () {
+            var infoDisplay = document.getElementById("informationRow");
+            var competeButton = document.getElementById("competeBtn");
+            var FriendSteamId = document.getElementById("FriendSteamId").value;
+            var appId = this.id;
+
+            competeButton.onclick = function() {
+                location.href = `/compete/${FriendSteamId}/${appId}`;
+            }
+
             spinner.style.display = "flex";
             infoDisplay.style.display = "none";
             noAchErr.style.display = "none";

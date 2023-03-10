@@ -11,4 +11,9 @@ public class GameAchievementRepository : Repository<GameAchievement>,  IGameAchi
     {
 
     }
+
+    public List<GameAchievement> GetAchievementsFromGameId( int gameId )
+    {
+        return GetAll().Where( gA => gA.GameId == gameId ).ToList();
+    }
 }

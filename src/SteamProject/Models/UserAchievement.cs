@@ -22,7 +22,7 @@ public partial class UserAchievement
 
     public UserAchievement()
     {
-        
+
     }
 
     public UserAchievement( GameAchievement gameAchIn, Achievement achPOCO )
@@ -30,7 +30,7 @@ public partial class UserAchievement
         AchievementId = gameAchIn.Id;
         Achieved = ( achPOCO.achieved == 1 );
         if( Achieved )
-        UnlockTime = getDateFromUnix( achPOCO.unlocktime );
+            UnlockTime = getDateFromUnix( achPOCO.unlocktime );
         Achievement = gameAchIn;
     }
 

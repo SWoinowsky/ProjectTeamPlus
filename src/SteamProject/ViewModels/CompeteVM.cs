@@ -5,14 +5,12 @@ namespace SteamProject.ViewModels;
 
 public class CompeteVM
 {
-    public List<Game> SharedGames { get; set; }
-    public Friend Friend { get; set; }
-    public int Id { get; set; }
-    public string SteamId { get; set; }
+    public List<UserAchievement> UsersAchievements { get; set; }
+    public List<UserAchievement> FriendsAchievements { get; set; }
 
-    public CompeteVM( List<Game> games, Friend friend ) 
+    public CompeteVM( List<UserAchievement> users, List<UserAchievement> friends ) 
     {
-        SharedGames = games;
-        Friend = friend;
+        UsersAchievements = users;
+        FriendsAchievements = friends;
     }
 }

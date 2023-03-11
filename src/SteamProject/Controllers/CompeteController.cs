@@ -48,16 +48,15 @@ public class CompeteController : Controller
     [Authorize]
     [HttpGet]
     public IActionResult Index( string friendSteamId, int appId )
-    {
-        var gameIdFound = _gameRepository.GetGameByAppId(appId).Id;
-        
+    {        
         var id = _userManager.GetUserId( User );
         var me = _userRepository.GetUser( id );
         var mySteamId = me.SteamId;
         var myUserId = me.Id;
 
+        // making sure the game is actually there, we'll run into problems otherwise
         var gameIsInDb = false; 
-        gameIsInDb = _gameRepository.GetGameByAppId( gameIdFound ) == null;
+        gameIsInDb = _gameRepository.GetGameByAppId( appId ) != null;
         if( !gameIsInDb )
         {
             var gamesToAdd = new List<Game>();
@@ -68,6 +67,7 @@ public class CompeteController : Controller
             }
         }
 
+        var gameIdFound = _gameRepository.GetGameByAppId(appId).Id;
 
         var gameAchievements = new List<GameAchievement>();
         gameAchievements = _gameAchievementRepository.GetAchievementsFromGameId( gameIdFound );
@@ -86,7 +86,7 @@ public class CompeteController : Controller
         }
         
         var myAchievements = new List<UserAchievement>();
-        myAchievements = _userAchievementRepository.GetAchievementsByGameAndUserId( gameIdFound, myUserId );
+        myAchievements = _userAchievementRepository.GetAchievementsByGameAndUserId( gameIdFound, myUserId ).Where( a => a.Achieved == false ).ToList<UserAchievement>();
         if( myAchievements.Count() == 0 )
         {
             var myRawAchievementData = new AchievementRoot();
@@ -100,7 +100,8 @@ public class CompeteController : Controller
                     {
                         var myUserAch = new UserAchievement( gAch, myAch );
                         myUserAch.OwnerId = myUserId;
-                        myAchievements.Add( myUserAch );
+                        if( !myUserAch.Achieved )
+                            myAchievements.Add( myUserAch );
                         _userAchievementRepository.AddOrUpdate( myUserAch );
                     }
                 }
@@ -118,10 +119,27 @@ public class CompeteController : Controller
                 if( theirAch.apiname == gAch.ApiName )
                 {
                     var theirUserAch = new UserAchievement( gAch, theirAch );
-                    theirAchievements.Add( theirUserAch );
+                    if( !theirUserAch.Achieved )
+                        theirAchievements.Add( theirUserAch );
                 }
             }
         }
+
+        var sharedMissingAchievements = new List<UserAchievement>();
+        foreach( var myAch in myAchievements )
+        {
+            foreach( var theirAch in theirAchievements )
+            {
+                if( myAch.AchievementId == theirAch.AchievementId)
+                {
+                    if( myAch.Achieved == theirAch.Achieved )
+                        sharedMissingAchievements.Add(myAch);
+                }    
+                
+            }
+        }
+        myAchievements = sharedMissingAchievements;
+        theirAchievements = myAchievements;
 
         var viewModel = new CompeteVM( myAchievements, theirAchievements );
 

@@ -70,6 +70,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserGameInfoRepository, UserGameInfoRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IFriendRepository, FriendRepository>();
+builder.Services.AddScoped<IGameAchievementRepository, GameAchievementRepository>();
+builder.Services.AddScoped<IUserAchievementRepository, UserAchievementRepository>();
+
  
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -124,6 +127,12 @@ app.MapControllerRoute(
     "Dashboard",
     "Dashboard/",
     defaults: new { controller = "Home", action = "Dashboard" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/{friendSteamId?}/{appId?}",
+    defaults: new { controller = "Compete", action = "Index" }
 );
 
 app.MapControllerRoute(

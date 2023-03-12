@@ -6,7 +6,7 @@ using System.Text.Json;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity;
-
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Controllers;
 

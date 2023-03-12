@@ -1,3 +1,5 @@
+namespace SteamProject.Models.DTO;
+
     public class SchemaAchievement
     {
         public string name { get; set; }

@@ -18,6 +18,8 @@ public class Newsitem
     public string contents { get; set; }
     public string feedlabel { get; set; }
     public int date { get; set; }
+    
+    public DateTime dateTime { get; set; }
     public string feedname { get; set; }
     public int feed_type { get; set; }
     public int appid { get; set; }

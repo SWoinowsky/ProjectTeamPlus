@@ -1,4 +1,5 @@
 using SteamProject.Models;
+using SteamProject.Models.DTO;
 using SteamProject.ViewModels;
 
 namespace SteamProject.Services;

@@ -59,8 +59,8 @@ CREATE TABLE [GameAchievement]
 	,[GameId]			INT				NOT NULL
 	,[ApiName]			NVARCHAR(100)	NOT NULL
 	,[DisplayName]		NVARCHAR(50)	
-	,[IconAchievedUrl]	NVARCHAR(100)	
-	,[IconHiddenUrl]	NVARCHAR(100)	
+	,[IconAchievedUrl]	NVARCHAR(256)	
+	,[IconHiddenUrl]	NVARCHAR(256)	
 	,[HiddenFromUsers]	BIT				NOT NULL
 );
 

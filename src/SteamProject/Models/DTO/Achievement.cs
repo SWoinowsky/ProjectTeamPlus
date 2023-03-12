@@ -1,4 +1,4 @@
-
+namespace SteamProject.Models.DTO;
     public class Achievement
     {
         public string? apiname { get; set; }

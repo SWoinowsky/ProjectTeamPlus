@@ -8,9 +8,14 @@ th, tr, td {
     color: #fff;
 }
 
-.carousel-control-next-icon, .carousel-control-prev-icon {
-    background-color: #ffffff;
+h3 {
+    color: #87cefa !important;
 }
+
+h6 {
+    color: white !important;
+}
+
 
 body {
     background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
@@ -25,8 +30,19 @@ footer {
     height: 70px !important;
 }
 
+hr {
+    border-top: 100px;
+    border: 2px solid #87cefa;
 }
 
 header {
     margin-bottom: 30px;
+}
+
+#gameImage {
+    border-radius: 15px;
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    background-color: #ffffff;
 }

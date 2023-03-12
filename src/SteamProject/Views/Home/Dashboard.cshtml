@@ -17,7 +17,10 @@ else
 
     <div class="container">
 
-        <h1>User Dashboard <i id="steamIcon" fill="CurrentColor" class="bi bi-steam"></i> </h1>
+    <h1>User Dashboard <i id="steamIcon" fill="CurrentColor" class="bi bi-steam"></i>
+        <button type="button" id="toDoButton" class="btn btn-outline-info center" data-bs-toggle="collapse" data-bs-target="#toDoCollapse" title="Coming Soon">
+            <i fill="CurrentColor" class="bi bi-arrow-bar-down active"></i>
+        </button> </h1>
 
         
 
@@ -46,15 +49,9 @@ else
                             <li>Change-log's' in natural human language distilled to only key details </li>
                             <li>See the results of your recent achievement competitions</li>
                         </ul>
-
                     </div>
-                    <button type="button" id="toDoButton" class="btn btn-outline-info center" data-bs-toggle="collapse" data-bs-target="#toDoCollapse" title="Coming Soon">
-                        <i fill="CurrentColor" class="bi bi-arrow-bar-down active"></i>
-                    </button>
                 </div>
-
             </div>
-
         </div>
 
         <div id="followModal" class="modal fade" role="dialog">
@@ -71,7 +68,7 @@ else
                                 <div class="card-group">
                                     @foreach (Game game in gameList)
                                     {
-                                        <div class="card followCard col-md-4 mb-3">
+                                        <div class="card followCard col-md-4">
                                             <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
                                             <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setFollowedGame('@game.Name')">
                                                 <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>

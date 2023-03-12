@@ -17,22 +17,24 @@
     <div class="row">
         <div class="container" style="width: 500px">
             <div>
-                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height: 200px"/>
+                <img id="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height: 200px"/>
             </div>
         </div>
+        
+        @if (Model._poco.appnews.count > 0)
+        {
+            <div class="container-fluid" style="padding-top: 40px; white-space: pre-wrap; justify-content: center;">
+                <h3 style="text-align: center;">@gameData.Name</h3>
 
-        <div class="container-fluid" style="padding-top: 40px; white-space: pre-wrap; justify-content: center;">
-            <h3 style="text-align: center;">@gameData.Name</h3>
-
-            @foreach (var item in Model._poco.appnews.newsitems)
-            {
-                <hr>
+                @foreach (var item in Model._poco.appnews.newsitems)
+                {
+                    <hr>
                     <div class="newsDiv row container-fluid mx-auto">
                         <div class="col-2">
                             <p>@item.feedlabel</p>
                         </div>
                         <div class="col-8">
-                            <p style="text-align: center">@item.title</p>
+                            <h3 style="text-align: center">@item.title</h3>
                         </div>
                         <div class="col-2">
                             <a href="@item.url">Link to Article</a>
@@ -42,8 +44,14 @@
                         <h6 style="text-align: center">@item.dateTime</h6>
                     </div>
           
-            }
-        </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>There is no news to be displayed for this game, Please try another game or try again later</p>
+        }
+        
     </div>
     <br>
 </div>

@@ -48,7 +48,11 @@ p {
     text-align: center;
     height: 226px;
     width: 425px;
-    border-radius: 15px;
+    border-radius: 15px 15px 0 0;
+}
+
+.show-btn {
+    border-radius: 0 0 15px 15px;
 }
 
 .userCard {
@@ -89,7 +93,7 @@ body {
 #toDoButton {
     outline: none;
     border: none;
-    margin-top: -15px;
+    margin-top: -5px;
 }
 
 
@@ -101,11 +105,12 @@ body {
     color: #4ba0bc;
 }
 
-#toDoButton:focus, .btn:active {
+#toDoButton:focus, .toDoButton:active, toDoButton:hover {
     outline: none;
     box-shadow: none;
     background: none;
 }
+
 .modal-lg {
     border-radius: 200px;
     width: 100%
@@ -113,11 +118,16 @@ body {
 
 
 .carousel-control-prev-icon {
-    margin-left: -225px;
-    
+    margin-left: -250px;
+    width: 40px;
+    height: 40px;
+
 }
+
 .carousel-control-next-icon {
-    margin-right: -225px;
+    margin-right: -250px;
+    width: 40px;
+    height: 40px;
 }
 
 

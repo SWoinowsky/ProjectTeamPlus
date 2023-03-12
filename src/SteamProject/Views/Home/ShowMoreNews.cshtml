@@ -12,15 +12,24 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-3" style="width: 500px">
+        <div class="container" style="width: 500px">
             <div>
                 <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height:200px"/>
             </div>
         </div>
-        <div class="col-lg-6" style="padding-top: 40px;">
+
+        <div class="container-fluid" style="padding-top: 40px;   white-space: pre-wrap; justify-content: center;">
             <h3 style="text-align: center;">@gameData.Name</h3>
-            <p>@pocoData.newsitems[0].author</p>
-            <p><strong>You've played @gameData.Name for @Model.playTime hour(s).</strong></p>
+           
+            @foreach (var item in Model._poco.appnews.newsitems)
+            {
+                <p>@item.feedname</p>
+                <p>@item.title</p>
+                <a href="@item.url">Link to Article</a>
+                <p>@item.contents</p>
+
+            }
+
         </div>
     </div>
     <br>

@@ -171,7 +171,27 @@ public class SteamService : ISteamService
 
         if (jsonResponse != null)
         {
-            gameVM._poco = JsonSerializer.Deserialize<GameNewsPoco>(jsonResponse);
+            var newsPoco = JsonSerializer.Deserialize<GameNewsPoco>(jsonResponse);
+
+            for (var i = 0; i < newsPoco.appnews.newsitems.Count; i++)
+            {
+                var newsItem = newsPoco.appnews.newsitems[i];
+                
+                    var item = Regex.Replace(newsItem.contents, @"<[^>]+>*", "");
+
+
+                    item = Regex.Replace(item, @"\[[^\]]+\]*", ""); 
+                    item = Regex.Replace(item, @"http[^\s]+", "LINK STRING");
+                    item = Regex.Replace(item, @"www[^\s]+", "www LINK STRING");
+                    item = Regex.Replace(item, @"&#[^\s]+", "");
+                    item = Regex.Replace(item, @"\{STEAM_CLAN_IMAGE\}/[A-Za-z0-9]+/[A-Za-z0-9]+\.[A-Za-z]+", "");
+
+                    newsPoco.appnews.newsitems[i].contents = item;
+
+                
+
+            }
+            gameVM._poco = newsPoco;
         }
         return gameVM;
     }

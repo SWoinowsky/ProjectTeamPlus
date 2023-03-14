@@ -13,7 +13,9 @@ function setFollowedGame(name)
 
 function setUnfollowGame(name)
 {
+    console.log(name);
     var gameName = document.getElementById(name);
+    console.log(gameName);
     var gameId = gameName.getAttribute('value');
     $.ajax({
         type: "POST",
@@ -26,7 +28,7 @@ function setUnfollowGame(name)
 
 function unfollowGame(gameName, gameId)
 {
-    console.log(`${gameName.name} has been unfollowed successfully`);
+    console.log(`${gameName} has been unfollowed successfully`);
 }
  
 function followGame(gameName, gameId) {

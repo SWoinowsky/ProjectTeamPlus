@@ -1,8 +1,7 @@
 @model SteamProject.ViewModels.GameNewsVM;
 @{
     ViewData["Title"] = "ShowMoreInfo";
-    var pocoData = Model._poco.appnews;
-    var gameData = Model._game;
+
 }
 
 <head>
@@ -14,44 +13,53 @@
     <a class="btn btn-outline-info show-btn"  title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
         <i fill="CurrentColor" class="bi bi-arrow-left"></i>
     </a>
-    <div class="row">
-        <div class="container" style="width: 500px">
-            <div>
-                <img id="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height: 200px"/>
+    
+    @if (Model != null && Model._poco != null)
+    {
+        <div class="row">
+            <div class="container" style="width: 500px">
+                <div>
+                    <img id="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model._game.AppId)" style="height: 200px"/>
+                </div>
             </div>
-        </div>
         
-        @if (Model._poco.appnews.count > 0)
-        {
-            <div class="container-fluid" style="padding-top: 40px; white-space: pre-wrap; justify-content: center;">
-                <h3 style="text-align: center;">@gameData.Name</h3>
+            @if (Model._poco.appnews.count > 0)
+            {
+                <div class="container-fluid" style="padding-top: 40px; white-space: pre-wrap; justify-content: center;">
+                    <h3 style="text-align: center;">@Model._game.Name</h3>
 
-                @foreach (var item in Model._poco.appnews.newsitems)
-                {
-                    <hr>
-                    <div class="newsDiv row container-fluid mx-auto">
-                        <div class="col-2">
-                            <p>@item.feedlabel</p>
-                        </div>
-                        <div class="col-8">
-                            <h3 style="text-align: center">@item.title</h3>
-                        </div>
-                        <div class="col-2">
-                            <a href="@item.url">Link to Article</a>
-                        </div>
+                    @foreach (var item in Model._poco.appnews.newsitems)
+                    {
+                        <hr>
+                        <div class="newsDiv row container-fluid mx-auto">
+                            <div class="col-2">
+                                <p>@item.feedlabel</p>
+                            </div>
+                            <div class="col-8">
+                                <h3 style="text-align: center">@item.title</h3>
+                            </div>
+                            <div class="col-2">
+                                <a href="@item.url">Link to Article</a>
+                            </div>
 
-                        <p>@item.contents</p>
-                        <h6 style="text-align: center">@item.dateTime</h6>
-                    </div>
+                            <p>@item.contents</p>
+                            <h6 style="text-align: center">@item.dateTime</h6>
+                        </div>
           
-                }
-            </div>
-        }
-        else
-        {
-            <p>There is no news to be displayed for this game, Please try another game or try again later</p>
-        }
+                    }
+                </div>
+            }
+            else
+            {
+                <h3>There is no news to be displayed for this game, Please try another game or try again later</h3>
+            }
         
-    </div>
+        </div>
+    }
+    else
+    {
+        <h3>There was no valid game found for this AppId</h3>
+    }
+
     <br>
 </div>

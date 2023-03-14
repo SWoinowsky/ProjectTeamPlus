@@ -93,14 +93,28 @@ public class HomeController : Controller
     public IActionResult ShowMoreNews(int appId)
     {
         string? id = _userManager.GetUserId(User);
-        User user = _userRepository.GetUser(id);
 
-        Game game = _gameRepository.GetGameByAppId(appId);
-        GameNewsVM gameNewsVM = _steamService.GetGameNews(game);
-        gameNewsVM._game = game;
+        if (id != null)
+        {
+            User user = _userRepository.GetUser(id);
 
-        return View(gameNewsVM);
+            Game game = _gameRepository.GetGameByAppId(appId);
 
+            if (game != null)
+            {
+                GameNewsVM gameNewsVM = _steamService.GetGameNews(game);
+                gameNewsVM._game = game;
+                return View(gameNewsVM);
+
+            }
+
+            return View();
+
+        }
+        else
+        {
+            return View();
+        }
     }
 
     public IActionResult Privacy()

@@ -39,6 +39,7 @@ function refreshLibrary()
 
 function hideGame(gameName)
 {
+    console.log("This is my new test", gameName);
     gameName.style.display = "none";
     gameName.hidden = true;
 }

@@ -70,16 +70,32 @@ else
                                 <div class="card-group">
                                     @foreach (Game game in gameList)
                                     {
-                                        <div class="card followCard col-md-4 mb-3" id="@game.Name" value="@game.AppId">
-                                            <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
-                                            <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setUnfollowGame('@game.Name')">
-                                                <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
-                                            </button>
-                                            <div class="card-body">
-                                                <h4 class="card-title">@game.Name</h4>
+                                        var index = game.Name.IndexOf("'");
+                                        if(index > -1)
+                                        {
+                                            var name = game.Name.Substring(0, index) + "\\" + game.Name.Substring(index);
+                                            <div class="card followCard col-md-4 mb-3" id="@game.Name" value="@game.AppId">
+                                                <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
+                                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setUnfollowGame('@name')">
+                                                    <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
+                                                </button>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">@game.Name</h4>
+                                                </div>
                                             </div>
-                                        </div>
-
+                                        }
+                                        else
+                                        {
+                                            <div class="card followCard col-md-4 mb-3" id="@game.Name" value="@game.AppId">
+                                                <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
+                                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setUnfollowGame('@game.Name')">
+                                                    <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
+                                                </button>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">@game.Name</h4>
+                                                </div>
+                                            </div>
+                                        }
                                     }
                                 </div>
                                 

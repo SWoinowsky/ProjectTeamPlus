@@ -67,7 +67,7 @@ else
                         <div class="row" id="informationRow">
                             @foreach (List<Game> gameList in Model.followedGames)
                             {
-                                <div class="card-group">
+                                <div class="flex-container">
                                     @foreach (Game game in gameList)
                                     {
                                         var index = game.Name.IndexOf("'");

@@ -71,6 +71,7 @@ body {
     justify-content: center;
     background: none;
     padding: 5px;
+    border: none;
 }
 
 #recentGamesCarousel {

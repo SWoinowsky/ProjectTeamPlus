@@ -11,6 +11,7 @@ public interface ISteamService
     List<Friend> GetFriendsList(string steamid, int userId);
     public Friend GetFriendSpecific( string userSteamId, int userId, string friendSteamId );
     IEnumerable<Game> GetGames(string userSteamId, int userId);
+    public GameNewsVM GetGameNews(Game game);
     GameVM GetGameInfo(Game game);
     AchievementRoot GetAchievements(string userSteamId, int appId);
     SchemaRoot GetSchema(int appId);

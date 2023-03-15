@@ -16,11 +16,10 @@ namespace SteamProject.ViewModels
 
         public List<List<Game>> RecentGames { get; set; }
 
-        public List<String> RecentGamesNewsItems { get; set; }
+        public List<String> GamesNewsItems { get; set; }
 
         public List<List<Game>> FollowedGames { get; set; }
 
-        public List<String> FollowedGamesNewsItems { get; set; }
 
         public UserDashboardVM()
         {

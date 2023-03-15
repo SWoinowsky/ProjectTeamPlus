@@ -71,10 +71,9 @@ public class HomeController : Controller
 
 
                 //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
-
                 if (games.Any())
                 {
-                     var asyncTasks = new List<Task>();
+                     var asyncTasks = new List<Task<string>>();
 
                     for (var i = 0; i < games.Count; i+=3)
                     {
@@ -83,13 +82,13 @@ public class HomeController : Controller
 
                         for (int j = 0; j < 3; j++)
                         {
-                            var currentGame = _steamService.GetGameNews(threeGames[j]);
+                            var currentGame = _steamService.GetGameNews(threeGames[j],1);
 
-                            if (currentGame._poco.appnews != null)
+                            if (currentGame._poco.appnews.newsitems.FirstOrDefault() != null)
                             {
-                                var sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco.appnews.newsitems.FirstOrDefault().contents);
+                                var sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco.appnews.newsitems.SingleOrDefault().contents);
                               
-                                asyncTasks.Add(sumTask.WaitAsync(CancellationToken.None));
+                                asyncTasks.Add(sumTask);
                             }
                             
                         }
@@ -113,15 +112,11 @@ public class HomeController : Controller
                         }
                     }
 
-                    
 
 
+                    var results = Task.WhenAll(asyncTasks.ToArray());
 
-                    foreach (var newsTask in asyncTasks)
-                    {
-                        
-                       
-                    }
+                    dashboardVm.GamesNewsItems = results.Result.ToList();
 
                     return View(dashboardVm);
                 }

@@ -24,7 +24,7 @@ namespace SteamProject.Services
                     ChatMessage.FromSystem("You are a helpful assistant meant to summarize patch notes and video game news in a max of 1 sentence"),
                     ChatMessage.FromUser(text),
                 },
-                Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo0301,
+                Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo
             });
             if (completionResult.Successful)
             {

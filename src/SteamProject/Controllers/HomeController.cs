@@ -73,8 +73,13 @@ public class HomeController : Controller
                 //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
                 if (games.Any())
                 {
-                     var asyncTasks = new List<Task<string>>();
+                     var asyncTasks = new List<List<Task<string>>>();
 
+                    var asyncTasksRecent = new List<Task<string>>();
+                    var asyncTasksFollowed = new List<Task<string>>();
+
+
+                    //Recent Games
                     for (var i = 0; i < games.Count; i+=3)
                     {
                         var threeGames = games.Skip(i).Take(3).ToList();
@@ -87,14 +92,15 @@ public class HomeController : Controller
                             if (currentGame._poco.appnews.newsitems.FirstOrDefault() != null)
                             {
                                 var sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco.appnews.newsitems.SingleOrDefault().contents);
-                              
-                                asyncTasks.Add(sumTask);
+
+                                asyncTasksRecent.Add(sumTask);
                             }
                             
                         }
 
                     }
 
+                    //Followed Games
                     for (var i = 0; i < followedGames.Count; i += 3)
                     {
                         var threeGames = followedGames.Skip(i).Take(3).ToList();
@@ -102,21 +108,22 @@ public class HomeController : Controller
 
                         for (int j = 0; j < 3; j++)
                         {
-                            var currentGame = _steamService.GetGameNews(threeGames[j]);
+                            var currentGame = _steamService.GetGameNews(threeGames[j], 1);
 
-                            if (currentGame._poco.appnews != null)
+                            if (currentGame._poco.appnews.newsitems.FirstOrDefault() != null)
                             {
-                               
+                                var sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco.appnews.newsitems.SingleOrDefault().contents);
+
+                                asyncTasksFollowed.Add(sumTask);
                             }
 
                         }
                     }
 
+                    asyncTasks.Add(asyncTasksRecent); 
+                    asyncTasks.Add(asyncTasksFollowed);
 
-
-                    var results = Task.WhenAll(asyncTasks.ToArray());
-
-                    dashboardVm.GamesNewsItems = results.Result.ToList();
+                    dashboardVm.GamesNewsItems = asyncTasks;
 
                     return View(dashboardVm);
                 }

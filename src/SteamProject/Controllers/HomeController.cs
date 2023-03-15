@@ -19,9 +19,10 @@ public class HomeController : Controller
     private readonly IGameRepository _gameRepository;
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
+    private readonly IOpenAiApiService _openAiApiService;
 
 
-    public HomeController(ILogger<HomeController> logger,UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService)
+    public HomeController(ILogger<HomeController> logger,UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IOpenAiApiService openAiApiService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -29,6 +30,7 @@ public class HomeController : Controller
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
         _logger = logger;
+        _openAiApiService = openAiApiService;
     }
 
     public IActionResult Index()
@@ -48,8 +50,8 @@ public class HomeController : Controller
         else
         {
             UserDashboardVM dashboardVm = new UserDashboardVM();
-            dashboardVm.recentGames = new List<List<Game>>();
-            dashboardVm.followedGames = new List<List<Game>>();
+            dashboardVm.RecentGames = new List<List<Game>>();
+            dashboardVm.FollowedGames = new List<List<Game>>();
             User user = _userRepository.GetUser(id);
             dashboardVm._user = user;
 
@@ -62,24 +64,63 @@ public class HomeController : Controller
                 List<Game>? games = _gameRepository.GetGamesListByUserInfo(currentUserInfo).Take(12).ToList();
 
                 List<Game>? followedGames = _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
+                
+                List<string> recentGameNews = new List<string>();
+                List<string> follwedGameNews = new List<string>();
+
 
 
                 //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
 
                 if (games.Any())
                 {
+                     var asyncTasks = new List<Task>();
 
                     for (var i = 0; i < games.Count; i+=3)
                     {
                         var threeGames = games.Skip(i).Take(3).ToList();
-                        dashboardVm.recentGames.Add(threeGames);
+                        dashboardVm.RecentGames.Add(threeGames);
+
+                        for (int j = 0; j < 3; j++)
+                        {
+                            var currentGame = _steamService.GetGameNews(threeGames[j]);
+
+                            if (currentGame._poco.appnews != null)
+                            {
+                                var sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco.appnews.newsitems.FirstOrDefault().contents);
+                              
+                                asyncTasks.Add(sumTask.WaitAsync(CancellationToken.None));
+                            }
+                            
+                        }
 
                     }
 
                     for (var i = 0; i < followedGames.Count; i += 3)
                     {
                         var threeGames = followedGames.Skip(i).Take(3).ToList();
-                        dashboardVm.followedGames.Add(threeGames);
+                        dashboardVm.FollowedGames.Add(threeGames);
+
+                        for (int j = 0; j < 3; j++)
+                        {
+                            var currentGame = _steamService.GetGameNews(threeGames[j]);
+
+                            if (currentGame._poco.appnews != null)
+                            {
+                               
+                            }
+
+                        }
+                    }
+
+                    
+
+
+
+                    foreach (var newsTask in asyncTasks)
+                    {
+                        
+                       
                     }
 
                     return View(dashboardVm);

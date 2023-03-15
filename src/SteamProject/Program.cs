@@ -10,6 +10,7 @@ using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using OpenAI.GPT3.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +65,10 @@ if (localDbSource == false)
 }
 
 var SteamApiToken = builder.Configuration["SteamKey"];
+var openAiToken = builder.Configuration["OpenAiKey"];
+
 builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
+builder.Services.AddScoped<IOpenAiApiService, OpenAiApiService>(a => new OpenAiApiService(openAiToken));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserGameInfoRepository, UserGameInfoRepository>();
@@ -93,6 +97,7 @@ builder.Services.AddAuthentication()
                     });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddOpenAIService();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

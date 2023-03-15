@@ -10,6 +10,7 @@ using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using SteamProject.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

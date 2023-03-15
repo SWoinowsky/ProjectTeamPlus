@@ -64,7 +64,6 @@ public class SteamController : ControllerBase
     public ActionResult Unhide(string id)
     {
         // Need to put this into model to get game for ID instead of having this line in here so it can be tested.
-        //var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
         var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).FirstOrDefault();
         game.Hidden = false;
         _userGameInfoRepository.AddOrUpdate(game);
@@ -91,9 +90,25 @@ public class SteamController : ControllerBase
         }
         else
         {
-            game.Followed = false;
+            return Ok();
         }
         
+        _userGameInfoRepository.AddOrUpdate(game);
+        return Ok();
+    }
+
+    [HttpPost("unfollow")]
+    public ActionResult UnFollow(string id)
+    {
+        var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
+        if (game.Followed != true)
+        {
+            return Ok();
+        }
+        else
+        {
+            game.Followed = false;
+        }
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
     }

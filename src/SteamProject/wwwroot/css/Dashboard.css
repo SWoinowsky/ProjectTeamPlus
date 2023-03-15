@@ -26,6 +26,11 @@ h4 {
     color: #ffffff !important;
 }
 
+h6 {
+    color: white;
+    text-align: center;
+}
+
 li {
     color: #ffffff !important;
 }

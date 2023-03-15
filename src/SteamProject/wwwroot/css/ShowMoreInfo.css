@@ -8,16 +8,12 @@ th, tr, td {
     color: #fff;
 }
 
-.carousel-control-next-icon, .carousel-control-prev-icon {
-    background-color: #ffffff;
-}
-
 body {
     background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
 }
 
-p {
-    color: #fff;
+h1, h2, h3, h4, p {
+    color: white;
 }
 
 footer {

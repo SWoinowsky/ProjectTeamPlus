@@ -47,7 +47,14 @@ public class CompeteController : Controller
 
     [Authorize]
     [HttpGet]
-    public IActionResult Index( string friendSteamId, int appId )
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult Initiate( string friendSteamId, int appId )
     {        
         var id = _userManager.GetUserId( User );
         var me = _userRepository.GetUser( id );

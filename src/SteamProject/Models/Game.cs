@@ -23,7 +23,9 @@ public partial class Game
 
     public int? LastPlayed { get; set; }
 
-    public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
+    public virtual ICollection<Competition> Competitions { get; set; } = new List<Competition>();
+
+    public virtual ICollection<UserGameInfo> UserGameInfos { get; set; } = new List<UserGameInfo>();
 
     public void FromJson(string obj, int userId, User user)
     {
@@ -47,5 +49,4 @@ public partial class Game
         temp.DescShort = "";
         return temp;
     }
-
 }

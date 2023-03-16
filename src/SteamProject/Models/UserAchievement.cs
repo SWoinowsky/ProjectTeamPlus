@@ -41,4 +41,3 @@ public partial class UserAchievement
         return dateTime;
     }
 }
-

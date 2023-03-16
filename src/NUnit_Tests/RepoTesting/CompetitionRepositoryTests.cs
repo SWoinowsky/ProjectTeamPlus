@@ -31,7 +31,7 @@ namespace NUnit_Tests.RepoTesting
 
         public void GetCompetitionById_IfNoMatch_ReturnsNull()
         {
-            ICompetitionRepository _competitions
+            throw new NotImplementedException();
         }
     }
 }

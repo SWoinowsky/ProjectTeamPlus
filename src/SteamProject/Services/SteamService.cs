@@ -18,6 +18,15 @@ public class SteamService : ISteamService
         Token = token;
     }
 
+    public static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
+    {
+    
+        // Unix timestamp is seconds past epoch
+        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+        return dateTime;
+    }
+
     public string GetJsonStringFromEndpoint(string uri)
     {
         var client = new HttpClient();
@@ -159,6 +168,48 @@ public class SteamService : ISteamService
             }
             catch {}
             gameVM._poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
+        }
+        return gameVM;
+    }
+
+    public GameNewsVM GetGameNews(Game game)
+    {
+        var gameVM = new GameNewsVM();
+        string source = string.Format("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={0}&l=en", game.AppId);
+        string jsonResponse = GetJsonStringFromEndpoint(source);
+
+        if (jsonResponse != null)
+        {
+            var newsPoco = JsonSerializer.Deserialize<GameNewsPoco>(jsonResponse);
+
+            for (var i = 0; i < newsPoco.appnews.newsitems.Count; i++)
+            {
+                var newsItem = newsPoco.appnews.newsitems[i];
+                
+                //Remove Html tags from string ex: <a>
+                var item = Regex.Replace(newsItem.contents, @"<[^>]+>*", "");
+
+                //Remove braket tags ex: [a]
+                item = Regex.Replace(item, @"\[[^\]]+\]*", ""); 
+
+                //Remove hyperlinks ex: wwww, https
+                item = Regex.Replace(item, @"http[^\s]+", "");
+                item = Regex.Replace(item, @"www[^\s]+", "");
+
+                //Remove whatever is left that looks out of place
+                item = Regex.Replace(item, @"&#[^\s]+", "");
+                item = Regex.Replace(item, @"\{STEAM_CLAN_IMAGE\}/[A-Za-z0-9]+/[A-Za-z0-9]+\.[A-Za-z]+", "");
+                item = Regex.Replace(item, @"[A-Za-z]+&[A-Za-z0-9]+;s", "");
+                item = Regex.Replace(item, @"&[A-Za-z0-9]+;", "");
+
+                //Remove extra white spaces or at least attempt to
+                item = Regex.Replace(item, @"^[^\s] + (\s +[^\s] +) *$", "");
+
+                newsPoco.appnews.newsitems[i].contents = item;
+                newsPoco.appnews.newsitems[i].dateTime = UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
+
+            }
+            gameVM._poco = newsPoco;
         }
         return gameVM;
     }

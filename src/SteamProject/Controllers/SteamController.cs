@@ -100,6 +100,7 @@ public class SteamController : ControllerBase
     [HttpPost("unfollow")]
     public ActionResult UnFollow(string id)
     {
+        //Try parse instead of Int32
         var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
         if (game.Followed != true)
         {

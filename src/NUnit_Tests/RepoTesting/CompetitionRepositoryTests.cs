@@ -1,9 +1,14 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using SteamProject.DAL.Abstract;
 using SteamProject.Models;
-
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Net;
+using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
+using System;
 namespace NUnit_Tests.RepoTesting
 {
     public class CompetitionRepositoryTests
@@ -31,7 +36,14 @@ namespace NUnit_Tests.RepoTesting
 
         public void GetCompetitionById_IfNoMatch_ReturnsNull()
         {
-            throw new NotImplementedException();
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
+            ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
+
+            var testComp = compRepository.GetCompetitionById(50);
+
+            Assert.True( testComp == null );
         }
     }
 }

@@ -50,14 +50,15 @@ else
                         <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:200px"/><br>
                         
                         @{
+                            //This is used to remove punctuation so that strings still work. Games like 'America's Army', breaks interacitons thanks to it's apostrophe.
                             var index = tempGame.Name.IndexOf("'");
                             if(index > -1)
                             {
                                 var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
-                                <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@name', '@Model._user.Id')">
+                                <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@name', '@Model._user.Id')" name=@game.Game.AppId>
                                     <i  fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
                                 </button>
-                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow Game" onclick="setFollowedGame('@name')">
+                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow Game" onclick="setFollowedGame('@name')" name=@game.Game.AppId>
                                     @if(game.Followed == true)
                                     {
                                         <i fill="CurrentColor" id="@game.Game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>

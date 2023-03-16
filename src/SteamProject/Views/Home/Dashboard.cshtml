@@ -17,7 +17,10 @@ else
 
     <div class="container">
 
-        <h1>User Dashboard <i id="steamIcon" fill="CurrentColor" class="bi bi-steam"></i> </h1>
+    <h1>User Dashboard <i id="steamIcon" fill="CurrentColor" class="bi bi-steam"></i>
+        <button type="button" id="toDoButton" class="btn btn-outline-info center" data-bs-toggle="collapse" data-bs-target="#toDoCollapse" title="Coming Soon">
+            <i fill="CurrentColor" class="bi bi-arrow-bar-down active"></i>
+        </button> </h1>
 
         
 
@@ -46,15 +49,9 @@ else
                             <li>Change-log's' in natural human language distilled to only key details </li>
                             <li>See the results of your recent achievement competitions</li>
                         </ul>
-
                     </div>
-                    <button type="button" id="toDoButton" class="btn btn-outline-info center" data-bs-toggle="collapse" data-bs-target="#toDoCollapse" title="Coming Soon">
-                        <i fill="CurrentColor" class="bi bi-arrow-bar-down active"></i>
-                    </button>
                 </div>
-
             </div>
-
         </div>
 
         <div id="followModal" class="modal fade" role="dialog">
@@ -63,34 +60,56 @@ else
                     <div class="modal-header" id="followModalHeader">
                         <h3>Followed Games</h3><button type="button" class="btn-close" id="modalCloser" data-dismiss="modal" aria-label="Close"></button>
                     </div>
-
                     <div class="modal-body">
-                        <div class="row" id="informationRow">
-                            @foreach (List<Game> gameList in Model.followedGames)
-                            {
-                                <div class="card-group">
-                                    @foreach (Game game in gameList)
-                                    {
-                                        <div class="card followCard col-md-4 mb-3">
-                                            <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
-                                            <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setFollowedGame('@game.Name')">
-                                                <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
-                                            </button>
-                                            <div class="card-body">
-                                                <h4 class="card-title">@game.Name</h4>
-                                            </div>
-                                        </div>
-
-                                    }
-                                </div>
-                                
+                        <div class="container-fluid" id="informationRow">
+                            @{
+                                if(Model.followedGames.Count() == 0)
+                                {
+                                    <p>
+                                        You have no followed games!<br>
+                                        Go back to your library page and follow some.
+                                    </p>
+                                }
+                                else
+                                {
+                                    <div class="flex-container">
+                                        @foreach (List<Game> gameList in Model.followedGames)
+                                        {
+                                            
+                                                @foreach (Game game in gameList)
+                                                {
+                                                    var index = game.Name.IndexOf("'");
+                                                    if(index > -1)
+                                                    {
+                                                        var name = game.Name.Substring(0, index) + "\\" + game.Name.Substring(index);
+                                                        <div class="card followCard col-md-4 mb-3" id="@game.Name" value="@game.AppId">
+                                                            <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
+                                                            <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setUnfollowGame('@name')">
+                                                                <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
+                                                            </button>
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">@game.Name</h4>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="card followCard col-md-4 mb-3" id="@game.Name" value="@game.AppId">
+                                                            <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
+                                                            <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setUnfollowGame('@game.Name')">
+                                                                <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
+                                                            </button>
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">@game.Name</h4>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                    </div>
+                                }
                             }
                         </div>
-
-                        <div class="error">
-                            <h2 class="error-fol" id="error-ach" style="display: none;">There are no followed games to be displayed</h2>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -98,7 +117,7 @@ else
         <br/>
 
         <h1>Your News</h1>
-
+        <h6>Click the <i fill="CurrentColor" class="bi bi-info-circle-fill"></i> to see the news section for a game.</h6>
         <br/>
         <div class="container-fluid">
 
@@ -117,12 +136,14 @@ else
 
                                             <div class="card userCard">
                                                 <img class="img-fluid" alt="@Model.recentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
+                                                <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.recentGames[0][i].AppId})'>
+                                                    <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                                </a>
                                                 <div class="card-body">
                                                     <h4 class="card-title">@Model.recentGames[0][i].Name</h4>
                                                     <p class="card-text">Recent News</p>
                                                 </div>
                                             </div>
-
                                         }
                                     </div>
                                 </div>
@@ -139,6 +160,9 @@ else
                                                 
                                                     <div class="card userCard container-fluid">
                                                         <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                    <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = game[i].AppId})'>
+                                                            <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                                        </a>
                                                         <div class="card-body">
                                                             <h4 class="card-title">@game[i].Name</h4>
                                                             <p class="card-text">Recent News</p>
@@ -180,6 +204,9 @@ else
                                     
                                         <div class="card userCard">
                                             <img class="img-fluid" alt="@Model.followedGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.followedGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
+                                            <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.followedGames[0][i].AppId})'>
+                                                <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                            </a>
                                             <div class="card-body">
                                                 <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
                                                 <p class="card-text">Recent News</p>
@@ -191,7 +218,7 @@ else
                             </div>
                         </div>
 
-                            @for (var index = 1; index < Model.followedGames.Count; index++)
+                        @for (var index = 1; index < Model.followedGames.Count; index++)
                         {
                             var game = Model.followedGames[index];
                             <div class="carousel-item">
@@ -202,6 +229,9 @@ else
                                                 
                                             <div class="card userCard container-fluid">
                                                 <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                <a class="btn btn-outline-info show-btn"  title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.followedGames[index][i].AppId})'>
+                                                    <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                                </a>
                                                 <div class="card-body">
                                                     <h4 class="card-title">@game[i].Name</h4>
                                                     <p class="card-text">Recent News</p>
@@ -226,8 +256,6 @@ else
                     </a>
                 </div>
                 }
-
-                
             </div>
         </div>
     </div>

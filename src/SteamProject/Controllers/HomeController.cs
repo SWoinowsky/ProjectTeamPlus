@@ -90,6 +90,33 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult ShowMoreNews(int appId)
+    {
+        string? id = _userManager.GetUserId(User);
+
+        if (id != null)
+        {
+            User user = _userRepository.GetUser(id);
+
+            Game game = _gameRepository.GetGameByAppId(appId);
+
+            if (game != null)
+            {
+                GameNewsVM gameNewsVM = _steamService.GetGameNews(game);
+                gameNewsVM._game = game;
+                return View(gameNewsVM);
+
+            }
+
+            return View();
+
+        }
+        else
+        {
+            return View();
+        }
+    }
+
     public IActionResult Privacy()
     {
         return View();

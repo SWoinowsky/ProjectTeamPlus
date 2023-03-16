@@ -73,11 +73,32 @@ CREATE TABLE [UserAchievement]
 	,[UnlockTime]		DATETIME			
 );
 
-ALTER TABLE [Friend] ADD CONSTRAINT [Friend_Fk_User] FOREIGN KEY ([RootId]) REFERENCES [User] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE	[UserGameInfo] ADD CONSTRAINT [UserGameInfo_FK_User] FOREIGN KEY ([OwnerId]) REFERENCES [User] ([Id]) ON DELETE CASCADE ON UPDATE NO ACTION;
-ALTER TABLE	[UserGameInfo] ADD CONSTRAINT [UserGameInfo_FK_Game] FOREIGN KEY ([GameId]) REFERENCES [Game] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE [UserAchievement] ADD CONSTRAINT [UserAchievement_Fk_User] FOREIGN KEY ([OwnerId]) REFERENCES [User] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE	[UserAchievement] ADD CONSTRAINT [UserAchievement_FK_Achievement] FOREIGN KEY ([AchievementId]) REFERENCES [GameAchievement] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+CREATE TABLE [Competition]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[GameId]			INT				NOT NULL
+	,[StartDate]		DATETIME		NOT NULL
+	,[EndDate]			DATETIME		NOT NULL
+);
+
+CREATE TABLE [CompetitionPlayer]
+(
+	[CompetitionId]		INT				NOT NULL
+	,[SteamId]			INT				NOT NULL
+);
+
+CREATE TABLE [CompetitionGameAchievements]
+(
+	[CompetitionId]		INT				NOT NULL,
+	[GameAchievementId]	INT				NOT NULL
+);
 
 
+
+ALTER TABLE [Friend]			ADD CONSTRAINT [Friend_Fk_User]					FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE	[UserGameInfo]		ADD CONSTRAINT [UserGameInfo_FK_User]			FOREIGN KEY ([OwnerId])			REFERENCES [User] ([Id])			ON DELETE CASCADE   ON UPDATE NO ACTION;
+ALTER TABLE	[UserGameInfo]		ADD CONSTRAINT [UserGameInfo_FK_Game]			FOREIGN KEY ([GameId])			REFERENCES [Game] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [UserAchievement]	ADD CONSTRAINT [UserAchievement_Fk_User]		FOREIGN KEY ([OwnerId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE	[UserAchievement]	ADD CONSTRAINT [UserAchievement_FK_Achievement] FOREIGN KEY ([AchievementId])	REFERENCES [GameAchievement] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [Competition]		ADD CONSTRAINT [Competition_Fk_Game]			FOREIGN KEY ([GameId])			REFERENCES [Game] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 

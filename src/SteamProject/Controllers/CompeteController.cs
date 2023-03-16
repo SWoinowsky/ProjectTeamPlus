@@ -148,7 +148,7 @@ public class CompeteController : Controller
         myAchievements = sharedMissingAchievements;
         theirAchievements = myAchievements;
 
-        var viewModel = new CompeteVM( myAchievements, theirAchievements );
+        var viewModel = new CompeteInitiateVM( myAchievements, theirAchievements );
 
         return View( viewModel );
     }

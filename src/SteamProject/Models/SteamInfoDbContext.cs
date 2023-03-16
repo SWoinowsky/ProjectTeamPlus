@@ -15,6 +15,8 @@ public partial class SteamInfoDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Competition> Competitions { get; set; }
+
     public virtual DbSet<Friend> Friends { get; set; }
 
     public virtual DbSet<Game> Games { get; set; }

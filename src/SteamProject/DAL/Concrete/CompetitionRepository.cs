@@ -12,4 +12,8 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
 
     }
 
+    public Competition GetCompetitionById(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

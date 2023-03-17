@@ -13,6 +13,10 @@ public partial class Competition
 
     public DateTime EndDate { get; set; }
 
+    public virtual ICollection<CompetitionGameAchievement> CompetitionGameAchievements { get; } = new List<CompetitionGameAchievement>();
+
+    public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; } = new List<CompetitionPlayer>();
+
     public virtual Game Game { get; set; } = null!;
 
     public bool Equals( Competition compIn )

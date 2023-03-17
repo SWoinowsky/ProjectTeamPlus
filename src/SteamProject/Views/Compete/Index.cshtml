@@ -1,4 +1,4 @@
-@model SteamProject.ViewModels.CompeteVM
+@model SteamProject.ViewModels.CompeteIndexVM
 @{
     ViewData["Title"] = "Game Library";
 }
@@ -8,27 +8,25 @@
 </head>
 
 
-<div style="align-content: center; text-align: center; width: 100%; padding-top: 5%; ">
-    <h1> Competition Initiation </h1>
+<div style="align-items: center; padding-left: 2.5%;">
+    <h1 style="padding-top: 5%;"> YOUR COMPETITIONS: </h1>
 
-    <h3> Achievements you're both missing: </h2>
-    <div class="row" style="align-items: center;">
-        @foreach ( var achievement in Model.UsersAchievements )
+    <div class="row" style="padding-top: 5%;">
+        @foreach( var competition in Model.Competitions )
         {
-            <div class="col-md-2" style="width: 160px; margin: auto;">
-
-                <br>
-
-                <div class="achievementDiv">
-                    <div class="card achievementCard" style="word-wrap: normal; background-image: linear-gradient(to bottom right, rgb(0,0,0), rgb(75,75,75), rgb(0,0,0));">
-                        <img class="card-img-top" src="@achievement.Achievement.IconAchievedUrl" style="width: 100%; height: 100%;">
+            <div class="col-md-4">
+                <div class="competitionDiv">
+                    <div class="card competitionCard">
+                        <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @competition.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @competition.Game.Name)">
                         <div class="card-body">
-                            <p class="card-title" style="color: white;"> @achievement.Achievement.DisplayName </p>
+                            <p class="card-title" style="overflow: hidden; white-space: nowrap; color: Black"> @competition.Game.Name </p>
+                            <p> Start: @competition.StartDate </p>
+                            <p> End: @competition.EndDate </p>
                         </div>
                     </div>
                 </div>
             </div>
         }
     </div>
-    
 </div>
+

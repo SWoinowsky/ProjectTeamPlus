@@ -20,6 +20,9 @@ public class CompeteController : Controller
     private readonly IFriendRepository _friendRepository;
     private readonly IGameAchievementRepository _gameAchievementRepository;
     private readonly IUserAchievementRepository _userAchievementRepository;
+    private readonly ICompetitionRepository _competitionRepository;
+    private readonly ICompetitionPlayerRepository _competitionPlayerRepository;
+    private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
 
     public CompeteController(
@@ -31,6 +34,9 @@ public class CompeteController : Controller
         ,IUserAchievementRepository userAchievementRepository
         ,IGameRepository gameRepository
         ,IUserGameInfoRepository userGameInfoRepository
+        ,ICompetitionRepository competitionRepository
+        ,ICompetitionPlayerRepository competitionPlayerRepository
+        ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
         ,UserManager<IdentityUser> userManager
         )
     {
@@ -42,13 +48,40 @@ public class CompeteController : Controller
         _friendRepository = friendRepository;
         _gameAchievementRepository = gameAchievementRepository;
         _userAchievementRepository = userAchievementRepository;
+        _competitionRepository = competitionRepository;
+        _competitionPlayerRepository = competitionPlayerRepository;
+        _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
     }
 
+
     [Authorize]
     [HttpGet]
-    public IActionResult Index( string friendSteamId, int appId )
-    {        
+    public IActionResult Index()
+    {
+        var id = _userManager.GetUserId( User );
+        var me = _userRepository.GetUser( id );
+        var mySteamId = me.SteamId;
+
+        var myEntries = new List<CompetitionPlayer>();
+        myEntries = _competitionPlayerRepository.GetCompetitionIdsBySteamId( mySteamId );
+
+        var viewModel = new CompeteIndexVM();
+        viewModel.Competitions = _competitionRepository.GetAllCompetitionsForUser( myEntries );
+
+        foreach( var competition in viewModel.Competitions )
+        {
+            competition.Game = _gameRepository.GetGameById( competition.GameId );
+        }
+        
+        return View( viewModel );
+    }
+
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult Initiate( string friendSteamId, int appId )
+    {
         var id = _userManager.GetUserId( User );
         var me = _userRepository.GetUser( id );
         var mySteamId = me.SteamId;
@@ -141,8 +174,49 @@ public class CompeteController : Controller
         myAchievements = sharedMissingAchievements;
         theirAchievements = myAchievements;
 
-        var viewModel = new CompeteVM( myAchievements, theirAchievements );
+        var viewModel = new CompeteInitiateVM( myAchievements, theirAchievements );
+
+        var gameInUse = new Game();
+        gameInUse = _gameRepository.GetGameById( gameIdFound );
+
+        viewModel.ChosenGame = gameInUse;
+
+        var compsWithUser = new List<CompetitionPlayer>();
+        compsWithUser = _competitionPlayerRepository.GetCompetitionIdsBySteamId( mySteamId );
+
+        var existingCompetition = new Competition();
+        foreach( var compPlayer in compsWithUser )
+        {
+            existingCompetition = _competitionRepository.GetCompetitionByCompPlayerAndGameId( compPlayer, gameIdFound );
+            
+            if( existingCompetition != null )
+                break;
+        }
+        
+        viewModel.MySteamId = mySteamId;
+        viewModel.CurrentCompetition = existingCompetition;
+
 
         return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
+    {
+        _competitionRepository.AddOrUpdate( competeIn.CurrentCompetition );
+        foreach( var achievement in competeIn.UsersAchievements )
+        {
+            var objectOut = new CompetitionGameAchievement { CompetitionId = competeIn.CurrentCompetition.Id, GameAchievementId = achievement.AchievementId };
+            _competitionGameAchievementRepository.AddOrUpdate(objectOut);
+        }
+
+        var compPlayerMe = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MySteamId };
+        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = friendSteamId };
+
+        _competitionPlayerRepository.AddOrUpdate( compPlayerMe );
+        _competitionPlayerRepository.AddOrUpdate( compPlayerThem );
+        
+        return RedirectToAction("Initiate", new { friendSteamId = friendSteamId, appId = appId });
     }
 }

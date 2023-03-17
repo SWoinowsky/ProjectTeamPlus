@@ -31,7 +31,7 @@
         }
     </div>
 
-    @if( Model.CurrentCompetition.Id == 0 )
+    @if( Model.CurrentCompetition == null )
     {
         <button id="ModalBtn">
             Initiate Competition?

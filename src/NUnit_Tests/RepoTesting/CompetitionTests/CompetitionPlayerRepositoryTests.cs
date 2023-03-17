@@ -60,8 +60,13 @@ public class CompetitionPlayerRepositoryTests
         ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
 
         var foundList = compPlayRepository.GetCompetitionIdsBySteamId("1");
-        var compareList = new List<int> { 1, 4, 5 };
-        
+        var compareList = new List<CompetitionPlayer>
+        { 
+            _competitionPlayers[0],
+            _competitionPlayers[3],
+            _competitionPlayers[4]
+        };
+
         Assert.True( foundList.SequenceEqual(compareList) );
     }
 }

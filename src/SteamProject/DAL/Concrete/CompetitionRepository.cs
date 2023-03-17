@@ -16,4 +16,10 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
     {
         return GetAll().Where( c => c.Id == id ).FirstOrDefault();
     }
+
+    public Competition GetCompetitionByCompPlayerAndGameId( CompetitionPlayer player, int gameId )
+    {
+        return GetAll().Where( c => c.GameId == gameId && c.CompetitionPlayers.Contains( player ) ).FirstOrDefault();
+    }
+
 }

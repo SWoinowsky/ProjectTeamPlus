@@ -16,6 +16,7 @@ namespace NUnit_Tests.RepoTesting.CompetitionTests
         private Mock<SteamInfoDbContext> _mockContext;
         private Mock<DbSet<Competition>> _mockCompetitionDbSet;
 
+        private CompetitionPlayer _compPlayer = new CompetitionPlayer { CompetitionId = 1, SteamId = "1" };
         private List<Competition> _competitions; 
 
         [SetUp]
@@ -27,6 +28,8 @@ namespace NUnit_Tests.RepoTesting.CompetitionTests
                 new Competition { Id = 2, GameId = 2, StartDate = new DateTime(2001, 03, 10), EndDate = new DateTime(2001, 03, 11) },
                 new Competition { Id = 3, GameId = 3, StartDate = new DateTime(2001, 03, 12), EndDate = new DateTime(2001, 03, 13) }
             };
+            _competitions[0].CompetitionPlayers.Add(_compPlayer);
+
 
             _mockContext = new Mock<SteamInfoDbContext>();
             _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
@@ -60,6 +63,32 @@ namespace NUnit_Tests.RepoTesting.CompetitionTests
 
 
             Assert.True( testComp.Equals( comparisonComp ) );
+        }
+
+        [Test]
+        public void GetCompetitionByCompPlayerAndGameId_IfNoMatch_ReturnsNull()
+        {
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
+            ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
+
+            var testComp = compRepository.GetCompetitionByCompPlayerAndGameId( _compPlayer, 0 );
+
+            Assert.True( testComp == null );
+        }
+
+        [Test]
+        public void GetCompetitionByCompPlayerAndGameId_IfYesMatch_ReturnsMatch()
+        {
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
+            ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
+
+            var testComp = compRepository.GetCompetitionByCompPlayerAndGameId( _compPlayer, 0 );
+
+            Assert.True( testComp == _competitions[0] );
         }
     }
 }

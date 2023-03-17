@@ -4,5 +4,5 @@ namespace SteamProject.DAL.Abstract;
 
 public interface ICompetitionPlayerRepository : IRepository<CompetitionPlayer>
 {
-    public List<int> GetCompetitionIdsBySteamId( string id );
+    public List<CompetitionPlayer> GetCompetitionIdsBySteamId( string id );
 }

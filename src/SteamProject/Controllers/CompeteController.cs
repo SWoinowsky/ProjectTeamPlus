@@ -20,6 +20,9 @@ public class CompeteController : Controller
     private readonly IFriendRepository _friendRepository;
     private readonly IGameAchievementRepository _gameAchievementRepository;
     private readonly IUserAchievementRepository _userAchievementRepository;
+    private readonly ICompetitionRepository _competitionRepository;
+    private readonly ICompetitionPlayerRepository _competitionPlayerRepository;
+    private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
 
     public CompeteController(
@@ -31,6 +34,9 @@ public class CompeteController : Controller
         ,IUserAchievementRepository userAchievementRepository
         ,IGameRepository gameRepository
         ,IUserGameInfoRepository userGameInfoRepository
+        ,ICompetitionRepository competitionRepository
+        ,ICompetitionPlayerRepository competitionPlayerRepository
+        ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
         ,UserManager<IdentityUser> userManager
         )
     {
@@ -42,6 +48,9 @@ public class CompeteController : Controller
         _friendRepository = friendRepository;
         _gameAchievementRepository = gameAchievementRepository;
         _userAchievementRepository = userAchievementRepository;
+        _competitionRepository = competitionRepository;
+        _competitionPlayerRepository = competitionPlayerRepository;
+        _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
     }
 
@@ -149,7 +158,17 @@ public class CompeteController : Controller
         theirAchievements = myAchievements;
 
         var viewModel = new CompeteInitiateVM( myAchievements, theirAchievements );
+        viewModel.CurrentCompetition = new Competition { GameId = gameIdFound };
+        
 
         return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult Initiate( string friendSteamId, int appId, Competition competeIn )
+    {
+        _competitionRepository.AddOrUpdate( competeIn );        
+        return RedirectToAction("Initiate", new { firendSteamId = friendSteamId, appId = appId });
     }
 }

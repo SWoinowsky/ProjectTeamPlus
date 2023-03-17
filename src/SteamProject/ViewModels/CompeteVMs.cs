@@ -19,7 +19,7 @@ public class CompeteInitiateVM
 
 public class CompeteIndexVM
 {
-    public List<Competition> CurrentCompetition { get; set; }
+    public List<Competition> Competitions { get; set; }
 
     public CompeteIndexVM() 
     {

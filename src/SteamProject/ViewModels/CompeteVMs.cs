@@ -3,6 +3,16 @@ using SteamProject.Models;
 
 namespace SteamProject.ViewModels;
 
+
+public class CompeteIndexVM
+{
+    public List<Competition> Competitions { get; set; }
+
+    public CompeteIndexVM(){}
+
+}
+
+
 public class CompeteInitiateVM
 {
     public List<UserAchievement> UsersAchievements { get; set; } = null!;
@@ -16,14 +26,5 @@ public class CompeteInitiateVM
     {
         UsersAchievements = users;
         FriendsAchievements = friends;
-    }
-}
-
-public class CompeteIndexVM
-{
-    public List<Competition> Competitions { get; set; }
-
-    public CompeteIndexVM() 
-    {
     }
 }

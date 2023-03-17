@@ -58,7 +58,17 @@ public class CompeteController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        var id = _userManager.GetUserId( User );
+        var me = _userRepository.GetUser( id );
+        var mySteamId = me.SteamId;
+
+        var myEntries = new List<CompetitionPlayer>();
+        myEntries = _competitionPlayerRepository.GetCompetitionIdsBySteamId( mySteamId );
+
+        var viewModel = new CompeteIndexVM();
+        viewModel.Competitions = _competitionRepository.GetAllCompetitionsForUser( myEntries );
+        
+        return View( viewModel );
     }
 
     [Authorize]

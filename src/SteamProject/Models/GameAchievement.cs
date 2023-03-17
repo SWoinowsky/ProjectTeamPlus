@@ -20,11 +20,9 @@ public partial class GameAchievement
 
     public bool HiddenFromUsers { get; set; }
 
-    public virtual ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
+    public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
 
-    public GameAchievement()
-    {
-    }
+    public GameAchievement(){}
 
     public GameAchievement( SchemaAchievement achievementPOCO )
     {

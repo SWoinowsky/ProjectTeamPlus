@@ -40,7 +40,7 @@ public partial class SteamInfoDbContext : DbContext
     {
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC07BA57519B");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC071BF61D27");
 
             entity.ToTable("Competition");
 
@@ -55,7 +55,9 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<CompetitionGameAchievement>(entity =>
         {
-            entity.HasNoKey();
+            entity
+                .HasNoKey()
+                .ToTable("CompetitionGameAchievement");
         });
 
         modelBuilder.Entity<CompetitionPlayer>(entity =>
@@ -63,11 +65,13 @@ public partial class SteamInfoDbContext : DbContext
             entity
                 .HasNoKey()
                 .ToTable("CompetitionPlayer");
+
+            entity.Property(e => e.SteamId).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Friend>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07B7D0D1B4");
+            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC0747060B54");
 
             entity.ToTable("Friend");
 
@@ -85,7 +89,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07502D819A");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC079FB9F946");
 
             entity.ToTable("Game");
 
@@ -97,7 +101,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<GameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC07FF515A19");
+            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC07815AFD05");
 
             entity.ToTable("GameAchievement");
 
@@ -109,7 +113,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC071F2D8D65");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC07D3E6EBEE");
 
             entity.ToTable("User");
 
@@ -122,7 +126,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC0747B1F1FF");
+            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC07A5357D36");
 
             entity.ToTable("UserAchievement");
 
@@ -141,7 +145,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserGameInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC074896167B");
+            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC0761F294F0");
 
             entity.ToTable("UserGameInfo");
 

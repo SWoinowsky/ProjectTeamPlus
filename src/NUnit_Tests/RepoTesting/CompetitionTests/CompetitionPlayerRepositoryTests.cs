@@ -25,11 +25,11 @@ public class CompetitionPlayerRepositoryTests
     {
         _competitionPlayers = new List<CompetitionPlayer>
         {
-            new CompetitionPlayer { CompetitionId = 1, SteamId = 1 },
-            new CompetitionPlayer { CompetitionId = 2, SteamId = 2 },
-            new CompetitionPlayer { CompetitionId = 3, SteamId = 3 },
-            new CompetitionPlayer { CompetitionId = 4, SteamId = 1 },
-            new CompetitionPlayer { CompetitionId = 5, SteamId = 1 },
+            new CompetitionPlayer { CompetitionId = 1, SteamId = "1" },
+            new CompetitionPlayer { CompetitionId = 2, SteamId = "2" },
+            new CompetitionPlayer { CompetitionId = 3, SteamId = "3" },
+            new CompetitionPlayer { CompetitionId = 4, SteamId = "1" },
+            new CompetitionPlayer { CompetitionId = 5, SteamId = "1" },
         };
 
         _mockContext = new Mock<SteamInfoDbContext>();
@@ -46,7 +46,7 @@ public class CompetitionPlayerRepositoryTests
         _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
         ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
 
-        var listFound = compPlayRepository.GetCompetitionIdsBySteamId(0);
+        var listFound = compPlayRepository.GetCompetitionIdsBySteamId("0");
         
         Assert.True( listFound == null );
     }
@@ -59,7 +59,7 @@ public class CompetitionPlayerRepositoryTests
         _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
         ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
 
-        var foundList = compPlayRepository.GetCompetitionIdsBySteamId(1);
+        var foundList = compPlayRepository.GetCompetitionIdsBySteamId("1");
         var compareList = new List<int> { 1, 4, 5 };
         
         Assert.True( foundList.SequenceEqual(compareList) );

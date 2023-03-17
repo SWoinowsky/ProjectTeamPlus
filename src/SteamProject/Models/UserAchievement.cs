@@ -20,10 +20,7 @@ public partial class UserAchievement
 
     public virtual User Owner { get; set; } = null!;
 
-    public UserAchievement()
-    {
-
-    }
+    public UserAchievement(){}
 
     public UserAchievement( GameAchievement gameAchIn, Achievement achPOCO )
     {

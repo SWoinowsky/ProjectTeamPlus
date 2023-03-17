@@ -7,5 +7,5 @@ public partial class CompetitionPlayer
 {
     public int CompetitionId { get; set; }
 
-    public int SteamId { get; set; }
+    public string SteamId { get; set; } = null!;
 }

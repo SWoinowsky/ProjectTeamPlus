@@ -81,7 +81,7 @@ public class CompeteController : Controller
     [Authorize]
     [HttpGet]
     public IActionResult Initiate( string friendSteamId, int appId )
-    {        
+    {
         var id = _userManager.GetUserId( User );
         var me = _userRepository.GetUser( id );
         var mySteamId = me.SteamId;
@@ -175,6 +175,11 @@ public class CompeteController : Controller
         theirAchievements = myAchievements;
 
         var viewModel = new CompeteInitiateVM( myAchievements, theirAchievements );
+
+        var gameInUse = new Game();
+        gameInUse = _gameRepository.GetGameById( gameIdFound );
+
+        viewModel.ChosenGame = gameInUse;
 
         var compsWithUser = new List<CompetitionPlayer>();
         compsWithUser = _competitionPlayerRepository.GetCompetitionIdsBySteamId( mySteamId );

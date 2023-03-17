@@ -8,6 +8,7 @@ public class CompeteInitiateVM
     public List<UserAchievement> UsersAchievements { get; set; } = null!;
     public List<UserAchievement> FriendsAchievements { get; set; } = null!;
     public Competition CurrentCompetition { get; set; } = null!;
+    public string MySteamId { get; set; }
 
     public CompeteInitiateVM(){}
 

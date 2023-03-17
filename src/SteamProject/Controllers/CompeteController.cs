@@ -158,6 +158,7 @@ public class CompeteController : Controller
         theirAchievements = myAchievements;
 
         var viewModel = new CompeteInitiateVM( myAchievements, theirAchievements );
+        viewModel.MySteamId = mySteamId;
         viewModel.CurrentCompetition = new Competition { GameId = gameIdFound };
 
 
@@ -169,6 +170,11 @@ public class CompeteController : Controller
     public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
     {
         _competitionRepository.AddOrUpdate( competeIn.CurrentCompetition );
+        foreach( var achievement in competeIn.UsersAchievements )
+        {
+            var objectOut = new CompetitionGameAchievement { CompetitionId = competeIn.CurrentCompetition.Id, GameAchievementId = achievement.AchievementId };
+            _competitionGameAchievementRepository.AddOrUpdate(objectOut);
+        }
         return RedirectToAction("Initiate", new { firendSteamId = friendSteamId, appId = appId });
     }
 }

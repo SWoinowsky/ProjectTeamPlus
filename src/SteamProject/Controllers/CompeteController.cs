@@ -175,6 +175,13 @@ public class CompeteController : Controller
             var objectOut = new CompetitionGameAchievement { CompetitionId = competeIn.CurrentCompetition.Id, GameAchievementId = achievement.AchievementId };
             _competitionGameAchievementRepository.AddOrUpdate(objectOut);
         }
+
+        var compPlayerMe = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MySteamId };
+        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = friendSteamId };
+
+        _competitionPlayerRepository.AddOrUpdate( compPlayerMe );
+        _competitionPlayerRepository.AddOrUpdate( compPlayerThem );
+        
         return RedirectToAction("Initiate", new { firendSteamId = friendSteamId, appId = appId });
     }
 }

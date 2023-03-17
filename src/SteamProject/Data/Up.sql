@@ -84,7 +84,8 @@ CREATE TABLE [Competition]
 CREATE TABLE [CompetitionPlayer]
 (
 	[CompetitionId]		INT				NOT NULL
-	,[SteamId]			INT				NOT NULL
+	,[SteamId]			NVARCHAR(50)	NOT NULL
+
 );
 
 CREATE TABLE [CompetitionGameAchievement]

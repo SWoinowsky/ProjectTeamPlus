@@ -69,4 +69,5 @@ public class CompetitionPlayerRepositoryTests
 
         Assert.True( foundList.SequenceEqual(compareList) );
     }
+
 }

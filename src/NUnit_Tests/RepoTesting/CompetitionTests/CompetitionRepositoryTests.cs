@@ -90,5 +90,50 @@ namespace NUnit_Tests.RepoTesting.CompetitionTests
 
             Assert.True( testComp == _competitions[0] );
         }
+
+        [Test]
+        public void GetAllCompetitionsForUser_IfNullInput_ReturnsNull()
+        {
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
+            ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
+
+            var testComps = compRepository.GetAllCompetitionsForUser(null);
+
+            Assert.True( testComps == null );
+        }
+
+        [Test]
+        public void GetAllCompetitionsForUser_IfEmptyList_ReturnsNull()
+        {
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
+            ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
+
+            var testComps = compRepository.GetAllCompetitionsForUser( new List<CompetitionPlayer>() );
+
+            Assert.True( testComps == null );
+        }
+
+        [Test]
+        public void GetAllCompetitionsForUser_IfListContainsProperComps_ReturnsCompetitions()
+        {
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
+            ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
+
+            var compPlayerList = new List<CompetitionPlayer>();
+            compPlayerList.Add( _compPlayer );
+
+            var testComps = compRepository.GetAllCompetitionsForUser( compPlayerList );
+
+            var goalList = new List<Competition>();
+            goalList.Add( _competitions[0] );
+
+            Assert.True( testComps.SequenceEqual( goalList ) );
+        }
     }
 }

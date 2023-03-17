@@ -159,16 +159,16 @@ public class CompeteController : Controller
 
         var viewModel = new CompeteInitiateVM( myAchievements, theirAchievements );
         viewModel.CurrentCompetition = new Competition { GameId = gameIdFound };
-        
+
 
         return View( viewModel );
     }
 
     [Authorize]
     [HttpPost]
-    public IActionResult Initiate( string friendSteamId, int appId, Competition competeIn )
+    public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
     {
-        _competitionRepository.AddOrUpdate( competeIn );        
+        _competitionRepository.AddOrUpdate( competeIn.CurrentCompetition );
         return RedirectToAction("Initiate", new { firendSteamId = friendSteamId, appId = appId });
     }
 }

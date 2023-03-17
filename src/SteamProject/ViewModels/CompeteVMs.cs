@@ -5,10 +5,11 @@ namespace SteamProject.ViewModels;
 
 public class CompeteInitiateVM
 {
-    public List<UserAchievement> UsersAchievements { get; set; }
-    public List<UserAchievement> FriendsAchievements { get; set; }
+    public List<UserAchievement> UsersAchievements { get; set; } = null!;
+    public List<UserAchievement> FriendsAchievements { get; set; } = null!;
+    public Competition CurrentCompetition { get; set; } = null!;
 
-    public Competition CurrentCompetition { get; set; }
+    public CompeteInitiateVM(){}
 
     public CompeteInitiateVM( List<UserAchievement> users, List<UserAchievement> friends ) 
     {

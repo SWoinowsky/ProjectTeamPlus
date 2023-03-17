@@ -52,7 +52,23 @@
             </div>
             <div class="modal-body" style="height: 30rem;">
                 <form id="DateSelection" method="post" >
-                    <input type="hidden" name="GameId" asp-for="CurrentCompetition.GameId">
+                    <input type="hidden" name="CurrentCompetition.GameId" asp-for="CurrentCompetition.GameId">
+                    @for( int i = 0; i < Model.UsersAchievements.Count(); ++i)
+                    {
+                        @Html.HiddenFor( m => m.UsersAchievements[i].Achieved )
+                        @Html.HiddenFor( m => m.UsersAchievements[i].AchievementId )
+                        @Html.HiddenFor( m => m.UsersAchievements[i].Id )
+                        @Html.HiddenFor( m => m.UsersAchievements[i].OwnerId )
+                        @Html.HiddenFor( m => m.UsersAchievements[i].UnlockTime )
+
+                        @Html.HiddenFor( m => m.FriendsAchievements[i].Achieved )
+                        @Html.HiddenFor( m => m.FriendsAchievements[i].AchievementId )
+                        @Html.HiddenFor( m => m.FriendsAchievements[i].Id )
+                        @Html.HiddenFor( m => m.FriendsAchievements[i].OwnerId )
+                        @Html.HiddenFor( m => m.FriendsAchievements[i].UnlockTime )
+                    }
+                    @* <input type="hidden" name="FriendsAchievements" asp-for="FriendsAchievements"> *@
+                    
 
                     <label class="control-label" for="CurrentCompetition.StartDate"></label>
                     <span class="text-danger"></span>

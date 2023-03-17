@@ -14,4 +14,15 @@ public partial class Competition
     public DateTime EndDate { get; set; }
 
     public virtual Game Game { get; set; } = null!;
+
+    public bool Equals( Competition compIn )
+    {
+        if( Id == compIn.Id )
+            if( GameId == compIn.GameId )
+                if( StartDate == compIn.StartDate )
+                    if( EndDate == compIn.EndDate )
+                        return true;
+
+        return false;
+    }
 }

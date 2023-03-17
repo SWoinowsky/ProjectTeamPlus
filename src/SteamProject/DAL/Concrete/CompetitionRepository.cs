@@ -14,6 +14,6 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
 
     public Competition GetCompetitionById(int id)
     {
-        throw new NotImplementedException();
+        return GetAll().Where( c => c.Id == id ).FirstOrDefault();
     }
 }

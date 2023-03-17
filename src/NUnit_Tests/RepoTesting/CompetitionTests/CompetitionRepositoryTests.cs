@@ -9,7 +9,7 @@ using System.Net;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using System;
-namespace NUnit_Tests.RepoTesting
+namespace NUnit_Tests.RepoTesting.CompetitionTests
 {
     public class CompetitionRepositoryTests
     {
@@ -34,6 +34,7 @@ namespace NUnit_Tests.RepoTesting
             _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
         }
 
+        [Test]
         public void GetCompetitionById_IfNoMatch_ReturnsNull()
         {
             _mockContext = new Mock<SteamInfoDbContext>();
@@ -44,6 +45,21 @@ namespace NUnit_Tests.RepoTesting
             var testComp = compRepository.GetCompetitionById(50);
 
             Assert.True( testComp == null );
+        }
+
+        [Test]
+        public void GetCompetitionById_IfYesMatch_ReturnsMatch()
+        {
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockCompetitionDbSet = MockHelpers.GetMockDbSet(_competitions.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
+            ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
+
+            var testComp = compRepository.GetCompetitionById(1);
+            var comparisonComp = new Competition { Id = 1, GameId = 1, StartDate = new DateTime(2001, 03, 08), EndDate = new DateTime(2001, 03, 09) };
+
+
+            Assert.True( testComp.Equals( comparisonComp ) );
         }
     }
 }

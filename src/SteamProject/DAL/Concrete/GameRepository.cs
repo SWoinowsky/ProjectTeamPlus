@@ -30,5 +30,10 @@ namespace SteamProject.DAL.Concrete
             }
             return returnList;
         }
+
+        public Game GetGameById( int id )
+        {
+            return GetAll().Where( g => g.Id == id ).FirstOrDefault();
+        }
     }
 }

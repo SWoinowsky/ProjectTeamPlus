@@ -1,9 +1,48 @@
-.achievementCard {
+.card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.6);
     transition: 0.3s;
 }
 
-.achievementCard:hover {
+.card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }
 
+.close {
+    background: none;
+    border: none;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 1rem;
+    background-color: #000;
+    background-image: url('../assets/steam_gradient.png');
+}
+
+.modal-header {
+    border-bottom: none;
+    justify-content: flex-end;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container {
+    height: 30rem;
+}
+
+.col-md-3 .ach-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#ModalBtn:focus {
+    outline: none;
+    -webkit-box-shadow: inset 0px 0px 10px  rgba(0,0,0,0.8);
+       -moz-box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+            box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+  }

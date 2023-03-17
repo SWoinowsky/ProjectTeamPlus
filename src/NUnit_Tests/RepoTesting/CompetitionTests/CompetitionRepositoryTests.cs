@@ -86,7 +86,7 @@ namespace NUnit_Tests.RepoTesting.CompetitionTests
             _mockContext.Setup(ctx => ctx.Set<Competition>()).Returns(_mockCompetitionDbSet.Object);
             ICompetitionRepository compRepository = new CompetitionRepository(_mockContext.Object);
 
-            var testComp = compRepository.GetCompetitionByCompPlayerAndGameId( _compPlayer, 0 );
+            var testComp = compRepository.GetCompetitionByCompPlayerAndGameId( _compPlayer, 1 );
 
             Assert.True( testComp == _competitions[0] );
         }

@@ -12,5 +12,6 @@ namespace SteamProject.DAL.Abstract
 
         List<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo);
 
+        public Game GetGameById( int id );
     }
 }

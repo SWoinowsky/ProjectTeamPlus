@@ -54,6 +54,7 @@ public class CompeteController : Controller
         _userManager = userManager;
     }
 
+
     [Authorize]
     [HttpGet]
     public IActionResult Index()
@@ -67,9 +68,15 @@ public class CompeteController : Controller
 
         var viewModel = new CompeteIndexVM();
         viewModel.Competitions = _competitionRepository.GetAllCompetitionsForUser( myEntries );
+
+        foreach( var competition in viewModel.Competitions )
+        {
+            competition.Game = _gameRepository.GetGameById( competition.GameId );
+        }
         
         return View( viewModel );
     }
+
 
     [Authorize]
     [HttpGet]

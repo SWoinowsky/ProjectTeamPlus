@@ -211,27 +211,8 @@ public class SteamService : ISteamService
             {
                 var newsItem = newsPoco.appnews.newsitems[i];
 
-                if (newsItem.feedlabel == "SteamDB")
-                {
-                    if (count == 1)
-                    {
-                        var widerRange = GetGameNews(game, count = 5);
-                        newsPoco.appnews = widerRange._poco.appnews;
-                    }
-                    else
-                    {
-                        newsPoco.appnews.newsitems.RemoveAt(i);
-                    }
-                    
-                }
-                else
-                {
-                    newsPoco.appnews.newsitems[i].contents = StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
-                    newsPoco.appnews.newsitems[i].dateTime = UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
-
-                }
-
-
+                newsPoco.appnews.newsitems[i].contents = StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
+                newsPoco.appnews.newsitems[i].dateTime = UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
 
             }
             gameVM._poco = newsPoco;

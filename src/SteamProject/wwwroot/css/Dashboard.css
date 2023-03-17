@@ -59,11 +59,9 @@ p {
     text-align: center;
     justify-content: center;
     background: linear-gradient(to left, #222731, #2f526e, #222731);
-
     margin-top: 0px;
-    padding: 5px;
     border-radius: 0;
-    width: 100%;
+
 }
 
 body {

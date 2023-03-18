@@ -131,13 +131,13 @@ else
                                                     if(index > -1)
                                                     {
                                                         var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name')" name=@game.Game.AppId>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name', '@Model._user.Id')" name=@game.Game.AppId>
                                                             <i fill="CurrentColor" class="bi bi-eye-fill"></i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name')" name=@game.Game.AppId>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.AppId>
                                                             <i fill="CurrentColor" class="bi bi-eye-fill"></i>
                                                         </button>
                                                     }

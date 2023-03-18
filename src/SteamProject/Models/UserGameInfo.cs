@@ -29,4 +29,13 @@ public partial class UserGameInfo
        UserGameInfo returnGame = userGameInfoRepository.GetAll(g => g.Game.AppId == id).Where( g => g.OwnerId == userId ).FirstOrDefault();
        return returnGame;
     }
+
+    public void SetHiddenStatusTrue()
+    {
+        this.Hidden = true;
+    }
+    public void SetHiddenStatusFalse()
+    {
+        this.Hidden = false;
+    }
 }

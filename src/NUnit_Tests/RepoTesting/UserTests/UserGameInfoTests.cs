@@ -87,6 +87,19 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
+        public void UserGameInfo_WithCorrectData_IsValid()
+        {
+            // Assert
+            UserGameInfo game = MakeValidGameInfo();
+
+            // Act
+            ModelValidator mv = new ModelValidator(game);
+
+            // Assert
+            Assert.That(mv.Valid, Is.True);
+        }
+
+        [Test]
         public void SetHiddenStatusTrue_WithFalseHiddenSet_SetsGameHiddenStatusToTrue()
         {
             // Arrange

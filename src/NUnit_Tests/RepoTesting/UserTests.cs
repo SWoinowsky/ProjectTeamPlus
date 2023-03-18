@@ -40,7 +40,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void User_WithNoId_IsInvalid()
+        public void User_WithValidInputs_IsValid()
         {
             // Arrange
             User me = new User();
@@ -65,8 +65,23 @@ namespace NUnit_Tests.RepoTesting
             me.TakeSteamPOCO(_poco);
 
             // Assert
-            Assert.Equals(me.SteamId, 1);
-            Assert.Equals(me.SteamName, "Justin Davis");
+            Assert.AreEqual(me.SteamId, "1");
+            Assert.AreEqual(me.SteamName, "Justin Davis");
+        }
+
+                [Test]
+        public void TakeSteamPOCO_InvalidPOCO_ThrowsNull ()
+        {
+            // Arrange
+            User me = new User();
+            me.Id = 1;
+            me.AspNetUserId = "1";
+            SteamUserPOCO bogusPoco = new SteamUserPOCO();
+
+            // Act
+
+            // Assert
+            Assert.Throws<NullReferenceException>(() => me.TakeSteamPOCO(bogusPoco));
         }
     }
 }

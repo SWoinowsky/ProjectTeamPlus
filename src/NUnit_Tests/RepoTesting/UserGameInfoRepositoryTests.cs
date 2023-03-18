@@ -97,6 +97,11 @@ namespace NUnit_Tests.RepoTesting
         public void GetUserInfoForGame_WithThreeItems_Returns_True()
         {
             // Arrange
+
+
+            _mockContext = new Mock<SteamInfoDbContext>();
+            _mockGameInfoDbSet = MockHelpers.GetMockDbSet(_userGameInfos.AsQueryable());
+            _mockContext.Setup(ctx => ctx.Set<UserGameInfo>()).Returns(_mockGameInfoDbSet.Object);
             IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
             UserGameInfo expected = MakeValidGameInfo();
 

@@ -66,7 +66,7 @@ else
                     <div class="modal-body">
                         <div class="container-fluid" id="informationRow">
                             @{
-                                if(Model.followedGames.Count() == 0)
+                                if(Model.FollowedGames.Count() == 0)
                                 {
                                     <p>
                                         You have no followed games!<br>
@@ -76,7 +76,7 @@ else
                                 else
                                 {
                                     <div class="flex-container">
-                                        @foreach (List<Game> gameList in Model.followedGames)
+                                        @foreach (List<Game> gameList in Model.FollowedGames)
                                         {
                                             
                                                 @foreach (Game game in gameList)
@@ -204,6 +204,10 @@ else
 
                     </div>
                 }
+                else
+                {
+                    <h4>You have no Recent Games to Display, Please visit the <a class="btn btn-outline-info justify-content-center" href='@Url.Action("Index", "Library")'>Library Page</a> or go play some games</h4>
+                }
             </div>
             <br />
 
@@ -289,6 +293,10 @@ else
                             </button>
 
                         </div>
+                    }
+                    else
+                    {
+                        <h6 class="justify-content-center">You have no followed games to Display, Please visit the <a class="btn btn-outline-info justify-content-center" href='@Url.Action("Index", "Library")'>Library Page</a> and go follow some games</h6>
                     }
                 </div>
                 <br />

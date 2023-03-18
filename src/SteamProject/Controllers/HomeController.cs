@@ -37,6 +37,7 @@ public class HomeController : Controller
     {
         return View();
     }
+
     [Authorize]
     public IActionResult Dashboard()
     {
@@ -58,44 +59,68 @@ public class HomeController : Controller
             if (user.SteamId != null)
             {
                 //get list of userinfo ordered by last played
-                List<UserGameInfo> currentUserInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id).OrderByDescending(u => u.LastPlayed).ToList();
+                List<UserGameInfo> currentUserInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id)
+                    .OrderByDescending(u => u.LastPlayed).ToList();
 
                 //get games list for user
                 List<Game>? games = _gameRepository.GetGamesListByUserInfo(currentUserInfo).Take(6).ToList();
 
-                List<Game>? followedGames = _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
-                
-                List<string> recentGameNews = new List<string>();
-                List<string> follwedGameNews = new List<string>();
+                List<Game>? followedGames =
+                    _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
+
 
 
 
                 //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
                 if (games.Any())
                 {
-                     var asyncTasksResults = new List<string[]>();
+                    List<string[]> asyncTasksResults = new List<string[]>();
 
-                    var asyncTasksRecent = new List<Task<string>>();
-                    var asyncTasksFollowed = new List<Task<string>>();
+                    List<Task<string>> asyncTasksRecent = new List<Task<string>>();
+                    List<Task<string>> asyncTasksFollowed = new List<Task<string>>();
 
 
                     //Recent Games
-                    for (var i = 0; i < games.Count; i+=3)
+                    for (var i = 0; i < games.Count; i += 3)
                     {
-                        var threeGames = games.Skip(i).Take(3).ToList();
+                        List<Game> threeGames = games.Skip(i).Take(3).ToList();
                         dashboardVm.RecentGames.Add(threeGames);
 
                         for (int j = 0; j < threeGames.Count; j++)
                         {
-                            var currentGame = _steamService.GetGameNews(threeGames[j],1);
+                            var currentGame = _steamService.GetGameNews(threeGames[j], 1);
 
-                            if (currentGame._poco != null)
+                            if (currentGame._poco.appnews.newsitems.Any())
                             {
-                                var sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco.appnews.newsitems.SingleOrDefault().contents);
+                                try
+                                {
+                                    Task<string> sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco
+                                        .appnews
+                                        .newsitems.SingleOrDefault().contents);
+
+                                    asyncTasksRecent.Add(sumTask);
+                                }
+                                catch (NullReferenceException)
+                                {
+                                    Task<string> sumTask =
+                                        _openAiApiService.SummarizeTextAsync(
+                                            "There was no valid news found so tell me a joke instead");
+
+                                    asyncTasksRecent.Add(sumTask);
+                                }
+
+                            }
+                            else
+                            {
+                                Task<string> sumTask =
+                                    _openAiApiService.SummarizeTextAsync(
+                                        "There was no valid news found so tell me a joke instead");
 
                                 asyncTasksRecent.Add(sumTask);
                             }
-                            
+
+
+
                         }
 
                     }
@@ -103,30 +128,50 @@ public class HomeController : Controller
                     //Followed Games
                     for (var i = 0; i < followedGames.Count; i += 3)
                     {
-                        var threeGames = followedGames.Skip(i).Take(3).ToList();
-                        
+                        List<Game> threeGames = followedGames.Skip(i).Take(3).ToList();
+
                         dashboardVm.FollowedGames.Add(threeGames);
 
                         for (int j = 0; j < threeGames.Count; j++)
                         {
-                            var currentGame = _steamService.GetGameNews(threeGames[j], 1);
+                            GameNewsVM currentGame = _steamService.GetGameNews(threeGames[j], 1);
 
-                            if (currentGame._poco != null)
+                            if (currentGame._poco.appnews.newsitems.Any())
                             {
-                                var sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco.appnews.newsitems.SingleOrDefault().contents);
+                                try
+                                {
+                                    Task<string> sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco
+                                        .appnews
+                                        .newsitems.SingleOrDefault().contents);
 
-                                asyncTasksFollowed.Add(sumTask);
+                                    asyncTasksFollowed.Add(sumTask);
+                                }
+                                catch (NullReferenceException)
+                                {
+                                    Task<string> sumTask =
+                                        _openAiApiService.SummarizeTextAsync(
+                                            "There was no valid news found so tell me a joke instead");
+
+                                    asyncTasksFollowed.Add(sumTask);
+                                }
+
                             }
+                            else
+                            {
+                                Task<string> sumTask =
+                                    _openAiApiService.SummarizeTextAsync(
+                                        "There was no valid news found so tell me a joke instead");
 
+
+                            }
                         }
+
                     }
 
-                   
 
-                   
 
-                    var finishedRecentTasks = Task.WhenAll(asyncTasksRecent);
-                    var finishedFollowedTasks = Task.WhenAll(asyncTasksFollowed);
+                    Task<string[]> finishedRecentTasks = Task.WhenAll(asyncTasksRecent);
+                    Task<string[]> finishedFollowedTasks = Task.WhenAll(asyncTasksFollowed);
 
                     asyncTasksResults.Add(finishedRecentTasks.Result);
                     asyncTasksResults.Add(finishedFollowedTasks.Result);
@@ -134,11 +179,12 @@ public class HomeController : Controller
                     dashboardVm.GamesNewsItems = asyncTasksResults;
 
                     return View(dashboardVm);
+                    
                 }
             }
-        }
 
-        return View();
+            return View();
+        }
     }
 
     public IActionResult ShowMoreNews(int appId)

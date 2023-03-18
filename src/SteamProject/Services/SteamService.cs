@@ -68,6 +68,7 @@ public class SteamService : ISteamService
         string friendsListUri = $"https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key={Token}&steamid={steamid}";
         string? jsonResponse = GetJsonStringFromEndpoint( friendsListUri );
 
+        
         var friendPocoList = JsonSerializer.Deserialize<FriendsListPOCO>(jsonResponse).friendslist.friends;
 
         var idList = new List<string>();

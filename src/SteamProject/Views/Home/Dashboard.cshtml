@@ -63,34 +63,56 @@ else
                     <div class="modal-header" id="followModalHeader">
                         <h3>Followed Games</h3><button type="button" class="btn-close" id="modalCloser" data-dismiss="modal" aria-label="Close"></button>
                     </div>
-
                     <div class="modal-body">
-                        <div class="row" id="informationRow">
-                            @foreach (List<Game> gameList in Model.FollowedGames)
-                            {
-                                <div class="card-group">
-                                    @foreach (Game game in gameList)
-                                    {
-                                        <div class="card followCard col-md-4">
-                                            <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
-                                            <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setFollowedGame('@game.Name')">
-                                                <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
-                                            </button>
-                                            <div class="card-body">
-                                                <h4 class="card-title">@game.Name</h4>
-                                            </div>
-                                        </div>
-
-                                    }
-                                </div>
-                                
+                        <div class="container-fluid" id="informationRow">
+                            @{
+                                if(Model.followedGames.Count() == 0)
+                                {
+                                    <p>
+                                        You have no followed games!<br>
+                                        Go back to your library page and follow some.
+                                    </p>
+                                }
+                                else
+                                {
+                                    <div class="flex-container">
+                                        @foreach (List<Game> gameList in Model.followedGames)
+                                        {
+                                            
+                                                @foreach (Game game in gameList)
+                                                {
+                                                    var index = game.Name.IndexOf("'");
+                                                    if(index > -1)
+                                                    {
+                                                        var name = game.Name.Substring(0, index) + "\\" + game.Name.Substring(index);
+                                                        <div class="card followCard col-md-4 mb-3" id="@game.Name" value="@game.AppId">
+                                                            <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
+                                                            <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setUnfollowGame('@name')">
+                                                                <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
+                                                            </button>
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">@game.Name</h4>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="card followCard col-md-4 mb-3" id="@game.Name" value="@game.AppId">
+                                                            <img class="img-fluid" alt="@game.Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game.AppId)" alt="@string.Format("{0}", game.Name)">
+                                                            <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Unfollow Game" onclick="setUnfollowGame('@game.Name')">
+                                                                <i fill="CurrentColor" id="@game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
+                                                            </button>
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">@game.Name</h4>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                    </div>
+                                }
                             }
                         </div>
-
-                        <div class="error">
-                            <h2 class="error-fol" id="error-ach" style="display: none;">There are no followed games to be displayed</h2>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -98,7 +120,7 @@ else
         <br/>
 
         <h1>Your News</h1>
-
+        <h6>Click the <i fill="CurrentColor" class="bi bi-info-circle-fill"></i> to see the news section for a game.</h6>
         <br/>
         <div class="container">
 

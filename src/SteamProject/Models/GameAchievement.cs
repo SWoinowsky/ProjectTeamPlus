@@ -22,9 +22,7 @@ public partial class GameAchievement
 
     public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
 
-    public GameAchievement()
-    {
-    }
+    public GameAchievement(){}
 
     public GameAchievement( SchemaAchievement achievementPOCO )
     {

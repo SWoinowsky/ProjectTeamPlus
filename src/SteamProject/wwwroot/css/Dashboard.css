@@ -26,6 +26,11 @@ h4 {
     color: #ffffff !important;
 }
 
+h6 {
+    color: white;
+    text-align: center;
+}
+
 li {
     color: #ffffff !important;
 }
@@ -78,6 +83,7 @@ body {
     justify-content: center;
     background: none;
     padding: 5px;
+    border: none;
 }
 
 #recentGamesCarousel {
@@ -179,5 +185,5 @@ footer {
 }
 
 .followModal {
-    width: 100%
+    width: 100%;
 }

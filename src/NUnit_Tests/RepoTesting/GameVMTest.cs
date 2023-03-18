@@ -26,7 +26,11 @@ namespace NUnit_Tests.RepoTesting
                     AppId = 1,
                     Name = "A Game"
                 },
-                _poco = new GameInfoPOCO(),
+                _poco = new GameInfoPOCO{
+                    response = new GameResponse {
+                        data = null
+                    }
+                },
                 playTime = 100
             };
             return gameVm;
@@ -50,7 +54,18 @@ namespace NUnit_Tests.RepoTesting
             Assert.That(mv.Valid, Is.True);
         }
 
-        
+        [Test]
+        public void GameVMcleanDescriptions_HasNoDescriptions_ReturnsWithNullForPOCOData ()
+        {
+            // Arrange
+            GameVM gameVm = MakeValidGameVM();
+
+            // Act
+            gameVm.cleanDescriptions();
+
+            // Assert
+            Assert.True(gameVm._poco.response.data == null);
+        }
 
     }
 }

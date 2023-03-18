@@ -204,5 +204,19 @@ namespace NUnit_Tests.RepoTesting
             Assert.AreEqual(actual.Followed, game.Followed);
             Assert.AreSame(actual.Game, game.Game);
         }
+
+        [Test]
+        public void GetGameByIdAndUser_WithInValidGameIdAndValidUserId_ReturnsNull()
+        {
+            // Arrange
+            IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
+            UserGameInfo game = new UserGameInfo();
+
+            // Act
+            game = game.GetGameByIdAndUser(10, gameInfoRepository, 1);
+
+            // Assert
+            Assert.IsNull(game);
+        }
     }
 }

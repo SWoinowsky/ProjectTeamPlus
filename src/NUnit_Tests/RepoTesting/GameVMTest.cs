@@ -55,13 +55,26 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void GameVMcleanDescriptions_HasNoDescriptions_ReturnsWithNullForPOCOData ()
+        public void GameVMcleanDescriptions_HasNoData_ReturnsWithNullForPOCOData ()
         {
             // Arrange
             GameVM gameVm = MakeValidGameVM();
 
             // Act
             gameVm.cleanDescriptions();
+
+            // Assert
+            Assert.True(gameVm._poco.response.data == null);
+        }
+
+        [Test]
+        public void GameVMcleanRequirements_HasNoData_ReturnsWithNullForPOCOData ()
+        {
+            // Arrange
+            GameVM gameVm = MakeValidGameVM();
+
+            // Act
+            gameVm.cleanRequirements();
 
             // Assert
             Assert.True(gameVm._poco.response.data == null);

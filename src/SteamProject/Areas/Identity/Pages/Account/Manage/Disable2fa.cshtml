@@ -17,11 +17,16 @@
     </p>
     <p>
         Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-page="./ResetAuthenticator">reset your authenticator keys.</a>
+        used in an authenticator app you should reset your authenticator keys.
+        <br>
+        <br>
+        <button class="btn btn-primary"><a asp-page="./ResetAuthenticator" style="color: white">Reset Keys</a></button>
+        <br>
         <br>
         Bare in mind, this only prevents a key from working here on this site. The code will still show in the authenticator app.
         <br>
-        After resetting the authenticator key, you will also want to delete the account from within the Google Authenticator app,
+        <br>
+        After resetting the authenticator key(s), you will also want to delete the key/account from within the Google Authenticator app,
         so that a new set up wont be confused with the old, and now diabled, code. Resetting the key here <strong>will not</strong>
         delete that key from the app.
     </p>

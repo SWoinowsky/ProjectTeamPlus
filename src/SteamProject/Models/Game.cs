@@ -27,16 +27,6 @@ public partial class Game
 
     public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
 
-    public void FromJson(string obj, int userId, User user)
-    {
-        JObject userGames = JObject.Parse(obj);
-        AppId = (int) userGames["appid"];
-        Name = (string) userGames["name"];
-        PlayTime = (int) userGames["playtime_forever"];
-        IconUrl = (string) userGames["img_icon_url"];
-        LastPlayed = (int) userGames["rtime_last_played"];
-    }
-    
     public Game TakeLibraryInfoPOCO(Games game, int userId)
     {
         var temp = new Game();

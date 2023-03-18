@@ -84,7 +84,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void SetHiddenStatusTrue_SetsGameHiddenStatusToTrue()
+        public void SetHiddenStatusTrue_WithFalseHiddenSet_SetsGameHiddenStatusToTrue()
         {
             // Arrange
             UserGameInfo game = new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1};
@@ -97,7 +97,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void SetHiddenStatusFalse_SetsGameHiddenStatusToFalse()
+        public void SetHiddenStatusFalse_WithTrueHiddenSet_SetsGameHiddenStatusToFalse()
         {
             // Arrange
             UserGameInfo game = new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = true, OwnerId = 1};
@@ -107,6 +107,32 @@ namespace NUnit_Tests.RepoTesting
 
             // Assert
             Assert.False(game.Hidden);
+        }
+
+        [Test]
+        public void SetHiddenStatusFalse_WithFalseHiddenSet_WontChangeStatusFromFalse()
+        {
+            // Arrange
+            UserGameInfo game = new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1};
+            
+            // Act
+            game.SetHiddenStatusFalse();
+
+            // Assert
+            Assert.False(game.Hidden);
+        }
+
+        [Test]
+        public void SetHiddenStatusTrue_WithTrueHiddenSet_WontChangeStatusFromTrue()
+        {
+            // Arrange
+            UserGameInfo game = new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = true, OwnerId = 1};
+            
+            // Act
+            game.SetHiddenStatusTrue();
+
+            // Assert
+            Assert.True(game.Hidden);
         }
     }
 }

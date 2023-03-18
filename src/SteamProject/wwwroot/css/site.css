@@ -149,15 +149,15 @@ animation: loading-spinner 1s linear infinite;
 }
 
 .nav-link.top-link {
-  color: #fff;;
+  color: #fff;
 }
 .nav-link:hover {
-  color: #666666;;
+  color: #666666;
 }
 
 .vert-nav {
   background-color: #000;
-  height: 350px;
+  height: 400px;
   width: 65px;
   border-radius: 8px;
   border: 1px solid #979797;
@@ -188,7 +188,7 @@ animation: loading-spinner 1s linear infinite;
 
 .vert-nav:hover {
   background-color: #000;
-  height: 350px;
+  height: 400px;
   width: 180px;
   border-radius: 65px;
   border: 1px solid #979797;
@@ -198,7 +198,7 @@ animation: loading-spinner 1s linear infinite;
 .nav-header {
   display: flex;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   margin-top: 10px;
 }
 

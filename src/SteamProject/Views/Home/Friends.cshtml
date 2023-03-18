@@ -1,0 +1,50 @@
+@model SteamProject.ViewModels.FriendsPageVM
+@{
+    ViewData["Title"] = "Friends";
+}
+
+@if (Model.Friends.Count == 0) 
+{
+    <div class="wrapper">
+        <div class="no-friends-message">
+            <h2> It looks like you have no friends on this STEAM account, <br>
+            don't worry though, we'll be your friends :) </h2> <br>
+            <h3>Unexpected error? </h3> <br>
+            <h5>Make sure you're STEAM account is linked to your S.I.N account</h5>
+        </div>
+    </div>
+}
+else {
+    <div class="steamId" id=@Model.SteamId hidden></div>
+    <div class="userId" id=@Model.Id hidden></div>
+    <h1 id="friend-header">Your Friends</h1>
+    <input id="search-input" type="search" placeholder= "🔍 search for a friend...">
+    <div class="wrapper">
+    @foreach (var friend in Model.Friends)
+    {
+    <div class="card friend-card" id=@friend.SteamName>
+        <img class="card-img-top friend-card-img" src=@friend.AvatarFullUrl style="height: 138px;width: 138px;margin-top: 2rem;" alt="Title">
+        <div class="card-body friend-card-body">
+            <h4 class="card-title" style="font-weight: 800;color:#fff;">@friend.SteamName</h4>
+            <p class="card-text friend-persona" id=@friend.SteamId style="font-weight: 600;"></p>
+            <p class="card-text friend-game" id="@friend.SteamId" style="font-weight: 700;color:#fff;"></p>
+            <div class="friend-card-btns">
+                <a href="/friend/@friend.SteamId">
+                <button class="compare-games" title="Compare games with this friend"><i class="bi bi-controller"></i></button>
+                </a>
+                <br>
+                <button class="inv-to-team" title="Invite friend to Team"><i class="bi bi-person-add"></i></button>
+            </div>
+        </div>
+    </div>
+    }
+    </div>
+}
+
+
+
+@section Scripts
+{
+    <script type="text/javascript"  src="@(Url.Content("~/js/friendsPage.js"))"></script>
+    <link rel="stylesheet" href="@(Url.Content("~/css/FriendsPage.css"))">
+}

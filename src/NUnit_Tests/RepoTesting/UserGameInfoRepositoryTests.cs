@@ -63,27 +63,27 @@ namespace NUnit_Tests.RepoTesting
                 new Friend { Id = 2, RootId = 2, SteamId = "76561198280399190" },
                 new Friend { Id = 3, RootId = 2, SteamId = "76561198368539189" },
             };
-
-
-            _userGameInfos = new List<UserGameInfo>()
-            {
-                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1 },
-                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 2 },
-                new UserGameInfo { Id = 3, Followed = true, GameId = 2, Hidden = true, OwnerId = 2 },
-            };
             _games = new List<Game>()
             {
                 new Game { Id = 1, AppId = 310560, Name = "DiRT Rally" },
                 new Game { Id = 2, AppId = 218620, Name = "PAYDAY 2" },
-                new Game { Id = 2, AppId = 632360, Name = "Risk of Rain 2" },
+                new Game { Id = 3, AppId = 632360, Name = "Risk of Rain 2" },
             };
+            _userGameInfos = new List<UserGameInfo>()
+            {
+                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1, Game = _games[0] },
+                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 2, Game = _games[1] },
+                new UserGameInfo { Id = 3, Followed = true, GameId = 3, Hidden = true, OwnerId = 2, Game = _games[2] },
+            };
+           
 
 
             _users.ForEach(p =>
             {
-                p.Friends = _friends.Where(i => i.Id == p.Id).ToList();
-                p.UserGameInfos = _userGameInfos.Where(i => i.Id == p.Id).ToList();
+                p.Friends = _friends.Where(i => i.RootId == p.Id).ToList() ?? new List<Friend>();
+                p.UserGameInfos = _userGameInfos.Where(i => i.OwnerId == p.Id).ToList() ?? new List<UserGameInfo>();
             });
+
 
 
             // Finally, mock the context and dbsets
@@ -102,7 +102,7 @@ namespace NUnit_Tests.RepoTesting
 
 
             // Act
-            UserGameInfo? actual = gameInfoRepository.GetUserInfoForGame(1, 1);
+            UserGameInfo? actual = gameInfoRepository.GetUserInfoForGame(310560, 1);
 
             // Assert
             Assert.Multiple(() =>
@@ -117,12 +117,13 @@ namespace NUnit_Tests.RepoTesting
         {
             // Arrange
             IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
+            UserGameInfo expected = MakeValidGameInfo();
 
             // Act
             UserGameInfo? actual = gameInfoRepository.GetUserInfoForGame(66666, 1);
 
             // Assert
-            Assert.True(actual == null);
+            Assert.IsNull(actual);
         }
 
         [Test]
@@ -130,7 +131,7 @@ namespace NUnit_Tests.RepoTesting
         {
             // Arrange
 
-            _users.Clear();
+            _userGameInfos.Clear();
             _mockContext = new Mock<SteamInfoDbContext>();
             _mockGameInfoDbSet = MockHelpers.GetMockDbSet(_userGameInfos.AsQueryable());
             _mockContext.Setup(ctx => ctx.Set<UserGameInfo>()).Returns(_mockGameInfoDbSet.Object);
@@ -158,7 +159,7 @@ namespace NUnit_Tests.RepoTesting
             // Act
             List<UserGameInfo> actual = gameInfoRepository.GetAllUserGameInfo(3);
 
-
+            // Assert
             Assert.Multiple(() => { Assert.True(actual.Count == 0); });
         }
 
@@ -172,7 +173,7 @@ namespace NUnit_Tests.RepoTesting
             // Act
             List<UserGameInfo> actual = gameInfoRepository.GetAllUserGameInfo(2);
 
-
+            // Assert
             Assert.Multiple(() => { Assert.True(actual.Count == 2); });
 
         }

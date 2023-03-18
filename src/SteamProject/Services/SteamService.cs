@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SteamProject.Models;
 using SteamProject.Models.DTO;
+using SteamProject.Helpers;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using SteamProject.ViewModels;
@@ -165,36 +166,7 @@ public class SteamService : ISteamService
         return gameVM;
     }
 
-    public string StripJunkFromString(string str)
-    {
-        //Remove Html tags from string ex: <a>
-        var item = Regex.Replace(str, @"<[^>]+>*", "");
-
-        //Remove braket tags ex: [a]
-        item = Regex.Replace(item, @"\[[^\]]+\]*", "");
-
-        //Remove hyperlinks ex: wwww, https
-        item = Regex.Replace(item, @"http[^\s]+", "");
-        item = Regex.Replace(item, @"www[^\s]+", "");
-
-        //Remove whatever is left that looks out of place
-        item = Regex.Replace(item, @"&#[^\s]+", "");
-        item = Regex.Replace(item, @"\{STEAM_CLAN_IMAGE\}/[A-Za-z0-9]+/[A-Za-z0-9]+\.[A-Za-z]+", "");
-        item = Regex.Replace(item, @"[A-Za-z]+&[A-Za-z0-9]+;s", "");
-        item = Regex.Replace(item, @"&[A-Za-z0-9]+;", "");
-
-
-        return item;
-    }
-
-    public static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
-    {
-
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-        return dateTime;
-    }
+    
 
     public GameNewsVM GetGameNews(Game game, int count = 10)
     {
@@ -210,8 +182,8 @@ public class SteamService : ISteamService
             {
                 var newsItem = newsPoco.appnews.newsitems[i];
 
-                newsPoco.appnews.newsitems[i].contents = StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
-                newsPoco.appnews.newsitems[i].dateTime = UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
+                newsPoco.appnews.newsitems[i].contents = HelperMethods.StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
+                newsPoco.appnews.newsitems[i].dateTime = HelperMethods.UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
 
             }
             gameVM._poco = newsPoco;

@@ -162,6 +162,8 @@ public class HomeController : Controller
                                     _openAiApiService.SummarizeTextAsync(
                                         "There was no valid news found so tell me a joke instead");
 
+                                asyncTasksFollowed.Add(sumTask);
+
 
                             }
                         }

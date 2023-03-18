@@ -30,7 +30,6 @@ else
         <div class="container">
             <div class="row">
                 <div class="col-md-3 center">
-                    <h2 class="center">@Model._user.SteamName</h2>
                     <h3 class="center">Level @Model._user.PlayerLevel</h3>
                     <div id="userAvatar">
                         <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-top: 10px"/>
@@ -38,6 +37,7 @@ else
                             <i fill="CurrentColor" class="bi bi-bookmark"></i> Followed Games
                         </button>
                     </div>
+                    <h3 class="center">@Model._user.SteamName</h3>
 
                 </div>
                 <div class="col-md-9">

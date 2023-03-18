@@ -84,10 +84,10 @@ else
                             }
                             else
                             {
-                                <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.AppId>
+                                <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.Id>
                                     <i  fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
                                 </button>
-                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow/Unfollow Game" onclick="setFollowedGame('@tempGame.Name')" name=@game.Game.AppId>
+                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow/Unfollow Game" onclick="setFollowedGame('@tempGame.Name')" name=@game.Game.Id>
                                     @if(game.Followed == true)
                                     {
                                         <i fill="CurrentColor" id="@game.Game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
@@ -124,20 +124,20 @@ else
                                         if(game.Hidden)
                                         {
                                             var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
-                                            <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.AppId" style="padding: 2px; position: relative">
+                                            <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.Id" style="padding: 2px; position: relative">
                                                 <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px"/><br>
                                                 @{
                                                     var index = tempGame.Name.IndexOf("'");
                                                     if(index > -1)
                                                     {
                                                         var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name', '@Model._user.Id')" name=@game.Game.AppId>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name', '@Model._user.Id')" name=@game.Game.Id>
                                                             <i fill="CurrentColor" class="bi bi-eye-fill"></i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.AppId>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.Id>
                                                             <i fill="CurrentColor" class="bi bi-eye-fill"></i>
                                                         </button>
                                                     }

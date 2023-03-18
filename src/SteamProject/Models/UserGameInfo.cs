@@ -26,7 +26,7 @@ public partial class UserGameInfo
 
     public UserGameInfo GetGameByIdAndUser (int id, IUserGameInfoRepository userGameInfoRepository, int userId)
     {
-       UserGameInfo returnGame = userGameInfoRepository.GetAll(g => g.Game.AppId == id).Where( g => g.OwnerId == userId ).FirstOrDefault();
+       UserGameInfo returnGame = userGameInfoRepository.GetAll(g => g.Game.Id == id).Where( g => g.OwnerId == userId ).FirstOrDefault();
        return returnGame;
     }
 

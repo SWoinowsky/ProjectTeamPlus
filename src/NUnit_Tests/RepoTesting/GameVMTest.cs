@@ -83,18 +83,33 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void GameVMcleanRequirements_HasDetailedDescriptionData_ReturnsWithCleanedDetailedDescription ()
+        public void GameVMcleanDescription_HasDetailedDescriptionData_ReturnsWithCleanedShortDescription ()
         {
             // Arrange
             GameVM gameVm = MakeValidGameVM();
             gameVm._poco = _poco;
-            string actual = "A city gone mad with violence and the mass murder of its people. In this interactive graphic-novel, your choices can either lead you to the ultimate destruction of this fallen metropolis, or the demise of a vicious butcher. Will you save this city as promised or will you fall prey to the killer within?";
+            string expected = "A city gone mad with violence and the mass murder of its people. In this interactive graphic-novel, your choices can either lead you to the ultimate destruction of this fallen metropolis, or the demise of a vicious butcher. Will you save this city as promised or will you fall prey to the killer within?";
 
             // Act
             gameVm.cleanDescriptions();
 
             // Assert
-            Assert.AreEqual(gameVm._poco.response.data.short_description, actual);
+            Assert.AreEqual(expected, gameVm._poco.response.data.short_description);
+        }
+
+        [Test]
+        public void GameVMcleanRequirements_HasDetailedDescriptionData_ReturnsWithCleanedRequirements ()
+        {
+            // Arrange
+            GameVM gameVm = MakeValidGameVM();
+            gameVm._poco = _poco;
+            string expected = " OS: Windows XP or Later Processor: Core 2 Duo Memory: 2 GB RAM Graphics: 256 MB graphics memory and directx 9.0c compatible gpu DirectX: Version 9.0c Storage: 512 MB available space";
+
+            // Act
+            gameVm.cleanRequirements();
+
+            // Assert
+            Assert.AreEqual(expected, gameVm._poco.response.data.pc_requirements.minimum);
         }
 
     }

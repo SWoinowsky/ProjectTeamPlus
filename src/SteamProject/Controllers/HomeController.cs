@@ -19,9 +19,11 @@ public class HomeController : Controller
     private readonly IGameRepository _gameRepository;
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
+    private readonly IFriendRepository _friendRepository;
     private readonly IOpenAiApiService _openAiApiService;
 
 
+    public HomeController(ILogger<HomeController> logger,UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository)
     public HomeController(ILogger<HomeController> logger,UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IOpenAiApiService openAiApiService)
     {
         _userManager = userManager;
@@ -29,6 +31,7 @@ public class HomeController : Controller
         _gameRepository = gameRepository;
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
+        _friendRepository = friendRepository;
         _logger = logger;
         _openAiApiService = openAiApiService;
     }
@@ -225,5 +228,17 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+    public IActionResult Friends()
+    {
+        string? id = _userManager.GetUserId(User);
+        if (id is null)
+        {
+            return View();
+        }
+        User user = _userRepository.GetUser(id);
+        List<Friend> friends = _friendRepository.GetFriends(user.Id);
+        FriendsPageVM vm = new(friends, user.Id, user.SteamId);
+        return View(vm);
     }
 }

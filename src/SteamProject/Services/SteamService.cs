@@ -182,8 +182,6 @@ public class SteamService : ISteamService
         item = Regex.Replace(item, @"[A-Za-z]+&[A-Za-z0-9]+;s", "");
         item = Regex.Replace(item, @"&[A-Za-z0-9]+;", "");
 
-        //Remove extra white spaces or at least attempt to
-        item = Regex.Replace(item, @"^[^\s] + (\s +[^\s] +) *$", "");
 
         return item;
     }

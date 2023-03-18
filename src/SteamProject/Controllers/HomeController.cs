@@ -61,7 +61,7 @@ public class HomeController : Controller
                 List<UserGameInfo> currentUserInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id).OrderByDescending(u => u.LastPlayed).ToList();
 
                 //get games list for user
-                List<Game>? games = _gameRepository.GetGamesListByUserInfo(currentUserInfo).Take(4).ToList();
+                List<Game>? games = _gameRepository.GetGamesListByUserInfo(currentUserInfo).Take(6).ToList();
 
                 List<Game>? followedGames = _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
                 
@@ -73,7 +73,7 @@ public class HomeController : Controller
                 //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
                 if (games.Any())
                 {
-                     var asyncTasks = new List<string[]>();
+                     var asyncTasksResults = new List<string[]>();
 
                     var asyncTasksRecent = new List<Task<string>>();
                     var asyncTasksFollowed = new List<Task<string>>();
@@ -123,13 +123,15 @@ public class HomeController : Controller
 
                    
 
-                    dashboardVm.GamesNewsItems = asyncTasks;
+                   
 
                     var finishedRecentTasks = Task.WhenAll(asyncTasksRecent);
                     var finishedFollowedTasks = Task.WhenAll(asyncTasksFollowed);
 
-                    asyncTasks.Add(finishedRecentTasks.Result);
-                    asyncTasks.Add(finishedFollowedTasks.Result);
+                    asyncTasksResults.Add(finishedRecentTasks.Result);
+                    asyncTasksResults.Add(finishedFollowedTasks.Result);
+
+                    dashboardVm.GamesNewsItems = asyncTasksResults;
 
                     return View(dashboardVm);
                 }

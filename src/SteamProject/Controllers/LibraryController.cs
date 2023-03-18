@@ -55,7 +55,7 @@ public class LibraryController: Controller
             User user = _userRepository.GetUser(id);
             userLibraryVM._user = user;
             List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
-            userLibraryVM._games = new List<Game>();
+            userLibraryVM._games = new HashSet<Game>();
             UserGameInfo? currentUserInfo = new UserGameInfo();
 
             if (gameInfo.Count == 0)

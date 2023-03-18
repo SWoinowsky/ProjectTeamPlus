@@ -64,7 +64,6 @@ namespace NUnit_Tests.RepoTesting
                 new Friend { Id = 3, RootId = 2, SteamId = "76561198368539189" },
             };
 
-
             _userGameInfos = new List<UserGameInfo>()
             {
                 new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1 },
@@ -78,13 +77,11 @@ namespace NUnit_Tests.RepoTesting
                 new Game { Id = 2, AppId = 632360, Name = "Risk of Rain 2" },
             };
 
-
             _users.ForEach(p =>
             {
                 p.Friends = _friends.Where(i => i.Id == p.Id).ToList();
                 p.UserGameInfos = _userGameInfos.Where(i => i.Id == p.Id).ToList();
             });
-
 
             // Finally, mock the context and dbsets
             _mockContext = new Mock<SteamInfoDbContext>();
@@ -188,7 +185,22 @@ namespace NUnit_Tests.RepoTesting
         [Test]
         public void GetGameByIdAndUser_WithValidGameIdAndUserId_ReturnsCorrectGame()
         {
-            
+            // Arrange
+            IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
+            UserGameInfo game = new UserGameInfo();
+            UserGameInfo actual = new UserGameInfo 
+            { 
+                Id = 1, Followed = true, 
+                GameId = 1, 
+                Hidden = false, 
+                OwnerId = 1 
+                };
+
+            // Act
+            game = game.GetGameByIdAndUser(1, gameInfoRepository, 1);
+
+            // Assert
+            Assert.AreEqual(game, actual);
         }
     }
 }

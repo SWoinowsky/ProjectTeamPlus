@@ -186,7 +186,8 @@ namespace NUnit_Tests.RepoTesting
             UserGameInfo game = new UserGameInfo();
             UserGameInfo actual = new UserGameInfo 
             { 
-                Id = 1, Followed = true, 
+                Id = 1, 
+                Followed = true, 
                 GameId = 1, 
                 Hidden = false, 
                 OwnerId = 1, 
@@ -197,7 +198,11 @@ namespace NUnit_Tests.RepoTesting
             game = game.GetGameByIdAndUser(1, gameInfoRepository, 1);
 
             // Assert
-            Assert.AreEqual(actual, game);
+            Assert.AreEqual(actual.Id, game.Id);
+            Assert.AreEqual(actual.GameId, game.GameId);
+            Assert.AreEqual(actual.Hidden, game.Hidden);
+            Assert.AreEqual(actual.Followed, game.Followed);
+            Assert.AreSame(actual.Game, game.Game);
         }
     }
 }

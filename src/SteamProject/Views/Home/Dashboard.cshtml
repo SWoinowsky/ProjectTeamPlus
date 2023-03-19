@@ -79,6 +79,9 @@ else
                                                 @foreach (Game game in gameList)
                                                 {
                                                     var index = game.Name.IndexOf("'");
+                                                    //Can make this more simple by just assigning name = game.Name and then doing substring on it if there's an index,
+                                                    // and then use that name variable no matter what so that the if-else doesn't have repeated code.
+                                                    // Scot recommended to put this in a service, and then call it so I can catch all ' and " or other symbols.
                                                     if(index > -1)
                                                     {
                                                         var name = game.Name.Substring(0, index) + "\\" + game.Name.Substring(index);

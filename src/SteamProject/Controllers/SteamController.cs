@@ -55,17 +55,17 @@ public class SteamController : ControllerBase
     {
         UserGameInfo game = new UserGameInfo();
         game = game.GetGameByIdAndUser(Int32.Parse(id), _userGameInfoRepository, Int32.Parse(userId));
-        game.Hidden = true;
+        game.SetHiddenStatusTrue();
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
     }
 
     [HttpPost("unhide")]
-    public ActionResult Unhide(string id)
+    public ActionResult Unhide(string id, string userId)
     {
-        // Need to put this into model to get game for ID instead of having this line in here so it can be tested.
-        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).FirstOrDefault();
-        game.Hidden = false;
+        UserGameInfo game = new UserGameInfo();
+        game = game.GetGameByIdAndUser(Int32.Parse(id), _userGameInfoRepository, Int32.Parse(userId));
+        game.SetHiddenStatusFalse();
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
     }
@@ -100,6 +100,7 @@ public class SteamController : ControllerBase
     [HttpPost("unfollow")]
     public ActionResult UnFollow(string id)
     {
+        //Try parse instead of Int32
         var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
         if (game.Followed != true)
         {

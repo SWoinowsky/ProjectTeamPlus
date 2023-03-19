@@ -64,19 +64,20 @@ namespace NUnit_Tests.RepoTesting
                 new Friend { Id = 3, RootId = 2, SteamId = "76561198368539189" },
             };
 
-
-            _userGameInfos = new List<UserGameInfo>()
-            {
-                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1 },
-                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 2 },
-                new UserGameInfo { Id = 3, Followed = true, GameId = 2, Hidden = true, OwnerId = 2 },
-            };
             _games = new List<Game>()
             {
                 new Game { Id = 1, AppId = 310560, Name = "DiRT Rally" },
                 new Game { Id = 2, AppId = 218620, Name = "PAYDAY 2" },
                 new Game { Id = 2, AppId = 632360, Name = "Risk of Rain 2" },
             };
+
+            _userGameInfos = new List<UserGameInfo>()
+            {
+                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1, Game = _games[0] },
+                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 2, Game = _games[1] },
+                new UserGameInfo { Id = 3, Followed = true, GameId = 3, Hidden = true, OwnerId = 2, Game = _games[2] },
+            };
+            
 
 
             _users.ForEach(p =>

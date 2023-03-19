@@ -13,8 +13,8 @@ function setFollowedGame(name)
 
 function setUnfollowGame(name)
 {
-    var gameName = document.getElementById(name);
-    var gameId = gameName.getAttribute('value');
+    var game = document.getElementById(name);
+    var gameId = game.getAttribute('value');
     $.ajax({
         type: "POST",
         dataType: "text",

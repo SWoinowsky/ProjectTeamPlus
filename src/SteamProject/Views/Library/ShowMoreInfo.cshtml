@@ -11,189 +11,205 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-3" style="width: 500px">
-            <div>
-                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height:200px"/>
+@{
+    if(pocoData == null)
+    {
+        <div><p>
+            There's no data provided for this game!
+            <br><br>
+            This could mean that this game is a multiplayer for another game (Such as Call of Duty: Modern Warfare 2 - Multiplayer),
+            <br>
+            or that it is some form of test branch, or that Steam simply doesn't provide any data for it.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3" style="width: 500px">
+                    <div>
+                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @gameData.AppId)" style="height:200px"/>
+                    </div>
+                </div>
+                <div class="col-lg-6" style="padding-top: 40px;">
+                    <h3 style="text-align: center; color:">@gameData.Name</h3>
+                    <p>@pocoData.short_description</p>
+                    <p><strong>You've played @gameData.Name for @Model.playTime hour(s).</strong></p>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-6" style="padding-top: 40px;">
-            <h3 style="text-align: center; color:">@gameData.Name</h3>
-            <p>@pocoData.short_description</p>
-            <p><strong>You've played @gameData.Name for @Model.playTime hour(s).</strong></p>
-        </div>
-    </div>
-    <br>
-    <div class="flex-container">
-        <div class="card gameInfoCard">
-            <div class="card-body">
-                <h5 class="card-title">
-                    General Categories
-                </h5>
-                <div class="scrollable">
-                    @{
-                        foreach(var cat in pocoData.categories)
-                        {
-                            <p class="card-text">@cat.description</p>
-                        }
-                    }
+            <br>
+            <div class="flex-container">
+                <div class="card gameInfoCard">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            General Categories
+                        </h5>
+                        <div class="scrollable">
+                            @{
+                                foreach(var cat in pocoData.categories)
+                                {
+                                    <p class="card-text">@cat.description</p>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card gameInfoCard">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Developers
+                        </h5>
+                        <div class="scrollable">
+                            @{
+                                foreach(var dev in pocoData.developers)
+                                {
+                                    <p class="card-text">@dev</p>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card gameInfoCard">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Game Genres
+                        </h5>
+                        <div class="scrollable">
+                            @{
+                                foreach(var genre in pocoData.genres)
+                                {
+                                    <p class="card-text">@genre.description</p>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card gameInfoCard">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Publishers
+                        </h5>
+                        <div class="scrollable">
+                            @{
+                                foreach(var pub in pocoData.publishers)
+                                {
+                                    <p class="card-text">@pub</p>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card gameInfoCard">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Ratings
+                        </h5>
+                        <div class="scrollable">
+                            @{
+                                if(pocoData.metacritic != null)
+                                {
+                                    <p class="card-text">Metacritic: @pocoData.metacritic.score</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">No Metacritic rating available</p>
+                                }
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card gameInfoCard">
-            <div class="card-body">
-                <h5 class="card-title">
-                    Developers
-                </h5>
-                <div class="scrollable">
-                    @{
-                        foreach(var dev in pocoData.developers)
+        <br><br>
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 400px; width: 800px; margin: 0 auto">
+            <div class="carousel-indicators">
+                @{
+                    for(var i = 0; i < pocoData.screenshots.Count(); i++)
+                    {
+                        if(i == 0)
                         {
-                            <p class="card-text">@dev</p>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-        <div class="card gameInfoCard">
-            <div class="card-body">
-                <h5 class="card-title">
-                    Game Genres
-                </h5>
-                <div class="scrollable">
-                    @{
-                        foreach(var genre in pocoData.genres)
-                        {
-                            <p class="card-text">@genre.description</p>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="card gameInfoCard">
-            <div class="card-body">
-                <h5 class="card-title">
-                    Publishers
-                </h5>
-                <div class="scrollable">
-                    @{
-                        foreach(var pub in pocoData.publishers)
-                        {
-                            <p class="card-text">@pub</p>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-        <div class="card gameInfoCard">
-            <div class="card-body">
-                <h5 class="card-title">
-                    Ratings
-                </h5>
-                <div class="scrollable">
-                    @{
-                        if(pocoData.metacritic != null)
-                        {
-                            <p class="card-text">Metacritic: @pocoData.metacritic.score</p>
+                            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
                         }
                         else
                         {
-                            <p class="card-text">No Metacritic rating available</p>
+                            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to=@i></button>
                         }
                     }
-                </div>
+                }
             </div>
-        </div>
-    </div>
-</div>
-<br><br>
-<div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 400px; width: 800px; margin: 0 auto">
-    <div class="carousel-indicators">
-        @{
-            for(var i = 0; i < pocoData.screenshots.Count(); i++)
-            {
-                if(i == 0)
-                {
-                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
-                }
-                else
-                {
-                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to=@i></button>
-                }
-            }
-        }
-    </div>
-    <div class="carousel-inner">
-    @{
-        var tempCounter = 0;
-        foreach(var shot in pocoData.screenshots)
-        {
-            if(tempCounter == 0)
-            {
-                <div class="carousel-item active" style="text-align: center;">
-                    <img src=@shot.path_thumbnail>
-                </div>
-                tempCounter = tempCounter + 1;
-            }
-            else
-            {
-                <div class="carousel-item" style="text-align: center;">
-                    <img class="center" src=@shot.path_thumbnail>
-                </div>
-            }
-        }
-    }
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
-<br><br>
-<div class="col">
-    <table class ="table table-sm table-bordered">
-        <thead>
-            <tr>
-                <th style="text-align: center;" colspan="4"><h3>Computer Requirements by OS</h3></th>
-            </tr>
-            <tr>
-                <th><h4>Minimum/Recommended</h4></th>
-                <th><h4>PC requirements</h4></th>
-                <th><h4>Linux requirements</h4></th>
-                <th><h4>Mac requirements</h4></th>
-            </tr>
-        </thead>
-        <tbody>
+            <div class="carousel-inner">
             @{
-                <tr>
-                    <th><h3>Minimum</h3></th>
-                    <td>
-                        @pocoData.pc_requirements.minimum
-                    </td>
-                    <td>
-                        @pocoData.linux_requirements.minimum
-                    </td>
-                    <td>
-                        @pocoData.mac_requirements.minimum
-                    </td>
-                </tr>
-                <tr>
-                    <th><h3>Recommended</h3></th>
-                    <td>
-                        @pocoData.pc_requirements.recommended
-                    </td>
-                    <td>
-                        @pocoData.linux_requirements.recommended
-                    </td>
-                    <td>
-                        @pocoData.mac_requirements.recommended
-                    </td>
-                </tr>
+                var tempCounter = 0;
+                foreach(var shot in pocoData.screenshots)
+                {
+                    if(tempCounter == 0)
+                    {
+                        <div class="carousel-item active" style="text-align: center;">
+                            <img src=@shot.path_thumbnail>
+                        </div>
+                        tempCounter = tempCounter + 1;
+                    }
+                    else
+                    {
+                        <div class="carousel-item" style="text-align: center;">
+                            <img class="center" src=@shot.path_thumbnail>
+                        </div>
+                    }
+                }
             }
-        </tbody>
-    </table>
-</div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+        <br><br>
+        <div class="col">
+            <table class ="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;" colspan="4"><h3>Computer Requirements by OS</h3></th>
+                    </tr>
+                    <tr>
+                        <th><h4>Minimum/Recommended</h4></th>
+                        <th><h4>PC requirements</h4></th>
+                        <th><h4>Linux requirements</h4></th>
+                        <th><h4>Mac requirements</h4></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        <tr>
+                            <th><h3>Minimum</h3></th>
+                            <td>
+                                @pocoData.pc_requirements.minimum
+                            </td>
+                            <td>
+                                @pocoData.linux_requirements.minimum
+                            </td>
+                            <td>
+                                @pocoData.mac_requirements.minimum
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><h3>Recommended</h3></th>
+                            <td>
+                                @pocoData.pc_requirements.recommended
+                            </td>
+                            <td>
+                                @pocoData.linux_requirements.recommended
+                            </td>
+                            <td>
+                                @pocoData.mac_requirements.recommended
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}

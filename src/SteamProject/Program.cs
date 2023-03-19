@@ -10,6 +10,7 @@ using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using SteamProject.Areas.Identity.Data;
 using OpenAI.GPT3.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

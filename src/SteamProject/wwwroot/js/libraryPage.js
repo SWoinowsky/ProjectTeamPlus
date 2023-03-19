@@ -1,7 +1,7 @@
 function setHiddenGame(name, userId)
 {
     var gameName = document.getElementById(name);
-    var gameId = gameName.getAttribute('value');
+    var gameId = gameName.getAttribute('name');
     console.log("Hid " + name);
     $.ajax({
         type: "POST",

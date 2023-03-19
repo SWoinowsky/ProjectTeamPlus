@@ -2,24 +2,29 @@ using SteamProject.Models;
 using SteamProject.ViewModels;
 using System.Text.Json;
 using SteamProject.Models.DTO;
+using NUnit_Tests.RepoTesting;
 
-namespace NUnit_Tests.RepoTesting
+namespace NUnit_Tests.ModelTesting
 {
     public class GameVMTests
     {
         private GameInfoPOCO _poco;
         private GameVM MakeValidGameVM()
         {
-            GameVM gameVm = new GameVM{
+            GameVM gameVm = new GameVM
+            {
                 _appId = 1,
                 _userGame = new UserGameInfo(),
-                _game = new Game{
+                _game = new Game
+                {
                     Id = 1,
                     AppId = 1,
                     Name = "A Game"
                 },
-                _poco = new GameInfoPOCO{
-                    response = new GameResponse {
+                _poco = new GameInfoPOCO
+                {
+                    response = new GameResponse
+                    {
                         data = null
                     }
                 },
@@ -48,7 +53,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void GameVMcleanDescriptions_HasNoData_ReturnsWithNullForPOCOData ()
+        public void GameVMcleanDescriptions_HasNoData_ReturnsWithNullForPOCOData()
         {
             // Arrange
             GameVM gameVm = MakeValidGameVM();
@@ -61,7 +66,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void GameVMcleanRequirements_HasNoData_ReturnsWithNullForPOCOData ()
+        public void GameVMcleanRequirements_HasNoData_ReturnsWithNullForPOCOData()
         {
             // Arrange
             GameVM gameVm = MakeValidGameVM();
@@ -74,7 +79,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void GameVMcleanDescription_HasDetailedDescriptionData_ReturnsWithCleanedShortDescription ()
+        public void GameVMcleanDescription_HasDetailedDescriptionData_ReturnsWithCleanedShortDescription()
         {
             // Arrange
             GameVM gameVm = MakeValidGameVM();
@@ -89,7 +94,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void GameVMcleanRequirements_HasDetailedDescriptionData_ReturnsWithCleanedRequirements ()
+        public void GameVMcleanRequirements_HasDetailedDescriptionData_ReturnsWithCleanedRequirements()
         {
             // Arrange
             GameVM gameVm = MakeValidGameVM();

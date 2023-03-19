@@ -65,13 +65,6 @@ namespace NUnit_Tests.RepoTesting
             };
 
 
-            _userGameInfos = new List<UserGameInfo>()
-            {
-                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1 },
-                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 2 },
-                new UserGameInfo { Id = 3, Followed = true, GameId = 2, Hidden = true, OwnerId = 2 },
-            };
-
             _games = new List<Game>()
             {
                 new Game { Id = 1, AppId = 310560, Name = "DiRT Rally" },
@@ -79,15 +72,19 @@ namespace NUnit_Tests.RepoTesting
                 new Game { Id = 2, AppId = 632360, Name = "Risk of Rain 2" },
             };
 
+            _userGameInfos = new List<UserGameInfo>()
+            {
+                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1, Game = _games[0] },
+                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 1, Game = _games[1] },
+                new UserGameInfo { Id = 3, Followed = true, GameId = 3, Hidden = true, OwnerId = 2, Game = _games[2] },
+            };
 
 
             _users.ForEach(p =>
             {
-                p.Friends = _friends.Where(i => i.RootId == p.Id).ToList() ?? new List<Friend>();
-                p.UserGameInfos = _userGameInfos.Where(i => i.OwnerId == p.Id).ToList() ?? new List<UserGameInfo>();
+                p.Friends = _friends.Where(i => i.Id == p.Id).ToList();
+                p.UserGameInfos = _userGameInfos.Where(i => i.Id == p.Id).ToList();
             });
-
-
 
             // Finally, mock the context and dbsets
             _mockContext = new Mock<SteamInfoDbContext>();
@@ -179,7 +176,7 @@ namespace NUnit_Tests.RepoTesting
 
 
             // Act
-            List<UserGameInfo> actual = gameInfoRepository.GetAllUserGameInfo(2);
+            List<UserGameInfo> actual = gameInfoRepository.GetAllUserGameInfo(1);
 
             // Assert
             Assert.Multiple(() => { Assert.True(actual.Count == 2); });

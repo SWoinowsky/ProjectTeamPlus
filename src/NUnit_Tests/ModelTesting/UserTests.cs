@@ -1,15 +1,16 @@
+using NUnit_Tests.RepoTesting;
 using SteamProject.Models;
 using SteamProject.Models.DTO;
 using System.Text.Json;
 
-namespace NUnit_Tests.RepoTesting
+namespace NUnit_Tests.ModelTesting
 {
     public class UserTests
     {
         private SteamUserPOCO _poco;
         private User MakeValidPerson()
         {
-            
+
             User newPerson = new User
             {
                 Id = 1,
@@ -44,7 +45,7 @@ namespace NUnit_Tests.RepoTesting
         }
 
         [Test]
-        public void TakeSteamPOCO_SetsPocoVariablesCorrectly ()
+        public void TakeSteamPOCO_SetsPocoVariablesCorrectly()
         {
             // Arrange
             User me = new User();
@@ -59,8 +60,8 @@ namespace NUnit_Tests.RepoTesting
             Assert.AreEqual(me.SteamName, "Justin Davis");
         }
 
-                [Test]
-        public void TakeSteamPOCO_InvalidPOCO_ThrowsNull ()
+        [Test]
+        public void TakeSteamPOCO_InvalidPOCO_ThrowsNull()
         {
             // Arrange
             User me = new User();

@@ -1,14 +1,15 @@
+using NUnit_Tests.RepoTesting;
 using SteamProject.Models;
 using SteamProject.ViewModels;
 
 
-namespace NUnit_Tests.RepoTesting
+namespace NUnit_Tests.ModelTesting
 {
     public class UserLibraryVMTests
     {
         private User MakeValidPerson()
         {
-            
+
             User newPerson = new User
             {
                 Id = 1,
@@ -26,7 +27,7 @@ namespace NUnit_Tests.RepoTesting
             UserLibraryVM vm = new UserLibraryVM()
             {
                 _user = MakeValidPerson(),
-                _games = new List<Game>()
+                _games = new HashSet<Game>()
             };
             return vm;
         }

@@ -39,6 +39,4 @@ public static class HelperMethods
         dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
         return dateTime;
     }
-
-
 }

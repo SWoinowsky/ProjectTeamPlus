@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
 using SteamProject.Models;
+using SteamProject.Helpers;
 using SteamProject.Models.DTO;
 using SteamProject.Services;
 using SteamProject.ViewModels;
@@ -40,7 +41,7 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult Dashboard()
+    public async Task<IActionResult> Dashboard()
     {
 
         string? id = _userManager.GetUserId(User);
@@ -173,11 +174,12 @@ public class HomeController : Controller
 
 
 
-                    Task<string[]> finishedRecentTasks = Task.WhenAll(asyncTasksRecent);
-                    Task<string[]> finishedFollowedTasks = Task.WhenAll(asyncTasksFollowed);
+                    Task<string[]> finishedRecentTasks = TaskHelperMethods.HandleFailedTasks(asyncTasksRecent);
+                    Task<string[]> finishedFollowedTasks = TaskHelperMethods.HandleFailedTasks(asyncTasksFollowed);
 
-                    asyncTasksResults.Add(finishedRecentTasks.Result);
-                    asyncTasksResults.Add(finishedFollowedTasks.Result);
+
+                    asyncTasksResults.Add(await finishedRecentTasks);
+                    asyncTasksResults.Add(await finishedFollowedTasks);
 
                     dashboardVm.GamesNewsItems = asyncTasksResults;
 

@@ -55,7 +55,7 @@ p {
     border-radius: 15px 15px 0 0;
 }
 
-.col-md-4 {
+.threecol {
     min-width: 25rem;
     max-width: 25rem;
 }

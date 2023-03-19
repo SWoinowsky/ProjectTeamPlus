@@ -8,7 +8,7 @@ public class TaskHelperMethods
     {
         var handledTasks = tasks.Select(task => task.ContinueWith(t =>
         {
-            if (t.IsFaulted)
+            if (t.IsCanceled || t.IsFaulted)
             {
                 return "Error: Task failed to complete";
             }

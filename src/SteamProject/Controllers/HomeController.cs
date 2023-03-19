@@ -76,7 +76,7 @@ public class HomeController : Controller
                 //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
                 if (games.Any())
                 {
-                    List<string[]> asyncTasksResults = new List<string[]>();
+                    List<Task<string[]>> asyncTasksResults = new List<Task<string[]>>();
 
                     List<Task<string>> asyncTasksRecent = new List<Task<string>>();
                     List<Task<string>> asyncTasksFollowed = new List<Task<string>>();
@@ -178,10 +178,10 @@ public class HomeController : Controller
                     Task<string[]> finishedFollowedTasks = TaskHelperMethods.HandleFailedTasks(asyncTasksFollowed);
 
 
-                    asyncTasksResults.Add(await finishedRecentTasks);
-                    asyncTasksResults.Add(await finishedFollowedTasks);
+                    asyncTasksResults.Add(finishedRecentTasks);
+                    asyncTasksResults.Add(finishedFollowedTasks);
 
-                    dashboardVm.GamesNewsItems = asyncTasksResults;
+                    dashboardVm.GamesNewsItems = Task.WhenAll(asyncTasksResults).Result.ToList();
 
                     return View(dashboardVm);
                     

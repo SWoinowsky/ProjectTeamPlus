@@ -9,7 +9,8 @@
 <br><br>
 @if (Model == null)
 {
-    <h1>This will be your library page once you sign in with a linked account, and we pull your Steam library.</h1>
+    
+    <h1>This will be your library page once you sign in with a  <a href="/Identity/Account/Manage/ExternalLogins" class="btn btn-outline-info justify-content-center">linked account</a> and we will pull your Steam library.</h1>
 }
 else
 {
@@ -21,22 +22,37 @@ else
                     <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <h1>@Model._user.SteamName's Steam Library</h1>
-                <div>
-                    <button class="btn btn-secondary profile-btn"><a href="@Model._user.ProfileUrl" style="color:white; text-decoration:none">@Model._user.SteamName's Steam Profile</a></button>
-                    <br><br>
-                    <button class="btn btn-secondary show-hidden-btn" data-toggle="tooltip" title="Show Hidden Games" onclick="showHiddenGamesModal()" style="margin-bottom:5px">
-                        <i fill="CurrentColor" class="bi bi-eye"></i> Show hidden games
-                    </button><br><br>
-                    <a class="btn btn-secondary refresh-btn" title="Refresh Library" style="margin-bottom:5px" href='@Url.Action("Index", "Library", new {refresh = true})'>
-                        <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library<br>
-                    </a>
+            <div class="col-lg-8">
+                <div class="row">
+                    <h1>@Model._user.SteamName's Steam Library</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg">
+                        <button class="btn btn-secondary profile-btn"><a href="@Model._user.ProfileUrl" style="color:white; text-decoration:none; ">@Model._user.SteamName's Steam Profile</a></button>
+                        <br><br>
+                        <button class="btn btn-secondary show-hidden-btn" data-toggle="tooltip" title="Show Hidden Games" onclick="showHiddenGamesModal()" style="margin-bottom:5px">
+                            <i fill="CurrentColor" class="bi bi-eye"></i> Show hidden games
+                        </button><br><br>
+                        <a class="btn btn-secondary refresh-btn" title="Refresh Library" style="margin-bottom:5px" href='@Url.Action("Index", "Library", new {refresh = true})'>
+                            <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library<br>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <br>
+                        <p>Hover over a game to see options such as:</p>
+                        <ul>
+                            <li>View achievements</li>
+                            <li>Hide game <i fill="CurrentColor" class="bi bi-eye-slash-fill"></i></li>
+                            <li>View more info <i fill="CurrentColor" class="bi bi-info-circle-fill"></i></li>
+                            <li>Follow/Unfollow <i fill="CurrentColor" class="bi bi-bookmark-plus"></i> <i fill="CurrentColor" class="bi bi-bookmark-dash-fill"></i></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
-    <input id="search-input" type="search" placeholder= "🔍 search for a game...">
+    <input id="search-input" type="search" placeholder= "🔍 search for a game..."> 
     <div class="flex-container">
         @{
             foreach(var game in Model._user.UserGameInfos)
@@ -45,10 +61,8 @@ else
                 if(game.Hidden == false)
                 {
                     <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.AppId" data-toggle="tooltip" title="@game.Game.Name" style="padding: 2px; position: relative">
-                        
                         <button class="achievement-btn" data-toggle="tooltip" title="View Achievements" id="@game.Game.AppId"></button>
                         <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:200px"/><br>
-                        
                         @{
                             //This is used to remove punctuation so that strings still work. Games like 'America's Army', breaks interacitons thanks to it's apostrophe.
                             var index = tempGame.Name.IndexOf("'");
@@ -56,7 +70,7 @@ else
                             {
                                 var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
                                 <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@name', '@Model._user.Id')" name=@game.Game.AppId>
-                                    <i  fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
+                                    <i fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
                                 </button>
                                 <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow Game" onclick="setFollowedGame('@name')" name=@game.Game.AppId>
                                     @if(game.Followed == true)
@@ -71,10 +85,10 @@ else
                             }
                             else
                             {
-                                <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.AppId>
+                                <button type="button" class="btn btn-outline-warning hide-btn" data-toggle="tooltip" title="Hide Game" onclick="setHiddenGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.Id>
                                     <i  fill="CurrentColor" class="bi bi-eye-slash-fill"></i>
                                 </button>
-                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow/Unfollow Game" onclick="setFollowedGame('@tempGame.Name')" name=@game.Game.AppId>
+                                <button type="button" class="btn btn-outline-info follow-btn" data-toggle="tooltip" title="Follow/Unfollow Game" onclick="setFollowedGame('@tempGame.Name')" name=@game.Game.Id>
                                     @if(game.Followed == true)
                                     {
                                         <i fill="CurrentColor" id="@game.Game.AppId followicon" class="bi bi-bookmark-dash-fill"></i>
@@ -111,19 +125,20 @@ else
                                         if(game.Hidden)
                                         {
                                             var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
-                                            <div class="flex-item" id="@tempGame.Name" value="@game.Game.AppId" style="padding: 2px;">
+                                            <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.Id" style="padding: 2px; position: relative">
                                                 <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px"/><br>
-                                                @{var index = tempGame.Name.IndexOf("'");
+                                                @{
+                                                    var index = tempGame.Name.IndexOf("'");
                                                     if(index > -1)
                                                     {
                                                         var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name')" name=@game.Game.AppId>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name', '@Model._user.Id')" name=@game.Game.Id>
                                                             <i fill="CurrentColor" class="bi bi-eye-fill"></i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name')" name=@game.Game.AppId>
+                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.Id>
                                                             <i fill="CurrentColor" class="bi bi-eye-fill"></i>
                                                         </button>
                                                     }

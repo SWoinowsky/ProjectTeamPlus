@@ -53,9 +53,22 @@ public class LibraryController: Controller
         else
         {
             User user = _userRepository.GetUser(id);
+
+            if (user.AvatarUrl == null && user.SteamId != null)
+            {
+                var steamUser = _steamService.GetSteamUser(user.SteamId);
+                user.SteamName = steamUser.SteamName;
+                user.AvatarUrl = steamUser.AvatarUrl;
+                var SteamLevel = _steamService.GetUserLevel(user.SteamId);
+
+                user.PlayerLevel = SteamLevel;
+
+                _userRepository.AddOrUpdate(user);
+            }
+
             userLibraryVM._user = user;
             List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
-            userLibraryVM._games = new List<Game>();
+            userLibraryVM._games = new HashSet<Game>();
             UserGameInfo? currentUserInfo = new UserGameInfo();
 
             if (gameInfo.Count == 0)

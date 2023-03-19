@@ -19,16 +19,26 @@ namespace SteamProject.DAL.Concrete
             return this.GetAll(g => g.AppId == appId).SingleOrDefault();
         }
 
-        public List<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo)
+        public HashSet<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo)
         {
-            List<Game> returnList = new List<Game>();
+            HashSet<Game> uniqueGames = new HashSet<Game>();
 
             foreach (var game in userInfo)
             {
-                Game tempGame = this.FindById(game.GameId);
-                returnList.Add(tempGame);
+
+                Game tempGame = this.GetGameById(game.GameId);
+                if (tempGame != null)
+                {
+                    uniqueGames.Add(tempGame);
+                }
+                
             }
-            return returnList;
+            return uniqueGames;
+        }
+
+        public Game GetGameById( int id )
+        {
+            return GetAll().Where( g => g.Id == id ).FirstOrDefault();
         }
     }
 }

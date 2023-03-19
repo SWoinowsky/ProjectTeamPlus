@@ -10,6 +10,8 @@ using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using SteamProject.Areas.Identity.Data;
+using OpenAI.GPT3.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +66,10 @@ if (localDbSource == false)
 }
 
 var SteamApiToken = builder.Configuration["SteamKey"];
+var openAiToken = builder.Configuration["OpenAiKey"];
+
 builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
+builder.Services.AddScoped<IOpenAiApiService, OpenAiApiService>(a => new OpenAiApiService(openAiToken));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserGameInfoRepository, UserGameInfoRepository>();
@@ -72,6 +77,12 @@ builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IFriendRepository, FriendRepository>();
 builder.Services.AddScoped<IGameAchievementRepository, GameAchievementRepository>();
 builder.Services.AddScoped<IUserAchievementRepository, UserAchievementRepository>();
+builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
+builder.Services.AddScoped<ICompetitionPlayerRepository, CompetitionPlayerRepository>();
+builder.Services.AddScoped<ICompetitionGameAchievementRepository, CompetitionGameAchievementRepository>();
+
+
+
 
  
 
@@ -93,6 +104,7 @@ builder.Services.AddAuthentication()
                     });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddOpenAIService();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
@@ -131,8 +143,14 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "Compete",
-    "Compete/{friendSteamId?}/{appId?}",
+    "Compete",
     defaults: new { controller = "Compete", action = "Index" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/{friendSteamId?}/{appId?}",
+    defaults: new { controller = "Compete", action = "Initiate" }
 );
 
 app.MapControllerRoute(

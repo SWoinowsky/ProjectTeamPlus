@@ -1976,6 +1976,7 @@
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenId" Version="7.0.0" />
     <PackageReference Include="AspNet.Security.OpenId.Steam" Version="7.0.0" />
+    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.7.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.2" />
@@ -1991,6 +1992,10 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@ namespace SteamProject.ViewModels
     public class UserLibraryVM
     {
         public User _user {get; set;}
-        public List<Game> _games {get; set;}
+        public HashSet<Game> _games {get; set;}
 
         public UserLibraryVM()
         {

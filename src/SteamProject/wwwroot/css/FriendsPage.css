@@ -1,0 +1,72 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.no-friends-message {
+    margin-top: 60px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+}
+
+#friend-header {
+    margin-top: 2rem;
+    margin-left: 3rem;
+    text-align: left;
+    font-weight: 800;
+}
+
+#search-input {
+    width: 235px;
+    border: 2px solid #000;
+    border-radius: 2rem;
+    background-color: #fff;
+    padding-left: 1rem;
+    margin-left: 3rem;
+}
+
+.card.friend-card {
+    height: 350px;
+    width: 300px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 22px;
+    margin: 25px;
+}
+
+.friend-card-img {
+    border-radius: 8px;
+}
+
+.card-body.friend-card-body {
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.friend-card-btns {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+}
+
+.compare-games, .inv-to-team {
+    height: 35px;
+    width: 70px;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0);
+    display: grid;
+    align-content: center;
+}
+
+.bi.bi-controller,.bi.bi-person-add {
+    font-size: 1.8rem;
+    color: #fff;
+}

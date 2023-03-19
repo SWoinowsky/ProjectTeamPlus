@@ -21,7 +21,7 @@ footer {
     height: 65px !important;
 }
 
-.hide-btn {
+.hide-btn, .unhide-btn {
     top: 5px;
     right: 5px;
 }
@@ -45,7 +45,7 @@ footer {
     transition: all 1s ease;
 }
 
-.hide-btn, .follow-btn, .show-btn {
+.hide-btn, .follow-btn, .show-btn, .unhide-btn {
     transition: all 1s ease;
     position: absolute;
     opacity: 0%;
@@ -62,11 +62,11 @@ footer {
 }
 
 .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
-.gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn {
+.gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn, .gameContainer:hover > .unhide-btn  {
     opacity: 35%;
 }
 
-.hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover {
+.hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover, .unhide-btn:hover {
     opacity: 1 !important;
     border-radius: 25%;
 }
@@ -108,6 +108,10 @@ footer {
 h1, h4, h5, h6 {
     color: #fff;
     align-self: flex-start;
+}
+
+p, ul, li {
+    color: white;
 }
 
 #modal-left {

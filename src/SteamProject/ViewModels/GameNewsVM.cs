@@ -14,10 +14,8 @@ namespace SteamProject.ViewModels
 {
     public class GameNewsVM
     {
-        public int _appId { get; set; }
         public Game _game { get; set; }
         public GameNewsPoco _poco { get; set; }
-        public double playTime { get; set; }
 
         public GameNewsVM()
         {

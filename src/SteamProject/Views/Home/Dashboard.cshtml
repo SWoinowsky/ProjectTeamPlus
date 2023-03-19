@@ -1,6 +1,8 @@
 @model SteamProject.ViewModels.UserDashboardVM
 @{
     ViewData["Title"] = "Dashboard";
+    int recentCount = 0;
+    int followedCount = 0;
 }
 
 <head>
@@ -9,10 +11,11 @@
 
 @if (Model == null)
 {
-    <h1>This will be your Dashboard page once you sign in with a linked account, and we pull your Steam library.</h1>
+    <h1>This will be your dashboard page once you sign in with a  <a href="/Identity/Account/Manage/ExternalLogins" class="btn btn-outline-info justify-content-center">linked account,</a> and we will pull your Steam library.</h1>
 }
 else
 {
+
 
 
     <div class="container">
@@ -27,7 +30,6 @@ else
         <div class="container">
             <div class="row">
                 <div class="col-md-3 center">
-                    <h2 class="center">@Model._user.SteamName</h2>
                     <h3 class="center">Level @Model._user.PlayerLevel</h3>
                     <div id="userAvatar">
                         <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-top: 10px"/>
@@ -35,6 +37,7 @@ else
                             <i fill="CurrentColor" class="bi bi-bookmark"></i> Followed Games
                         </button>
                     </div>
+                    <h3 class="center">@Model._user.SteamName</h3>
 
                 </div>
                 <div class="col-md-9">
@@ -63,7 +66,7 @@ else
                     <div class="modal-body">
                         <div class="container-fluid" id="informationRow">
                             @{
-                                if(Model.followedGames.Count() == 0)
+                                if(Model.FollowedGames.Count() == 0)
                                 {
                                     <p>
                                         You have no followed games!<br>
@@ -73,7 +76,7 @@ else
                                 else
                                 {
                                     <div class="flex-container">
-                                        @foreach (List<Game> gameList in Model.followedGames)
+                                        @foreach (List<Game> gameList in Model.FollowedGames)
                                         {
                                             
                                                 @foreach (Game game in gameList)
@@ -122,143 +125,177 @@ else
         <h1>Your News</h1>
         <h6>Click the <i fill="CurrentColor" class="bi bi-info-circle-fill"></i> to see the news section for a game.</h6>
         <br/>
-        <div class="container-fluid">
+        <div class="container">
 
             <h4>Recently Played Games</h4>
 
             <div class="row">
-                @if (Model.recentGames.Count > 0)
+                @if (Model.RecentGames.Count > 0)
                 {
-                    <div id="recentGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div id="recentGamesCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="row">
-                                    <div class="container card-group cardContainer">
-                                        @for (var i = 0; i < Model.recentGames[0].Count; i++)
-                                        {
+                            <div class="carousel-item active align-items-stretch">
+                                <div class="row row-cols-1 row-cols-md-3 g-1 justify-content-center ">
 
-                                            <div class="card userCard">
-                                                <img class="img-fluid" alt="@Model.recentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.recentGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
-                                                <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.recentGames[0][i].AppId})'>
+                                    @for (var i = 0; i < Model.RecentGames[0].Count; i++)
+                                    {
+                                        <div class="col-md-4 w-100">
+                                            <div class="card h-100 userCard">
+                                                <img class="card-img-top" alt="@Model.RecentGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.RecentGames[0][i].AppId)" alt="@string.Format("{0}", Model.RecentGames[0][i].Name)">
+                                                <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new { appId = Model.RecentGames[0][i].AppId })'>
                                                     <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
                                                 </a>
-                                                <div class="card-body">
-                                                    <h4 class="card-title">@Model.recentGames[0][i].Name</h4>
-                                                    <p class="card-text">Recent News</p>
+                                                <div class="card-body h-100">
+                                                    <h4 class="card-title">@Model.RecentGames[0][i].Name</h4>
+                                                    <p>@Model.GamesNewsItems[0][recentCount]</p>
+
+                                                    @{
+                                                        recentCount++;
+                                                    }
+
                                                 </div>
                                             </div>
+                                        </div>
+
+                                    }
+                                </div>
+
+                            </div>
+
+                            @for (var index = 1; index < Model.RecentGames.Count; index++)
+                            {
+                                var game = Model.RecentGames[index];
+                                <div class="carousel-item align-items-stretch">
+                                    <div class="row row-cols-1 row-cols-md-3 g-1 justify-content-center">
+
+                                        @for (var i = 0; i < Model.RecentGames[index].Count; i++)
+                                        {
+                                            <div class="col-md-4 w-100">
+                                                <div class="card h-100 userCard">
+                                                    <img class="card-img-top" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                    <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new { appId = game[i].AppId })'>
+                                                        <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                                    </a>
+                                                    <div class="card-body h-100">
+                                                        <h4 class="card-title">@game[i].Name</h4>
+                                                        <p>@Model.GamesNewsItems[0][recentCount]</p>
+
+                                                        @{
+                                                            recentCount++;
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         }
                                     </div>
                                 </div>
-                            </div>
 
-                            @for (var index = 1; index < Model.recentGames.Count; index++)
-                            {
-                                var game = Model.recentGames[index];
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="container card-group cardContainer">
-                                            @for (var i = 0; i < Model.recentGames[index].Count; i++)
-                                            {
-                                                
-                                                    <div class="card userCard container-fluid">
-                                                        <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
-                                                    <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = game[i].AppId})'>
-                                                            <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
-                                                        </a>
-                                                        <div class="card-body">
-                                                            <h4 class="card-title">@game[i].Name</h4>
-                                                            <p class="card-text">Recent News</p>
-                                                        </div>
-                                                    </div>
-                                                
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
                             }
                         </div>
 
-                        <a class="carousel-control-prev" href="#recentGamesCarousel" role="button" data-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#recentGamesCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only"></span>
-                        </a>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
 
-                        <a class="carousel-control-next" href="#recentGamesCarousel" role="button" data-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#recentGamesCarousel" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only"></span>
-                        </a>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+
                     </div>
                 }
-
-            </div>
-            <br/>
-
-            <h4>Followed Games</h4>
-            <div class="row">
-                @if(Model.followedGames.Count > 0)
+                else
                 {
-                    <div id="followedGamesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container card-group cardContainer">
-                                @for (var i = 0; i < Model.followedGames[0].Count; i++)
-                                {
-                                    
-                                        <div class="card userCard">
-                                            <img class="img-fluid" alt="@Model.followedGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.followedGames[0][i].AppId)" alt="@string.Format("{0}", Model.recentGames[0][i].Name)">
-                                            <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.followedGames[0][i].AppId})'>
-                                                <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
-                                            </a>
-                                            <div class="card-body">
-                                                <h4 class="card-title">@Model.followedGames[0][i].Name</h4>
-                                                <p class="card-text">Recent News</p>
-                                            </div>
-                                        </div>
-                                   
+                    <h4>You have no Recent Games to Display, Please visit the <a class="btn btn-outline-info justify-content-center" href='@Url.Action("Index", "Library")'>Library Page</a> or go play some games</h4>
+                }
+            </div>
+            <br />
 
-                                }
-                            </div>
-                        </div>
+            <br />
+            <div class="container">
 
-                        @for (var index = 1; index < Model.followedGames.Count; index++)
-                        {
-                            var game = Model.followedGames[index];
-                            <div class="carousel-item">
-                                <div class="row">
-                                    <div class="container card-group cardContainer">
-                                            @for (var i = 0; i < Model.followedGames[index].Count; i++)
+                <h4>Followed Games</h4>
+
+                <div class="row">
+                    @if (Model.FollowedGames.Count > 0)
+                    {
+                        <div id="followedGamesCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="row row-cols-1 row-cols-md-3 g-1 justify-content-center">
+
+                                        @for (var i = 0; i < Model.FollowedGames[0].Count; i++)
                                         {
-                                                
-                                            <div class="card userCard container-fluid">
-                                                <img class="img-fluid" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
-                                                <a class="btn btn-outline-info show-btn"  title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new {appId = Model.followedGames[index][i].AppId})'>
-                                                    <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
-                                                </a>
-                                                <div class="card-body">
-                                                    <h4 class="card-title">@game[i].Name</h4>
-                                                    <p class="card-text">Recent News</p>
+                                            <div class="col-md-4">
+                                                <div class="card h-100 userCard">
+                                                    <img class="card-img-top" alt="@Model.FollowedGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.FollowedGames[0][i].AppId)" alt="@string.Format("{0}", Model.FollowedGames[0][i].Name)">
+                                                    <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new { appId = Model.FollowedGames[0][i].AppId })'>
+                                                        <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                                    </a>
+                                                    <div class="card-body h-100">
+                                                        <h4 class="card-title">@Model.FollowedGames[0][i].Name</h4>
+                                                        <p>@Model.GamesNewsItems[1][followedCount]</p>
+                                                        @{
+                                                            followedCount++;
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
-                                                
                                         }
                                     </div>
                                 </div>
+
+                                @for (var index = 1; index < Model.FollowedGames.Count; index++)
+                                {
+                                    var game = Model.FollowedGames[index];
+                                    <div class="carousel-item">
+                                        <div class="row row-cols-1 row-cols-md-3 g-1 justify-content-center">
+
+                                            @for (var i = 0; i < Model.FollowedGames[index].Count; i++)
+                                            {
+                                                <div class="col-md-4 w-100">
+                                                    <div class="card h-100 userCard">
+                                                        <img class="card-img-top" alt="@game[i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", game[i].AppId)" alt="@string.Format("{0}", @game[i].Name)">
+                                                        <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new { appId = game[i].AppId })'>
+                                                            <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                                                        </a>
+                                                        <div class="card-body h-100">
+                                                            <h4 class="card-title">@game[i].Name</h4>
+                                                            <p>@Model.GamesNewsItems[1][followedCount]</p>
+                                                            @{
+                                                                followedCount++;
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                        }
 
-                    </div>
-                    <a class="carousel-control-prev" href="#followedGamesCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
-                    </a>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#followedGamesCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
 
-                    <a class="carousel-control-next" href="#followedGamesCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
-                    </a>
+                            <button class="carousel-control-next" type="button" data-bs-target="#followedGamesCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <h6 class="justify-content-center">You have no followed games to Display, Please visit the <a class="btn btn-outline-info justify-content-center" href='@Url.Action("Index", "Library")'>Library Page</a> and go follow some games</h6>
+                    }
                 </div>
-                }
+                <br />
+
             </div>
         </div>
     </div>
@@ -276,5 +313,4 @@ else
 @section Scripts
 {
     <script type="text/javascript" src="~/js/followGame.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 }

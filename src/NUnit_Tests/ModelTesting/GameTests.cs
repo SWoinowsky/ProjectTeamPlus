@@ -1,6 +1,7 @@
+using NUnit_Tests.RepoTesting;
 using SteamProject.Models;
 
-namespace NUnit_Tests.RepoTesting
+namespace NUnit_Tests.ModelTesting
 {
     public class GameTests
     {

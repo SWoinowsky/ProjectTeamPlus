@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -23,6 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SteamProject\SteamProject.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="HelperTesting\" />
+    <Folder Include="ServiceTesting\" />
   </ItemGroup>
 
 </Project>

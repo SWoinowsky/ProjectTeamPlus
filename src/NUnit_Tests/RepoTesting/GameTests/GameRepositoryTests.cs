@@ -49,19 +49,19 @@ namespace NUnit_Tests.RepoTesting
                 new Friend {Id = 2, RootId = 2, SteamId = "76561198280399190"},
                 new Friend {Id = 3, RootId = 2, SteamId = "76561198368539189"},
             };
-            
 
-            _userGameInfo = new List<UserGameInfo>()
-            {
-                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1},
-                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 1},
-                new UserGameInfo { Id = 3, Followed = true, GameId = 2, Hidden = true, OwnerId = 1},
-            };
             _games = new List<Game>()
             {
                 new Game {Id = 1,AppId = 310560, Name = "DiRT Rally"},
                 new Game {Id = 2,AppId = 218620, Name = "PAYDAY 2"},
-                new Game {Id = 2,AppId = 632360, Name = "Risk of Rain 2"},
+                new Game {Id = 3,AppId = 632360, Name = "Risk of Rain 2"},
+            };
+
+            _userGameInfo = new List<UserGameInfo>()
+            {
+                new UserGameInfo { Id = 1, Followed = true, GameId = 1, Hidden = false, OwnerId = 1, Game = _games[0]},
+                new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 1, Game = _games[1]},
+                new UserGameInfo { Id = 3, Followed = true, GameId = 3, Hidden = true, OwnerId = 2, Game = _games[2]},
             };
 
 
@@ -149,7 +149,7 @@ namespace NUnit_Tests.RepoTesting
 
 
             // Act
-            List<Game> actual = gameRepository.GetGamesListByUserInfo(_userGameInfo);
+            HashSet<Game> actual = gameRepository.GetGamesListByUserInfo(_userGameInfo);
 
 
             Assert.Multiple(() =>
@@ -166,13 +166,42 @@ namespace NUnit_Tests.RepoTesting
             Game expected = MakeValidGame();
 
             // Act
-            List<Game> actual = gameRepository.GetGamesListByUserInfo(_userGameInfo);
+            HashSet<Game> actual = gameRepository.GetGamesListByUserInfo(_userGameInfo);
 
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.True(actual.Count == 3);
             });
+        }
+
+        [Test]
+        public void GetGamesListByUserInfo_WithEmptyUserGameInfoList_Returns_EmptyList()
+        {
+            // Arrange
+            IGameRepository gameRepository = new GameRepository(_mockContext.Object);
+            List<UserGameInfo> emptyUserGameInfoList = new List<UserGameInfo>();
+
+            // Act
+            HashSet<Game> actual = gameRepository.GetGamesListByUserInfo(emptyUserGameInfoList);
+
+            // Assert
+            Assert.IsEmpty(actual);
+        }
+
+        [Test]
+        public void GetGamesListByUserInfo_WithDuplicateGameIds_Returns_UniqueGamesList()
+        {
+            // Arrange
+            IGameRepository gameRepository = new GameRepository(_mockContext.Object);
+            _userGameInfo.Add(new UserGameInfo { Id = 4, Followed = true, GameId = 3, Hidden = false, OwnerId = 1 });
+            int expectedCount = 3;
+
+            // Act
+            HashSet<Game> actual = gameRepository.GetGamesListByUserInfo(_userGameInfo);
+
+            // Assert
+            Assert.AreEqual(expectedCount, actual.Count);
         }
 
     }

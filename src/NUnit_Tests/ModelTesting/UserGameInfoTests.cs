@@ -3,8 +3,9 @@ using Moq;
 using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
+using NUnit_Tests.RepoTesting;
 
-namespace NUnit_Tests.RepoTesting
+namespace NUnit_Tests.ModelTesting
 {
     public class UserGameInfoTests
     {
@@ -71,7 +72,7 @@ namespace NUnit_Tests.RepoTesting
                 new UserGameInfo { Id = 2, Followed = true, GameId = 2, Hidden = false, OwnerId = 1, Game = _games[1] },
                 new UserGameInfo { Id = 3, Followed = true, GameId = 3, Hidden = true, OwnerId = 2, Game = _games[2] },
             };
-            
+
 
             _users.ForEach(p =>
             {
@@ -106,9 +107,9 @@ namespace NUnit_Tests.RepoTesting
             IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
             List<UserGameInfo> gameList = gameInfoRepository.GetAllUserGameInfo(1);
             UserGameInfo game = new UserGameInfo();
-            foreach(var temp in gameList)
+            foreach (var temp in gameList)
             {
-                if(temp.Id == 1 && temp.Hidden)
+                if (temp.Id == 1 && temp.Hidden)
                 {
                     game = temp;
                     break;
@@ -129,9 +130,9 @@ namespace NUnit_Tests.RepoTesting
             IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
             List<UserGameInfo> gameList = gameInfoRepository.GetAllUserGameInfo(1);
             UserGameInfo game = new UserGameInfo();
-            foreach(var temp in gameList)
+            foreach (var temp in gameList)
             {
-                if(temp.Id == 1 && !temp.Hidden)
+                if (temp.Id == 1 && !temp.Hidden)
                 {
                     game = temp;
                     break;
@@ -152,9 +153,9 @@ namespace NUnit_Tests.RepoTesting
             IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
             List<UserGameInfo> gameList = gameInfoRepository.GetAllUserGameInfo(1);
             UserGameInfo game = new UserGameInfo();
-            foreach(var temp in gameList)
+            foreach (var temp in gameList)
             {
-                if(temp.Id == 1 && !temp.Hidden)
+                if (temp.Id == 1 && !temp.Hidden)
                 {
                     game = temp;
                     break;
@@ -175,9 +176,9 @@ namespace NUnit_Tests.RepoTesting
             IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
             List<UserGameInfo> gameList = gameInfoRepository.GetAllUserGameInfo(1);
             UserGameInfo game = new UserGameInfo();
-            foreach(var temp in gameList)
+            foreach (var temp in gameList)
             {
-                if(temp.Id == 1 && temp.Hidden)
+                if (temp.Id == 1 && temp.Hidden)
                 {
                     game = temp;
                     break;
@@ -197,15 +198,15 @@ namespace NUnit_Tests.RepoTesting
             // Arrange
             IUserGameInfoRepository gameInfoRepository = new UserGameInfoRepository(_mockContext.Object);
             UserGameInfo game = new UserGameInfo();
-            UserGameInfo actual = new UserGameInfo 
-            { 
-                Id = 1, 
-                Followed = true, 
-                GameId = 1, 
-                Hidden = false, 
-                OwnerId = 1, 
+            UserGameInfo actual = new UserGameInfo
+            {
+                Id = 1,
+                Followed = true,
+                GameId = 1,
+                Hidden = false,
+                OwnerId = 1,
                 Game = _games[0]
-                };
+            };
 
             // Act
             game = game.GetGameByIdAndUser(1, gameInfoRepository, 1);

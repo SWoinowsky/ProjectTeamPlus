@@ -56,7 +56,7 @@ namespace SteamProject.Services
 
         private string FixResetUrl(string html)
         {
-            string newHtml = html.Replace("Please reset your password by <a href='", "").Replace("'>clicking here</a>", "").Replace(".", "");
+            string newHtml = html.Replace("Please reset your password by <a href='", "").Replace("'>clicking here</a>", "").Replace(".", "").Replace("steamnexusazurewebsitesnet", "steamnexus.azurewebsites.net");
             return newHtml;
         }
 

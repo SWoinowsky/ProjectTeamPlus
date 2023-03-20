@@ -33,7 +33,7 @@ public class FriendController : Controller
         _gameRepository = gameRepository;
         _friendRepository = friendRepository;
         _userManager = userManager;
-    }
+    } 
 
     [Authorize]
     [HttpGet]

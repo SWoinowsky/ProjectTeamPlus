@@ -40,5 +40,15 @@ public static class HelperMethods
         return dateTime;
     }
 
+    public static string FixEmailUrl(string url)
+    {
+        return url.Replace("&amp;", "&");
+    }
+
+    public static string FixResetUrl(string html)
+    {
+        string newHtml = html.Replace("Please reset your password by <a href='", "").Replace("'>clicking here</a>.", "");
+        return newHtml;
+    }
 
 }

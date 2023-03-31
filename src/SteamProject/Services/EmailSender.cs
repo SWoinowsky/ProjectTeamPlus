@@ -4,6 +4,7 @@ using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using SteamProject.Helpers;
 
 namespace SteamProject.Services
 {
@@ -35,7 +36,7 @@ namespace SteamProject.Services
             {
                 msg.AddTo(new EmailAddress(email));
                 msg.TemplateId = "d-77f4b1af958a45bbb5745d4df5311754";
-                msg.SetTemplateData(new ConfirmEmail { Url = FixUrl(message) });                    
+                msg.SetTemplateData(new ConfirmEmail { Url = HelperMethods.FixEmailUrl(message) });                    
                 msg.SetClickTracking(false, false);
                 return client.SendEmailAsync(msg);
             }
@@ -43,21 +44,10 @@ namespace SteamProject.Services
             {
                 msg.AddTo(new EmailAddress(email));
                 msg.TemplateId = "d-9d6d7197e3704765a3e98fec2363a167";
-                msg.SetTemplateData(new ResetEmail { Url = FixResetUrl(message) });                    
+                msg.SetTemplateData(new ResetEmail { Url = HelperMethods.FixResetUrl(message) });                    
                 msg.SetClickTracking(false, false);
                 return client.SendEmailAsync(msg);
             }
-        }
-
-        private string FixUrl(string url)
-        {
-            return url.Replace("&amp;", "&");
-        }
-
-        private string FixResetUrl(string html)
-        {
-            string newHtml = html.Replace("Please reset your password by <a href='", "").Replace("'>clicking here</a>.", "");
-            return newHtml;
         }
 
         private class ConfirmEmail

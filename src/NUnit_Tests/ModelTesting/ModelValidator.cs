@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NUnit_Tests.RepoTesting
+namespace NUnit_Tests.ModelTesting
 {
     public class ModelValidator
     {

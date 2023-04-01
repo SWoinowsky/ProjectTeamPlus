@@ -173,7 +173,7 @@ public class HomeController : Controller
                     }
 
 
-
+                    //Error Handling method to timeout tasks that are taking to long
                     Task<string[]> finishedRecentTasks = TaskHelperMethods.HandleFailedTasks(asyncTasksRecent);
                     Task<string[]> finishedFollowedTasks = TaskHelperMethods.HandleFailedTasks(asyncTasksFollowed);
 

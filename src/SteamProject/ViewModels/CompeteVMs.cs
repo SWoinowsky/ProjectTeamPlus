@@ -12,6 +12,11 @@ public class CompeteIndexVM
 
 }
 
+public class CompeteDetailsVM
+{
+    public Competition CurrentComp { get; set; } = null;
+}
+
 
 public class CompeteInitiateVM
 {

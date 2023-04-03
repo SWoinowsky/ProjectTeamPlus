@@ -1,4 +1,4 @@
-@model int
+@model SteamProject.ViewModels.CompeteDetailsVM
 @{
     ViewData["Title"] = "Game Library";
 }
@@ -7,4 +7,4 @@
     <link rel="stylesheet" href="~/css/Compete.css">
 </head>
 
-<h1 style="padding-top: 5%;"> THIS IS THE DETAILS PAGE FOR A COMPETITION WITH ID @Model </h1>
+<h1 style="padding-top: 5%;"> THIS IS THE DETAILS PAGE FOR A COMPETITION WITH ID @Model.CurrentComp.Id </h1>

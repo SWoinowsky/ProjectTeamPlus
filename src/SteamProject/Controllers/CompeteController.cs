@@ -82,7 +82,15 @@ public class CompeteController : Controller
     [HttpGet]
     public IActionResult Details( int compId )
     {
-        return View( (object)compId );
+        var viewModel = new CompeteDetailsVM();
+        var competitionIn = new Competition();
+
+        competitionIn = _competitionRepository.GetCompetitionById( compId );
+
+        if( competitionIn != null )
+            viewModel.CurrentComp = competitionIn;
+
+        return View( viewModel );
     }
 
 

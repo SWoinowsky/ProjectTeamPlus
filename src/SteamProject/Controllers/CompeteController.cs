@@ -78,6 +78,13 @@ public class CompeteController : Controller
         return View( viewModel );
     }
 
+    [Authorize]
+    [HttpGet]
+    public IActionResult Details()
+    {
+        return View();
+    }
+
 
     [Authorize]
     [HttpGet]

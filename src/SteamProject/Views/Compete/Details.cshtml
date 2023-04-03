@@ -14,9 +14,18 @@
 }
 else 
 {
-    <h1 style="padding-top: 5%;"> THIS IS THE DETAILS PAGE FOR A COMPETITION WITH ID @Model.CurrentComp.Id </h1>
+    <div class="row" style="width: 100%; padding-top: 5%;">
+        <div class="col-sm-6" style="width: 50%;">
+            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model.CurrentComp.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)">
+        </div>
+        <div class="col-sm-6" style="width: 50%;">
+            <h1 style=""> Competition in @Model.CurrentComp.Game.Name </h1>
+        </div>
 
-    <h1> Game associated with competition: @Model.CurrentComp.Game.Name </h1>
+    </div>
+
+
+    
 }
 
 

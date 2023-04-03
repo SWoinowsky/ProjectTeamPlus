@@ -80,9 +80,9 @@ public class CompeteController : Controller
 
     [Authorize]
     [HttpGet]
-    public IActionResult Details()
+    public IActionResult Details( int compId )
     {
-        return View();
+        return View( (object)compId );
     }
 
 

@@ -149,7 +149,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "Compete",
-    "Compete/Details/",
+    "Compete/Details/{compId?}",
     defaults: new { controller = "Compete", action = "Details" }
 );
 

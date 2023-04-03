@@ -7,4 +7,16 @@
     <link rel="stylesheet" href="~/css/Compete.css">
 </head>
 
-<h1 style="padding-top: 5%;"> THIS IS THE DETAILS PAGE FOR A COMPETITION WITH ID @Model.CurrentComp.Id </h1>
+
+@if( Model is null )
+{
+    <p> Failed to pull information from the database. If you're positive the selected competition exists, please try again momentarily. </p>
+}
+else 
+{
+    <h1 style="padding-top: 5%;"> THIS IS THE DETAILS PAGE FOR A COMPETITION WITH ID @Model.CurrentComp.Id </h1>
+
+    <h1> Game associated with competition: @Model.CurrentComp.Game.Name </h1>
+}
+
+

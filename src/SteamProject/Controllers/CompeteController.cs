@@ -88,7 +88,14 @@ public class CompeteController : Controller
         competitionIn = _competitionRepository.GetCompetitionById( compId );
 
         if( competitionIn != null )
+        {
+            var gameAssociated = new Game();
+            gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
+            
+            competitionIn.Game = gameAssociated;
+            
             viewModel.CurrentComp = competitionIn;
+        }
 
         return View( viewModel );
     }

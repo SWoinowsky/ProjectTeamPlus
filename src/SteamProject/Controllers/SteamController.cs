@@ -81,7 +81,7 @@ public class SteamController : ControllerBase
     }
 
     [HttpPost("follow")]
-    public ActionResult Follow(string id)
+    public ActionResult ToggleFollow(string id)
     {
         var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
 
@@ -91,7 +91,7 @@ public class SteamController : ControllerBase
         }
         else
         {
-            return Ok();
+            game.Followed = false;
         }
         
         _userGameInfoRepository.AddOrUpdate(game);

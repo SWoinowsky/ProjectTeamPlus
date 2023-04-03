@@ -4,6 +4,8 @@ namespace SteamProject.Helpers;
 
 public class TaskHelperMethods
 {
+    //This little method right here is meant to help handle Tasks that take to long or fail for whatever reason '
+    //as well as having a timeout methods for the ones that take to long
     public static async Task<string[]> HandleFailedTasks(List<Task<string>> tasks, int timeoutMilliseconds = 5000)
     {
         var handledTasks = tasks.Select(task => AddTimeoutAndHandleFailedTask(task, timeoutMilliseconds)).ToList();

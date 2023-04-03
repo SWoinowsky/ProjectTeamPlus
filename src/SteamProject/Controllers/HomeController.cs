@@ -106,7 +106,7 @@ public class HomeController : Controller
                                 {
                                     Task<string> sumTask =
                                         _openAiApiService.SummarizeTextAsync(
-                                            "There was no valid news found so tell me a joke instead");
+                                            "There was no valid news found");
 
                                     asyncTasksRecent.Add(sumTask);
                                 }
@@ -116,7 +116,7 @@ public class HomeController : Controller
                             {
                                 Task<string> sumTask =
                                     _openAiApiService.SummarizeTextAsync(
-                                        "There was no valid news found so tell me a joke instead");
+                                        "There was no recent news found");
 
                                 asyncTasksRecent.Add(sumTask);
                             }
@@ -152,7 +152,7 @@ public class HomeController : Controller
                                 {
                                     Task<string> sumTask =
                                         _openAiApiService.SummarizeTextAsync(
-                                            "There was no valid news found so tell me a joke instead");
+                                            "There was no recent valid news found for this article");
 
                                     asyncTasksFollowed.Add(sumTask);
                                 }
@@ -162,7 +162,7 @@ public class HomeController : Controller
                             {
                                 Task<string> sumTask =
                                     _openAiApiService.SummarizeTextAsync(
-                                        "There was no valid news found so tell me a joke instead");
+                                        "There was no recent valid news found for this article");
 
                                 asyncTasksFollowed.Add(sumTask);
 

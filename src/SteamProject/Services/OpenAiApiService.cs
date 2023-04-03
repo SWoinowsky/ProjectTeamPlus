@@ -21,7 +21,7 @@ namespace SteamProject.Services
             {
                 Messages = new List<ChatMessage>
                 {
-                    ChatMessage.FromSystem("You are a helpful assistant meant to summarize patch notes and video game news in a max of two sentences, unless its a list of games then those are the top selling things on steam"),
+                    ChatMessage.FromSystem("You are a helpful assistant meant to summarize patch notes and video game news in a max of two sentences, if for some reason the news doesn't make any sense or there is no news for this specific game, explain so and do something creative to impress a user"),
                     ChatMessage.FromUser(text),
                 },
                 Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo

@@ -15,6 +15,8 @@ public partial class SteamInfoDbContext : DbContext
     {
     }
 
+    public virtual DbSet<AppNews> AppNews { get; set; }
+
     public virtual DbSet<Competition> Competitions { get; set; }
 
     public virtual DbSet<CompetitionGameAchievement> CompetitionGameAchievements { get; set; }
@@ -27,6 +29,10 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<GameAchievement> GameAchievements { get; set; }
 
+    public virtual DbSet<NewsItem> NewsItems { get; set; }
+
+    public virtual DbSet<NewsItemTag> NewsItemTags { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserAchievement> UserAchievements { get; set; }
@@ -38,9 +44,16 @@ public partial class SteamInfoDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AppNews>(entity =>
+        {
+            entity.HasKey(e => e.AppId).HasName("PK__AppNews__8E2CF7F998144EC3");
+
+            entity.Property(e => e.AppId).ValueGeneratedNever();
+        });
+
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC07F892FBBC");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC074895BEF4");
 
             entity.ToTable("Competition");
 
@@ -55,7 +68,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<CompetitionGameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC07CA04890B");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC07370C3AEE");
 
             entity.ToTable("CompetitionGameAchievement");
 
@@ -67,7 +80,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<CompetitionPlayer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC0705A45F42");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC078E9744E4");
 
             entity.ToTable("CompetitionPlayer");
 
@@ -81,7 +94,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Friend>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC074D94F338");
+            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07F974B622");
 
             entity.ToTable("Friend");
 
@@ -99,7 +112,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07BBD480E6");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC0777D010C7");
 
             entity.ToTable("Game");
 
@@ -111,7 +124,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<GameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC070F53293C");
+            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC07786718FA");
 
             entity.ToTable("GameAchievement");
 
@@ -121,9 +134,41 @@ public partial class SteamInfoDbContext : DbContext
             entity.Property(e => e.IconHiddenUrl).HasMaxLength(256);
         });
 
+        modelBuilder.Entity<NewsItem>(entity =>
+        {
+            entity.HasKey(e => e.Gid).HasName("PK__NewsItem__C51E133600EF913F");
+
+            entity.ToTable("NewsItem");
+
+            entity.Property(e => e.Gid).HasMaxLength(255);
+            entity.Property(e => e.Author).HasMaxLength(255);
+            entity.Property(e => e.DateTime).HasColumnType("datetime");
+            entity.Property(e => e.FeedLabel).HasMaxLength(255);
+            entity.Property(e => e.FeedName).HasMaxLength(255);
+            entity.Property(e => e.Title).HasMaxLength(255);
+
+            entity.HasOne(d => d.App).WithMany(p => p.NewsItems)
+                .HasForeignKey(d => d.AppId)
+                .HasConstraintName("FK__NewsItem__AppId__3F3159AB");
+        });
+
+        modelBuilder.Entity<NewsItemTag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__NewsItem__3214EC077638C63E");
+
+            entity.ToTable("NewsItemTag");
+
+            entity.Property(e => e.Gid).HasMaxLength(255);
+            entity.Property(e => e.Tag).HasMaxLength(255);
+
+            entity.HasOne(d => d.GidNavigation).WithMany(p => p.NewsItemTags)
+                .HasForeignKey(d => d.Gid)
+                .HasConstraintName("FK__NewsItemTag__Gid__420DC656");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0716C501E9");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC076273E74B");
 
             entity.ToTable("User");
 
@@ -136,7 +181,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC07DD0E088A");
+            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC07C0C7AA37");
 
             entity.ToTable("UserAchievement");
 
@@ -155,7 +200,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserGameInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC077EBC2D50");
+            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC0799D0FDD9");
 
             entity.ToTable("UserGameInfo");
 

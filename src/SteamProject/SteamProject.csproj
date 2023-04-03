@@ -1976,6 +1976,7 @@
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenId" Version="7.0.0" />
     <PackageReference Include="AspNet.Security.OpenId.Steam" Version="7.0.0" />
+    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.7.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.2" />

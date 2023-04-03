@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -18,4 +19,22 @@ public partial class UserAchievement
     public virtual GameAchievement Achievement { get; set; } = null!;
 
     public virtual User Owner { get; set; } = null!;
+
+    public UserAchievement(){}
+
+    public UserAchievement( GameAchievement gameAchIn, Achievement achPOCO )
+    {
+        AchievementId = gameAchIn.Id;
+        Achieved = ( achPOCO.achieved == 1 );
+        if( Achieved )
+            UnlockTime = getDateFromUnix( achPOCO.unlocktime );
+        Achievement = gameAchIn;
+    }
+
+    DateTime getDateFromUnix( int? unixTime )
+    {
+        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        dateTime = dateTime.AddSeconds( unixTime ?? 0 ).ToLocalTime();
+        return dateTime;
+    }
 }

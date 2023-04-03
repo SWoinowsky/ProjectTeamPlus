@@ -26,6 +26,11 @@ h4 {
     color: #ffffff !important;
 }
 
+h6 {
+    color: white;
+    text-align: center;
+}
+
 li {
     color: #ffffff !important;
 }
@@ -44,24 +49,32 @@ p {
     color: #ffffff !important;
 }
 
-.img-fluid {
+.card-img-top {
     text-align: center;
     height: 226px;
-    width: 425px;
-    border-radius: 15px;
+    border-radius: 15px 15px 0 0;
+}
+
+.threecol {
+    min-width: 25rem;
+    max-width: 25rem;
+}
+
+
+
+.show-btn {
+    border-radius: 0 0 15px 15px;
 }
 
 .userCard {
     text-align: center;
     justify-content: center;
     background: linear-gradient(to left, #222731, #2f526e, #222731);
-    height: 450px;
     margin-top: 0px;
-    margin: 0px;
-    padding: 5px;
     border-radius: 0;
-    min-width: 20rem;
-    
+    width: 100% !important;
+    height: 100%;
+    min-width: 100%;
 }
 
 body {
@@ -73,36 +86,45 @@ body {
     justify-content: center;
     background: none;
     padding: 5px;
+    border: none;
 }
+
+
 
 #recentGamesCarousel {
     width: 100%;
 }
 
 #followedGamesCarousel {
-    width: 100%;
+    width: 100% !important;
 
 }
 
 .carousel-item {
-    width: 100%;
+    width: 100% !important;
 }
 
 #toDoButton {
     outline: none;
     border: none;
-    margin-top: -15px;
+    margin-top: -5px;
+}
+
+
+.modal-content {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
 }
 
 #steamIcon {
     color: #4ba0bc;
 }
 
-#toDoButton:focus, .btn:active {
+#toDoButton:focus, .toDoButton:active, toDoButton:hover {
     outline: none;
     box-shadow: none;
     background: none;
 }
+
 .modal-lg {
     border-radius: 200px;
     width: 100%
@@ -110,11 +132,16 @@ body {
 
 
 .carousel-control-prev-icon {
-    margin-left: -225px;
-    
+    margin-left: -250px;
+    width: 40px;
+    height: 40px;
+
 }
+
 .carousel-control-next-icon {
-    margin-right: -225px;
+    margin-right: -250px;
+    width: 40px;
+    height: 40px;
 }
 
 
@@ -126,6 +153,7 @@ body {
     background-color: #222731;
     justify-content: center;
     width: 100%;
+
 }
 
 
@@ -149,4 +177,18 @@ body {
     border-radius: 50px 50px 0 0;
     width: 70%;
     position: relative;
+}
+
+footer {
+    height: 65px !important;
+    background-image: linear-gradient(180deg,#222731 0%, #000000 50%) !important;
+    display: flex;
+    align-items: flex-end;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.followModal {
+    width: 100%;
 }

@@ -6,6 +6,7 @@ using SteamProject.Models;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.ViewModels
 {
@@ -13,9 +14,12 @@ namespace SteamProject.ViewModels
     {
         public User _user {get; set;}
 
-        public List<List<Game>> recentGames { get; set; }
+        public List<List<Game>> RecentGames { get; set; }
 
-        public List<List<Game>> followedGames { get; set; }
+        public List<string[]> GamesNewsItems { get; set; }
+
+        public List<List<Game>> FollowedGames { get; set; }
+
 
         public UserDashboardVM()
         {

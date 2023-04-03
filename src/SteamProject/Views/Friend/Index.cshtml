@@ -6,8 +6,9 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css/Library.css">
+    <link rel="stylesheet" href="~/css/FriendsIndex.css">
 </head>
+
 <br><br>
 <input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
 <input type="hidden" id="FriendSteamId" name="FriendSteamId" value="@Model.Friend.SteamId">
@@ -16,9 +17,9 @@
 
 
 <div class="text-center">
-    <img src="@Model.Friend.AvatarFullUrl" >
+    <img src="@Model.Friend.AvatarFullUrl" style="border: 5px #ea7272 outset; border-radius: 25%; box-shadow: 0 8px 16px black;" >
     <h1> @Model.Friend.SteamName </h1>
-    <h3 id="friendPageStatus" style="color: white"> </h3>
+    <h3 id="friendPageStatus" style="color: black"> </h3>
     <i id="friendGameStatus"> </i>
 </div>
 
@@ -54,7 +55,7 @@
             <br>
 
             <div class="friendDiv" id="@game.AppId" value="@game.Name">
-                <div class="card friendCard" style="background-image: linear-gradient(to bottom right, rgb(26, 28, 76), rgb(59, 52, 80), rgb(26, 28, 76)); ">
+                <div class="card friendCard" style="background-image: linear-gradient(to bottom right, rgb(100,100,100), rgb(50,50,50), rgb(100,100,100)); border: none;">
                     <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.AppId)" style="height:215px;" alt="@string.Format("{0}", @game.Name)">
                     <div class="card-body">
                         <p class="card-title" style="overflow: hidden; white-space: nowrap; color: white">@game.Name</p>
@@ -81,7 +82,13 @@
                 <div class="loading-spinner" id="loading-spinner" ></div>
                 <div class="row" id="informationRow" style="height: 100%; width: 100%; display:none;">
                     <div class="col-md-4" id="gameImageCol">
-                        <img class="modal-img" id="gameImage" style="margin: auto">
+                        <div class="row" style="">
+                            <img class="modal-img" id="gameImage" style="margin: auto; padding: 0px;">
+                        </div>
+                        <br>
+                        <div class="row" style="">
+                            <button class="btn btn-secondary" id="competeBtn" style="margin: auto; width: 50%;"> Want to Compete? </button>
+                        </div>
                     </div>
                     <div class="col-md-8" style="height:100%; overflow-y: scroll; align-items: left;">
                         <div class="row" style="height:100%; overflow-y: scroll;">

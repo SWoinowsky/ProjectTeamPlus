@@ -1,13 +1,115 @@
 .friendGameCard {
-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-transition: 0.3s;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.6);
+    transition: 0.3s;
 width: 40%;
 }
 
 .friendGameCard:hover {
-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }
 
-body {
-    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+
+
+i {
+    color: black;
+}
+
+.close {
+    background: none;
+    border: none;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 1rem;
+    background-color: #000;
+    background-image: url('../assets/steam_gradient.png');
+}
+
+.modal-header {
+    border-bottom: none;
+    justify-content: flex-end;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container {
+    height: 30rem;
+}
+
+.modal-img {
+    align-self: flex-end;
+    height: 250px;
+    width: 166px;
+    border: 3px solid #4FE3BB;
+}
+
+h1, h4, h5, h6 {
+    color: black;
+    align-self: flex-start;
+}
+
+#modal-left {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.earned-label {
+    white-space: nowrap;
+    flex-wrap: wrap;
+    height: fit-content;
+}
+
+.progress {
+    background-color: #fff;
+    width: 200px;
+    height: 10px;
+    border-radius: 20px;
+}
+
+.progress-value {
+    background-color: #FF4600;
+    position: absolute;
+    height: 10px;
+    border-radius: 20px;
+}
+
+#modal-right {
+    height: 368px;
+    overflow: scroll;
+}
+
+#ach-row {
+    align-items: flex-end;
+}
+
+.ach-name {
+    color: #fff;
+    font-size: 0.69rem;
+    white-space: pre-line;
+}
+
+.ach-img {
+    height: 64px;
+    width: 64px;
+    border-radius: 10px;
+}
+
+.col-md-3 .ach-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.ach-col {
+    margin-bottom: 1rem;
+}
+
+.unearned {
+    opacity: 40%;
 }

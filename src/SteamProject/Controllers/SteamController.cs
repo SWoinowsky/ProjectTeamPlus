@@ -6,7 +6,7 @@ using System.Text.Json;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity;
-
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Controllers;
 
@@ -30,6 +30,7 @@ public class SteamController : ControllerBase
         _userGameInfoRepository = userGameInfoRepository;
     }
 
+
     [HttpGet("user")]
     public ActionResult SteamUser(string steamid)
     {
@@ -51,22 +52,21 @@ public class SteamController : ControllerBase
     }
     
     [HttpPost("hide")]
-    public ActionResult Hide(string id)
+    public ActionResult Hide(string id, string userId)
     {
         UserGameInfo game = new UserGameInfo();
-        game = game.GetGameById(Int32.Parse(id), _userGameInfoRepository);
-        game.Hidden = true;
+        game = game.GetGameByIdAndUser(Int32.Parse(id), _userGameInfoRepository, Int32.Parse(userId));
+        game.SetHiddenStatusTrue();
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
     }
 
     [HttpPost("unhide")]
-    public ActionResult Unhide(string id)
+    public ActionResult Unhide(string id, string userId)
     {
-        // Need to put this into model to get game for ID instead of having this line in here so it can be tested.
-        //var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).ToList()[0];
-        var game = _userGameInfoRepository.GetAll(g => g.Game.AppId == Int32.Parse(id)).FirstOrDefault();
-        game.Hidden = false;
+        UserGameInfo game = new UserGameInfo();
+        game = game.GetGameByIdAndUser(Int32.Parse(id), _userGameInfoRepository, Int32.Parse(userId));
+        game.SetHiddenStatusFalse();
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
     }
@@ -91,9 +91,26 @@ public class SteamController : ControllerBase
         }
         else
         {
-            game.Followed = false;
+            return Ok();
         }
         
+        _userGameInfoRepository.AddOrUpdate(game);
+        return Ok();
+    }
+
+    [HttpPost("unfollow")]
+    public ActionResult UnFollow(string id)
+    {
+        //Try parse instead of Int32
+        var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
+        if (game.Followed != true)
+        {
+            return Ok();
+        }
+        else
+        {
+            game.Followed = false;
+        }
         _userGameInfoRepository.AddOrUpdate(game);
         return Ok();
     }

@@ -24,7 +24,7 @@ public partial class Friend
 
     public string? GameExtraInfo { get; set; }
 
-    public string? GameId { get; set; }
+    public int? GameId { get; set; }
 
     public virtual User Root { get; set; } = null!;
 

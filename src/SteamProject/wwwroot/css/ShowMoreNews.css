@@ -1,0 +1,40 @@
+
+.card-title, .card-text {
+    color: #fff;
+}
+
+h3 {
+    color: #87cefa !important;
+}
+
+h6 {
+    color: white !important;
+}
+
+
+body {
+    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+}
+
+p {
+    color: #fff;
+}
+
+footer {
+    background-image: linear-gradient(180deg,#222731 0%, #000000 50%) !important;
+    height: 70px !important;
+}
+
+hr {
+    border-top: 100px;
+    border: 2px solid #87cefa;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+#gameImage {
+    border-radius: 15px;
+}
+

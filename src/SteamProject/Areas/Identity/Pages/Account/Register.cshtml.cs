@@ -144,7 +144,7 @@ namespace SteamProject.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "", $"{HtmlEncoder.Default.Encode(callbackUrl)}");
+                    await _emailSender.SendEmailAsync(Input.Email, "Email Confirmation", $"{HtmlEncoder.Default.Encode(callbackUrl)}");
 
                     _userManager.Options.SignIn.RequireConfirmedAccount = true;
 

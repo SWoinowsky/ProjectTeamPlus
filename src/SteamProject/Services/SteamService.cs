@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SteamProject.Models;
 using SteamProject.Models.DTO;
+using SteamProject.Helpers;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using SteamProject.ViewModels;
@@ -17,6 +18,7 @@ public class SteamService : ISteamService
     {
         Token = token;
     }
+
 
     public string GetJsonStringFromEndpoint(string uri)
     {
@@ -67,6 +69,7 @@ public class SteamService : ISteamService
         string friendsListUri = $"https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key={Token}&steamid={steamid}";
         string? jsonResponse = GetJsonStringFromEndpoint( friendsListUri );
 
+        
         var friendPocoList = JsonSerializer.Deserialize<FriendsListPOCO>(jsonResponse).friendslist.friends;
 
         var idList = new List<string>();
@@ -162,6 +165,32 @@ public class SteamService : ISteamService
         }
         return gameVM;
     }
+
+    
+
+    public GameNewsVM GetGameNews(Game game, int count = 10)
+    {
+        var gameVM = new GameNewsVM();
+        string source = string.Format("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={0}&count={1}&l=en", game.AppId, count);
+        string jsonResponse = GetJsonStringFromEndpoint(source);
+
+        if (jsonResponse != null)
+        {
+            var newsPoco = JsonSerializer.Deserialize<GameNewsPoco>(jsonResponse);
+
+            for (var i = 0; i < newsPoco.appnews.newsitems.Count; i++)
+            {
+                var newsItem = newsPoco.appnews.newsitems[i];
+
+                newsPoco.appnews.newsitems[i].contents = HelperMethods.StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
+                newsPoco.appnews.newsitems[i].dateTime = HelperMethods.UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
+
+            }
+            gameVM._poco = newsPoco;
+        }
+        return gameVM;
+    }
+
 
     public AchievementRoot GetAchievements(string userSteamId, int appId)
     {

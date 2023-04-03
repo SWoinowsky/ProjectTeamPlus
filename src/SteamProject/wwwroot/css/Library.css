@@ -16,7 +16,12 @@ body {
     background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
 }
 
-.hide-btn {
+footer {
+    background-image: linear-gradient(180deg,#222731 0%, #000000 60%) !important;
+    height: 65px !important;
+}
+
+.hide-btn, .unhide-btn {
     top: 5px;
     right: 5px;
 }
@@ -40,7 +45,7 @@ body {
     transition: all 1s ease;
 }
 
-.hide-btn, .follow-btn, .show-btn {
+.hide-btn, .follow-btn, .show-btn, .unhide-btn {
     transition: all 1s ease;
     position: absolute;
     opacity: 0%;
@@ -57,11 +62,11 @@ body {
 }
 
 .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
-.gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn {
+.gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn, .gameContainer:hover > .unhide-btn  {
     opacity: 35%;
 }
 
-.hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover {
+.hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover, .unhide-btn:hover {
     opacity: 1 !important;
     border-radius: 25%;
 }
@@ -103,6 +108,10 @@ body {
 h1, h4, h5, h6 {
     color: #fff;
     align-self: flex-start;
+}
+
+p, ul, li {
+    color: white;
 }
 
 #modal-left {
@@ -173,3 +182,4 @@ h1, h4, h5, h6 {
     background-color: #fff;
     padding-left: 1rem;
 }
+

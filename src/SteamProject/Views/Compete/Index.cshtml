@@ -1,0 +1,32 @@
+@model SteamProject.ViewModels.CompeteIndexVM
+@{
+    ViewData["Title"] = "Game Library";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Compete.css">
+</head>
+
+
+<div style="align-items: center; padding-left: 2.5%;">
+    <h1 style="padding-top: 5%;"> YOUR COMPETITIONS: </h1>
+
+    <div class="row" style="padding-top: 5%;">
+        @foreach( var competition in Model.Competitions )
+        {
+            <div class="col-md-4">
+                <div class="competitionDiv">
+                    <div class="card competitionCard">
+                        <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @competition.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @competition.Game.Name)">
+                        <div class="card-body">
+                            <p class="card-title" style="overflow: hidden; white-space: nowrap; color: Black"> @competition.Game.Name </p>
+                            <p> Start: @competition.StartDate </p>
+                            <p> End: @competition.EndDate </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

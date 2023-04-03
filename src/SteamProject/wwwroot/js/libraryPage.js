@@ -1,26 +1,27 @@
-function setHiddenGame(name)
+function setHiddenGame(name, userId)
 {
     var gameName = document.getElementById(name);
-    var gameId = gameName.getAttribute('value');
+    var gameId = gameName.getAttribute('name');
     console.log("Hid " + name);
     $.ajax({
         type: "POST",
         dataType: "text",
-        url: `/api/Steam/hide?id=${gameId}`,
+        url: `/api/Steam/hide?id=${gameId}&userId=${userId}`,
         success: hideGame(gameName),
         error: errorOnAjax
     })
 }
 
-function setUnhideGame(name)
+function setUnhideGame(name, userId)
 {
+    console.log(userId);
     var gameName = document.getElementById(name);
     var gameId = gameName.getAttribute('value');
     console.log("Unhid " + name);
     $.ajax({
         type: "POST",
         dataType: "text",
-        url: `/api/Steam/unhide?id=${gameId}`,
+        url: `/api/Steam/unhide?id=${gameId}&userId=${userId}`,
         success: hideGame(gameName),
         error: errorOnAjax
     })

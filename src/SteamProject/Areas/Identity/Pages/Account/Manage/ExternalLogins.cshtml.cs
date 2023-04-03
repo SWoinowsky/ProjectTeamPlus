@@ -218,7 +218,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                                 throw;
                             }
 
-                            return Redirect("/Identity/Account/Manage");
+                            return Redirect("/Library/Index");
                         }
                     }
                 }

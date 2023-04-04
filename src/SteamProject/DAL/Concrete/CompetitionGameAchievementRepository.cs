@@ -12,14 +12,4 @@ public class CompetitionGameAchievementRepository : Repository<CompetitionGameAc
 
     }
 
-    public List<CompetitionGameAchievement> GetByCompetitionId( int id )
-    {
-        var returnMe = new List<CompetitionGameAchievement>();
-        returnMe = GetAll().Where( cga => cga.CompetitionId == id ).ToList<CompetitionGameAchievement>();
-
-        if( returnMe.Count() == 0 )
-            return null;
-        else
-            return returnMe;
-    }
 }

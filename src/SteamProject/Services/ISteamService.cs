@@ -7,7 +7,6 @@ namespace SteamProject.Services;
 public interface ISteamService
 {
     User GetSteamUser(string steamid);
-    public List<User> GetManyUsers( List<string> steamIds );
     int GetUserLevel(string steamid);
     List<Friend> GetFriendsList(string steamid, int userId);
     public Friend GetFriendSpecific( string userSteamId, int userId, string friendSteamId );

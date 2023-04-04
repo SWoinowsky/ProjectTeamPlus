@@ -19,6 +19,8 @@ public class CompeteDetailsVM
     public Game Game { get; set; } = null;
     public List<CompetitionPlayer> CompPlayers { get; set; } = null;
     public List<User> Players { get; set; } = null;
+    public List<CompetitionGameAchievement> CompGameAchList { get; set; } = null;
+    public List<GameAchievement> GameAchList { get; set; } = null;
 }
 
 

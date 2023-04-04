@@ -5,6 +5,8 @@ using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using SteamProject.Models;
 
+namespace NUnit_Tests.RepoTesting.CompetitionTests;
+
 public class CompetitionGameAchievementRepositoryTests
 {
     private Mock<SteamInfoDbContext> _mockContext;

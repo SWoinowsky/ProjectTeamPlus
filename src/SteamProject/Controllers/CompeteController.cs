@@ -108,13 +108,25 @@ public class CompeteController : Controller
 
 
             var compAchievements = new List<CompetitionGameAchievement>();
-            // compAchievements = 
+            compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
 
+            
+            var gameAchievements = new List<GameAchievement>();
+            foreach( var ach in compAchievements )
+            {
+                var achievementFound = new GameAchievement();
+                achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
+
+                if( achievementFound != null )
+                    gameAchievements.Add( achievementFound );
+            }
             
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
+            viewModel.CompGameAchList = compAchievements;
+            viewModel.GameAchList = gameAchievements;
         }
 
         return View( viewModel );

@@ -43,7 +43,6 @@ public class HomeController : Controller
     [Authorize]
     public async Task<IActionResult> Dashboard()
     {
-
         string? id = _userManager.GetUserId(User);
 
         if (id is null)
@@ -70,127 +69,26 @@ public class HomeController : Controller
                 HashSet<Game> followedGames =
                     _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
 
-
-
-
-                //Call steam service here to get game news and add it to viewmodel for 12 most recently played games
-                if (games.Any())
+                // Add games and followed games to the dashboardVm
+                for (var i = 0; i < games.Count; i += 3)
                 {
-                    List<Task<string[]>> asyncTasksResults = new List<Task<string[]>>();
-
-                    List<Task<string>> asyncTasksRecent = new List<Task<string>>();
-                    List<Task<string>> asyncTasksFollowed = new List<Task<string>>();
-
-
-                    //Recent Games
-                    for (var i = 0; i < games.Count; i += 3)
-                    {
-                        List<Game> threeGames = games.Skip(i).Take(3).ToList();
-                        dashboardVm.RecentGames.Add(threeGames);
-
-                        for (int j = 0; j < threeGames.Count; j++)
-                        {
-                            var currentGame = _steamService.GetGameNews(threeGames[j], 1);
-
-                            if (currentGame._poco.appnews.newsitems.Any())
-                            {
-                                try
-                                {
-                                    Task<string> sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco
-                                        .appnews
-                                        .newsitems.SingleOrDefault().contents);
-
-                                    asyncTasksRecent.Add(sumTask);
-                                }
-                                catch (NullReferenceException)
-                                {
-                                    Task<string> sumTask =
-                                        _openAiApiService.SummarizeTextAsync(
-                                            "There was no valid news found");
-
-                                    asyncTasksRecent.Add(sumTask);
-                                }
-
-                            }
-                            else
-                            {
-                                Task<string> sumTask =
-                                    _openAiApiService.SummarizeTextAsync(
-                                        "There was no recent news found");
-
-                                asyncTasksRecent.Add(sumTask);
-                            }
-
-
-
-                        }
-
-                    }
-
-                    //Followed Games
-                    for (var i = 0; i < followedGames.Count; i += 3)
-                    {
-                        List<Game> threeGames = followedGames.Skip(i).Take(3).ToList();
-
-                        dashboardVm.FollowedGames.Add(threeGames);
-
-                        for (int j = 0; j < threeGames.Count; j++)
-                        {
-                            GameNewsVM currentGame = _steamService.GetGameNews(threeGames[j], 1);
-
-                            if (currentGame._poco.appnews.newsitems.Any())
-                            {
-                                try
-                                {
-                                    Task<string> sumTask = _openAiApiService.SummarizeTextAsync(currentGame._poco
-                                        .appnews
-                                        .newsitems.SingleOrDefault().contents);
-
-                                    asyncTasksFollowed.Add(sumTask);
-                                }
-                                catch (NullReferenceException)
-                                {
-                                    Task<string> sumTask =
-                                        _openAiApiService.SummarizeTextAsync(
-                                            "There was no recent valid news found for this article");
-
-                                    asyncTasksFollowed.Add(sumTask);
-                                }
-
-                            }
-                            else
-                            {
-                                Task<string> sumTask =
-                                    _openAiApiService.SummarizeTextAsync(
-                                        "There was no recent valid news found for this article");
-
-                                asyncTasksFollowed.Add(sumTask);
-
-
-                            }
-                        }
-
-                    }
-
-
-                    //Error Handling method to timeout tasks that are taking to long
-                    Task<string[]> finishedRecentTasks = TaskHelperMethods.HandleFailedTasks(asyncTasksRecent);
-                    Task<string[]> finishedFollowedTasks = TaskHelperMethods.HandleFailedTasks(asyncTasksFollowed);
-
-
-                    asyncTasksResults.Add(finishedRecentTasks);
-                    asyncTasksResults.Add(finishedFollowedTasks);
-
-                    dashboardVm.GamesNewsItems = Task.WhenAll(asyncTasksResults).Result.ToList();
-
-                    return View(dashboardVm);
-                    
+                    List<Game> threeGames = games.Skip(i).Take(3).ToList();
+                    dashboardVm.RecentGames.Add(threeGames);
                 }
+
+                for (var i = 0; i < followedGames.Count; i += 3)
+                {
+                    List<Game> threeGames = followedGames.Skip(i).Take(3).ToList();
+                    dashboardVm.FollowedGames.Add(threeGames);
+                }
+
+                return View(dashboardVm);
             }
 
             return View();
         }
     }
+
 
     public IActionResult ShowMoreNews(int appId)
     {

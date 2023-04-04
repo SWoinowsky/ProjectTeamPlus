@@ -25,10 +25,10 @@ else
             <div>
                 Players in competition:
                 <ul>
-                    @foreach( var player in Model.CompPlayers )
+                    @foreach( var player in Model.Players )
                     {
                         <li>
-                            @player.SteamId
+                            @player.SteamName
                         </li>
                     }
                 </ul>

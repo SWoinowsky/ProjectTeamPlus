@@ -18,6 +18,7 @@ public class CompeteDetailsVM
     public Competition CurrentComp { get; set; } = null;
     public Game Game { get; set; } = null;
     public List<CompetitionPlayer> CompPlayers { get; set; } = null;
+    public List<User> Players { get; set; } = null;
 }
 
 

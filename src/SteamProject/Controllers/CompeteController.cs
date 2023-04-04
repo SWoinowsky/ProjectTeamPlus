@@ -96,9 +96,19 @@ public class CompeteController : Controller
             compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
 
             
+            var idList = new List<string>();
+            foreach( var cPlayer in compPlayersList )
+            {
+                idList.Add( cPlayer.SteamId );
+            }
+            var userList = new List<User>();
+            userList = _steamService.GetManyUsers( idList );
+
+            
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
+            viewModel.Players = userList;
         }
 
         return View( viewModel );

@@ -11,17 +11,6 @@ public class CompetitionPlayerRepository : Repository<CompetitionPlayer>,  IComp
     {
     }
 
-    public List<CompetitionPlayer> GetAllForCompetition(int id)
-    {
-        var returnMe = new List<CompetitionPlayer>();
-        returnMe = GetAll().Where( p => p.CompetitionId == id ).ToList<CompetitionPlayer>();
-
-        if( returnMe.Count() == 0 )
-            return null;
-        else
-            return returnMe;
-    }
-
     public List<CompetitionPlayer> GetCompetitionIdsBySteamId( string id )
     {
         var returnMe = GetAll().Where( c => c.SteamId == id ).ToList<CompetitionPlayer>();

@@ -92,10 +92,12 @@ public class CompeteController : Controller
             var gameAssociated = new Game();
             gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
 
+
             var compPlayersList = new List<CompetitionPlayer>();
             compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
 
-            
+
+            // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
             var idList = new List<string>();
             foreach( var cPlayer in compPlayersList )
             {
@@ -103,6 +105,10 @@ public class CompeteController : Controller
             }
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
+
+
+            var compAchievements = new List<CompetitionGameAchievement>();
+            // compAchievements = 
 
             
             viewModel.CurrentComp = competitionIn;

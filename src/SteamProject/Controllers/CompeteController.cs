@@ -93,10 +93,12 @@ public class CompeteController : Controller
             gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
 
             var compPlayersList = new List<CompetitionPlayer>();
-            
-            competitionIn.Game = gameAssociated;
+            compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
 
+            
             viewModel.CurrentComp = competitionIn;
+            viewModel.Game = gameAssociated;
+            viewModel.CompPlayers = compPlayersList;
         }
 
         return View( viewModel );

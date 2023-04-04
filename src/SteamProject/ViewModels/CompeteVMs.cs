@@ -1,5 +1,6 @@
 
 using SteamProject.Models;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.ViewModels;
 
@@ -15,6 +16,8 @@ public class CompeteIndexVM
 public class CompeteDetailsVM
 {
     public Competition CurrentComp { get; set; } = null;
+    public Game Game { get; set; } = null;
+    public List<CompetitionPlayer> CompPlayers { get; set; } = null;
 }
 
 

@@ -24,14 +24,19 @@ else
             <br>
             <div>
                 Players in competition:
-                <ul>
-                    @foreach( var player in Model.Players )
-                    {
-                        <li>
-                            @player.SteamName
-                        </li>
-                    }
-                </ul>
+                <div class="row" style="align-content: center;">
+                    <div class="col-sm-12" style="margin: auto; width: auto;">
+                        @foreach( var player in Model.Players )
+                        {
+                            <div class="card">
+                                <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                <div class="card-body">
+                                    <i> @player.SteamName </i>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
 

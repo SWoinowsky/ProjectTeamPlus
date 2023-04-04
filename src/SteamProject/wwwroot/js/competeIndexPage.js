@@ -4,14 +4,16 @@ $( function () {
 });
 
 function provideAllCardsWithLink() {
-    var cardList = document.getElementsByClassName("competitionDiv");
+    var cards = document.getElementsByClassName("competitionDiv");
 
-    for( card of cardList )
+    for( card of cards )
     {
-        var id = card.id;
-
-        card.onclick = function() {
-            location.href = `/compete/Details/${id}`;
+        card.onclick = function () {
+            location.href = `/compete/Details/${this.id}`;
         }
     }
+
+    cardList = document.getElementsByClassName("competitionDiv");
+
+    console.log( cardList );
 }

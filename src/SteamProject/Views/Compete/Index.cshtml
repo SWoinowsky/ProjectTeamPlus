@@ -15,7 +15,7 @@
         @foreach( var competition in Model.Competitions )
         {
             <div class="col-md-4 competitionCol" >
-                <div class="competitionDiv" id="@competition.Id">
+                <div class="competitionDiv" id=@competition.Id >
                     <div class="card competitionCard" >
                         <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @competition.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @competition.Game.Name)">
                         <div class="card-body">

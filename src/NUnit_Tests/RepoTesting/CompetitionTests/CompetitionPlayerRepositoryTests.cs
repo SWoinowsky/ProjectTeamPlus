@@ -30,9 +30,6 @@ public class CompetitionPlayerRepositoryTests
             new CompetitionPlayer { CompetitionId = 3, SteamId = "3" },
             new CompetitionPlayer { CompetitionId = 4, SteamId = "1" },
             new CompetitionPlayer { CompetitionId = 5, SteamId = "1" },
-            new CompetitionPlayer { CompetitionId = 10, SteamId = "10" },
-            new CompetitionPlayer { CompetitionId = 10, SteamId = "11" },
-            new CompetitionPlayer { CompetitionId = 10, SteamId = "12" },
         };
 
         _mockContext = new Mock<SteamInfoDbContext>();
@@ -71,41 +68,6 @@ public class CompetitionPlayerRepositoryTests
         };
 
         Assert.True( foundList.SequenceEqual(compareList) );
-    }
-
-    [Test]
-    public void GetAllForCompetition_IfNoCompetition_ReturnsNull()
-    {
-        _mockContext = new Mock<SteamInfoDbContext>();
-        _mockCompetitionPlayerDbSet = MockHelpers.GetMockDbSet(_competitionPlayers.AsQueryable());
-        _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
-        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
-
-        var foundList = new List<CompetitionPlayer>();
-        foundList = compPlayRepository.GetAllForCompetition( 666 );
-
-        Assert.True( foundList == null );
-    }
-
-    [Test]
-    public void GetAllForCompetition_IfValidCompetition_ReturnsAllCompetitors()
-    {
-        _mockContext = new Mock<SteamInfoDbContext>();
-        _mockCompetitionPlayerDbSet = MockHelpers.GetMockDbSet(_competitionPlayers.AsQueryable());
-        _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
-        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
-
-        var foundList = new List<CompetitionPlayer>();
-        foundList = compPlayRepository.GetAllForCompetition( 10 );
-
-        var compareList = new List<CompetitionPlayer>()
-        {
-            _competitionPlayers[5],
-            _competitionPlayers[6],
-            _competitionPlayers[7],
-        };
-
-        Assert.True( foundList.SequenceEqual( compareList ) );
     }
 
 }

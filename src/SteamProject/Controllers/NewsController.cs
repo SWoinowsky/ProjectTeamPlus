@@ -15,24 +15,27 @@ using SteamProject.ViewModels;
 public class NewsController : Controller
 {
 
-    private readonly ILogger<NewsController> _logger;
+
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly IGameRepository _gameRepository;
     private readonly ISteamService _steamService;
-    private readonly IUserGameInfoRepository _userGameInfoRepository;
     private readonly IOpenAiApiService _openAiApiService;
 
-    public NewsController(ILogger<NewsController> logger, UserManager<IdentityUser> userManager,
-        IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository,
-        ISteamService steamService, IOpenAiApiService openAiApiService)
+    public NewsController
+    (
+        UserManager<IdentityUser> userManager,
+        IUserRepository userRepository, 
+        IGameRepository gameRepository,
+        ISteamService steamService, 
+        IOpenAiApiService openAiApiService
+
+    )
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _gameRepository = gameRepository;
         _steamService = steamService;
-        _userGameInfoRepository = userGameInfoRepository;
-        _logger = logger;
         _openAiApiService = openAiApiService;
     }
 
@@ -83,6 +86,7 @@ public class NewsController : Controller
         }
         return BadRequest(new { success = false, message = "Unable to retrieve game news" });
     }
+
 
 }
 

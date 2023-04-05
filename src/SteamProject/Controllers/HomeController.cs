@@ -14,16 +14,14 @@ namespace SteamProject.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly IGameRepository _gameRepository;
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
     private readonly IFriendRepository _friendRepository;
-    private readonly IOpenAiApiService _openAiApiService;
 
-    public HomeController(ILogger<HomeController> logger,UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IOpenAiApiService openAiApiService, IFriendRepository friendRepository)
+    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -31,8 +29,6 @@ public class HomeController : Controller
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
         _friendRepository = friendRepository;
-        _logger = logger;
-        _openAiApiService = openAiApiService;
     }
 
     public IActionResult Index()
@@ -127,6 +123,7 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
     public IActionResult Friends()
     {
         string? id = _userManager.GetUserId(User);

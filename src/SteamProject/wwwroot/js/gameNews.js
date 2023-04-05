@@ -18,19 +18,18 @@ function typeWriter(element, text, i, callback) {
 }
 
 // Function to update the game news element with the fetched news
-function updateGameNews(appId, summarizedNews, gameType, isTypingEnabled) {
+function updateGameNews(appId, summarizedNews, gameType, isFromAPI = false) {
     const gameElement = document.querySelector(`.card .card-body .${gameType}-game-news[data-gameid="${appId}"]`);
 
     // Save the fetched news in local storage
     localStorage.setItem(`gameNews-${appId}`, summarizedNews);
 
-    // Update the news elements with the fetched news using the typing animation
-    if (isTypingEnabled) {
-        if (gameElement) {
-            typeWriter(gameElement, summarizedNews, 0);
-        }
-    }
-    else {
+    // Update the news elements with the fetched news
+    // If the news is fetched from the API, use the typing animation
+    if (isFromAPI) {
+        typeWriter(gameElement, summarizedNews, 0);
+    } else {
+        // If the news is from local storage, simply display the text
         gameElement.innerHTML = summarizedNews;
     }
 }
@@ -40,17 +39,17 @@ function getGameNews(appId, gameType) {
     const storedNews = localStorage.getItem(`gameNews-${appId}`);
     const storedNewsTimestamp = localStorage.getItem(`gameNewsTimestamp-${appId}`);
     const now = new Date().getTime();
-    const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
+    const expirationTime = 60*60*1000; // adjust time to refresh api in ms, currently 1 hour
 
     // Check if the stored news is expired or not
     const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
 
     // If the news is stored and not expired, use it, otherwise fetch from the API
     if (storedNews && !isExpired) {
-        updateGameNews(appId, storedNews, gameType, false);
+        updateGameNews(appId, storedNews, gameType);
     } else {
         $.ajax({
-            url: "https://localhost:7123/api/News/GetGameNews",
+            url: "/api/News/GetGameNews",
             data: { appId: appId },
             success: function (response) {
                 console.log(response); // Check the received data
@@ -63,12 +62,12 @@ function getGameNews(appId, gameType) {
                 localStorage.setItem(`gameNewsTimestamp-${appId}`, now);
 
                 // Update the news elements with the fetched news
+                // Pass isFromAPI as true to enable the typing animation
                 updateGameNews(appId, summarizedNews, gameType, true);
             }
         });
     }
 }
-
 
 // Add event listener for DOMContentLoaded event to ensure the DOM is ready
 document.addEventListener("DOMContentLoaded", function () {

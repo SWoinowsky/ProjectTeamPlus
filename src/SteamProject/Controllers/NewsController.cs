@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
-using SteamProject.Helpers;
 using SteamProject.Models;
 using SteamProject.Services;
 using SteamProject.ViewModels;
 
-
+namespace SteamProject.Controllers;
 
 [Authorize]
 [ApiController]
@@ -89,4 +88,3 @@ public class NewsController : Controller
 
 
 }
-

@@ -66,7 +66,7 @@ else
                     <div class="modal-body">
                         <div class="container-fluid" id="informationRow">
                             @{
-                                if(Model.FollowedGames.Count() == 0)
+                                if(!Model.FollowedGames.Any())
                                 {
                                     <p>
                                         You have no followed games!<br>

@@ -209,10 +209,21 @@ public class SteamService : ISteamService
             {
                 var newsItem = newsPoco.appnews.newsitems[i];
 
-                newsPoco.appnews.newsitems[i].contents = HelperMethods.StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
-                newsPoco.appnews.newsitems[i].dateTime = HelperMethods.UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
+                if (newsPoco.appnews.newsitems[i].feedlabel.ToUpper() == "SteamDb".ToUpper())
+                {
+                    newsPoco.appnews.newsitems.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+
+                    newsPoco.appnews.newsitems[i].contents = HelperMethods.StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
+                    newsPoco.appnews.newsitems[i].dateTime = HelperMethods.UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
+
+                }
 
             }
+            
             gameVM._poco = newsPoco;
         }
         return gameVM;

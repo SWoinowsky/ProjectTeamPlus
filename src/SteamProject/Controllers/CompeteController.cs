@@ -78,6 +78,60 @@ public class CompeteController : Controller
         return View( viewModel );
     }
 
+    [Authorize]
+    [HttpGet]
+    public IActionResult Details( int compId )
+    {
+        var viewModel = new CompeteDetailsVM();
+        var competitionIn = new Competition();
+
+        competitionIn = _competitionRepository.GetCompetitionById( compId );
+
+        if( competitionIn != null )
+        {
+            var gameAssociated = new Game();
+            gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
+
+
+            var compPlayersList = new List<CompetitionPlayer>();
+            compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
+
+
+            // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
+            var idList = new List<string>();
+            foreach( var cPlayer in compPlayersList )
+            {
+                idList.Add( cPlayer.SteamId );
+            }
+            var userList = new List<User>();
+            userList = _steamService.GetManyUsers( idList );
+
+
+            var compAchievements = new List<CompetitionGameAchievement>();
+            compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
+
+            
+            var gameAchievements = new List<GameAchievement>();
+            foreach( var ach in compAchievements )
+            {
+                var achievementFound = new GameAchievement();
+                achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
+
+                if( achievementFound != null )
+                    gameAchievements.Add( achievementFound );
+            }
+            
+            viewModel.CurrentComp = competitionIn;
+            viewModel.Game = gameAssociated;
+            viewModel.CompPlayers = compPlayersList;
+            viewModel.Players = userList;
+            viewModel.CompGameAchList = compAchievements;
+            viewModel.GameAchList = gameAchievements;
+        }
+
+        return View( viewModel );
+    }
+
 
     [Authorize]
     [HttpGet]

@@ -1,0 +1,75 @@
+@model SteamProject.ViewModels.CompeteDetailsVM
+@{
+    ViewData["Title"] = "Game Library";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Compete.css">
+</head>
+
+
+@if( Model is null )
+{
+    <p> Failed to pull information from the database. If you're positive the selected competition exists, please try again momentarily. </p>
+}
+else 
+{
+    <div class="row" style="width: 100%; padding-top: 5%;">
+        <div class="col-sm-6" style="width: 50%;">
+            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model.CurrentComp.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)">
+
+            <br>
+            <div>
+                Competing for these acheivements:
+
+                <div class="row" style="align-items: center; padding-bottom: 3%;">
+                    @foreach ( var achievement in Model.GameAchList )
+                    {
+                        <div class="col-md-2" style="width: 160px; margin: auto;">
+
+                            <br>
+
+                            <div class="achievementDiv">
+                                <div class="card achievementCard" style="word-wrap: normal; background-image: linear-gradient(to bottom right, rgb(0,0,0), rgb(75,75,75), rgb(0,0,0));">
+                                    <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 100%; height: 100%;">
+                                    <div class="card-body">
+                                        <p class="card-title" style="color: white;"> @achievement.DisplayName </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" style="width: 50%;">
+            <h1 style=""> Competition in @Model.CurrentComp.Game.Name </h1>
+            <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
+
+            <br>
+            <div>
+                <i> Competitors: </i>
+                
+                <div class="row" style="align-content: center; padding-top: 3%;">
+                    @foreach( var player in Model.Players )
+                    {
+                        <div class="col-sm-2" style="margin: auto; width: auto;">
+                            <div class="card" style="background-image: linear-gradient(to bottom right, rgb(0,0,0), rgb(75,75,75), rgb(0,0,0));">
+                                <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                <div class="card-body">
+                                    <i class="card-title" style="color: white;"> @player.SteamName </i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    
+}
+
+

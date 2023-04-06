@@ -2,7 +2,6 @@ using SteamProject.Models;
 using SteamProject.ViewModels;
 using System.Text.Json;
 using SteamProject.Models.DTO;
-using NUnit_Tests.RepoTesting;
 
 namespace NUnit_Tests.ModelTesting
 {

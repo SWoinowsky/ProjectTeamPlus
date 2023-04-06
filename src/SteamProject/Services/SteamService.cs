@@ -54,6 +54,33 @@ public class SteamService : ISteamService
         return returnMe;
     }
 
+    public List<User> GetManyUsers( List<string> steamIds )
+    {
+        string uri = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={Token}&steamids=";
+
+        foreach( string id in steamIds )
+        {
+            uri += id;
+            uri += ",";
+        }
+
+        string? jsonResponse = GetJsonStringFromEndpoint( uri );
+
+        var poco = JsonSerializer.Deserialize<SteamUserPOCO>(jsonResponse);
+
+        var userList = new List<User>();
+        foreach( var id in steamIds )
+        {
+            var userOut = new User();
+            userOut.TakeSteamPOCO( poco );
+            userList.Add(userOut);
+
+            poco.response.players.RemoveAt( 0 );
+        }
+
+        return userList;
+    }
+
     public int GetUserLevel(string steamid)
     {
         string uri = $"https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key={Token}&steamid={steamid}";
@@ -182,10 +209,21 @@ public class SteamService : ISteamService
             {
                 var newsItem = newsPoco.appnews.newsitems[i];
 
-                newsPoco.appnews.newsitems[i].contents = HelperMethods.StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
-                newsPoco.appnews.newsitems[i].dateTime = HelperMethods.UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
+                if (newsPoco.appnews.newsitems[i].feedlabel.ToUpper() == "SteamDb".ToUpper())
+                {
+                    newsPoco.appnews.newsitems.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+
+                    newsPoco.appnews.newsitems[i].contents = HelperMethods.StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
+                    newsPoco.appnews.newsitems[i].dateTime = HelperMethods.UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
+
+                }
 
             }
+            
             gameVM._poco = newsPoco;
         }
         return gameVM;
@@ -216,4 +254,6 @@ public class SteamService : ISteamService
             SchemaRoot deserialized = JsonSerializer.Deserialize<SchemaRoot>(response)!;
             return deserialized;
         }
+
+    
 }

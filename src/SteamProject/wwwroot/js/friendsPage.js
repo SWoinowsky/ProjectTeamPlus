@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const games = document.querySelectorAll('.friend-game')
     const search = document.querySelector('#search-input')
     const wrapper = document.querySelector('.wrapper')
+
+    const invBtn = document.querySelector('#send-inv')
+    const emailInput = document.querySelector('#email-input')
+    const phoneInput = document.querySelector('#phone-input')
+
     search.addEventListener('input', () => {
         wrapper.innerHTML = ""
         friendCards.forEach((card) => {
@@ -23,6 +28,34 @@ document.addEventListener('DOMContentLoaded', () => {
     friendCards.forEach((card) => {
         card.style.backgroundImage = generateGradient()
     })
+
+    const valid = (e) => {
+        const exp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        return exp.test(e);
+    }
+
+
+
+    invBtn.addEventListener('click', () => {
+        let e = emailInput.value
+        if (valid(e)) {
+            fetch(`/api/Steam/sendInvite?email=${e}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'text/html; charset=utf-8'
+                },
+            })
+            .then(response => {
+                if (response.status == 200) {
+                    console.log('received 200')
+                }
+            })
+        } else {
+            
+        }
+    })
+
     const fetchStatus = (steamId, userId) => {
         fetch(`/api/Steam/friends?steamid=${steamId}&UserId=${userId}`)
         .then((response) => response.json())

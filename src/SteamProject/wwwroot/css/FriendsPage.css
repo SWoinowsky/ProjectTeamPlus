@@ -70,3 +70,40 @@
     font-size: 1.8rem;
     color: #fff;
 }
+
+.search-and-invite {
+    display: flex;
+    flex-flow: nowrap row;
+    align-items: center;
+}
+
+#inv-friend-i {
+    /* margin-top: 1.6rem; */
+    margin-left: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.close {
+    background: none;
+    border: none;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    background-image: none;
+    border: none;
+}
+
+#email-input {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    width: 320px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+}
+
+#phone-input {
+    margin-left: 10px;
+    width: 150px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+}

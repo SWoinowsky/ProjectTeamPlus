@@ -40,6 +40,13 @@ namespace SteamProject.Services
                 msg.SetClickTracking(false, false);
                 return client.SendEmailAsync(msg);
             }
+            else if (subject == "Invitation")
+            {
+                msg.AddTo(new EmailAddress(email));
+                msg.TemplateId = "d-7ae7328f98e4461ab61812fde2fcff57";                 
+                msg.SetClickTracking(false, false);
+                return client.SendEmailAsync(msg);
+            }
             else
             {
                 msg.AddTo(new EmailAddress(email));

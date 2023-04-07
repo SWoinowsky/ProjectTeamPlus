@@ -96,6 +96,11 @@ CREATE TABLE [CompetitionGameAchievement]
 	[GameAchievementId]	INT				NOT NULL
 );
 
+CREATE TABLE [BlackList]
+(
+	[SteamId]			NVARCHAR(50)
+)
+
 
 
 ALTER TABLE [Friend]			ADD CONSTRAINT [Friend_Fk_User]					FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;

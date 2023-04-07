@@ -40,7 +40,7 @@ namespace SteamProject.Services
             {
                 Messages = new List<ChatMessage>
                 {
-                    ChatMessage.FromSystem("You are a helpful assistant meant to summarize patch notes and video game news in however many sentences you need, if for some reason the news doesn't make any sense or there is no news for this specific game, explain so and do something creative to impress a user"),
+                    ChatMessage.FromSystem("You are a helpful assistant meant to summarize inputs from the user coming off of steam news api in however many sentences you need, If you see patch notes try to list it out in a neat table and as graphically as you can, Use as many emojis as you possible can and be expressive"),
                     ChatMessage.FromUser(text),
                 },
                 Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo

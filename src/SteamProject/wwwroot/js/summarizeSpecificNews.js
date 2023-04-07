@@ -88,11 +88,18 @@ function summarizeSpecificNews(appId, newsIndex) {
                         // Store the fetched summarized news and timestamp
                         localStorage.setItem(storedNewsKey, data.summarizedNews);
                         localStorage.setItem(storedNewsTimestampKey, now);
-                        newsElement.innerHTML = data.summarizedNews;
+                        stopLoadingAnimation(newsElement);
+
+                        if (!isTyping) {
+                            isTyping = true;
+                            typeWriter(newsElement, data.summarizedNews, 0, () => {
+                                isTyping = false;
+                            });
+                        }
                     } else {
                         console.error("Error: Summarized news not found.");
+                        stopLoadingAnimation(newsElement);
                     }
-                    stopLoadingAnimation(newsElement);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error("Error:", textStatus, errorThrown);

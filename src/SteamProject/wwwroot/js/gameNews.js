@@ -35,7 +35,7 @@ function updateGameNews(appId, summarizedNews, gameType, isFromAPI = false) {
 }
 
 // Function to fetch game news either from local storage or the API
-function getGameNews(appId, gameType) {
+function getRecentGameNews(appId, gameType) {
     const storedNews = localStorage.getItem(`gameNews-${appId}`);
     const storedNewsTimestamp = localStorage.getItem(`gameNewsTimestamp-${appId}`);
     const now = new Date().getTime();
@@ -49,7 +49,7 @@ function getGameNews(appId, gameType) {
         updateGameNews(appId, storedNews, gameType);
     } else {
         $.ajax({
-            url: "/api/News/GetGameNews",
+            url: "/api/News/GetRecentGameNews",
             data: { appId: appId },
             success: function (response) {
                 console.log(response); // Check the received data
@@ -78,11 +78,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Iterate through the elements and fetch game news for each game
     recentGames.forEach((game) => {
         const appId = game.getAttribute("data-gameid");
-        getGameNews(appId, "recent");
+        getRecentGameNews(appId, "recent");
     });
 
     followedGames.forEach((game) => {
         const appId = game.getAttribute("data-gameid");
-        getGameNews(appId, "followed");
+        getRecentGameNews(appId, "followed");
     });
 });

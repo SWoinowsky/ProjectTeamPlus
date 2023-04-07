@@ -15,13 +15,32 @@ namespace SteamProject.Services
             });
         }
 
-        public async Task<string> SummarizeTextAsync(string text)
+        public async Task<string> SummarizeNewsShortAsync(string text)
         {
             var completionResult = await _openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
                 Messages = new List<ChatMessage>
                 {
                     ChatMessage.FromSystem("You are a helpful assistant meant to summarize patch notes and video game news in a max of two sentences, if for some reason the news doesn't make any sense or there is no news for this specific game, explain so and do something creative to impress a user"),
+                    ChatMessage.FromUser(text),
+                },
+                Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo
+            });
+            if (completionResult.Successful)
+            {
+                return completionResult.Choices.First().Message.Content;
+            }
+
+            return null;
+        }
+
+        public async Task<string> SummarizeNewsLongAsync(string text)
+        {
+            var completionResult = await _openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
+            {
+                Messages = new List<ChatMessage>
+                {
+                    ChatMessage.FromSystem("You are a helpful assistant meant to summarize patch notes and video game news in however many sentences you need, if for some reason the news doesn't make any sense or there is no news for this specific game, explain so and do something creative to impress a user"),
                     ChatMessage.FromUser(text),
                 },
                 Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo

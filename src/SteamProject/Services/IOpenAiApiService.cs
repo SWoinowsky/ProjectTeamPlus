@@ -2,7 +2,10 @@
 {
     public interface IOpenAiApiService
     {
-        public Task<string> SummarizeTextAsync(string inputString);
+        public Task<string> SummarizeNewsShortAsync(string inputString);
+
+        public Task<string> SummarizeNewsLongAsync(string inputString);
+
 
     }
 }

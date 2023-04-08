@@ -32,6 +32,7 @@ public partial class SteamInfoDbContext : DbContext
     public virtual DbSet<UserAchievement> UserAchievements { get; set; }
 
     public virtual DbSet<UserGameInfo> UserGameInfos { get; set; }
+    public virtual DbSet<BlackList> BlackLists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=SteamInfoConnection");
@@ -167,6 +168,15 @@ public partial class SteamInfoDbContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.UserGameInfos)
                 .HasForeignKey(d => d.OwnerId)
                 .HasConstraintName("UserGameInfo_FK_User");
+        });
+
+        modelBuilder.Entity<BlackList>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("BlackList");
+
+            entity.Property(e => e.SteamId).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -30,57 +30,60 @@
             <partial name="_LoginPartial" style="display:flex;color:#fff;"/>
         </nav>
     </header>
-    <nav class="vert-nav">
+   <nav class="vert-nav">
         <div class="nav-header">
             <a asp-area="" asp-controller="Home" asp-action="Index">
             <img class="short-logo-img" height="50px" src="~/assets/shortLogo.png" alt="">
             <img class="long-logo-img" src="~/assets/longLogo.png" alt="">
             </a>
         </div>
-        <div class="nav-body">
-            <div class="nav-litem">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index">
-                    <img class="litem-img" src="~/assets/person.png" alt="">
-                    <div class="litem-label">Profile</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a asp-area="" asp-controller="Home" asp-action="Friends">
-                    <img class="litem-img" src="~/assets/person.3.sequence@2x.png" alt="">
-                    <div class="litem-label">Friends</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a asp-area="" asp-controller="Home" asp-action="Dashboard">
-                    <img class="litem-img" src="~/assets/dashgrid.png" alt="">
-                    <div class="litem-label">Dashboard</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a asp-area="" asp-controller="Library" asp-action="Index">
-                    <img class="litem-img" src="~/assets/books.png" alt="">
-                    <div class="litem-label">Library</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a asp-area="" asp-controller="Compete" asp-action="Index">
-                    <img class="litem-img" src="~/assets/flags.png" alt="">
-                    <div class="litem-label">Compete</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-            <a asp-area="" asp-controller="Home" asp-action="Index">
-                <img class="litem-img" src="~/assets/people.png" alt="">
-                <div class="litem-label">Teams</div>
-            </a>
-            </div>
+        @if (!User.IsInRole("admin"))
+        {
+            <div class="nav-body">
                 <div class="nav-litem">
-                <a asp-area="" asp-controller="Home" asp-action="Privacy">
-                    <img class="litem-img" src="~/assets/eye.png" alt="">
-                    <div class="litem-label">Privacy</div>
-                </a>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <img class="litem-img" src="~/assets/person.png" alt="">
+                        <div class="litem-label">Profile</div>
+                    </a>
                 </div>
-        </div>
+                <div class="nav-litem">
+                    <a asp-area="" asp-controller="Home" asp-action="Friends">
+                        <img class="litem-img" src="~/assets/person.3.sequence@2x.png" alt="">
+                        <div class="litem-label">Friends</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-area="" asp-controller="Home" asp-action="Dashboard">
+                        <img class="litem-img" src="~/assets/dashgrid.png" alt="">
+                        <div class="litem-label">Dashboard</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-area="" asp-controller="Library" asp-action="Index">
+                        <img class="litem-img" src="~/assets/books.png" alt="">
+                        <div class="litem-label">Library</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-area="" asp-controller="Compete" asp-action="Index">
+                        <img class="litem-img" src="~/assets/flags.png" alt="">
+                        <div class="litem-label">Compete</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <img class="litem-img" src="~/assets/people.png" alt="">
+                        <div class="litem-label">Teams</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">
+                        <img class="litem-img" src="~/assets/eye.png" alt="">
+                        <div class="litem-label">Privacy</div>
+                    </a>
+                </div>
+            </div>
+        }
     </nav>
     <div class="container">
         <main role="main" class="pb-3">

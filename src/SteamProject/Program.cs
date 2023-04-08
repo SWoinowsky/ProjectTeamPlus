@@ -12,6 +12,7 @@ using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SteamProject.Areas.Identity.Data;
 using OpenAI.GPT3.Extensions;
+using SteamProject.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,14 +82,10 @@ builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<ICompetitionPlayerRepository, CompetitionPlayerRepository>();
 builder.Services.AddScoped<ICompetitionGameAchievementRepository, CompetitionGameAchievementRepository>();
 
-
-
-
- 
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()                   // enable roles
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication()
@@ -110,6 +107,30 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// By using a scope for the services to be requested below, we limit their lifetime to this set of calls.
+// See: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0#call-services-from-main
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Get the IConfiguration service that allows us to query user-secrets and 
+        // the configuration on Azure
+        var config = app.Services.GetRequiredService<IConfiguration>();
+        // Set password with the Secret Manager tool, or store in Azure app configuration
+        // dotnet user-secrets set SeedUserPW <pw>
+
+        var adminPw = config["SeedAdminPW"];
+
+        SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "My", "Admin").Wait();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

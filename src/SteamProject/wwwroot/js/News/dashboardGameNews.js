@@ -8,7 +8,7 @@ function typeWriter(element, text, i, callback) {
         element.innerHTML += text.charAt(i);
         setTimeout(() => {
             typeWriter(element, text, i + 1, callback);
-        }, 15); //adjust speed of typing here
+        }, 5); //adjust speed of typing here
     } else {
         element.insertAdjacentHTML("afterend", "</div>");
         if (callback) {
@@ -39,7 +39,7 @@ function getRecentGameNews(appId, gameType) {
     const storedNews = localStorage.getItem(`gameNews-${appId}`);
     const storedNewsTimestamp = localStorage.getItem(`gameNewsTimestamp-${appId}`);
     const now = new Date().getTime();
-    const expirationTime = 60*60*1000; // adjust time to refresh api in ms, currently 1 hour
+    const expirationTime = 60 * 60 * 1000; // adjust time to refresh api in ms, currently 1 hour
 
     // Check if the stored news is expired or not
     const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
@@ -69,7 +69,6 @@ function getRecentGameNews(appId, gameType) {
     }
 }
 
-// Add event listener for DOMContentLoaded event to ensure the DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
     // Get all recent and followed game news elements
     const recentGames = document.querySelectorAll(".recent-game-news");

@@ -13,7 +13,7 @@ function typeWriter(element, text, i, callback) {
         element.innerHTML += text.charAt(i);
         setTimeout(() => {
             typeWriter(element, text, i + 1, callback);
-        }, 15);
+        }, 5);
     } else {
         // Once typing is finished, insert a closing div tag and call the callback if provided
         element.insertAdjacentHTML("afterend", "</div>");
@@ -26,7 +26,7 @@ function typeWriter(element, text, i, callback) {
 // Function to start the loading animation
 function startLoadingAnimation(element) {
     // Save the current content in a data attribute
-    element.setAttribute("data-original-content", element.innerHTML);
+    element.setAttribute("data-original-content", element.innerText);
 
     // Create a new div with the loading spinner and set its class and style
     const spinnerDiv = document.createElement("div");
@@ -55,14 +55,22 @@ function stopLoadingAnimation(element) {
     }
 }
 
+function normalizeWhitespace(str) {
+    return str.replace(/\s+/g, ' ').trim();
+}
 
-function summarizeSpecificNews(appId, newsIndex) {
+
+function summarizeSpecificNews(button, appId, newsIndex) {
     // Get the news element and original content
-    const newsElement = document.querySelector(`.summarize-btn[data-appid="${appId}"][data-newsindex="${newsIndex}"]`).parentElement.nextElementSibling;
+    const newsElement = button.parentElement.nextElementSibling;
     const originalContent = newsElement.getAttribute("data-original-content");
 
+    let var1 = normalizeWhitespace(newsElement.innerText);
+    let var2 = normalizeWhitespace(originalContent);
+
     // Check if the news element currently displays the original content
-    if (newsElement.innerText === originalContent) {
+    if ( var1 === var2) {
+
         // If displaying original content, load summarized news
         const now = new Date().getTime();
         const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
@@ -107,12 +115,18 @@ function summarizeSpecificNews(appId, newsIndex) {
                 }
             });
         }
-    } else {
+
+        // Toggle the button's inner text
+        button.innerText = "Show Original";
+    }
+    else {
         // If the news element is not displaying the original content, switch back to it
-        newsElement.innerHTML = originalContent;
+        newsElement.innerText = originalContent;
+
+        // Toggle the button's inner text
+        button.innerText = "Summarize";
     }
 }
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -122,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             const appId = button.getAttribute("data-appid");
             const newsIndex = button.getAttribute("data-newsindex");
-            summarizeSpecificNews(appId, parseInt(newsIndex));
+            summarizeSpecificNews(button, appId, parseInt(newsIndex));
         });
 
         // Automatically load summarized news from local storage if available
@@ -134,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const storedNews = localStorage.getItem(storedNewsKey);
         const storedNewsTimestamp = localStorage.getItem(storedNewsTimestampKey);
         const now = new Date().getTime();
+
         const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
 
         const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
@@ -141,7 +156,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (storedNews && !isExpired) {
             const newsElement = button.parentElement.nextElementSibling;
             newsElement.innerHTML = storedNews;
+
+            // Update the button's inner text
+            button.innerText = "Show Original";
         }
     });
 });
-

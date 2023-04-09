@@ -40,4 +40,14 @@ public class AdminController: Controller
     {
         return View();
     }
+
+    public IActionResult LoadGames()
+    {
+        return View();
+    }
+
+    public IActionResult ViewGames()
+    {
+        return View();
+    }
 }

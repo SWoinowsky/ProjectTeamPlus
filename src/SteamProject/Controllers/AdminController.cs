@@ -17,9 +17,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SteamProject.Controllers;
 
+[Authorize(Roles = "admin")]
 public class AdminController: Controller
 {
-    [Authorize(Roles = "admin")]
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly IUserRepository _userRepository;
+    private readonly IBlackListRepository _blackListRepository;
+
+    public AdminController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository)
+    {
+        _userManager = userManager;
+        _userRepository = userRepository;
+        _blackListRepository blackListRepository
+    }
+
     public IActionResult Index(bool refresh)
     {
         return View();

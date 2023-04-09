@@ -11,6 +11,15 @@
     <link rel="stylesheet" type="text/css" href="~/css/Identity.css" asp-append-version="true">
 </head>
 
+@if (User.IsInRole("admin"))
+{
+    <div>
+        <div id="admin">
+            <h1>You are logged into an Admin account.</h1>
+        </div>
+    </div>
+}
+
 @if (!User.IsInRole("admin"))
 {
     <br>

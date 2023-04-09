@@ -1,3 +1,5 @@
+using Standups_BDD_Tests.Drivers;
+using Standups_BDD_Tests.PageObjects;
 using System;
 using TechTalk.SpecFlow;
 
@@ -6,6 +8,15 @@ namespace BDD_Tests.StepDefinitions
     [Binding]
     public class HelloWorldStepDefinitions
     {
+
+        private readonly HomePageObject _homePage;
+
+        public HelloWorldStepDefinitions(BrowserDriver browserDriver) 
+        {
+            _homePage = new HomePageObject(browserDriver.Current);
+        }
+
+
         [Given(@"I am a visitor")]
         public void GivenIAmAVisitor()
         {
@@ -13,15 +24,15 @@ namespace BDD_Tests.StepDefinitions
         }
 
         [When(@"I am on the ""([^""]*)"" page")]
-        public void WhenIAmOnThePage(string home)
+        public void WhenIAmOnThePage(string pageName)
         {
-            throw new PendingStepException();
+            _homePage.GoTo( pageName );
         }
 
         [Then(@"The page title contains the word ""([^""]*)""")]
-        public void ThenThePageTitleContainsTheWord(string home)
+        public void ThenThePageTitleContainsTheWord(string p0)
         {
-            throw new PendingStepException();
+            _homePage.GetTitle().Should().ContainEquivalentOf( p0, AtLeast.Once() );
         }
     }
 }

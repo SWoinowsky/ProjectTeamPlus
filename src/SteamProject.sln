@@ -9,7 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_Tests", "NUnit_Tests\
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Javascript_Tests", "Javascript_Tests\Javascript_Tests.esproj", "{20B8EBDA-B35D-4B36-8224-55A6F4ACAAFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDD_Tests", "BDD_Tests\BDD_Tests.csproj", "{5E076DB2-1638-4723-94EF-4C686C868DED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BDD_Tests", "BDD_Tests\BDD_Tests.csproj", "{5E076DB2-1638-4723-94EF-4C686C868DED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA8BD07F-253D-4E42-A0D0-439EEA9765BD} = {DA8BD07F-253D-4E42-A0D0-439EEA9765BD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -38,16 +38,16 @@ public class AdminController: Controller
 
     public IActionResult ShowAllUsers()
     {
-        return View();
+        throw new NotImplementedException();
     }
 
     public IActionResult LoadGames()
     {
-        return View();
+        throw new NotImplementedException();
     }
 
     public IActionResult ViewGames()
     {
-        return View();
+        throw new NotImplementedException();
     }
 }

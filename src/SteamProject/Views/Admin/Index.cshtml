@@ -2,6 +2,53 @@
     ViewData["Title"] = "Admin Management Dashboard";
 }
 <head>
-    <link rel="stylesheet" href="~/css/Library.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Identity.css" asp-append-version="true">
 </head>
-<br><br>
+<style>
+    td {
+        padding-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1>Admin Dashboard</h1>
+        <h2>Manage the site via Admin Controls</h2>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">
+                @* <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" id="users" href='@Url.Action("ShowAllUsers", "Admin")'>View User List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="load" href='@Url.Action("LoadGames", "Admin")'>Preload Game List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="load" href='@Url.Action("LoadGameInfo", "Admin")'>Load Info For Game List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="load" href='@Url.Action("ViewGames", "Admin")'>View Game List</a>
+                    </li>
+                </ul> *@
+                <table>
+                    <tr style="padding: 4px;">
+                        <td><a id="users" href='@Url.Action("ShowAllUsers", "Admin")'>View User List</a></td>
+                    </tr>
+                    <tr style="padding: 4px;">
+                        <td><a id="load" href='@Url.Action("LoadGames", "Admin")'>Preload Game List</a></td>
+                    </tr>
+                    <tr style="padding: 4px;">
+                        <td><a id="load" href='@Url.Action("LoadGameInfo", "Admin")'>Load Info For Game List</a></td>
+                    </tr>
+                    <tr style="padding: 4px;">
+                        <td><a id="load" href='@Url.Action("ViewGames", "Admin")'>View Game List</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-9">
+                <h3>Select an option from the list to begin administering.</h3>
+            </div>
+        </div>
+    </main>
+</div>

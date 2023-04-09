@@ -31,7 +31,12 @@ public class AdminController: Controller
         _blackListRepository = blackListRepository;
     }
 
-    public IActionResult Index(bool refresh)
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    public IActionResult ShowAllUsers()
     {
         return View();
     }

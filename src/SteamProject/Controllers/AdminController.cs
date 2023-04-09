@@ -28,7 +28,7 @@ public class AdminController: Controller
     {
         _userManager = userManager;
         _userRepository = userRepository;
-        _blackListRepository blackListRepository
+        _blackListRepository = blackListRepository;
     }
 
     public IActionResult Index(bool refresh)

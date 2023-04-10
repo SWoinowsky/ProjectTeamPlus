@@ -28,7 +28,7 @@
             @if (Model._poco.appnews.count > 0)
             {
                 <div class="container-fluid" style="padding-top: 40px; white-space: pre-wrap; justify-content: center;">
-                    <h3 style="text-align: center;">@Model._game.Name</h3>
+                    <h3 class="news-title" style="text-align: center;">@Model._game.Name</h3>
 
                     @foreach (var item in Model._poco.appnews.newsitems)
                     {

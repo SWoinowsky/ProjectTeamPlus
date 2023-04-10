@@ -121,14 +121,35 @@ public class CompeteController : Controller
                     gameAchievements.Add( achievementFound );
             }
             
+
+            // Participant achievement grabbing
+            var userAchDict = new Dictionary<string, List<UserAchievement>>();
+            foreach( var participant in userList )
+            {
+                var ListIntoDict = new List<UserAchievement>();
+
+                var userResponse = new AchievementRoot();
+                userResponse = _steamService.GetAchievements( participant.SteamId, gameAssociated.AppId );
+
+                foreach( var ach in gameAchievements )
+                {
+                    var userAchOut = new UserAchievement();
+                    userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
+                    if( userAchOut != null )
+                        ListIntoDict.Add( userAchOut );
+                }
+
+                userAchDict.Add( participant.SteamId, ListIntoDict );
+            }
+
+            
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
             viewModel.CompGameAchList = compAchievements;
             viewModel.GameAchList = gameAchievements;
-
-            // Participant achievement grabbing
+            viewModel.Tracking = userAchDict;
         }
 
         return View( viewModel );

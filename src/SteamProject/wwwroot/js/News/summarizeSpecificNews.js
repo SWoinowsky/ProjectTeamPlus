@@ -1,31 +1,6 @@
-﻿// Flag to track if the typeWriter function is currently running
-let isTyping = false;
+﻿let isTyping = false;
 
-// Function to animate typing effect on the provided element
-function typeWriter(element, text, i, callback) {
-
-    // Clear the element's inner HTML when starting the typing animation
-    if (i === 0) {
-        element.innerHTML = "";
-    }
-
-    // If there is still text to type, type the next character and set a timeout to continue
-    if (i < text.length) {
-        element.innerHTML += text.charAt(i);
-        setTimeout(() => {
-            typeWriter(element, text, i + 1, callback);
-        }, 5);
-    }
-    else
-    {
-        // Once typing is finished, insert a closing div tag and call the callback if provided
-        element.insertAdjacentHTML("afterend", "</div>");
-        if (callback) {
-            callback();
-        }
-    }
-}
-
+// fadeIn and fadeOut functions are utility functions for animating opacity transitions.
 function fadeIn(element) {
     element.classList.add('fade-in');
     element.style.opacity = 1;
@@ -45,13 +20,10 @@ function fadeOut(element, callback) {
     }, 500);
 }
 
-// Function to start the loading animation
+// startLoadingAnimation and stopLoadingAnimation functions are utility functions
+// for displaying and hiding loading animations for elements.
 function startLoadingAnimation(element) {
-
-    // Save the current content in a data attribute
     element.setAttribute("data-original-content", element.innerText);
-
-    // Create a new div with the loading spinner and set its class and style
     const spinnerDiv = document.createElement("div");
     spinnerDiv.classList.add("loading-spinner");
     spinnerDiv.style.display = "flex";
@@ -59,20 +31,15 @@ function startLoadingAnimation(element) {
     spinnerDiv.style.alignItems = "center";
     spinnerDiv.style.height = "100%";
 
-    // Create the spinner element and add the Bootstrap spinner class
     const spinner = document.createElement("div");
     spinner.setAttribute("role", "status");
 
-    // Add the spinner element to the spinnerDiv and replace the content of the element with the spinnerDiv
     spinnerDiv.appendChild(spinner);
     element.innerHTML = "";
     element.appendChild(spinnerDiv);
 }
 
-// Function to stop the loading animation
 function stopLoadingAnimation(element) {
-
-    // Remove the loading spinner div
     const spinnerDiv = element.querySelector(".loading-spinner");
     if (spinnerDiv) {
         element.removeChild(spinnerDiv);
@@ -83,23 +50,26 @@ function normalizeWhitespace(str) {
     return str.replace(/\s+/g, ' ').trim();
 }
 
+// This function summarizes a specific news item and updates the UI.
 function summarizeSpecificNews(button, appId, newsIndex) {
-    // Get the news element and original content
+    // Get the news element and its original content
     const newsElement = button.parentElement.nextElementSibling;
     const originalContent = newsElement.getAttribute("data-original-content");
 
+    // Normalize whitespace for comparison
     let currentNews = normalizeWhitespace(newsElement.innerText);
     let oldNews = normalizeWhitespace(originalContent);
 
     // Check if the news element currently displays the original content
     if (currentNews === oldNews) {
+        // Fade out the current content
         fadeOut(newsElement, () => {
-            // If displaying original content, load summarized news
             const now = new Date().getTime();
-            const expirationTime = 60 * 60 * 1000; // Set Expiration time here, current is 1 hour in milliseconds
+            const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
             const storedNewsKey = `specificNews-${appId}-${newsIndex}`;
             const storedNewsTimestampKey = `specificNewsTimestamp-${appId}-${newsIndex}`;
 
+            // Retrieve the stored news and its timestamp
             const storedNews = localStorage.getItem(storedNewsKey);
             const storedNewsTimestamp = localStorage.getItem(storedNewsTimestampKey);
 
@@ -109,7 +79,7 @@ function summarizeSpecificNews(button, appId, newsIndex) {
             // If the summarized news is stored and not expired, load it
             if (storedNews && !isExpired) {
                 newsElement.innerHTML = storedNews;
-                fadeIn(newsElement);
+                fadeIn(newsElement); // Fade in the new content
             } else {
                 // If summarized news is not stored or expired, fetch it using AJAX
                 startLoadingAnimation(newsElement);
@@ -123,6 +93,7 @@ function summarizeSpecificNews(button, appId, newsIndex) {
                             localStorage.setItem(storedNewsTimestampKey, now);
                             stopLoadingAnimation(newsElement);
 
+                            // Use the typeWriter function for animating the display of the summarized news
                             if (!isTyping) {
                                 isTyping = true;
                                 typeWriter(newsElement, data.summarizedNews, 0, () => {
@@ -156,13 +127,8 @@ function summarizeSpecificNews(button, appId, newsIndex) {
     }
 }
 
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
-
+    // Get all the summarize buttons
     const summarizeButtons = document.querySelectorAll(".summarize-btn");
 
     // Add event listener to summarize buttons
@@ -170,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             const appId = button.getAttribute("data-appid");
             const newsIndex = button.getAttribute("data-newsindex");
+            // Call the summarizeSpecificNews function when a button is clicked
             summarizeSpecificNews(button, appId, parseInt(newsIndex));
         });
 
@@ -179,14 +146,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const storedNewsKey = `specificNews-${appId}-${newsIndex}`;
         const storedNewsTimestampKey = `specificNewsTimestamp-${appId}-${newsIndex}`;
 
+        // Retrieve the stored news and its timestamp
         const storedNews = localStorage.getItem(storedNewsKey);
         const storedNewsTimestamp = localStorage.getItem(storedNewsTimestampKey);
         const now = new Date().getTime();
 
         const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
 
+        // Check if the stored news is expired
         const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
 
+        // If the summarized news is stored and not expired, load it into the news element
         if (storedNews && !isExpired) {
             const newsElement = button.parentElement.nextElementSibling;
             newsElement.innerHTML = storedNews;

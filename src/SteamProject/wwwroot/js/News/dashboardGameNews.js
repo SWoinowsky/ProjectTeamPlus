@@ -7,9 +7,11 @@
         element.innerHTML += text.charAt(i);
         setTimeout(() => {
             typeWriter(element, text, i + 1, callback);
-        }, 5);
+        }, 5); //adjust speed of typing here
     } else {
+        // This is the problematic line:
         element.insertAdjacentHTML("afterend", "</div>");
+
         if (callback) {
             callback();
         }

@@ -36,10 +36,10 @@
                         <div class="newsDiv container-fluid mx-auto">
                             <div class="row news-container">
                                 <div class="col-2">
-                                    <p>@item.feedlabel</p>
+                                    <p class="feedtype">@item.feedlabel</p>
                                 </div>
                                 <div class="col-8">
-                                    <h3 style="text-align: center">@item.title</h3>
+                                    <h3 class="news-title" style="text-align: center">@item.title</h3>
                                 </div>
                                 <div class="col-2 button-container">
                                     <a class="btn link-btn" href="@item.url">Link to Article</a>
@@ -47,7 +47,7 @@
                                 </div>
 
                                 <p data-original-content="@item.contents">@item.contents</p>
-                                <h6 style="text-align: center">@item.dateTime</h6>
+                                <h6 class="timestamp" style="text-align: center">@item.dateTime</h6>
                             </div>
                         </div>
 

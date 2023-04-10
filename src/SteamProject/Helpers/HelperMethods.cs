@@ -25,11 +25,15 @@ public static class HelperMethods
         item = Regex.Replace(item, @"&#[^\s]+", "");
         item = Regex.Replace(item, @"\{STEAM_CLAN_IMAGE\}/[A-Za-z0-9]+/[A-Za-z0-9]+\.[A-Za-z]+", "");
         item = Regex.Replace(item, @"[A-Za-z]+&[A-Za-z0-9]+;s", "");
-        item = Regex.Replace(item, @"&[A-Za-z0-9]+;", "");
 
+        // Updated pattern to remove entities starting with & and ending with ;
+        item = Regex.Replace(item, @"&[#]?[A-Za-z0-9]*;", "");
 
         return item;
     }
+
+
+
 
     public static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
     {

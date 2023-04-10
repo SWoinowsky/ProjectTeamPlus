@@ -5,6 +5,7 @@ using SteamProject.Helpers;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using SteamProject.ViewModels;
+using AngleSharp.Dom;
 
 namespace SteamProject.Services;
 
@@ -193,41 +194,43 @@ public class SteamService : ISteamService
         return gameVM;
     }
 
-    
+
 
     public GameNewsVM GetGameNews(Game game, int count = 10)
     {
         var gameVM = new GameNewsVM();
-        string source = string.Format("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={0}&count={1}&l=en", game.AppId, count);
+        int fetchCount = 2+count * 2; // Fetch more items to account for the SteamDb items
+        string source = string.Format("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={0}&count={1}&l=en", game.AppId, fetchCount);
         string jsonResponse = GetJsonStringFromEndpoint(source);
 
         if (jsonResponse != null)
         {
             var newsPoco = JsonSerializer.Deserialize<GameNewsPoco>(jsonResponse);
+            var filteredNewsItems = new List<Newsitem>();
 
-            for (var i = 0; i < newsPoco.appnews.newsitems.Count; i++)
+            for (var i = 0; i < newsPoco.appnews.newsitems.Count && filteredNewsItems.Count < count; i++)
             {
                 var newsItem = newsPoco.appnews.newsitems[i];
 
-                if (newsPoco.appnews.newsitems[i].feedlabel.ToUpper() == "SteamDb".ToUpper())
+                if (newsItem.feedlabel.ToUpper() != "SteamDb".ToUpper())
                 {
-                    newsPoco.appnews.newsitems.RemoveAt(i);
-                    i--;
+                    newsItem.contents = HelperMethods.StripJunkFromString(newsItem.contents);
+                    newsItem.dateTime = HelperMethods.UnixTimeStampToDateTime(newsItem.date);
+                    filteredNewsItems.Add(newsItem);
                 }
-                else
-                {
-
-                    newsPoco.appnews.newsitems[i].contents = HelperMethods.StripJunkFromString(newsPoco.appnews.newsitems[i].contents);
-                    newsPoco.appnews.newsitems[i].dateTime = HelperMethods.UnixTimeStampToDateTime(newsPoco.appnews.newsitems[i].date);
-
-                }
-
+                
             }
-            
+
+            // Limit the results to the requested count
+            newsPoco.appnews.newsitems = filteredNewsItems.Take(count).ToList();
             gameVM._poco = newsPoco;
         }
+
         return gameVM;
     }
+
+
+
 
 
     public AchievementRoot GetAchievements(string userSteamId, int appId)

@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const search = document.querySelector('#search-input')
     const wrapper = document.querySelector('.wrapper')
 
+    const inviteModal = document.querySelector('#sendInviteModal')
+    const emailError = document.querySelector('#email-error')
     const invBtn = document.querySelector('#send-inv')
     const emailInput = document.querySelector('#email-input')
     const phoneInput = document.querySelector('#phone-input')
@@ -34,13 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return exp.test(e);
     }
 
-
-
     invBtn.addEventListener('click', () => {
         let e = emailInput.value
         if (valid(e)) {
+            emailError.style.visibility = "hidden"
             fetch(`/api/Steam/sendInvite?email=${e}`, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'text/html; charset=utf-8'
@@ -48,11 +49,30 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => {
                 if (response.status == 200) {
-                    console.log('received 200')
+                    setTimeout(() => {
+                        emailError.style.color = "green"
+                        emailError.textContent = "Success!"
+                        emailError.style.visibility = "visible"
+                        setTimeout(() => {
+                            emailError.style.visibility = "hidden"
+                            inviteModal.style.display = "none";
+                            document.querySelector('.modal-backdrop').remove();
+                        }, 1000)
+                    }, 1000)
+                    
+                }
+                else {
+                    setTimeout(() => {
+                        emailError.style.visibility = "visible"
+                        emailError.style.color = "red"
+                        emailError.textContent = "Error Occured When Sending Invite, Try Again Later"
+                    }, 1500)
                 }
             })
         } else {
-            
+            emailError.style.color = "red"
+            emailError.textContent = "Please enter a valid email in the correct format!"
+            emailError.style.visibility = "visible"
         }
     })
 

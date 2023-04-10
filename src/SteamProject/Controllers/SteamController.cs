@@ -135,11 +135,11 @@ public class SteamController : ControllerBase
         return Ok( friend );
     }
 
-    [HttpPost("sendInvite")]
-    public ActionResult SendInvite(string email)
+    [HttpGet("sendInvite")]
+    public async Task<ActionResult> SendInvite(string email)
     {
-        _emailSender.SendEmailAsync(email: email, subject: "Invitation", htmlMessage: "");
-        Console.WriteLine(email);
+        string fixedEmail = email.Replace("%40", "@");
+        await _emailSender.SendEmailAsync($"{fixedEmail}", "Invitation", "<a>You're invited!</a>");
         return Ok();
     }
 }

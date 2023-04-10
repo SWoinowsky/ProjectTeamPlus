@@ -108,6 +108,11 @@ header {
     transition: height 4s ease;
     overflow: hidden;
 }
+
+.btn-outline-info {
+    width: 6rem;
+}
+
 .laser-engrave {
     animation: laser-engrave 0.3s ease-out forwards, white-fire 1s infinite, sparkle 0.5s infinite;
     -webkit-background-clip: text;

@@ -38,8 +38,8 @@ public class NewsController : Controller
         _openAiApiService = openAiApiService;
     }
 
-    [HttpGet("GetGameNews")]
-    public async Task<IActionResult> GetGameNews(int appId)
+    [HttpGet("GetRecentGameNews")]
+    public async Task<IActionResult> GetRecentGameNews(int appId)
     {
         string? id = _userManager.GetUserId(User);
 
@@ -66,7 +66,7 @@ public class NewsController : Controller
                 {
                     try
                     {
-                        summarizedNews = await _openAiApiService.SummarizeTextAsync(currentGame._poco
+                        summarizedNews = await _openAiApiService.SummarizeNewsShortAsync(currentGame._poco
                             .appnews
                             .newsitems.SingleOrDefault().contents);
                     }
@@ -85,6 +85,55 @@ public class NewsController : Controller
         }
         return BadRequest(new { success = false, message = "Unable to retrieve game news" });
     }
+
+    [HttpGet("GetSpecificGameNews")]
+    public async Task<IActionResult> GetSpecificGameNews(int appId, int newsIndex)
+    {
+        string? id = _userManager.GetUserId(User);
+
+        if (id is null)
+        {
+            return Json(new { success = false, message = "User not found" });
+        }
+        else
+        {
+            User user = _userRepository.GetUser(id);
+
+            if (user.SteamId != null)
+            {
+                Game game = _gameRepository.GetGameByAppId(appId);
+                if (game == null)
+                {
+                    return BadRequest(new { success = false, message = "Game not found" });
+                }
+
+                GameNewsVM newsVM = _steamService.GetGameNews(game, newsIndex + 1);
+                string summarizedNews = "";
+
+                if (newsVM._poco.appnews.newsitems.Count > newsIndex)
+                {
+                    try
+                    {
+                        summarizedNews = await _openAiApiService.SummarizeNewsLongAsync(newsVM._poco
+                            .appnews
+                            .newsitems[newsIndex].contents);
+                    }
+                    catch (Exception)
+                    {
+                        summarizedNews = "There was no valid news found";
+                    }
+                }
+                else
+                {
+                    summarizedNews = "There was no news found for the provided index";
+                }
+
+                return Ok(new { appId, summarizedNews });
+            }
+        }
+        return BadRequest(new { success = false, message = "Unable to retrieve game news" });
+    }
+
 
 
 }

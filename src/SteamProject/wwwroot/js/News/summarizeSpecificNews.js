@@ -136,6 +136,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add event listener to summarize buttons
     summarizeButtons.forEach(button => {
         button.addEventListener("click", function () {
+            if (isTyping) {
+                return; // Do nothing if the typeWriter function is running
+            }
+
             const appId = button.getAttribute("data-appid");
             const newsIndex = button.getAttribute("data-newsindex");
             // Call the summarizeSpecificNews function when a button is clicked

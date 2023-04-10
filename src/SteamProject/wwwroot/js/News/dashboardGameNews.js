@@ -1,21 +1,16 @@
-﻿// Function to animate typing effect on the provided element
-function typeWriter(element, text, i, callback) {
-    // Clear the element's inner HTML when starting the typing animation
-    if (i === 0) {
-        element.innerHTML = "";
-    }
-
-    // If there is still text to type, type the next character and set a timeout to continue
+﻿function typeWriter(element, text, i, callback) {
     if (i < text.length) {
-        element.innerHTML += text.charAt(i);
+        const span = document.createElement('span');
+        span.textContent = text.charAt(i);
+        span.classList.add('laser-engrave');
+        element.appendChild(span);
+
         setTimeout(() => {
+            span.classList.remove('laser-engrave');
             typeWriter(element, text, i + 1, callback);
-        }, 5); // Adjust the speed of typing here
+        }, 10);
     } else {
-        // Once typing is finished, call the callback if provided
-        if (callback) {
-            callback();
-        }
+        callback();
     }
 }
 

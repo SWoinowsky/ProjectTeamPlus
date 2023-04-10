@@ -3,6 +3,7 @@ let isTyping = false;
 
 // Function to animate typing effect on the provided element
 function typeWriter(element, text, i, callback) {
+
     // Clear the element's inner HTML when starting the typing animation
     if (i === 0) {
         element.innerHTML = "";
@@ -14,7 +15,9 @@ function typeWriter(element, text, i, callback) {
         setTimeout(() => {
             typeWriter(element, text, i + 1, callback);
         }, 5);
-    } else {
+    }
+    else
+    {
         // Once typing is finished, insert a closing div tag and call the callback if provided
         element.insertAdjacentHTML("afterend", "</div>");
         if (callback) {
@@ -23,8 +26,28 @@ function typeWriter(element, text, i, callback) {
     }
 }
 
+function fadeIn(element) {
+    element.classList.add('fade-in');
+    element.style.opacity = 1;
+    setTimeout(() => {
+        element.classList.remove('fade-in');
+    }, 500);
+}
+
+function fadeOut(element, callback) {
+    element.classList.add('fade-out');
+    element.style.opacity = 0;
+    setTimeout(() => {
+        element.classList.remove('fade-out');
+        if (callback) {
+            callback();
+        }
+    }, 500);
+}
+
 // Function to start the loading animation
 function startLoadingAnimation(element) {
+
     // Save the current content in a data attribute
     element.setAttribute("data-original-content", element.innerText);
 
@@ -48,6 +71,7 @@ function startLoadingAnimation(element) {
 
 // Function to stop the loading animation
 function stopLoadingAnimation(element) {
+
     // Remove the loading spinner div
     const spinnerDiv = element.querySelector(".loading-spinner");
     if (spinnerDiv) {
@@ -59,69 +83,73 @@ function normalizeWhitespace(str) {
     return str.replace(/\s+/g, ' ').trim();
 }
 
-
 function summarizeSpecificNews(button, appId, newsIndex) {
     // Get the news element and original content
     const newsElement = button.parentElement.nextElementSibling;
     const originalContent = newsElement.getAttribute("data-original-content");
 
-    let var1 = normalizeWhitespace(newsElement.innerText);
-    let var2 = normalizeWhitespace(originalContent);
+    let currentNews = normalizeWhitespace(newsElement.innerText);
+    let oldNews = normalizeWhitespace(originalContent);
 
     // Check if the news element currently displays the original content
-    if ( var1 === var2) {
+    if (currentNews === oldNews) {
+        fadeOut(newsElement, () => {
+            // If displaying original content, load summarized news
+            const now = new Date().getTime();
+            const expirationTime = 60 * 60 * 1000; // Set Expiration time here, current is 1 hour in milliseconds
+            const storedNewsKey = `specificNews-${appId}-${newsIndex}`;
+            const storedNewsTimestampKey = `specificNewsTimestamp-${appId}-${newsIndex}`;
 
-        // If displaying original content, load summarized news
-        const now = new Date().getTime();
-        const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
-        const storedNewsKey = `specificNews-${appId}-${newsIndex}`;
-        const storedNewsTimestampKey = `specificNewsTimestamp-${appId}-${newsIndex}`;
+            const storedNews = localStorage.getItem(storedNewsKey);
+            const storedNewsTimestamp = localStorage.getItem(storedNewsTimestampKey);
 
-        const storedNews = localStorage.getItem(storedNewsKey);
-        const storedNewsTimestamp = localStorage.getItem(storedNewsTimestampKey);
+            // Check if the stored news is expired
+            const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
 
-        // Check if the stored news is expired
-        const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
+            // If the summarized news is stored and not expired, load it
+            if (storedNews && !isExpired) {
+                newsElement.innerHTML = storedNews;
+                fadeIn(newsElement);
+            } else {
+                // If summarized news is not stored or expired, fetch it using AJAX
+                startLoadingAnimation(newsElement);
+                fadeIn(newsElement);
+                $.ajax({
+                    url: `/api/news/GetSpecificGameNews?appId=${appId}&newsIndex=${newsIndex}`,
+                    success: function (data) {
+                        if (data.summarizedNews) {
+                            // Store the fetched summarized news and timestamp
+                            localStorage.setItem(storedNewsKey, data.summarizedNews);
+                            localStorage.setItem(storedNewsTimestampKey, now);
+                            stopLoadingAnimation(newsElement);
 
-        // If the summarized news is stored and not expired, load it
-        if (storedNews && !isExpired) {
-            newsElement.innerHTML = storedNews;
-        } else {
-            // If summarized news is not stored or expired, fetch it using AJAX
-            startLoadingAnimation(newsElement);
-            $.ajax({
-                url: `/api/news/GetSpecificGameNews?appId=${appId}&newsIndex=${newsIndex}`,
-                success: function (data) {
-                    if (data.summarizedNews) {
-                        // Store the fetched summarized news and timestamp
-                        localStorage.setItem(storedNewsKey, data.summarizedNews);
-                        localStorage.setItem(storedNewsTimestampKey, now);
-                        stopLoadingAnimation(newsElement);
-
-                        if (!isTyping) {
-                            isTyping = true;
-                            typeWriter(newsElement, data.summarizedNews, 0, () => {
-                                isTyping = false;
-                            });
+                            if (!isTyping) {
+                                isTyping = true;
+                                typeWriter(newsElement, data.summarizedNews, 0, () => {
+                                    isTyping = false;
+                                });
+                            }
+                        } else {
+                            console.error("Error: Summarized news not found.");
+                            stopLoadingAnimation(newsElement);
                         }
-                    } else {
-                        console.error("Error: Summarized news not found.");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error("Error:", textStatus, errorThrown);
                         stopLoadingAnimation(newsElement);
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error("Error:", textStatus, errorThrown);
-                    stopLoadingAnimation(newsElement);
-                }
-            });
-        }
+                });
+            }
+        });
 
         // Toggle the button's inner text
         button.innerText = "Show Original";
-    }
-    else {
+    } else {
         // If the news element is not displaying the original content, switch back to it
-        newsElement.innerText = originalContent;
+        fadeOut(newsElement, () => {
+            newsElement.innerText = originalContent;
+            fadeIn(newsElement);
+        });
 
         // Toggle the button's inner text
         button.innerText = "Summarize";
@@ -129,9 +157,15 @@ function summarizeSpecificNews(button, appId, newsIndex) {
 }
 
 
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
+
     const summarizeButtons = document.querySelectorAll(".summarize-btn");
 
+    // Add event listener to summarize buttons
     summarizeButtons.forEach(button => {
         button.addEventListener("click", function () {
             const appId = button.getAttribute("data-appid");

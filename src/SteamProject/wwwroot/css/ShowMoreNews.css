@@ -58,3 +58,18 @@ header {
     cursor: pointer;
     border-radius: 4px;
 }
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+}
+
+.news-container {
+    transition: height 0.5s ease;
+    overflow: hidden;
+}

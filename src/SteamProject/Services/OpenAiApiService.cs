@@ -44,9 +44,9 @@ namespace SteamProject.Services
                 Messages = new List<ChatMessage>
                 {
                     ChatMessage.FromSystem(
-                        "You are a helpful assistant meant to summarize inputs in english from the user coming off of steam news api in however many sentences you need," +
+                        "You are a helpful assistant meant to summarize inputs in english from the user coming off of steam news api in to save users time" +
                         "If you see patch notes try to list it out in a neat table and as graphically as you can, Use as many emojis as you possible can and be expressive" +
-                        "and if it doesn't make sense try to impress the reader"),
+                        "and if it doesn't make sense try to impress the reader with something to do with video games"),
                     ChatMessage.FromUser(text),
                 },
                 Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo

@@ -200,3 +200,8 @@ footer {
 .followModal {
     width: 100%;
 }
+
+.news-container {
+    transition: height 0.5s ease;
+    overflow: hidden;
+}

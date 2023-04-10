@@ -32,21 +32,24 @@
                     @foreach (var item in Model._poco.appnews.newsitems)
                     {
                         <hr>
-                        <div class="newsDiv row container-fluid mx-auto">
-                            <div class="col-2">
-                                <p>@item.feedlabel</p>
-                            </div>
-                            <div class="col-8">
-                                <h3 style="text-align: center">@item.title</h3>
-                            </div>
-                            <div class="col-2">
-                                <a href="@item.url">Link to Article</a>
-                                <button class="summarize-btn" data-appid="@Model._game.AppId" data-newsindex="@itemCount">Summarize</button>
-                            </div>
+                        <div class="newsDiv container-fluid mx-auto">
+                            <div class="row news-container">
+                                <div class="col-2">
+                                    <p>@item.feedlabel</p>
+                                </div>
+                                <div class="col-8">
+                                    <h3 style="text-align: center">@item.title</h3>
+                                </div>
+                                <div class="col-2">
+                                    <a href="@item.url">Link to Article</a>
+                                    <button class="summarize-btn" data-appid="@Model._game.AppId" data-newsindex="@itemCount">Summarize</button>
+                                </div>
 
-                            <p data-original-content="@item.contents">@item.contents</p>
-                            <h6 style="text-align: center">@item.dateTime</h6>
+                                <p data-original-content="@item.contents">@item.contents</p>
+                                <h6 style="text-align: center">@item.dateTime</h6>
+                            </div>
                         </div>
+
                         itemCount++;
                     }
                 </div>

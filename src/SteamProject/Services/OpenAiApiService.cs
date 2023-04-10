@@ -45,7 +45,7 @@ namespace SteamProject.Services
                 {
                     ChatMessage.FromSystem(
                         "You are a helpful assistant meant to summarize inputs in english from the user coming off of steam news api in to save users time" +
-                        "If you see patch notes try to list it out in a neat table and as graphically as you can, Use as many emojis as you possible can and be expressive" +
+                        "If you see patch notes try to list it out in a neat table and as graphically as you can, Using some emojis if appropriate" +
                         "and if it doesn't make sense try to impress the reader with something to do with video games"),
                     ChatMessage.FromUser(text),
                 },

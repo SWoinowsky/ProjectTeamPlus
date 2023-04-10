@@ -31,6 +31,14 @@ public partial class UserAchievement
         Achievement = gameAchIn;
     }
 
+    public UserAchievement( List<GameAchievement> gameAchIn, List<Achievement> achPOCO )
+    {
+        foreach( var poco in achPOCO )
+        {
+            
+        }
+    }
+
     DateTime getDateFromUnix( int? unixTime )
     {
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

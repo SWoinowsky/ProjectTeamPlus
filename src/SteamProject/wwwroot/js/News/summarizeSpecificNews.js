@@ -50,7 +50,6 @@ function normalizeWhitespace(str) {
     return str.replace(/\s+/g, ' ').trim();
 }
 
-// This function summarizes a specific news item and updates the UI.
 function summarizeSpecificNews(button, appId, newsIndex) {
     // Get the news element and its original content
     const newsElement = button.parentElement.nextElementSibling;
@@ -113,8 +112,9 @@ function summarizeSpecificNews(button, appId, newsIndex) {
             }
         });
 
-        // Toggle the button's inner text
+        // Toggle the button's inner text and color
         button.innerText = "Show Original";
+        button.classList.add("show-original");
     } else {
         // If the news element is not displaying the original content, switch back to it
         fadeOut(newsElement, () => {
@@ -122,10 +122,12 @@ function summarizeSpecificNews(button, appId, newsIndex) {
             fadeIn(newsElement);
         });
 
-        // Toggle the button's inner text
+        // Toggle the button's inner text and color
         button.innerText = "Summarize";
+        button.classList.remove("show-original");
     }
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     // Get all the summarize buttons
@@ -146,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const storedNewsKey = `specificNews-${appId}-${newsIndex}`;
         const storedNewsTimestampKey = `specificNewsTimestamp-${appId}-${newsIndex}`;
 
-        // Retrieve the stored news and its timestamp
         const storedNews = localStorage.getItem(storedNewsKey);
         const storedNewsTimestamp = localStorage.getItem(storedNewsTimestampKey);
         const now = new Date().getTime();
@@ -156,13 +157,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if the stored news is expired
         const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
 
-        // If the summarized news is stored and not expired, load it into the news element
+        // If the summarized news is stored and not expired, load it
         if (storedNews && !isExpired) {
             const newsElement = button.parentElement.nextElementSibling;
             newsElement.innerHTML = storedNews;
 
-            // Update the button's inner text
+            // Toggle the button's inner text and color
             button.innerText = "Show Original";
+            button.classList.add("show-original");
         }
     });
 });

@@ -31,12 +31,14 @@ public partial class UserAchievement
         Achievement = gameAchIn;
     }
 
-    public UserAchievement( List<GameAchievement> gameAchIn, List<Achievement> achPOCO )
+    public UserAchievement GetUserAchievementFromAPICall( GameAchievement gameAchIn, List<Achievement> achPOCO )
     {
-        foreach( var poco in achPOCO )
-        {
-            
-        }
+        var pocoNeeded = new Achievement();
+        pocoNeeded = achPOCO.Where( a => a.apiname == gameAchIn.ApiName ).FirstOrDefault();
+
+        var achievementNeeded = new UserAchievement( gameAchIn, pocoNeeded );
+        
+        return achievementNeeded;
     }
 
     DateTime getDateFromUnix( int? unixTime )

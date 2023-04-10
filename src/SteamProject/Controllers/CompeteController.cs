@@ -127,6 +127,8 @@ public class CompeteController : Controller
             viewModel.Players = userList;
             viewModel.CompGameAchList = compAchievements;
             viewModel.GameAchList = gameAchievements;
+
+            // Participant achievement grabbing
         }
 
         return View( viewModel );

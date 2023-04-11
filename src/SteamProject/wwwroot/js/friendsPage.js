@@ -65,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
+    const phoneInput = document.querySelector('#phone-input')
+
     search.addEventListener('input', () => {
         wrapper.innerHTML = ""
         friendCards.forEach((card) => {
@@ -81,10 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
     friendCards.forEach((card) => {
         card.style.backgroundImage = generateGradient()
     })
+
     const valid = (e) => {
         const exp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         return exp.test(e);
     }
+
     invBtn.addEventListener('click', () => {
         let e = emailInput.value
         if (valid(e)) {
@@ -124,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             emailError.style.visibility = "visible"
         }
     })
+
     const fetchStatus = (steamId, userId) => {
         fetch(`/api/Steam/friends?steamid=${steamId}&UserId=${userId}`)
         .then((response) => response.json())

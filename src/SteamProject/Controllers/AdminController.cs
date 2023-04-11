@@ -38,8 +38,13 @@ public class AdminController: Controller
 
     public IActionResult ShowAllUsers()
     {
-        var userList = _userRepository.GetAllUsers();
-        return View(userList);
+        var steamUserList = _userRepository.GetAllUsers();
+        List<IdentityUser> identityUserList = new List<IdentityUser>();
+        foreach(var user in steamUserList)
+        {
+            identityUserList.Add(_userManager.FindByIdAsync(user.AspNetUserId).Result);
+        }
+        return View(steamUserList);
     }
 
     public IActionResult LoadGames()

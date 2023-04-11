@@ -1,7 +1,45 @@
+@model IEnumerable<SteamProject.Models.User>
 @{
     ViewData["Title"] = "Admin - Site Users";
 }
 <head>
     <link rel="stylesheet" type="text/css" href="~/css/Identity.css" asp-append-version="true">
 </head>
-<div>Users</div>
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1>Site-wide User List</h1>
+        <h2>Mange Users</h2>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AspNetUserId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SteamName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SteamId)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AspNetUserId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SteamName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SteamId)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>

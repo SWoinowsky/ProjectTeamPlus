@@ -32,7 +32,7 @@ public class UserRepository : Repository<User>, IUserRepository
         return null;
     }
 
-    public List<User> GetAllUsers()
+    public IEnumerable<User> GetAllUsers()
     {
         return GetAll().ToList();
     }

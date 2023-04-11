@@ -16,6 +16,6 @@ namespace SteamProject.DAL.Abstract
         /// Get a list of all users on the site -- used solely for admin access right now.
         /// <summary>
         /// <returns>A list of all the users on the site.
-        List<User> GetAllUsers();
+        IEnumerable<User> GetAllUsers();
     }
 }

@@ -32,6 +32,10 @@ public class UserRepository : Repository<User>, IUserRepository
         return null;
     }
 
+    public List<User> GetAllUsers()
+    {
+        return GetAll().ToList();
+    }
 
 
 }

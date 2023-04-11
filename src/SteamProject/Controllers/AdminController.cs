@@ -38,7 +38,8 @@ public class AdminController: Controller
 
     public IActionResult ShowAllUsers()
     {
-        throw new NotImplementedException();
+        var userList = _userRepository.GetAllUsers();
+        return View(userList);
     }
 
     public IActionResult LoadGames()

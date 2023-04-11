@@ -90,6 +90,37 @@ header {
     background-color: green;
 }
 
+.gameImage {
+    width: 100%;
+    border-radius: 25px;
+    margin-bottom: 1rem;
+}
+
+.image-container {
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    border-radius: 25px 0 25px 0;
+    z-index: 10;
+    width: 12rem;
+    opacity: 0.5;
+    transition: opacity 1s ease;
+}
+
+.back-btn:hover {
+    opacity: 1
+}
+
+.news-title {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px
+}
+
+
 .custom-btn:hover, .summarize-btn:hover {
     opacity: 0.8;
 }
@@ -107,10 +138,6 @@ header {
 .news-container {
     transition: height 4s ease;
     overflow: hidden;
-}
-
-.btn-outline-info {
-    width: 6rem;
 }
 
 .laser-engrave {

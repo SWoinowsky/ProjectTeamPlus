@@ -14,6 +14,8 @@ public partial class Friend
 
     public string? SteamName { get; set; }
 
+    public string? Nickname { get; set; } = null!;
+
     public int? PersonaState { get; set; }
 
     public string? AvatarUrl { get; set; }

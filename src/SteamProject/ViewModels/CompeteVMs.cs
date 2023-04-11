@@ -21,7 +21,7 @@ public class CompeteDetailsVM
     public List<User> Players { get; set; } = null;
     public List<CompetitionGameAchievement> CompGameAchList { get; set; } = null;
     public List<GameAchievement> GameAchList { get; set; } = null;
-    public Dictionary<string, List<UserAchievement>> Tracking { get; set; }
+    public List<KeyValuePair<UserAchievement, User>> Tracking { get; set; }
 }
 
 

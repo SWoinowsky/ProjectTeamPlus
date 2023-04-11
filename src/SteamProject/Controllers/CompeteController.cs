@@ -1,4 +1,5 @@
 
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -123,7 +124,7 @@ public class CompeteController : Controller
             
 
             // Participant achievement grabbing
-            var userAchDict = new Dictionary<string, List<UserAchievement>>();
+            var userAchDict = new Dictionary<UserAchievement, User>();
             foreach( var participant in userList )
             {
                 var ListIntoDict = new List<UserAchievement>();
@@ -135,13 +136,23 @@ public class CompeteController : Controller
                 {
                     var userAchOut = new UserAchievement();
                     userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
-                    if( userAchOut != null )
+                    if( userAchOut.Achievement.DisplayName == "Lucatiel" )
+                    {
+                        userAchOut.Achieved = true;
+                        userAchOut.UnlockTime = DateTime.Now;
+                    }
+                    if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
                         ListIntoDict.Add( userAchOut );
                 }
 
-                userAchDict.Add( participant.SteamId, ListIntoDict );
+                foreach( var achievement in ListIntoDict )
+                {
+                    userAchDict.Add( achievement, participant );
+                }
             }
 
+            var userAchList = new List<KeyValuePair<UserAchievement, User>>();
+            userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
             
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
@@ -149,7 +160,7 @@ public class CompeteController : Controller
             viewModel.Players = userList;
             viewModel.CompGameAchList = compAchievements;
             viewModel.GameAchList = gameAchievements;
-            viewModel.Tracking = userAchDict;
+            viewModel.Tracking = userAchList;
         }
 
         return View( viewModel );

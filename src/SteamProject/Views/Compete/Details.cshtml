@@ -64,6 +64,17 @@ else
                     }
                 </div>
             </div>
+
+            <div style="width: 100%; padding-left: 7%; padding-top: 3%; font-weight: bold;">
+                <i> History </i>
+                <ul>
+                    @foreach( var completion in Model.Tracking )
+                    {
+                        <li style="padding-bottom: 2%;"> @completion.Value.SteamName completed @completion.Key.Achievement.DisplayName with timestamp @completion.Key.UnlockTime! </li>
+                    }
+                </ul>
+                
+            </div>
         </div>
 
     </div>

@@ -47,4 +47,32 @@ public partial class UserAchievement
         dateTime = dateTime.AddSeconds( unixTime ?? 0 ).ToLocalTime();
         return dateTime;
     }
+
+    public bool AchievedWithinWindow( Competition comp )
+    {
+        if( UnlockTime != null )
+        {
+            var startTime = new DateTime();
+            startTime = comp.StartDate;
+
+            var endTime = new DateTime();
+            endTime = comp.EndDate;
+
+            var startToUnix = new long();
+            startToUnix = ((DateTimeOffset)startTime).ToUnixTimeSeconds();
+
+            var endToUnix = new long();
+            endToUnix = ((DateTimeOffset)endTime).ToUnixTimeSeconds();
+
+            var thisTimeToUnix = new long();
+            thisTimeToUnix = ((DateTimeOffset)UnlockTime).ToUnixTimeSeconds();
+
+            if( startToUnix < thisTimeToUnix )
+                if( thisTimeToUnix < endToUnix )
+                    return true;
+        }
+        return false;
+    }
+
+
 }

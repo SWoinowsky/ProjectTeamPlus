@@ -40,11 +40,18 @@ public class AdminController: Controller
     {
         var steamUserList = _userRepository.GetAllUsers();
         List<IdentityUser> identityUserList = new List<IdentityUser>();
+
         foreach(var user in steamUserList)
         {
             identityUserList.Add(_userManager.FindByIdAsync(user.AspNetUserId).Result);
         }
-        return View(steamUserList);
+
+        AdminUsersVM adminUsersVM = new AdminUsersVM()
+        {
+            steamUsers = steamUserList,
+            identityUsers = identityUserList
+        };
+        return View(adminUsersVM);
     }
 
     public IActionResult LoadGames()

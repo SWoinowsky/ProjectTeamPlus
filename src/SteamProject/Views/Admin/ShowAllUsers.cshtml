@@ -1,4 +1,4 @@
-@model IEnumerable<SteamProject.Models.User>
+@model SteamProject.ViewModels.AdminUsersVM
 @{
     ViewData["Title"] = "Admin - Site Users";
 }
@@ -14,13 +14,13 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.AspNetUserId)
+                        @Html.DisplayNameFor(model => model.steamUsers.First().AspNetUserId)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.SteamName)
+                        @Html.DisplayNameFor(model => model.steamUsers.First().SteamName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.SteamId)
+                        @Html.DisplayNameFor(model => model.steamUsers.First().SteamId)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model)
@@ -28,17 +28,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model)
+                @foreach(var user in Model.steamUsers)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.AspNetUserId)
+                            @Html.DisplayFor(modelItem => user.AspNetUserId)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.SteamName)
+                            @Html.DisplayFor(modelItem => user.SteamName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.SteamId)
+                            @Html.DisplayFor(modelItem => user.SteamId)
                         </td>
                     </tr>
                 }

@@ -6,7 +6,9 @@ namespace SteamProject.ViewModels
 {
     public class AdminUsersVM
     {
-        public IEnumerable<User> steamUsers {get; set;}
-        public IEnumerable<IdentityUser> identityUsers {get; set;}
+        public string AspNetUserId {get; set;}
+        public string SteamId {get; set;}
+        public string SteamName {get; set;}
+        public string Email {get; set;}
     }
 }

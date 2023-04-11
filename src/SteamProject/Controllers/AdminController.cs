@@ -38,19 +38,19 @@ public class AdminController: Controller
 
     public IActionResult ShowAllUsers()
     {
-        var steamUserList = _userRepository.GetAllUsers();
-        List<IdentityUser> identityUserList = new List<IdentityUser>();
+        List<AdminUsersVM> adminUsersVM = new List<AdminUsersVM>();
 
-        foreach(var user in steamUserList)
+        foreach(var user in _userRepository.GetAllUsers())
         {
-            identityUserList.Add(_userManager.FindByIdAsync(user.AspNetUserId).Result);
+            var temp = _userManager.FindByIdAsync(user.AspNetUserId).Result;
+            adminUsersVM.Add(new AdminUsersVM(){
+                AspNetUserId = temp.Id,
+                SteamId = user.SteamId,
+                SteamName = user.SteamName,
+                Email = temp.Email
+            });
         }
 
-        AdminUsersVM adminUsersVM = new AdminUsersVM()
-        {
-            steamUsers = steamUserList,
-            identityUsers = identityUserList
-        };
         return View(adminUsersVM);
     }
 

@@ -1,4 +1,4 @@
-@model SteamProject.ViewModels.AdminUsersVM
+@model IEnumerable<SteamProject.ViewModels.AdminUsersVM>
 @{
     ViewData["Title"] = "Admin - Site Users";
 }
@@ -14,31 +14,38 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.steamUsers.First().AspNetUserId)
+                        @Html.DisplayNameFor(model => model.AspNetUserId)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.steamUsers.First().SteamName)
+                        @Html.DisplayNameFor(model => model.Email)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.steamUsers.First().SteamId)
+                        @Html.DisplayNameFor(model => model.SteamName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model)
+                        @Html.DisplayNameFor(model => model.SteamId)
                     </th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach(var user in Model.steamUsers)
+                @foreach(var user in Model)
                 {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => user.AspNetUserId)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => user.Email)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => user.SteamName)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => user.SteamId)
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@user.SteamId">Ban</a>
                         </td>
                     </tr>
                 }

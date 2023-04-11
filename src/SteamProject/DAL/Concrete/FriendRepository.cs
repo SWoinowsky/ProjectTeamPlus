@@ -20,5 +20,4 @@ public class FriendRepository : Repository<Friend>, IFriendRepository
         return GetAll().Where( f => f.SteamId == steamId ).FirstOrDefault();
     }
     
-
 }

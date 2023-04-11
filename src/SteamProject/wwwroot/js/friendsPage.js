@@ -149,4 +149,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         fetchStatus(steamId, userId)
     }, 60000)
+    
 })

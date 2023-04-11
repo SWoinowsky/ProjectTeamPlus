@@ -107,3 +107,35 @@
     border: 1px solid #eeeeee;
     border-radius: 5px;
 }
+
+.card-title.friend-name {
+    color: #fff;
+}
+.card-title.friend-name:hover {
+    cursor: url('../assets/pencilfillpurp.png'), auto;
+}
+
+.name-box {
+    color: #fff;
+    height: 2rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    width: 10rem;
+    background-color: rgba(0, 0, 0, 0.08);
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+}
+
+.nickname-title {
+    width: 12rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.revert {
+    margin-left: 1rem;
+}

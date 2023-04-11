@@ -12,7 +12,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailError = document.querySelector('#email-error')
     const invBtn = document.querySelector('#send-inv')
     const emailInput = document.querySelector('#email-input')
-    const phoneInput = document.querySelector('#phone-input')
+    // const phoneInput = document.querySelector('#phone-input')
+
+    const reverts = document.querySelectorAll('.revert')
+    reverts.forEach((revert) => {
+        revert.addEventListener('click', () => {
+            fetch(`/api/Steam/revertNickname?friendSteamId=${revert.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'text/html; charset=utf-8'
+                },
+            })
+            .then(() => {
+                location.reload()
+            })
+        })
+    })
+
+    const createBox = (friend) => {
+        let box = document.createElement('input')
+        box.type = 'text'
+        box.className = 'name-box'
+        box.setAttribute('maxlength', '18')
+        box.addEventListener('keydown', (event) => {
+            if (event.key == "Enter") {
+                fetch(`/api/Steam/setNickname?friendSteamId=${friend}&nickname=${box.value}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'text/html; charset=utf-8'
+                    },
+                })
+                .then((response) => {
+                    if (response.status == 200) {
+                        location.reload()
+                    }
+                    else {
+                        console.log(response.status)
+                    }
+                })
+            }
+        })
+        return box
+    }
+
+    const friendNames = document.querySelectorAll('.friend-name')
+    friendNames.forEach((name) => {
+        name.addEventListener('click', () => {
+            let box = createBox(name.id)
+            name.replaceWith(box)
+        })
+    })
 
     search.addEventListener('input', () => {
         wrapper.innerHTML = ""
@@ -30,12 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
     friendCards.forEach((card) => {
         card.style.backgroundImage = generateGradient()
     })
-
     const valid = (e) => {
         const exp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         return exp.test(e);
     }
-
     invBtn.addEventListener('click', () => {
         let e = emailInput.value
         if (valid(e)) {
@@ -75,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
             emailError.style.visibility = "visible"
         }
     })
-
     const fetchStatus = (steamId, userId) => {
         fetch(`/api/Steam/friends?steamid=${steamId}&UserId=${userId}`)
         .then((response) => response.json())

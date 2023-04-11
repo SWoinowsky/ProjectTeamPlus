@@ -33,6 +33,4 @@ public class UserRepository : Repository<User>, IUserRepository
         return null;
     }
 
-
-
 }

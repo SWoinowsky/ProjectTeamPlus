@@ -18,7 +18,12 @@
 
 <div class="text-center">
     <img src="@Model.Friend.AvatarFullUrl" style="border: 5px #ea7272 outset; border-radius: 25%; box-shadow: 0 8px 16px black;" >
-    <h1> @Model.Friend.SteamName </h1>
+    @if (Model.Friend.Nickname != null)
+    {
+        <h1> @Model.Friend.Nickname </h1>
+    } else {
+        <h1> @Model.Friend.SteamName </h1>
+    }
     <h3 id="friendPageStatus" style="color: black"> </h3>
     <i id="friendGameStatus"> </i>
 </div>

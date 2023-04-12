@@ -28,6 +28,7 @@ CREATE TABLE [Friend]
 	,[LastLogOff]		INT				
 	,[GameExtraInfo]	NVARCHAR(100)
 	,[GameId]			INT
+	,[Nickname]			NVARCHAR(50)
 );
 
 CREATE TABLE [Game]

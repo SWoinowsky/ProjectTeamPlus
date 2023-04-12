@@ -136,11 +136,6 @@ public class CompeteController : Controller
                 {
                     var userAchOut = new UserAchievement();
                     userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
-                    if( userAchOut.Achievement.DisplayName == "Lucatiel" )
-                    {
-                        userAchOut.Achieved = true;
-                        userAchOut.UnlockTime = DateTime.Now;
-                    }
                     if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
                         ListIntoDict.Add( userAchOut );
                 }

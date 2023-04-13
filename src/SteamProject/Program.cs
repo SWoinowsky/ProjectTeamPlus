@@ -82,15 +82,12 @@ builder.Services.AddScoped<IUserAchievementRepository, UserAchievementRepository
 builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<ICompetitionPlayerRepository, CompetitionPlayerRepository>();
 builder.Services.AddScoped<ICompetitionGameAchievementRepository, CompetitionGameAchievementRepository>();
-
-
-
-
- 
+builder.Services.AddScoped<IBlackListRepository, BlackListRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()                   // enable roles
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication()
@@ -131,6 +128,9 @@ using (var scope = app.Services.CreateScope())
         var testUserPw = config["SeedUserPW"];
 
         SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
+        var adminPw = config["SeedAdminPW"];
+
+        SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "My", "Admin").Wait();
     }
     catch (Exception ex)
     {

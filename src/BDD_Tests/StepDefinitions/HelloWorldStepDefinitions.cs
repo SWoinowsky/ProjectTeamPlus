@@ -1,5 +1,5 @@
-using Standups_BDD_Tests.Drivers;
-using Standups_BDD_Tests.PageObjects;
+using BDD_Tests.Drivers;
+using BDD_Tests.PageObjects;
 using System;
 using TechTalk.SpecFlow;
 

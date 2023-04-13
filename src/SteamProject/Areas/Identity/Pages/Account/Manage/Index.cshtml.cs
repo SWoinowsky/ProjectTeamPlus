@@ -83,6 +83,11 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(IdentityUser user)
         {
+            string? id = _userManager.GetUserId(User);
+            if (_userManager.IsInRoleAsync(_userManager.FindByIdAsync(id).Result, "admin").Result)
+            {
+                return;
+            }
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var currentUser = _userRepository.GetUser(_userManager.GetUserId(User));

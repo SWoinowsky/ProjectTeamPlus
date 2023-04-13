@@ -32,6 +32,8 @@ public partial class SteamInfoDbContext : DbContext
     public virtual DbSet<UserAchievement> UserAchievements { get; set; }
 
     public virtual DbSet<UserGameInfo> UserGameInfos { get; set; }
+    public virtual DbSet<BlackList> BlackLists { get; set; }
+    public virtual DbSet<AdminUser> AdminUsers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=SteamInfoConnection");
@@ -167,6 +169,29 @@ public partial class SteamInfoDbContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.UserGameInfos)
                 .HasForeignKey(d => d.OwnerId)
                 .HasConstraintName("UserGameInfo_FK_User");
+        });
+
+        modelBuilder.Entity<BlackList>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__BlackLis__3214EC070379BBD4");
+
+            entity.ToTable("BlackList");
+
+            entity.Property(e => e.SteamId).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<AdminUser>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__AdminUse__3214EC27CA4527F0");
+
+            entity.ToTable("AdminUser");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.AspnetIdentityId)
+                .HasMaxLength(450)
+                .HasColumnName("ASPNetIdentityId");
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -23,12 +23,20 @@ public class AdminController: Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly IBlackListRepository _blackListRepository;
+    private readonly SignInManager<IdentityUser> _signInManager;
+    private IFriendRepository _friendRepository;
+            private IUserGameInfoRepository _userGameInfoRepository;
 
-    public AdminController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository)
+    public AdminController(
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
+        _signInManager = signInManager;
         _blackListRepository = blackListRepository;
+        _friendRepository = friendRepository;
+        _userGameInfoRepository = userGameInfoRepository;
     }
 
     public IActionResult Index()
@@ -54,13 +62,82 @@ public class AdminController: Controller
         return View(adminUsersVM);
     }
 
-    public IActionResult Delete(string id)
+    public async Task<IActionResult> Delete(string id)
     {
         var toBeBanned = new BlackList{
             SteamId = id
             };
+        
+
+        var loginProvider = "Steam";
+        var providerKey = "https://steamcommunity.com/openid/id/" + id;
+        var tempUsers = _userRepository.GetAllUsers();
+        var user = new IdentityUser();
+        foreach(var tempUser in tempUsers)
+        {
+            if(tempUser.SteamId == id)
+            {
+                user = await _userManager.FindByIdAsync(tempUser.AspNetUserId);
+                break;
+            }
+        }
+        if (user == null)
+        {
+            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        }
+
+        var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
+        if (!result.Succeeded)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        User currentUser = null;
+        if (user != null)
+        {
+
+            if (user.Id != null)
+            {
+                currentUser = _userRepository.GetAll().FirstOrDefault(u => u.AspNetUserId == user.Id);
+                var currentUserGameInfo = _userGameInfoRepository.GetAll().Where(g => g.OwnerId == currentUser.Id).ToList();
+                var friendInfo = _friendRepository.GetAll().Where(f => f.RootId == currentUser.Id).ToList();
+
+                if (currentUser != null)
+                {
+                    try
+                    {
+                        currentUser.SteamId = null;
+                        currentUser.AvatarUrl = null;
+                        currentUser.ProfileUrl = null;
+                        currentUser.SteamName = null;
+                        currentUser.PlayerLevel = null;
+                        
+                        currentUser.UserAchievements.Clear();
+
+
+                        for (int i = 0; i < currentUserGameInfo.Count(); i++)
+                        {
+                            _userGameInfoRepository.Delete(currentUserGameInfo[i]);
+                        }
+
+                        for (int i = 0; i < friendInfo.Count(); i++)
+                        {
+                            _friendRepository.Delete(friendInfo[i]);
+                        }
+                        
+
+                        _userRepository.AddOrUpdate(currentUser);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
         _blackListRepository.AddOrUpdate(toBeBanned);
-        return View();
+        return RedirectToAction(nameof(ShowAllUsers));
     }
 
     public IActionResult LoadGames()

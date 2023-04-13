@@ -154,4 +154,9 @@ public class AdminController: Controller
     {
         throw new NotImplementedException();
     }
+
+    public IActionResult ViewBannedIds()
+    {
+        throw new NotImplementedException();
+    }
 }

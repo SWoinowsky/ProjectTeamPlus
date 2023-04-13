@@ -97,6 +97,19 @@ CREATE TABLE [CompetitionGameAchievement]
 	[GameAchievementId]	INT				NOT NULL
 );
 
+CREATE TABLE [BlackList]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[SteamId]			NVARCHAR(50)
+);
+
+CREATE TABLE [AdminUser] (
+  	[ID] int PRIMARY KEY IDENTITY(1, 1),
+  	[ASPNetIdentityId] nvarchar(450),
+  	[FirstName] nvarchar(50),
+  	[LastName] nvarchar(50)
+);
+
 
 
 ALTER TABLE [Friend]			ADD CONSTRAINT [Friend_Fk_User]					FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;

@@ -28,12 +28,13 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         private IUserRepository _userRepo;
         private IUserGameInfoRepository _userGameInfoRepo;
         private IFriendRepository _friendRepo;
+        private IBlackListRepository _blackListRepository;
 
 
         public ExternalLoginsModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore, IUserRepository userRepo, IUserGameInfoRepository userGameInfoRepo, IFriendRepository friendRepo)
+            IUserStore<IdentityUser> userStore, IUserRepository userRepo, IUserGameInfoRepository userGameInfoRepo, IFriendRepository friendRepo, IBlackListRepository blackListRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -41,6 +42,7 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
             _userRepo = userRepo;
             _userGameInfoRepo = userGameInfoRepo;
             _friendRepo = friendRepo;
+            _blackListRepository = blackListRepository;
         }
 
         /// <summary>
@@ -196,16 +198,22 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                 string[] urlSplit = info.ProviderKey.Split('/');
                 string steamId = urlSplit.Last();
 
+                // This is where we get the Steam Id and check the blacklist for it.
+                if(_blackListRepository.CheckForBlackList(steamId))
+                {
+                    StatusMessage = "That id has been banned for cheating!";
+                    info.ProviderKey = "";
+                    info.ProviderDisplayName = "";
+                    return RedirectToPage();
+                }
+
                 User currentUser = null;
                 if (userId != null)
                 {
                     //Store steamid in database here somehow
-
                     if (steamId != null)
                     {
                         currentUser = _userRepo.GetAll().Where(u => u.AspNetUserId == userId).FirstOrDefault();
-                       
-
                         if(currentUser != null) {
                             try
                             {

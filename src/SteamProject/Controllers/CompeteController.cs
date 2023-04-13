@@ -1,4 +1,5 @@
 
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -121,12 +122,40 @@ public class CompeteController : Controller
                     gameAchievements.Add( achievementFound );
             }
             
+
+            // Participant achievement grabbing
+            var userAchDict = new Dictionary<UserAchievement, User>();
+            foreach( var participant in userList )
+            {
+                var ListIntoDict = new List<UserAchievement>();
+
+                var userResponse = new AchievementRoot();
+                userResponse = _steamService.GetAchievements( participant.SteamId, gameAssociated.AppId );
+
+                foreach( var ach in gameAchievements )
+                {
+                    var userAchOut = new UserAchievement();
+                    userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
+                    if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
+                        ListIntoDict.Add( userAchOut );
+                }
+
+                foreach( var achievement in ListIntoDict )
+                {
+                    userAchDict.Add( achievement, participant );
+                }
+            }
+
+            var userAchList = new List<KeyValuePair<UserAchievement, User>>();
+            userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
+            
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
             viewModel.CompGameAchList = compAchievements;
             viewModel.GameAchList = gameAchievements;
+            viewModel.Tracking = userAchList;
         }
 
         return View( viewModel );

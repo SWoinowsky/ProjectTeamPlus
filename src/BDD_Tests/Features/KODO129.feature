@@ -6,4 +6,4 @@ A short summary of the feature
 Scenario: I am a user and can visit a page that shows my competitions.
 	Given I am signed in
 	When I click on the compete link
-	Then The page title should contain "My Competitions"
+	Then Then I end up on the competitions list page

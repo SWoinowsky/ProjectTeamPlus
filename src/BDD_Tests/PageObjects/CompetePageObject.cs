@@ -5,12 +5,12 @@ using System.Collections.ObjectModel;
 
 namespace BDD_Tests.PageObjects
 {
-    public class HomePageObject : PageObject
+    public class CompetePageObject : PageObject
     {
-        public HomePageObject(IWebDriver webDriver) : base(webDriver)
+        public CompetePageObject(IWebDriver webDriver) : base(webDriver)
         {
             // using a named page (in Common.cs)
-            _pageName = "Home";
+            _pageName = "Compete";
         }
 
         public IWebElement RegisterButton => _webDriver.FindElement(By.Id("register-link"));

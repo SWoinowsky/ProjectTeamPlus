@@ -45,7 +45,10 @@
                             @Html.DisplayFor(modelItem => user.SteamId)
                         </td>
                         <td>
-                            <a asp-action="Delete" asp-route-id="@user.SteamId">Ban</a>
+                            @if(user.SteamId != null)
+                            {
+                                <a asp-action="Delete" asp-route-id="@user.SteamId">Ban</a>
+                            }
                         </td>
                     </tr>
                 }

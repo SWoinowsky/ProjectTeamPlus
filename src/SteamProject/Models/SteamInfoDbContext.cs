@@ -173,9 +173,9 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<BlackList>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("BlackList");
+            entity.HasKey(e => e.Id).HasName("PK__BlackLis__3214EC070379BBD4");
+
+            entity.ToTable("BlackList");
 
             entity.Property(e => e.SteamId).HasMaxLength(50);
         });

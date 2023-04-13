@@ -54,6 +54,15 @@ public class AdminController: Controller
         return View(adminUsersVM);
     }
 
+    public IActionResult Delete(string id)
+    {
+        var toBeBanned = new BlackList{
+            SteamId = id
+            };
+        _blackListRepository.AddOrUpdate(toBeBanned);
+        return View();
+    }
+
     public IActionResult LoadGames()
     {
         throw new NotImplementedException();

@@ -98,8 +98,9 @@ CREATE TABLE [CompetitionGameAchievement]
 
 CREATE TABLE [BlackList]
 (
-	[SteamId]			NVARCHAR(50)
-)
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[SteamId]			NVARCHAR(50)
+);
 
 CREATE TABLE [AdminUser] (
   	[ID] int PRIMARY KEY IDENTITY(1, 1),

@@ -19,3 +19,4 @@ DROP TABLE [Competition];
 DROP TABLE [CompetitionPlayer];
 DROP TABLE [CompetitionGameAchievement];
 DROP TABLE [BlackList];
+DROP TABLE [AdminUser];

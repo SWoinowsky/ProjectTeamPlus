@@ -67,7 +67,6 @@ public class AdminController: Controller
         var toBeBanned = new BlackList{
             SteamId = id
             };
-        
 
         var loginProvider = "Steam";
         var providerKey = "https://steamcommunity.com/openid/id/" + id;
@@ -136,6 +135,13 @@ public class AdminController: Controller
             }
         }
 
+        foreach(var item in _blackListRepository.GetAll())
+        {
+            if(item.SteamId == id)
+            {
+                return RedirectToAction(nameof(ShowAllUsers));
+            }
+        }
         _blackListRepository.AddOrUpdate(toBeBanned);
         return RedirectToAction(nameof(ShowAllUsers));
     }

@@ -22,7 +22,6 @@
     <Folder Include="Drivers\" />
     <Folder Include="Hooks\" />
     <Folder Include="Documentation\" />
-    <Folder Include="PageObjects\" />
     <Folder Include="Support\" />
   </ItemGroup>
 

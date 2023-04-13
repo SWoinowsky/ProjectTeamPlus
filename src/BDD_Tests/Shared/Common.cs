@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standups_BDD_Tests.Shared
+namespace BDD_Tests.Shared
 {
     // Sitewide definitions and useful methods
     public class Common

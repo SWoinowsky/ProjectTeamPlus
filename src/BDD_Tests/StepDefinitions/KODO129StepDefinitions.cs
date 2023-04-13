@@ -6,18 +6,20 @@ using TechTalk.SpecFlow;
 namespace BDD_Tests.StepDefinitions
 {
     [Binding]
-    public class HelloWorldStepDefinitions
+    public class KODO129StepDefinitions
     {
 
+        private readonly ScenarioContext _scenarioContext;
+        private readonly LoginPageObject _loginPage;
         private readonly HomePageObject _homePage;
 
-        public HelloWorldStepDefinitions(BrowserDriver browserDriver) 
+        public KODO129StepDefinitions(BrowserDriver browserDriver) 
         {
             _homePage = new HomePageObject(browserDriver.Current);
         }
 
 
-        [Given(@"I am a visitor")]
+        [Given(@"I am signed in")]
         public void GivenIAmAVisitor()
         {
             // Nothing to do!

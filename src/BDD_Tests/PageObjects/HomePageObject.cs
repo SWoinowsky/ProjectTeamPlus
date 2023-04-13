@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using Standups_BDD_Tests.Shared;
+using BDD_Tests.Shared;
 using System.Collections.ObjectModel;
 
-namespace Standups_BDD_Tests.PageObjects
+namespace BDD_Tests.PageObjects
 {
     public class HomePageObject : PageObject
     {

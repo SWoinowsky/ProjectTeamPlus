@@ -157,6 +157,7 @@ public class AdminController: Controller
 
     public IActionResult ViewBannedIds()
     {
-        throw new NotImplementedException();
+        var temp = _blackListRepository.GetAll();
+        return View(_blackListRepository.GetAll());
     }
 }

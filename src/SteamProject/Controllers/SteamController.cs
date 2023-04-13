@@ -7,6 +7,7 @@ using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity;
 using SteamProject.Models.DTO;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace SteamProject.Controllers;
 
@@ -20,14 +21,18 @@ public class SteamController : ControllerBase
     private readonly ISteamService _steamService;
     private readonly IGameRepository _gameRepository;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
+    private readonly IEmailSender _emailSender;
+    private readonly IFriendRepository _friendRepository;
 
-    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository )
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _steamService = steamService;
         _gameRepository = gameRepository;
         _userGameInfoRepository = userGameInfoRepository;
+        _emailSender = emailSender;
+        _friendRepository = friendRepository;
     }
 
 
@@ -131,4 +136,31 @@ public class SteamController : ControllerBase
 
         return Ok( friend );
     }
+
+    [HttpGet("sendInvite")]
+    public async Task<ActionResult> SendInvite(string email)
+    {
+        string fixedEmail = email.Replace("%40", "@");
+        await _emailSender.SendEmailAsync($"{fixedEmail}", "Invitation", "<a>You're invited!</a>");
+        return Ok();
+    }
+
+    [HttpPatch("setNickname")]
+    public ActionResult SetNickname(string friendSteamId, string nickname)
+    {   
+        var friend = _friendRepository.GetSpecificFriend(friendSteamId);
+        friend.Nickname = nickname;
+        _friendRepository.AddOrUpdate(friend);
+        return Ok();
+    }
+
+    [HttpPatch("revertNickname")]
+    public ActionResult RevertNickname(string friendSteamId)
+    {   
+        var friend = _friendRepository.GetSpecificFriend(friendSteamId);
+        friend.Nickname = null;
+        _friendRepository.AddOrUpdate(friend);
+        return Ok();
+    }
+
 }

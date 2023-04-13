@@ -102,6 +102,8 @@ builder.Services.AddAuthentication()
                     });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
 builder.Services.AddOpenAIService();
 
 builder.Services.AddControllersWithViews();

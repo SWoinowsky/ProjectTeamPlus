@@ -43,6 +43,34 @@
 #ModalBtn:focus {
     outline: none;
     -webkit-box-shadow: inset 0px 0px 10px  rgba(0,0,0,0.8);
-       -moz-box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+        -moz-box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
             box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
-  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+#CompletionHistory { 
+    font-family: 'Space Mono', monospace; 
+    display: flex;
+    flex-direction: column;
+    max-width: 420px;
+    padding: 32px;
+    margin: 60px auto;
+    border: 1px solid #eee;
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.06);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizelegibility;
+    letter-spacing: -0.25px;
+    padding-left: 50px; 
+}
+li { 
+    color: #4F4F4F; 
+    padding-left: 16px;
+    margin-top: 24px;
+    position: relative;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+strong { color: #292929; }

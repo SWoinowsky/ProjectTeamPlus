@@ -213,13 +213,13 @@ else
                     @if (Model.FollowedGames.Count > 0)
                     {
                         <div id="followedGamesCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
-                            <div class="carousel-inner">
+                            <div class="carousel-inner news-container">
                                 <div class="carousel-item active followedGames">
-                                    <div class="row row-cols-1 row-cols-md-3 g-1 justify-content-center">
+                                    <div class="row row-cols-1 row-cols-md-3 g-1 news-container justify-content-center">
 
                                         @for (var i = 0; i < Model.FollowedGames[0].Count; i++)
                                         {
-                                            <div class="col-md-4 threecol w-100">
+                                            <div class="col-md-4 news-container threecol w-100">
                                                 <div class="card h-100 userCard" data-gameid="@Model.FollowedGames[0][i].AppId">
                                                     <img class="card-img-top" alt="@Model.FollowedGames[0][i].Name" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", Model.FollowedGames[0][i].AppId)" alt="@string.Format("{0}", Model.FollowedGames[0][i].Name)">
                                                     <a class="btn btn-outline-info show-btn" title="More Game News" href='@Url.Action("ShowMoreNews", "Home", new { appId = Model.FollowedGames[0][i].AppId })'>
@@ -299,7 +299,7 @@ else
     <script type="text/javascript" src="~/js/followGame.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="~/js/gameNews.js"></script>
+    <script src="~/js/News/dashboardGameNews.js"></script>
 
 
 }

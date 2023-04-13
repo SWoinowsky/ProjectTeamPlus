@@ -9,10 +9,27 @@ public class BlackListRepository : Repository<BlackList>, IBlackListRepository
     public BlackListRepository(SteamInfoDbContext ctx) : base(ctx)
     {
     }
-    public HashSet<string> GetBlackList()
+    public IEnumerable<string> GetBlackList()
     {
-        HashSet<string> blackList = new HashSet<string>();
+        List<string> blacklist = new List<string>();
+        foreach(var item in GetAll())
+        {
+            blacklist.Add(item.SteamId);
+        }
+        return blacklist;
+    }
 
-        return blackList;
+    public bool CheckForBlackList(string id)
+    {
+        var check = false;
+        foreach(var item in GetAll())
+        {
+            if(item.SteamId == id)
+            {
+                check = true;
+                break;
+            }
+        }
+        return check;
     }
 }

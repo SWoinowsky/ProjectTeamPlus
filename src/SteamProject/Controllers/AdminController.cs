@@ -69,9 +69,9 @@ public class AdminController: Controller
 
         var loginProvider = "Steam";
         var providerKey = "https://steamcommunity.com/openid/id/" + id;
-        var tempUsers = _userRepository.GetAllUsers();
+
         var user = new IdentityUser();
-        foreach(var tempUser in tempUsers)
+        foreach(var tempUser in _userRepository.GetAllUsers())
         {
             if(tempUser.SteamId == id)
             {
@@ -162,7 +162,6 @@ public class AdminController: Controller
 
     public IActionResult ViewBannedIds()
     {
-        var temp = _blackListRepository.GetAll();
-        return View(_blackListRepository.GetAll());
+        return View(_blackListRepository.GetBlackList());
     }
 }

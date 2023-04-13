@@ -1,4 +1,4 @@
-@model IQueryable<BlackList>
+@model IEnumerable<string>
 @{
     ViewData["Title"] = "Admin - Blacklist";
 }
@@ -18,11 +18,11 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var blackList in Model)
+                @foreach(var blackListId in Model)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => blackList.SteamId)
+                            @Html.DisplayFor(modelItem => blackListId)
                         </td>
                     </tr>
                 }

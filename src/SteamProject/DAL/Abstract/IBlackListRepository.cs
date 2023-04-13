@@ -4,5 +4,6 @@ namespace SteamProject.DAL.Abstract;
 
 public interface IBlackListRepository : IRepository<BlackList>
 {
-    HashSet<string> GetBlackList();
+    IEnumerable<string> GetBlackList();
+    bool CheckForBlackList(string id);
 }

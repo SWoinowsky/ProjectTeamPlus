@@ -4,10 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>db997e4d-fe36-495c-afcf-edf38f609b27</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Gherkin" Version="26.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.8.2" />
     <PackageReference Include="SpecFlow.Actions.Selenium" Version="0.1.332" />
@@ -22,7 +25,6 @@
     <Folder Include="Drivers\" />
     <Folder Include="Hooks\" />
     <Folder Include="Documentation\" />
-    <Folder Include="PageObjects\" />
     <Folder Include="Support\" />
   </ItemGroup>
 

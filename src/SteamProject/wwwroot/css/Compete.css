@@ -64,7 +64,7 @@
     letter-spacing: -0.25px;
     padding-left: 50px; 
 }
-li { 
+#CompletionHistory > li { 
     color: #4F4F4F; 
     padding-left: 16px;
     margin-top: 24px;

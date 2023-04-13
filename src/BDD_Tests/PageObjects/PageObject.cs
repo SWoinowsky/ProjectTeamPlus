@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using Standups_BDD_Tests.Shared;
+using BDD_Tests.Shared;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standups_BDD_Tests.PageObjects
+namespace BDD_Tests.PageObjects
 {
     /// <summary>
     /// Put things here that are shared or needed by all PageObjects

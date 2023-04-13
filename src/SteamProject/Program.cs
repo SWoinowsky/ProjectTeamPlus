@@ -12,6 +12,7 @@ using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SteamProject.Areas.Identity.Data;
 using OpenAI.GPT3.Extensions;
+using SteamProject.Data;
 using SteamProject.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -124,6 +125,9 @@ using (var scope = app.Services.CreateScope())
         // Set password with the Secret Manager tool, or store in Azure app configuration
         // dotnet user-secrets set SeedUserPW <pw>
 
+        var testUserPw = config["SeedUserPW"];
+
+        SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
         var adminPw = config["SeedAdminPW"];
 
         SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "My", "Admin").Wait();

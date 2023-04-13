@@ -145,6 +145,11 @@ public class AdminController: Controller
         throw new NotImplementedException();
     }
 
+    public IActionResult LoadGameInfo()
+    {
+        throw new NotImplementedException();
+    }
+
     public IActionResult ViewGames()
     {
         throw new NotImplementedException();

@@ -58,7 +58,6 @@ public class AdminController: Controller
                 Email = temp.Email
             });
         }
-
         return View(adminUsersVM);
     }
 
@@ -80,6 +79,7 @@ public class AdminController: Controller
                 break;
             }
         }
+
         if (user == null)
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -94,7 +94,6 @@ public class AdminController: Controller
         User currentUser = null;
         if (user != null)
         {
-
             if (user.Id != null)
             {
                 currentUser = _userRepository.GetAll().FirstOrDefault(u => u.AspNetUserId == user.Id);
@@ -113,7 +112,6 @@ public class AdminController: Controller
                         
                         currentUser.UserAchievements.Clear();
 
-
                         for (int i = 0; i < currentUserGameInfo.Count(); i++)
                         {
                             _userGameInfoRepository.Delete(currentUserGameInfo[i]);
@@ -123,8 +121,6 @@ public class AdminController: Controller
                         {
                             _friendRepository.Delete(friendInfo[i]);
                         }
-                        
-
                         _userRepository.AddOrUpdate(currentUser);
                     }
                     catch (DbUpdateConcurrencyException)
@@ -135,6 +131,8 @@ public class AdminController: Controller
             }
         }
 
+        // This is to make sure that somehow an ID doesn't get added to the blacklist multiple times.
+        // A user will still have their linked account removed, the blacklist just isn't updated.
         foreach(var item in _blackListRepository.GetAll())
         {
             if(item.SteamId == id)
@@ -142,6 +140,7 @@ public class AdminController: Controller
                 return RedirectToAction(nameof(ShowAllUsers));
             }
         }
+        // If the blacklist doesn't have the id in it, then it's added here. User already had all data removed prior to this.
         _blackListRepository.AddOrUpdate(toBeBanned);
         return RedirectToAction(nameof(ShowAllUsers));
     }

@@ -9,7 +9,7 @@ namespace BDD_Tests.StepDefinitions
 {
 
     [Binding]
-    public class KODO7StepDefinitions
+    public class KODO8StepDefinitions
     {
         private IConfigurationRoot Configuration { get; }
 
@@ -17,7 +17,7 @@ namespace BDD_Tests.StepDefinitions
         private readonly HomePageObject _homePage;
         private readonly ProfilePageObject _profilePage;
 
-        public KODO7StepDefinitions(ScenarioContext context, BrowserDriver browserDriver)
+        public KODO8StepDefinitions(ScenarioContext context, BrowserDriver browserDriver)
         {
             _homePage = new HomePageObject(browserDriver.Current);
             _profilePage = new ProfilePageObject(browserDriver.Current);
@@ -28,20 +28,16 @@ namespace BDD_Tests.StepDefinitions
             Configuration = builder.Build();
         }
 
-
-        [When(@"I click on the profile link")]
-        public void WhenIClickOnTheProfileLink()
+        [Then(@"I can see my Steam profile image")]
+        public void ThenICanSeeMySteamProfileImage()
         {
-            _homePage.ClickNavBarProfileLink(); // it only works if you tell it twice, code moment
-            Thread.Sleep(1000);
-            _homePage.ClickNavBarProfileLink();
-            Thread.Sleep(1000);
+            _profilePage.ProfileImageVisible().Should().BeTrue();
         }
 
-        [Then(@"I can see my list of friends")]
-        public void ThenICanSeeMyListOfFriends()
+        [Then(@"I can see my Steam username and level")]
+        public void ThenICanSeeMySteamUsernameAndLevel()
         {
-            _profilePage.FriendsListVisible().Should().BeTrue();
+            _profilePage.UsernameAndLevelVisible().Should().BeTrue();
         }
     }
 }

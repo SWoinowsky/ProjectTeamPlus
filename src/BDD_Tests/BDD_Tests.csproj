@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\KODO129 - Copy.feature.cs" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\KODO7 - Copy.feature.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,12 +34,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Features\KODO100.feature.cs">
+      <DependentUpon>KODO100.feature</DependentUpon>
+    </Compile>
+    <Compile Update="Features\kodo8.feature.cs">
+      <DependentUpon>KODO8.feature</DependentUpon>
+    </Compile>
     <Compile Update="Features\KODO7.feature.cs">
       <DependentUpon>KODO7.feature</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\KODO100.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\KODO8.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Update="Features\KODO7.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>

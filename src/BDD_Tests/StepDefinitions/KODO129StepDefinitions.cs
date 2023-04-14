@@ -74,7 +74,7 @@ namespace BDD_Tests.StepDefinitions
             Thread.Sleep(1000);
         }
 
-        [Then(@"Then I end up on the competitions list page")]
+        [Then(@"I end up on the competitions list page")]
         public void ThenIEndUpOnCompetitionsListPage()
         {
             var title = _competePage.GetTitle();

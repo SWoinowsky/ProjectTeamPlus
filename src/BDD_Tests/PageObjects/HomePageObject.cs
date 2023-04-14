@@ -18,6 +18,8 @@ namespace BDD_Tests.PageObjects
         public IWebElement NavBarCompeteLink => _webDriver.FindElement(By.Id("navCompete"));
         public IWebElement NavBarProfileLink => _webDriver.FindElement(By.Id("navProfile"));
 
+        public IWebElement NavBarDashboardLink => _webDriver.FindElement(By.Id("navDashboard"));
+
 
 
 
@@ -30,6 +32,12 @@ namespace BDD_Tests.PageObjects
         {
             NavBarCompeteLink.Click();
         }
+
+        public void ClickNavBarDashboardLink()
+        {
+            NavBarDashboardLink.Click();
+        }
+
 
         public void ClickNavBarProfileLink()
         {

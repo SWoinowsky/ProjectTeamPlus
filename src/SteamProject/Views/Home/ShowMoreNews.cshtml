@@ -21,15 +21,14 @@
                         <i fill="CurrentColor" class="bi bi-arrow-left">Back to Dashboard</i>
                     </a>
                     <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/library_hero.jpg", @Model._game.AppId)"/>
+                    <h3 class="news-title-main" style="text-align: center;">News for @Model._game.Name</h3>
                 </div>
-                <h3 class="news-title" style="text-align: center;">News for @Model._game.Name</h3>
             </div>
 
 
             @if (Model._poco.appnews.count > 0)
             {
-                <div class="container-fluid" style="padding-top: 1rem; white-space: pre-wrap; justify-content: center;">
-                    <hr>
+                <div class="container-fluid" style="white-space: pre-wrap; justify-content: center;">
                     @foreach (var item in Model._poco.appnews.newsitems)
                     {
                         <div class="newsDiv container-fluid mx-auto">

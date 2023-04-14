@@ -1,4 +1,5 @@
-﻿Feature: Ability to see a list of competitions a user is assigned to
+﻿@Seth
+Feature: Ability to see a list of competitions a user is assigned to
 
 A short summary of the feature
 

@@ -20,6 +20,8 @@ namespace BDD_Tests.PageObjects
         public IWebElement UsernameAndLevel => _webDriver.FindElement(By.Id("divSteamNameLevel"));
         public IWebElement EithnéPageLink => _webDriver.FindElement(By.Id("$Eithné of Brokiloén"));
 
+        public IWebElement SteamLinkPage => _webDriver.FindElement(By.Id("external-login"));
+
 
         public bool FriendsListVisible()
         {
@@ -39,6 +41,11 @@ namespace BDD_Tests.PageObjects
         public void EithnéPageClick()
         {
             EithnéPageLink.Click();
+        }
+
+        public void SteamLinkPageClick()
+        {
+            SteamLinkPage.Click();
         }
 
         public void Logout()

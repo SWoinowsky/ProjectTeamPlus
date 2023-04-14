@@ -1,4 +1,5 @@
-﻿Feature: Ability for a user to see icons and information to prove they're logged in with Steam.
+﻿@Cole
+Feature: Ability for a user to see icons and information to prove they're logged in with Steam.
 
 A short summary of the feature
 

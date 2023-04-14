@@ -1,4 +1,5 @@
-﻿Feature: Ability for a user to see a list of their Steam friends on their profile page
+﻿@Seth
+Feature: Ability for a user to see a list of their Steam friends on their profile page
 
 A short summary of the feature
 

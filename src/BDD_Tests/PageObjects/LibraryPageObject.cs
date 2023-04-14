@@ -16,12 +16,22 @@ namespace BDD_Tests.PageObjects
         public IWebElement RegisterButton => _webDriver.FindElement(By.Id("register-link"));
         public IWebElement NavBarHelloLink => _webDriver.FindElement(By.CssSelector("a[href=\"/Identity/Account/Manage\"]"));
         public IWebElement SteamLinkButton => _webDriver.FindElement(By.Id("link-login-button-Steam"));
-
         public IWebElement SteamAvatarImg => _webDriver.FindElement(By.ClassName("user-avatar"));
+        public ReadOnlyCollection<IWebElement> FollowGamesButtons => _webDriver.FindElements(By.ClassName("follow-btn"));
 
         public void SteamLinkButtonClick()
         {
             SteamLinkButton.Click();
+        }
+
+        public void FollowFirstGame()
+        {
+            FollowGamesButtons.FirstOrDefault();
+
+            if (FollowGamesButtons.Count > 0)
+            {
+                FollowGamesButtons.FirstOrDefault().Click();
+            }
         }
 
         public bool SteamAvatarImgVisible()

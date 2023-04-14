@@ -12,3 +12,28 @@ Scenario: I am a test user and I want to make sure my Dashboard page contains St
 	Then I end up on the dashboard page
 	And I can see my Steam information displayed on the dashboard
 
+@LoggedIn
+Scenario: I am a test user and I want to make sure dashboard page displays the recent games carousel
+	Given I am signed in
+	When I click on the dashboard link
+	Then I should see my recent games carousel
+
+@LoggedIn
+Scenario: I am a test user and I want to make sure dashboard page **DOESN'T** show the followed games carousel when i have NO games followed
+	Given I am signed in
+	When I click on the dashboard link
+	Then I should not see my followed games carousel
+
+@LoggedIn
+Scenario: I am a test user and I want to make sure dashboard page **DOES** show the followed games carousel after I follow a game
+	Given I am signed in
+	When I click on the library link
+	And I should see and be able to follow a game
+	And I click on the dashboard link
+	Then I should see my followed games carousel
+	And I click on the library link
+	And I should see and be able to unfollow that same game
+
+
+
+

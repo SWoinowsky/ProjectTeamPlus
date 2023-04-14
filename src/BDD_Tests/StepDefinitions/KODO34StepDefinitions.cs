@@ -12,17 +12,18 @@ namespace BDD_Tests.StepDefinitions
         private IConfigurationRoot Configuration { get; }
 
         private readonly ScenarioContext _scenarioContext;
-        private readonly LoginPageObject _loginPage;
         private readonly HomePageObject _homePage;
         private readonly DashboardPageObject _dashboardPage;
         private readonly CompetePageObject _competePage;
+        private readonly LibraryPageObject _libraryPage;
+
 
         public KODO30StepDefinitions(ScenarioContext context, BrowserDriver browserDriver)
         {
-            _loginPage = new LoginPageObject(browserDriver.Current);
             _homePage = new HomePageObject(browserDriver.Current);
             _competePage = new CompetePageObject(browserDriver.Current);
             _dashboardPage = new DashboardPageObject(browserDriver.Current);
+            _libraryPage = new LibraryPageObject(browserDriver.Current);
             _scenarioContext = context;
 
             IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO129StepDefinitions>();
@@ -32,7 +33,7 @@ namespace BDD_Tests.StepDefinitions
         public void WhenIClickOnTheDashboardLink()
         {
             _homePage.ClickNavBarDashboardLink(); // it only works if you tell it twice, code moment
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             _homePage.ClickNavBarDashboardLink();
             Thread.Sleep(1000);
         }
@@ -50,6 +51,47 @@ namespace BDD_Tests.StepDefinitions
             _dashboardPage.ProfileImageVisible().Should().BeTrue();
             _dashboardPage.UsernameAndLevelVisible().Should().BeTrue();
         }
+
+        [Then(@"I should see my recent games carousel")]
+        public void ThenIShouldSeeMyRecentGamesCarousel()
+        {
+            _dashboardPage.RecentGamesIsVisible().Should().BeTrue();
+        }
+
+        [Then(@"I should not see my followed games carousel")]
+        public void ThenIShouldNotSeeMyFollowedGamesCarousel()
+        {
+            _dashboardPage.FollowedGamesIsVisible().Should().BeFalse();
+        }
+
+        [When(@"I click on the library link")]
+        [Then(@"I click on the library link")]
+        public void WhenIClickOnTheLibraryLink()
+        {
+            _homePage.ClickNavBarLibraryLink(); // it only works if you tell it twice, code moment
+            Thread.Sleep(2000);
+            _homePage.ClickNavBarLibraryLink();
+            Thread.Sleep(1000);
+        }
+
+        [When(@"I should see and be able to follow a game")]
+        public void WhenIShouldSeeAndBeAbleToFollowAGame()
+        {
+            _libraryPage.FollowFirstGame();
+        }
+
+        [Then(@"I should see my followed games carousel")]
+        public void ThenIShouldSeeMyFollowedGamesCarousel()
+        {
+            _dashboardPage.FollowedGamesIsVisible().Should().BeTrue();
+        }
+
+        [Then(@"I should see and be able to unfollow that same game")]
+        public void ThenIShouldSeeAndBeAbleToUnfollowThatSameGame()
+        {
+            _libraryPage.FollowFirstGame();
+        }
+
 
     }
 }

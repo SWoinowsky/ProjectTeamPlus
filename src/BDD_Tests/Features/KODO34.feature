@@ -1,5 +1,5 @@
 ﻿@Cole
-Feature: AbilityForAUserToSeeDashboardGames
+Feature: AbilityForAUserToSeeDashboard
 
 As a user, I want to see a nice dashboard that will operate as the news hub, so that I can manage what games are being tracked and see new's updates for games that I follow.
 

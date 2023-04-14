@@ -15,21 +15,44 @@ namespace BDD_Tests.PageObjects
 
         public IWebElement RegisterButton => _webDriver.FindElement(By.Id("register-link"));
         public IWebElement NavBarHelloLink => _webDriver.FindElement(By.CssSelector("a[href=\"/Identity/Account/Manage\"]"));
-        public IWebElement SteamLinkButton => _webDriver.FindElement(By.Id("link-login-button-Steam"));
+        private IWebElement FindElementSafely(By by)
+        {
+            try
+            {
+                return _webDriver.FindElement(by);
+            }
+            catch (NoSuchElementException)
+            {
+                return null;
+            }
+        }
 
-        public IWebElement SteamUnLinkButton => _webDriver.FindElement(By.Id("removeButton"));
+        public IWebElement SteamLinkButton => FindElementSafely(By.Id("link-login-button-Steam"));
 
-        public IWebElement SteamIdTd => _webDriver.FindElement(By.Id("login-provider-Steam"));
+        public IWebElement SteamUnLinkButton => FindElementSafely(By.Id("removeButton"));
+
+        public IWebElement SteamIdTd => FindElementSafely(By.Id("login-provider-Steam"));
+
 
         public void SteamLinkButtonClick()
         {
             if (SteamUnLinkButton != null)
             {
-                //Unlink old account if it already is linked
-                SteamUnLinkButton.Click();
+                SteamUnLinkButtonClick();
             }
             SteamLinkButton.Click();
         }
+
+        public void SteamUnLinkButtonClick()
+        {
+            SteamUnLinkButton.Click();
+        }
+
+        public bool SteamLinkButtonIsVisible()
+        {
+            return SteamLinkButton != null;
+        }
+
         public bool SteamIdIsVisible()
         {
             return SteamIdTd != null;

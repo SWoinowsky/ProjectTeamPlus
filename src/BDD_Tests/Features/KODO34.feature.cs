@@ -263,7 +263,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 35
- testRunner.And("I should see and be able to unfollow that same game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I should see and be able to unFollow that same game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

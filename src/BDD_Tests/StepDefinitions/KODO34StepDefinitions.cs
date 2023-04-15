@@ -80,8 +80,8 @@ namespace BDD_Tests.StepDefinitions
             _dashboardPage.FollowedGamesIsVisible().Should().BeTrue();
         }
 
-        [Then(@"I should see and be able to unfollow that same game")]
-        public void ThenIShouldSeeAndBeAbleToUnfollowThatSameGame()
+        [Then(@"I should see and be able to unFollow that same game")]
+        public void ThenIShouldSeeAndBeAbleToUnFollowThatSameGame()
         {
             _libraryPage.FollowFirstGame();
         }

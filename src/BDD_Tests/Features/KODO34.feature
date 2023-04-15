@@ -32,7 +32,7 @@ Scenario: I am a test user and I want to make sure dashboard page **DOES** show 
 	And I click on the dashboard link
 	Then I should see my followed games carousel
 	And I click on the library link
-	And I should see and be able to unfollow that same game
+	And I should see and be able to unFollow that same game
 
 
 

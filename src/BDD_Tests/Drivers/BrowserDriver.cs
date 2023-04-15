@@ -47,7 +47,7 @@ namespace Standups_BDD_Tests.Drivers
             // FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
 
             IWebDriver driver = new SafariDriver();
-            
+
             return driver;
         }
 

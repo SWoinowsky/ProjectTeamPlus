@@ -7,6 +7,8 @@
     <UserSecretsId>aspnet-SteamProject-8cc9c827-d5e8-48d0-969a-97836fd8127b</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <Compile Remove="Extensions\**" />
     <Content Remove="Extensions\**" />

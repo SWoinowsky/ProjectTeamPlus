@@ -30,6 +30,7 @@ namespace BDD_Tests.StepDefinitions
 
 
         [When(@"I click on the profile link")]
+        [Given(@"I click on the profile link")]
         public void WhenIClickOnTheProfileLink()
         {
             _homePage.ClickNavBarProfileLink(); // it only works if you tell it twice, code moment
@@ -43,5 +44,6 @@ namespace BDD_Tests.StepDefinitions
         {
             _profilePage.FriendsListVisible().Should().BeTrue();
         }
+
     }
 }

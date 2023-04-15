@@ -20,5 +20,5 @@ Scenario: I am a test user and I want to unlink my steam account from my user ac
 	And I click on the Steam link button
 	And I should be redirected to steams login page
 	And I should be able to click sign in
-	And then I should be redirected back and see my library
+	And I should be redirected back and see my library
 

@@ -26,16 +26,13 @@ namespace BDD_Tests.StepDefinitions
             _libraryPage = new LibraryPageObject(browserDriver.Current);
             _scenarioContext = context;
 
-            IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO129StepDefinitions>();
+            IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO30StepDefinitions>();
             Configuration = builder.Build();
         }
         [When(@"I click on the dashboard link")]
         public void WhenIClickOnTheDashboardLink()
         {
-            _homePage.ClickNavBarDashboardLink(); // it only works if you tell it twice, code moment
-            Thread.Sleep(2000);
-            _homePage.ClickNavBarDashboardLink();
-            Thread.Sleep(1000);
+            _homePage.GoTo("Dashboard");
         }
 
         [Then(@"I end up on the dashboard page")]
@@ -68,10 +65,7 @@ namespace BDD_Tests.StepDefinitions
         [Then(@"I click on the library link")]
         public void WhenIClickOnTheLibraryLink()
         {
-            _homePage.ClickNavBarLibraryLink(); // it only works if you tell it twice, code moment
-            Thread.Sleep(2000);
-            _homePage.ClickNavBarLibraryLink();
-            Thread.Sleep(1000);
+            _homePage.GoTo("Library");
         }
 
         [When(@"I should see and be able to follow a game")]

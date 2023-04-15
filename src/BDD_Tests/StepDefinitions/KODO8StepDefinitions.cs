@@ -24,7 +24,7 @@ namespace BDD_Tests.StepDefinitions
 
             _scenarioContext = context;
 
-            IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO129StepDefinitions>();
+            IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO8StepDefinitions>();
             Configuration = builder.Build();
         }
 

@@ -19,7 +19,7 @@ namespace BDD_Tests.PageObjects
 
         public void SteamLinkButtonClick()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
             SteamLinkSignInButton.Click();
         }
 

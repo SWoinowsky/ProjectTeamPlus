@@ -26,6 +26,7 @@ namespace BDD_Tests.StepDefinitions
         }
 
         [When(@"I click on the Steam Account link")]
+        [Given(@"I click on the Steam Account link")]
         public void WhenIClickOnTheSteamAccountLink()
         {
             _profilePage.SteamLinkPageClick();
@@ -38,22 +39,22 @@ namespace BDD_Tests.StepDefinitions
             _externalLoginsPage.SteamLinkButtonClick();
         }
 
-        [When(@"I should be redirected to steams login page")]
+        [When(@"I am redirected to steams login page")]
         [Then(@"I should be redirected to steams login page")]
         public void ThenIShouldBeRedirectedToSteamsLoginPage()
         {
             _steamLoginPage.LoadAllCookies().Should().BeTrue();
         }
 
-        [When(@"I should be able to click sign in")]
+        [When(@"I am able to click sign in")]
         [Then(@"I should be able to click sign in")]
         public void ThenIShouldBeAbleToClickSignIn()
         {
             _steamLoginPage.SteamLinkSignInButton.Click();
         }
 
-        [When(@"then I should be redirected back and see my library")]
-        [Then(@"then I should be redirected back and see my library")]
+        [When(@"I am redirected back and see my library")]
+        [Then(@"I should be redirected back and see my library")]
         public void ThenThenIShouldBeRedirectedBackAndSeeMyLibrary()
         {
             _libraryPage.SteamAvatarImgVisible().Should().BeTrue();

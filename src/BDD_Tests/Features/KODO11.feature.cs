@@ -137,7 +137,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I should be able to click sign in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 23
- testRunner.And("then I should be redirected back and see my library", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I should be redirected back and see my library", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

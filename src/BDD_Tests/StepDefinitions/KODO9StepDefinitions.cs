@@ -8,17 +8,13 @@ namespace BDD_Tests.StepDefinitions
     [Binding]
     public class KODO9Definitions
     {
-        private readonly HomePageObject _homePage;
         private readonly ProfilePageObject _profilePage;
         private readonly ExternalLoginsPageObject _externalLoginsPage;
         private readonly SteamLoginPageObject _steamLoginPage;
         private readonly LibraryPageObject _libraryPage;
-        private readonly ScenarioContext _scenarioContext;
 
         public KODO9Definitions(ScenarioContext context, BrowserDriver browserDriver)
         {
-            _scenarioContext = context;
-            _homePage = new HomePageObject(browserDriver.Current);
             _profilePage = new ProfilePageObject(browserDriver.Current);
             _externalLoginsPage = new ExternalLoginsPageObject(browserDriver.Current);
             _steamLoginPage = new SteamLoginPageObject(browserDriver.Current);

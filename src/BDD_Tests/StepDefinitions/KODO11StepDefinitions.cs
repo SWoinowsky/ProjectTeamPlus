@@ -9,14 +9,10 @@ namespace BDD_Tests.StepDefinitions
     [Binding]
     public class KODO11StepDefinitions
     {
-        private readonly ScenarioContext _scenarioContext;
-        private readonly HomePageObject _homePage;
         private readonly ExternalLoginsPageObject _externalLoginsPage;
 
         public KODO11StepDefinitions(ScenarioContext context, BrowserDriver browserDriver)
         {
-            _scenarioContext = context;
-            _homePage = new HomePageObject(browserDriver.Current);
             _externalLoginsPage = new ExternalLoginsPageObject(browserDriver.Current);
 
         }

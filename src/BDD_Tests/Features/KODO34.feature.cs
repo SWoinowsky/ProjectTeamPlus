@@ -170,16 +170,16 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page **DOESN\'T** show the foll" +
-            "owed games carousel when i have NO games followed")]
+        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page DOESN\'T show the followed" +
+            " games carousel when i have NO games followed")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
         public virtual void IAmATestUserAndIWantToMakeSureDashboardPageDOESNTShowTheFollowedGamesCarouselWhenIHaveNOGamesFollowed()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page **DOESN\'T** show the foll" +
-                    "owed games carousel when i have NO games followed", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page DOESN\'T show the followed" +
+                    " games carousel when i have NO games followed", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 22
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -214,16 +214,16 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page **DOES** show the followe" +
-            "d games carousel after I follow a game")]
+        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page DOES show the followed ga" +
+            "mes carousel after I follow a game")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
         public virtual void IAmATestUserAndIWantToMakeSureDashboardPageDOESShowTheFollowedGamesCarouselAfterIFollowAGame()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page **DOES** show the followe" +
-                    "d games carousel after I follow a game", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page DOES show the followed ga" +
+                    "mes carousel after I follow a game", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 28
 this.ScenarioInitialize(scenarioInfo);
 #line hidden

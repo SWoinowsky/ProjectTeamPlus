@@ -11,20 +11,16 @@ namespace BDD_Tests.StepDefinitions
     {
         private IConfigurationRoot Configuration { get; }
 
-        private readonly ScenarioContext _scenarioContext;
         private readonly HomePageObject _homePage;
         private readonly DashboardPageObject _dashboardPage;
-        private readonly CompetePageObject _competePage;
         private readonly LibraryPageObject _libraryPage;
 
 
         public KODO30StepDefinitions(ScenarioContext context, BrowserDriver browserDriver)
         {
             _homePage = new HomePageObject(browserDriver.Current);
-            _competePage = new CompetePageObject(browserDriver.Current);
             _dashboardPage = new DashboardPageObject(browserDriver.Current);
             _libraryPage = new LibraryPageObject(browserDriver.Current);
-            _scenarioContext = context;
 
             IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO30StepDefinitions>();
             Configuration = builder.Build();
@@ -38,7 +34,7 @@ namespace BDD_Tests.StepDefinitions
         [Then(@"I end up on the dashboard page")]
         public void ThenIEndUpOnTheDashboardPage()
         {
-            var title = _competePage.GetTitle();
+            var title = _dashboardPage.GetTitle();
             _dashboardPage.GetTitle().Should().ContainEquivalentOf("Dashboard", AtLeast.Once());
         }
 

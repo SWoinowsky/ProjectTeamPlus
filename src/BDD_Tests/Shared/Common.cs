@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standups_BDD_Tests.Shared
+namespace BDD_Tests.Shared
 {
     // Sitewide definitions and useful methods
     public class Common
@@ -20,7 +20,8 @@ namespace Standups_BDD_Tests.Shared
         public static readonly Dictionary<string, string> Paths = new()
         {
             { "Home" , "/" },
-            { "Login", "/Identity/Account/Login" }
+            { "Login", "/Identity/Account/Login" },
+            { "Compete", "/Compete" }
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

@@ -51,7 +51,7 @@
             else
             {
                 <div class="nav-litem">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <a id="navProfile" asp-area="Identity" asp-page="/Account/Manage/Index">
                         <img class="litem-img" src="~/assets/person.png" alt="">
                         <div class="litem-label">Profile</div>
                     </a>
@@ -75,7 +75,7 @@
                     </a>
                 </div>
                 <div class="nav-litem">
-                    <a asp-controller="Compete" asp-action="Index">
+                    <a id="navCompete" asp-controller="Compete" asp-action="Index">
                         <img class="litem-img" src="~/assets/flags.png" alt="">
                         <div class="litem-label">Compete</div>
                     </a>

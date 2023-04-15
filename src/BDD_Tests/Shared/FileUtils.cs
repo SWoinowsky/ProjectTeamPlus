@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Standups_BDD_Tests.Shared
+namespace BDD_Tests.Shared
 {
     public class FileUtils
     {

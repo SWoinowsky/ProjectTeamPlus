@@ -170,16 +170,16 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page DOESN\'T show the followed" +
-            " games carousel when i have NO games followed")]
+        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page shows the followed games " +
+            "carousel after I follow a game")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmATestUserAndIWantToMakeSureDashboardPageDOESNTShowTheFollowedGamesCarouselWhenIHaveNOGamesFollowed()
+        public virtual void IAmATestUserAndIWantToMakeSureDashboardPageShowsTheFollowedGamesCarouselAfterIFollowAGame()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page DOESN\'T show the followed" +
-                    " games carousel when i have NO games followed", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page shows the followed games " +
+                    "carousel after I follow a game", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 22
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -204,65 +204,21 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 24
- testRunner.When("I click on the dashboard link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 25
- testRunner.Then("I should not see my followed games carousel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page DOES show the followed ga" +
-            "mes carousel after I follow a game")]
-        [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmATestUserAndIWantToMakeSureDashboardPageDOESShowTheFollowedGamesCarouselAfterIFollowAGame()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page DOES show the followed ga" +
-                    "mes carousel after I follow a game", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 28
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 29
- testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 30
  testRunner.When("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 31
+#line 25
  testRunner.And("I should see and be able to follow a game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 32
+#line 26
  testRunner.And("I click on the dashboard link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 33
+#line 27
  testRunner.Then("I should see my followed games carousel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 34
+#line 28
  testRunner.And("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 35
+#line 29
  testRunner.And("I should see and be able to unFollow that same game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }

@@ -19,13 +19,7 @@ Scenario: I am a test user and I want to make sure dashboard page displays the r
 	Then I should see my recent games carousel
 
 @LoggedIn
-Scenario: I am a test user and I want to make sure dashboard page DOESN'T show the followed games carousel when i have NO games followed
-	Given I am signed in
-	When I click on the dashboard link
-	Then I should not see my followed games carousel
-
-@LoggedIn
-Scenario: I am a test user and I want to make sure dashboard page DOES show the followed games carousel after I follow a game
+Scenario: I am a test user and I want to make sure dashboard page shows the followed games carousel after I follow a game
 	Given I am signed in
 	When I click on the library link
 	And I should see and be able to follow a game

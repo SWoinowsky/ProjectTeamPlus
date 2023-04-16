@@ -6,6 +6,7 @@ namespace BDD_Tests.StepDefinitions
     [Binding]
     public class KODO175StepDefinitions
     {
+
         [Given(@"I have a friend on the friends page")]
         public void GivenIHaveAFriendOnTheFriendsPage()
         {

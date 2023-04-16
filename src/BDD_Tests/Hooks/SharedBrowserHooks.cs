@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standups_BDD_Tests.Hooks
+namespace BDD_Tests.Hooks
 {
     /// <summary>
     /// Share the same browser window for all scenarios

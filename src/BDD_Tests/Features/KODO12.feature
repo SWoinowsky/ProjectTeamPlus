@@ -1,4 +1,4 @@
-﻿Feature: Feature1
+﻿Feature: Ability to see a Steam Library after signing in
 
 A short summary of the feature
 

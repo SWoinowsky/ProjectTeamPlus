@@ -46,7 +46,7 @@ namespace BDD_Tests.StepDefinitions
         public void ThenIWontSee(string gameName)
         {
             _libraryPage.Refresh();
-            _libraryPage.ContainsGame(gameName).Should().BeFalse();
+            _libraryPage.DoesNotContainGame(gameName);
         }
 
         [Then(@"I click on the unhide button for ""([^""]*)""")]

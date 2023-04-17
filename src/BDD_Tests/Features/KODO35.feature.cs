@@ -164,6 +164,9 @@ this.ScenarioInitialize(scenarioInfo);
 #line 19
  testRunner.And("I click on the unhide button for \"Vampire Survivors\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
+#line 20
+ testRunner.And("I should see my owned game \"Vampire Survivors\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
             }
             this.ScenarioCleanup();
         }

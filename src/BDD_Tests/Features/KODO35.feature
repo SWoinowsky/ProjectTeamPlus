@@ -17,3 +17,4 @@ Scenario: User can hide and unhide a game on the library page
 	And I click on the hide button for "Vampire Survivors"
 	Then I wont see "Vampire Survivors"
 	And I click on the unhide button for "Vampire Survivors"
+	And I should see my owned game "Vampire Survivors"

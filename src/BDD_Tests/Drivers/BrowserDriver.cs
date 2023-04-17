@@ -40,12 +40,20 @@ namespace BDD_Tests.Drivers
             //ChromeOptions chromeOptions = new ChromeOptions();
             //ChromeDriver driver = new ChromeDriver(chromeDriverService, chromeOptions);
 
+<<<<<<< HEAD
             //Firefox(never trusts the self - signed cert when running locally, so must bypass)
             // FirefoxOptions firefoxOptions = new FirefoxOptions();
             //firefoxOptions.AcceptInsecureCertificates = true;
             //FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
 
             IWebDriver driver = new SafariDriver();
+=======
+            // Firefox (never trusts the self-signed cert when running locally, so must bypass)
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            firefoxOptions.AcceptInsecureCertificates = true;
+            //firefoxOptions.BrowserExecutableLocation = "C:\\Program Files\\Firefox Developer Edition\\firefox.exe";
+            FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
+>>>>>>> upstream/dev
 
             return driver;
         }

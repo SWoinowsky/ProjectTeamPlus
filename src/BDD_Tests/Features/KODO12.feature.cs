@@ -87,7 +87,7 @@ If there is no Steam account linked, then I should be presented with a message t
                     "LibraryWithNoSteam"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Library page will show a message when a user doesn\'t have a linked Steam account", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 11
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -107,13 +107,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 12
+#line 10
  testRunner.Given("I am a user with name \"TestUser2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 13
+#line 11
  testRunner.When("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 14
+#line 12
  testRunner.Then("The page shows me a message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -129,7 +129,7 @@ this.ScenarioInitialize(scenarioInfo);
                     "LibraryWithSteam"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Library page title contains Library", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 17
+#line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -149,13 +149,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 18
+#line 16
  testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 19
+#line 17
  testRunner.When("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 18
  testRunner.Then("The page title contains \"Library\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -171,7 +171,7 @@ this.ScenarioInitialize(scenarioInfo);
                     "LibraryWithSteam"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Library page contains at least one game for user", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 23
+#line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -191,13 +191,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 24
+#line 22
  testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 25
+#line 23
  testRunner.When("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 24
  testRunner.Then("I should see my owned game \"Vampire Survivors\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

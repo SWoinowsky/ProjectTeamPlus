@@ -42,7 +42,7 @@ namespace BDD_Tests.Drivers
             // Firefox (never trusts the self-signed cert when running locally, so must bypass)
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.AcceptInsecureCertificates = true;
-            firefoxOptions.BrowserExecutableLocation = "C:\\Program Files\\Firefox Developer Edition\\firefox.exe";
+            //firefoxOptions.BrowserExecutableLocation = "C:\\Program Files\\Firefox Developer Edition\\firefox.exe";
             FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
 
             return driver;

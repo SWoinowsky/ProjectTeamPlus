@@ -19,6 +19,8 @@ namespace BDD_Tests.PageObjects
         public IWebElement SteamAvatarImg => _webDriver.FindElement(By.ClassName("user-avatar"));
         public ReadOnlyCollection<IWebElement> FollowGamesButtons => _webDriver.FindElements(By.ClassName("follow-btn"));
 
+        public IWebElement LinkingMessage => _webDriver.FindElement(By.Id("link-message"));
+
         public void SteamLinkButtonClick()
         {
             SteamLinkButton.Click();
@@ -42,6 +44,11 @@ namespace BDD_Tests.PageObjects
         {
             IWebElement navbarLogoutButton = _webDriver.FindElement(By.Id("logout-button"));
             navbarLogoutButton.Click();
+        }
+
+        public bool GetLinkingMessage()
+        {
+            return LinkingMessage != null;
         }
     }
 }

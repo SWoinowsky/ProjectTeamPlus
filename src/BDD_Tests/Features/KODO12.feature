@@ -5,8 +5,13 @@ As a user, I want the be able to go to the library page and see my Steam games p
 If there is no Steam account linked, then I should be presented with a message telling me what I need
 	to do in order to make the page load what's expected.
 
+Scenario: Library page title contains Library
+	Given I am signed in
+	When I click on the library link
+	Then The page title contains "Library"
+
 @LibraryWithNoSteam
 Scenario: Library page will show a message when a user doesn't have a linked Steam account
-	Given I am a visitor
+	Given I am signed in
 	When I click on the library link
 	Then The page shows me a message

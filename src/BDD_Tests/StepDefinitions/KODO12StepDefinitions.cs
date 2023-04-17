@@ -25,16 +25,23 @@ namespace BDD_Tests.StepDefinitions
             Configuration = builder.Build();
         }
 
-        [When(@"I click on the library link")]
-        public void WhenIClickOnTheLibraryLink()
+        [Given(@"I am not signed in")]
+        public void GivenIAmNotSignedIn()
         {
-            _homePage.GoTo("Library");
+            // Do nothing!
         }
+
+        [Then(@"The page title contains ""([^""]*)""")]
+        public void ThenThePageTitleContains(string library)
+        {
+            _libraryPage.GetTitle().Should().ContainEquivalentOf(library, AtLeast.Once());
+        }
+
 
         [Then(@"The page shows me a message")]
         public void ThenThePageShowsMeAMessage()
         {
-            
+            _libraryPage.GetLinkingMessage();
         }
     }
 }

@@ -25,7 +25,8 @@ namespace BDD_Tests.Shared
             { "Friends", "/Home/Friends" },
             { "Dashboard", "/Dashboard"},
             { "Library","/Library/Index" },
-            { "External Logins", "/Identity/Account/Manage/ExternalLogins" }
+            { "External Logins", "/Identity/Account/Manage/ExternalLogins" },
+            { "Profile", "/Identity/Account/Manage" }
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

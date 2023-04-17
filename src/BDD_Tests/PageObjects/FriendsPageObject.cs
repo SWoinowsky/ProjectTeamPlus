@@ -15,6 +15,8 @@ namespace BDD_Tests.PageObjects
 
         public IWebElement FriendNamedSteve => _webDriver.FindElement(By.Id("76561199093267477"));
         public IWebElement NicknameTextBox => _webDriver.FindElement(By.ClassName("name-box"));
+        public IWebElement Invite => _webDriver.FindElement(By.Id("inv-friend-i"));
+        public IWebElement Revert => _webDriver.FindElement(By.ClassName("revert"));
 
 
         public void ClickName()
@@ -22,10 +24,10 @@ namespace BDD_Tests.PageObjects
             FriendNamedSteve.Click();
         }
 
-        public void GiveNewName()
+        public void GiveNewName(string alias)
         {
             NicknameTextBox.Click();
-            NicknameTextBox.SendKeys("Minecraft");
+            NicknameTextBox.SendKeys(alias);
             NicknameTextBox.SendKeys(Keys.Enter);
         }
 

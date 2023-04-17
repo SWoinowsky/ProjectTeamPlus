@@ -13,7 +13,7 @@ namespace BDD_Tests.Shared
         
 
         // File to store browser cookies in
-        public const string CookieFile = "..\\..\\..\\..\\..\\..\\..\\StandupsCookies.txt";
+        public const string CookieFile = "..//..//..//..//..//..//cookiesForSite.txt";
 
         // Page names that everyone should use
         // A handy way to look these up
@@ -21,7 +21,8 @@ namespace BDD_Tests.Shared
         {
             { "Home" , "/" },
             { "Login", "/Identity/Account/Login" },
-            { "Compete", "/Compete" }
+            { "Compete", "/Compete" },
+            { "Friends", "/Home/Friends" }
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

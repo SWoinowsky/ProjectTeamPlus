@@ -28,10 +28,10 @@ namespace BDD_Tests.StepDefinitions
             Configuration = builder.Build();
         }
 
-        [Then(@"I should see a button to hide Vampire Survivors")]
-        public void ThenIShouldSeeAButtonToHideVampireSurvivors()
+        [Then(@"I should see a button to hide ""([^""]*)""")]
+        public void ThenIShouldSeeAButtonToHide(string p0)
         {
-            _libraryPage.FindHideButtonForVampireSurvivors();
+            _libraryPage.FindHideButtonForGame(p0);
         }
     }
 }

@@ -69,11 +69,10 @@ namespace BDD_Tests.StepDefinitions
             _libraryPage.GetLinkingMessage();
         }
 
-        [Then(@"I should see my owned games")]
-        public void ThenIShouldSeeMyOwnedGames()
-        {
-            _libraryPage.ContainsAimLabGame();
+        [Then(@"I should see my owned game ""([^""]*)""")]
+        public void ThenIShouldSeeMyOwnedGame(string p0)
+        { 
+            _libraryPage.ContainsGame(p0);
         }
-
     }
 }

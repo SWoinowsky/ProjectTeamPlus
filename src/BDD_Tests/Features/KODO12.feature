@@ -23,4 +23,4 @@ Scenario: Library page title contains Library
 Scenario: Library page contains at least one game for user
 	Given I am signed in
 	When I click on the library link
-	Then I should see my owned games
+	Then I should see my owned game "Vampire Survivors"

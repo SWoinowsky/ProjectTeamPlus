@@ -198,7 +198,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 26
- testRunner.Then("I should see my owned games", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I should see my owned game \"Vampire Survivors\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -20,7 +20,6 @@ namespace BDD_Tests.PageObjects
         public ReadOnlyCollection<IWebElement> FollowGamesButtons => _webDriver.FindElements(By.ClassName("follow-btn"));
 
         public IWebElement LinkingMessage => _webDriver.FindElement(By.Id("link-message"));
-        public IWebElement VampireSurvivorsGame => _webDriver.FindElement(By.Id("Vampire Survivors"));
 
         public void SteamLinkButtonClick()
         {
@@ -52,14 +51,27 @@ namespace BDD_Tests.PageObjects
             return LinkingMessage != null;
         }
 
-        public bool ContainsAimLabGame()
+        public bool ContainsGame(string gameName)
         {
-            return VampireSurvivorsGame != null;
+            return _webDriver.FindElement(By.Id(gameName)) != null;
         }
 
-        public bool FindHideButtonForVampireSurvivors()
+        public bool FindHideButtonForGame(string gameName)
         {
-            return VampireSurvivorsGame.FindElement(By.ClassName("hide-btn")) != null;
+            return _webDriver.FindElement(By.Id(gameName)).FindElement(By.ClassName("hide-btn")) != null;
         }
+
+        [When(@"I click on the hide button for ""([^""]*)""")]
+        public void WhenIClickOnTheHideButtonFor(string gameName)
+        {
+            _webDriver.FindElement(By.Id(gameName)).FindElement(By.ClassName("hide-btn")).Click();
+        }
+
+        [Then(@"I wont see ""([^""]*)""")]
+        public void ThenIWontSee(string p0)
+        {
+            throw new PendingStepException();
+        }
+
     }
 }

@@ -29,7 +29,6 @@ function setUnhideGame(name, userId)
 
 function refreshLibrary()
 {
-    console.log("Refreshing Library")
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -37,6 +36,11 @@ function refreshLibrary()
         success: window.location.reload(),
         error: errorOnAjax
     })
+}
+
+function closeModal()
+{
+    window.location.reload()
 }
 
 function hideGame(gameName)

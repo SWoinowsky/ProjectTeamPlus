@@ -13,10 +13,16 @@ namespace BDD_Tests.PageObjects
             _pageName = "Friends";
         }
 
+        public IWebElement CardName => _webDriver.FindElement(By.ClassName("friend-name"));
         public IWebElement FriendNamedSteve => _webDriver.FindElement(By.Id("76561199093267477"));
         public IWebElement NicknameTextBox => _webDriver.FindElement(By.ClassName("name-box"));
-        public IWebElement Invite => _webDriver.FindElement(By.Id("inv-friend-i"));
         public IWebElement Revert => _webDriver.FindElement(By.ClassName("revert"));
+        public IWebElement Invite => _webDriver.FindElement(By.Id("inv-friend-i"));
+        public IWebElement InviteModal => _webDriver.FindElement(By.Id("sendInviteModal"));
+        public IWebElement EmailBox => _webDriver.FindElement(By.Id("email-input"));
+        public IWebElement SendBtn => _webDriver.FindElement(By.Id("send-inv"));
+        public IWebElement InviteResult => _webDriver.FindElement(By.Id("email-error"));
+        public IWebElement FriendSearch => _webDriver.FindElement(By.Id("search-input"));
 
 
         public void ClickName()
@@ -35,6 +41,7 @@ namespace BDD_Tests.PageObjects
         {
             return FriendNamedSteve.Text;
         }
+
 
         public void Logout()
         {

@@ -56,5 +56,10 @@ namespace BDD_Tests.PageObjects
         {
             return VampireSurvivorsGame != null;
         }
+
+        public bool FindHideButtonForVampireSurvivors()
+        {
+            return VampireSurvivorsGame.FindElement(By.ClassName("hide-btn")) != null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿Feature: Ability for a user to see shared games between them and a friend
+﻿@Seth
+Feature: Ability for a user to see shared games between them and a friend
 
 A short summary of the feature
 

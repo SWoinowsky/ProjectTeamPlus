@@ -1,13 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using SteamProject.Models;
-using SteamProject.Services;
-using System.Diagnostics;
-using System.Text.Json;
-using SteamProject.DAL.Abstract;
-using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity;
-using SteamProject.Models.DTO;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using SteamProject.DAL.Abstract;
+using SteamProject.Models;
+using SteamProject.Models.DTO;
+using SteamProject.Services;
 
 namespace SteamProject.Controllers;
 
@@ -88,35 +85,66 @@ public class SteamController : ControllerBase
     [HttpPost("follow")]
     public ActionResult ToggleFollow(string id)
     {
-        var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
+        string? userid = _userManager.GetUserId(User);
 
-        if (game.Followed != true)
+        if (id is null)
         {
-            game.Followed = true;
+            return BadRequest();
         }
         else
         {
-            game.Followed = false;
+            User user = _userRepository.GetUser(userid);
+
+            if (user.SteamId != null)
+            {
+
+                var game = _userGameInfoRepository.GetAll().Where(o => o.OwnerId == user.Id)
+                    .First(g => g.Game.AppId == Int32.Parse(id));
+
+                if (game.Followed != true)
+                {
+                    game.Followed = true;
+                }
+                else
+                {
+                    game.Followed = false;
+                }
+
+                _userGameInfoRepository.AddOrUpdate(game);
+            }
         }
-        
-        _userGameInfoRepository.AddOrUpdate(game);
+
         return Ok();
     }
 
     [HttpPost("unfollow")]
     public ActionResult UnFollow(string id)
     {
-        //Try parse instead of Int32
-        var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
-        if (game.Followed != true)
+        string? userid = _userManager.GetUserId(User);
+
+        if (id is null)
         {
-            return Ok();
+            return BadRequest();
         }
         else
         {
-            game.Followed = false;
+            User user = _userRepository.GetUser(userid);
+
+            if (user.SteamId != null)
+            {
+
+                var game = _userGameInfoRepository.GetAll().Where(o => o.OwnerId == user.Id)
+                    .First(g => g.Game.AppId == Int32.Parse(id));
+
+                if (game.Followed == true)
+                {
+                    game.Followed = false;
+                }
+
+                _userGameInfoRepository.AddOrUpdate(game);
+            }
         }
-        _userGameInfoRepository.AddOrUpdate(game);
+
         return Ok();
     }
 

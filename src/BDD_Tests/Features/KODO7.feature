@@ -1,4 +1,5 @@
-﻿Feature: Ability for a user to see a list of their Steam friends on their profile page
+﻿@Seth
+Feature: Ability for a user to see a list of their Steam friends on their profile page
 
 A short summary of the feature
 
@@ -6,7 +7,7 @@ A short summary of the feature
 
 # Seriously. These tests will require the TestUser class to have been tied to the NotABogusForClass steam account to pass.
 
-@tag1
+@LoggedIn
 Scenario: I am a user and am looking for the list of friends on my profile page.
 	Given I am signed in
 	When I click on the profile link

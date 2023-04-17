@@ -12,27 +12,25 @@
 </head>
 
 <div class="container-fluid">
-    <a class="btn btn-outline-info show-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
-        <i fill="CurrentColor" class="bi bi-arrow-left"></i>
-    </a>
-
     @if (Model != null && Model._poco != null)
     {
         <div class="row">
-            <div class="container" style="width: 500px">
-                <div>
-                    <img id="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model._game.AppId)" style="height: 200px" />
+            <div class="container">
+                <div class="image-container">
+                    <a class="btn btn-info back-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
+                        <i fill="CurrentColor" class="bi bi-arrow-left">Back to Dashboard</i>
+                    </a>
+                    <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/library_hero.jpg", @Model._game.AppId)"/>
+                    <h3 class="news-title-main" style="text-align: center;">News for @Model._game.Name</h3>
                 </div>
             </div>
 
+
             @if (Model._poco.appnews.count > 0)
             {
-                <div class="container-fluid" style="padding-top: 40px; white-space: pre-wrap; justify-content: center;">
-                    <h3 class="news-title" style="text-align: center;">@Model._game.Name</h3>
-
+                <div class="container-fluid" style="white-space: pre-wrap; justify-content: center;">
                     @foreach (var item in Model._poco.appnews.newsitems)
                     {
-                        <hr>
                         <div class="newsDiv container-fluid mx-auto">
                             <div class="row news-container">
                                 <div class="col-2">
@@ -50,7 +48,7 @@
                                 <h6 class="timestamp" style="text-align: center">@item.dateTime</h6>
                             </div>
                         </div>
-
+                        <hr>
                         itemCount++;
                     }
                 </div>

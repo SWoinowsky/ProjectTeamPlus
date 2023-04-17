@@ -24,20 +24,17 @@ else
         <button type="button" id="toDoButton" class="btn btn-outline-info center" data-bs-toggle="collapse" data-bs-target="#toDoCollapse" title="Coming Soon">
             <i fill="CurrentColor" class="bi bi-arrow-bar-down active"></i>
         </button> </h1>
-
-        
-
-        <div class="container">
+    <div class="container">
             <div class="row">
                 <div class="col-md-3 center">
-                    <h3 class="center">Level @Model._user.PlayerLevel</h3>
+                    <h3 id="divSteamNameLevel" class="center">Level @Model._user.PlayerLevel</h3>
                     <div id="userAvatar">
-                        <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-top: 10px"/>
+                        <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-top: 10px" />
                         <button class="btn show-followed-btn" data-toggle="modal" title="Show Followed Games" data-target="#followModal">
                             <i fill="CurrentColor" class="bi bi-bookmark"></i> Followed Games
                         </button>
                     </div>
-                    <h3 class="center">@Model._user.SteamName</h3>
+                    <h3 id="userName" class="center">@Model._user.SteamName</h3>
 
                 </div>
                 <div class="col-md-9">

@@ -21,7 +21,10 @@ namespace BDD_Tests.Shared
         {
             { "Home" , "/" },
             { "Login", "/Identity/Account/Login" },
-            { "Compete", "/Compete" }
+            { "Compete", "/Compete" },
+            { "Dashboard", "/Dashboard"},
+            { "Library","/Library/Index" },
+            { "External Logins", "/Identity/Account/Manage/ExternalLogins" }
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

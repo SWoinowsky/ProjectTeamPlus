@@ -3,9 +3,36 @@
 }
 
 .news-title {
+    justify-content: center;
+    align-content: center;
     color: whitesmoke;
-    margin-bottom: 4rem
 }
+
+.news-title-main {
+    position: inherit;
+    justify-content: center;
+    align-content: center;
+    color: whitesmoke;
+    background-color: #2f526e;
+    border-radius: 25px;
+    height: 2.25rem;
+}
+
+.image-container {
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    border-radius: 25px 0 25px 0;
+    z-index: 10;
+    width: 12rem;
+    opacity: 0.5;
+    transition: opacity 1s ease;
+
+
+}
+
 
 h6 {
     color: white;
@@ -15,8 +42,6 @@ h6 {
 .timestamp {
     color:#b1c8ce ;
     margin-top: 6rem;
-    margin-bottom: 0;
-    padding-bottom: 0;
 }
 
 .feedtype {
@@ -90,6 +115,25 @@ header {
     background-color: green;
 }
 
+.gameImage {
+    width: 100%;
+    border-radius: 25px;
+    margin-bottom: 1rem;
+}
+
+
+.back-btn:hover {
+    opacity: 1
+}
+
+.news-title {
+    padding-top: 0px;
+    padding-bottom:0px;
+    margin-top: -3rem;
+    margin-bottom: 0px
+}
+
+
 .custom-btn:hover, .summarize-btn:hover {
     opacity: 0.8;
 }
@@ -107,10 +151,6 @@ header {
 .news-container {
     transition: height 4s ease;
     overflow: hidden;
-}
-
-.btn-outline-info {
-    width: 6rem;
 }
 
 .laser-engrave {

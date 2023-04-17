@@ -69,12 +69,12 @@ namespace BDD_Tests.StepDefinitions
         public void WhenIClickOnTheCompeteLink()
         {
             _homePage.ClickNavBarCompeteLink(); // it only works if you tell it twice, code moment
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             _homePage.ClickNavBarCompeteLink();
             Thread.Sleep(1000);
         }
 
-        [Then(@"Then I end up on the competitions list page")]
+        [Then(@"I end up on the competitions list page")]
         public void ThenIEndUpOnCompetitionsListPage()
         {
             var title = _competePage.GetTitle();

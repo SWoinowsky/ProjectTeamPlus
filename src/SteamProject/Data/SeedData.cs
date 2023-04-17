@@ -14,6 +14,7 @@ namespace SteamProject.Data
         public static readonly UserInfoData[] UserSeedData = new UserInfoData[]
         {
             new UserInfoData { UserName = "TestUser", Email = "TestUser@mail.com" },
+            new UserInfoData { UserName = "TestUser2", Email = "TestUser2@mail.com" },
         };
     }
 }

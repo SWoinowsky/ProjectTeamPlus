@@ -12,6 +12,6 @@ Scenario: Library page title contains Library
 
 @LibraryWithNoSteam
 Scenario: Library page will show a message when a user doesn't have a linked Steam account
-	Given I am signed in
+	Given I am a user with name "TestUser2"
 	When I click on the library link
 	Then The page shows me a message

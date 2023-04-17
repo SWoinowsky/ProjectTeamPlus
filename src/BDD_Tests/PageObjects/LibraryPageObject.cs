@@ -23,7 +23,8 @@ namespace BDD_Tests.PageObjects
         public IWebElement GameLibrary => _webDriver.FindElement(By.Id("game-Library"));
         public IWebElement HiddenModal => _webDriver.FindElement(By.Id("hidden-game-modal"));
         public IWebElement RefreshButton => _webDriver.FindElement(By.ClassName("refresh-btn"));
-        public IWebElement ShowHiddenButton => _webDriver.FindElement(By.ClassName("show-hidden-btn"));
+        public IWebElement ShowHiddenModalButton => _webDriver.FindElement(By.ClassName("show-hidden-btn"));
+        public IWebElement EmptyModalMessage => HiddenModal.FindElement(By.Id("hidden-modal-no-game-message"));
         public IWebElement HiddenModalCloseButton => _webDriver.FindElement(By.ClassName("btn-close-white"));
 
         public void SteamLinkButtonClick()
@@ -79,6 +80,16 @@ namespace BDD_Tests.PageObjects
             }
         }
 
+        public void ShowHiddenModal()
+        {
+            ShowHiddenModalButton.Click();
+        }
+
+        public bool GetEmptyModalMessage()
+        {
+            return EmptyModalMessage != null;
+        }
+
         public bool FindHideButtonForGame(string gameName)
         {
             return _webDriver.FindElement(By.Id(gameName)).FindElement(By.ClassName("hide-btn")) != null;
@@ -91,7 +102,7 @@ namespace BDD_Tests.PageObjects
 
         public void Unhide(string gameName)
         {
-            ShowHiddenButton.Click();
+            ShowHiddenModal();
             HiddenModal.FindElement(By.Id(gameName)).FindElement(By.ClassName("unhide-btn")).Click();
             HiddenModalCloseButton.Click();
         }

@@ -31,13 +31,13 @@ namespace BDD_Tests.StepDefinitions
         [When(@"I click on the hidden modal button")]
         public void WhenIClickOnTheHiddenModalButton()
         {
-            
+            _libraryPage.ShowHiddenModal();
         }
 
         [Then(@"I should see the empty hidden modal")]
         public void ThenIShouldSeeTheEmptyHiddenModal()
         {
-            throw new PendingStepException();
+            _libraryPage.GetEmptyModalMessage();
         }
     }
 }

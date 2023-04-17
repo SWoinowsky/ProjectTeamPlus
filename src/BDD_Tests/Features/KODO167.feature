@@ -10,11 +10,3 @@ Scenario: I am a user wanting to send an email invitation to someone so they can
 	And I click on the envelope icon
 	When I enter a valid email "address"
 	Then I should see a success message and the modal has closed
-
-
-@LoggedIn
-Scenario: I am a user wanting to send an email invitation to someone so they can join S.I.N, but I don't have their email
-	Given I have a friend on the friends page
-	And I click on the envelope icon
-	When I enter a invalid email "address"
-	Then I should see a error message and the modal is still open

@@ -20,8 +20,9 @@ namespace BDD_Tests.PageObjects
         public ReadOnlyCollection<IWebElement> FollowGamesButtons => _webDriver.FindElements(By.ClassName("follow-btn"));
 
         public IWebElement LinkingMessage => _webDriver.FindElement(By.Id("link-message"));
-        public IWebElement GameLibrary => _webDriver.FindElement(By.Id("game-library"));
+        public IWebElement GameLibrary => _webDriver.FindElement(By.Id("game-Library"));
         public IWebElement HiddenModal => _webDriver.FindElement(By.Id("hidden-game-modal"));
+        public IWebElement RefreshButton => _webDriver.FindElement(By.ClassName("refresh-btn"));
 
         public void SteamLinkButtonClick()
         {
@@ -51,6 +52,11 @@ namespace BDD_Tests.PageObjects
         public bool GetLinkingMessage()
         {
             return LinkingMessage != null;
+        }
+
+        public void Refresh()
+        {
+            RefreshButton.Click();
         }
 
         public bool ContainsGame(string gameName)

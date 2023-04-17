@@ -45,6 +45,7 @@ namespace BDD_Tests.StepDefinitions
         [Then(@"I wont see ""([^""]*)""")]
         public void ThenIWontSee(string gameName)
         {
+            _libraryPage.Refresh();
             _libraryPage.ContainsGame(gameName).Should().BeFalse();
         }
 

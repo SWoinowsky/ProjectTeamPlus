@@ -68,5 +68,12 @@ namespace BDD_Tests.StepDefinitions
         {
             _libraryPage.GetLinkingMessage();
         }
+
+        [Then(@"I should see my owned games")]
+        public void ThenIShouldSeeMyOwnedGames()
+        {
+            _libraryPage.ContainsAimLabGame();
+        }
+
     }
 }

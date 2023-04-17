@@ -20,6 +20,7 @@ namespace BDD_Tests.PageObjects
         public ReadOnlyCollection<IWebElement> FollowGamesButtons => _webDriver.FindElements(By.ClassName("follow-btn"));
 
         public IWebElement LinkingMessage => _webDriver.FindElement(By.Id("link-message"));
+        public IWebElement VampireSurvivorsGame => _webDriver.FindElement(By.Id("Vampire Survivors"));
 
         public void SteamLinkButtonClick()
         {
@@ -49,6 +50,11 @@ namespace BDD_Tests.PageObjects
         public bool GetLinkingMessage()
         {
             return LinkingMessage != null;
+        }
+
+        public bool ContainsAimLabGame()
+        {
+            return VampireSurvivorsGame != null;
         }
     }
 }

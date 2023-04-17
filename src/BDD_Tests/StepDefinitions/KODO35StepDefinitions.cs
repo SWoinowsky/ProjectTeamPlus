@@ -1,6 +1,8 @@
 using BDD_Tests.Drivers;
 using BDD_Tests.PageObjects;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyModel;
+using OpenQA.Selenium;
 using System;
 using System.Diagnostics;
 using TechTalk.SpecFlow;
@@ -33,5 +35,24 @@ namespace BDD_Tests.StepDefinitions
         {
             _libraryPage.FindHideButtonForGame(p0);
         }
+
+        [When(@"I click on the hide button for ""([^""]*)""")]
+        public void WhenIClickOnTheHideButtonFor(string gameName)
+        {
+            _libraryPage.HideGame(gameName);
+        }
+
+        [Then(@"I wont see ""([^""]*)""")]
+        public void ThenIWontSee(string gameName)
+        {
+            _libraryPage.ContainsGame(gameName).Should().BeFalse();
+        }
+
+        [Then(@"I click on the unhide button for ""([^""]*)""")]
+        public void ThenIClickOnTheUnhideButtonFor(string gameName)
+        {
+            _libraryPage.Unhide(gameName);
+        }
+
     }
 }

@@ -20,6 +20,8 @@ namespace BDD_Tests.PageObjects
         public ReadOnlyCollection<IWebElement> FollowGamesButtons => _webDriver.FindElements(By.ClassName("follow-btn"));
 
         public IWebElement LinkingMessage => _webDriver.FindElement(By.Id("link-message"));
+        public IWebElement GameLibrary => _webDriver.FindElement(By.Id("game-library"));
+        public IWebElement HiddenModal => _webDriver.FindElement(By.Id("hidden-game-modal"));
 
         public void SteamLinkButtonClick()
         {
@@ -53,7 +55,7 @@ namespace BDD_Tests.PageObjects
 
         public bool ContainsGame(string gameName)
         {
-            return _webDriver.FindElement(By.Id(gameName)) != null;
+            return GameLibrary.FindElement(By.Id(gameName)) != null;
         }
 
         public bool FindHideButtonForGame(string gameName)
@@ -61,17 +63,14 @@ namespace BDD_Tests.PageObjects
             return _webDriver.FindElement(By.Id(gameName)).FindElement(By.ClassName("hide-btn")) != null;
         }
 
-        [When(@"I click on the hide button for ""([^""]*)""")]
-        public void WhenIClickOnTheHideButtonFor(string gameName)
+        public void HideGame(string gameName)
         {
             _webDriver.FindElement(By.Id(gameName)).FindElement(By.ClassName("hide-btn")).Click();
         }
 
-        [Then(@"I wont see ""([^""]*)""")]
-        public void ThenIWontSee(string p0)
+        public void Unhide(string gameName)
         {
-            throw new PendingStepException();
+            HiddenModal.FindElement(By.Id(gameName)).FindElement(By.ClassName("unhide-btn")).Click();
         }
-
     }
 }

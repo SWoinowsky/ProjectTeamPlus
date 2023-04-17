@@ -53,7 +53,7 @@ else
         </div>
     </div>
     <input id="search-input" type="search" placeholder= "🔍 search for a game..."> 
-    <div class="flex-container">
+    <div class="flex-container" id="game-Library">
         @{
             foreach(var game in Model._user.UserGameInfos)
             {
@@ -107,61 +107,60 @@ else
                 }
             }
         }
-        <div id="hidden-game-modal" class="modal fade">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>Hidden Games</h4>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="flex-container">
-                            @{
-                                var temp = Model._user.UserGameInfos.Where(g => g.Hidden == true).ToList();
-                                if(temp.Count() > 0)
+    </div>
+    <div id="hidden-game-modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Hidden Games</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="flex-container">
+                        @{
+                            var temp = Model._user.UserGameInfos.Where(g => g.Hidden == true).ToList();
+                            if(temp.Count() > 0)
+                            {
+                                foreach(var game in Model._user.UserGameInfos)
                                 {
-                                    foreach(var game in Model._user.UserGameInfos)
+                                    if(game.Hidden)
                                     {
-                                        if(game.Hidden)
-                                        {
-                                            var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
-                                            <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.Id" style="padding: 2px; position: relative">
-                                                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px"/><br>
-                                                @{
-                                                    var index = tempGame.Name.IndexOf("'");
-                                                    if(index > -1)
-                                                    {
-                                                        var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name', '@Model._user.Id')" name=@game.Game.Id>
-                                                            <i fill="CurrentColor" class="bi bi-eye-fill"></i>
-                                                        </button>
-                                                    }
-                                                    else
-                                                    {
-                                                        <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.Id>
-                                                            <i fill="CurrentColor" class="bi bi-eye-fill"></i>
-                                                        </button>
-                                                    }
+                                        var tempGame = Model._games.Where(g => g.AppId == game.Game.AppId).First();
+                                        <div class="flex-item gameContainer" id="@tempGame.Name" value="@game.Game.Id" style="padding: 2px; position: relative">
+                                            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @game.Game.AppId)" style="height:100px"/><br>
+                                            @{
+                                                var index = tempGame.Name.IndexOf("'");
+                                                if(index > -1)
+                                                {
+                                                    var name = tempGame.Name.Substring(0, index) + "\\" + tempGame.Name.Substring(index);
+                                                    <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@name', '@Model._user.Id')" name=@game.Game.Id>
+                                                        <i fill="CurrentColor" class="bi bi-eye-fill"></i>
+                                                    </button>
                                                 }
-                                            </div>
-                                        }
-                                    } 
-                                }
-                                else
-                                {
-                                    <div style="color: white">You have no hidden games, go hide some! If you just hid a game, try refreshing the page.</div>
-                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-outline-warning unhide-btn" data-toggle="tooltip" title="Unhide Game" onclick="setUnhideGame('@tempGame.Name', '@Model._user.Id')" name=@game.Game.Id>
+                                                        <i fill="CurrentColor" class="bi bi-eye-fill"></i>
+                                                    </button>
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                } 
                             }
-                        </div>
+                            else
+                            {
+                                <div style="color: white">You have no hidden games, go hide some! If you just hid a game, try refreshing the page.</div>
+                            }
+                        }
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="refreshLibrary()">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="refreshLibrary()">Close</button>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="ach-modal" tabindex="-1" role="dialog" aria-labelledby="ach-modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content ach-modal-content">

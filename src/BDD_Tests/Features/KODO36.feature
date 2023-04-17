@@ -1,11 +1,12 @@
 ﻿@Justin
-Feature: KODO36
+Feature: View Hidden Game Modal
 
 The hidden modal needs to be capable of showing, even if it's empty so a user knows they
 have no hidden games.
 
 @HiddenModal
 Scenario: View a hidden modal with no games in it shows a message
-	Given [context]
-	When [action]
-	Then [outcome]
+	Given I am signed in
+	When I click on the library link
+	And I click on the hidden modal button
+	Then I should see the empty hidden modal

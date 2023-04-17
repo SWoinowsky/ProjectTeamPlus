@@ -29,6 +29,7 @@ function setUnhideGame(name, userId)
 
 function refreshLibrary()
 {
+    console.log("Refreshing Library")
     $.ajax({
         type: "GET",
         dataType: "json",

@@ -9,7 +9,7 @@ If there is no Steam account linked, then I should be presented with a message t
 Scenario: Library page will show a message when a user doesn't have a linked Steam account
 	Given I am a user with name "TestUser2"
 	When I click on the library link
-	Then The page shows me a message
+	Then The page shows me a message that I dont have a Steam account linked
 	
 @LibraryWithSteam
 Scenario: Library page title contains Library

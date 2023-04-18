@@ -7,7 +7,7 @@ A short summary of the feature
 
 # Seriously. These tests will require the TestUser class to have been tied to the NotABogusForClass steam account to pass.
 
-@tag1
+@LoggedIn
 Scenario: I am the test user and want to see games I share with Eithné of Brokiloén
 	Given I am signed in
 	When I click on the profile link

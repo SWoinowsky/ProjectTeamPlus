@@ -15,7 +15,19 @@ namespace BDD_Tests.PageObjects
             _pageName = "Login";
         }
 
-        public IWebElement EmailInput => _webDriver.FindElement(By.Id("Input_Email"));
+        private IWebElement FindElementSafely(By by)
+        {
+            try
+            {
+                return _webDriver.FindElement(by);
+            }
+            catch (NoSuchElementException)
+            {
+                return null;
+            }
+        }
+
+        public IWebElement EmailInput => FindElementSafely(By.Id("Input_Email"));
         public IWebElement PasswordInput => _webDriver.FindElement(By.Id("Input_Password"));
         public IWebElement RememberMeCheck => _webDriver.FindElement(By.Id("Input_RememberMe"));
         public IWebElement SubmitButton => _webDriver.FindElement(By.Id("login-submit"));

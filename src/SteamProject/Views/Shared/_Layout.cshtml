@@ -1,4 +1,12 @@
 ﻿<!DOCTYPE html>
+@using SteamProject.Helpers
+@{
+    if (AwardHelper.AwardGoalMet())
+    {
+        var awardVM = AwardHelper.GetAwardViewModel();
+        @Html.Partial("_AwardPopupPartial", awardVM)
+    }
+}
 <html lang="en">
 <head>
     <style>

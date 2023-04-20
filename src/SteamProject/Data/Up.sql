@@ -14,7 +14,7 @@ CREATE TABLE [User]
 	,[AvatarUrl]		NVARCHAR(100)
 	,[PersonaState]		INT
 	,[PlayerLevel]		INT
-	,[Theme] 			NVARCHAR(10)    NOT NULL
+	,[Theme] 			NVARCHAR(10)    
 );
 
 CREATE TABLE [Friend]

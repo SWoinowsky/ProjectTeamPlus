@@ -74,3 +74,30 @@
 }
 
 strong { color: #292929; }
+
+.float {
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:20%;
+	right:5%;
+	background-color:#e34c4c;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    transition: 1s;
+    border: 1px solid #e34c4c;
+}
+
+.float:hover {
+    background-color: white;
+    color: #e34c4c;
+    border: 1px solid #e34c4c;
+    transition: 1s;
+}
+
+.my-float{
+	margin-top:22px;
+    margin: auto;
+}

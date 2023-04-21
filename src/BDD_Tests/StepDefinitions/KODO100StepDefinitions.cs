@@ -31,24 +31,24 @@ namespace BDD_Tests.StepDefinitions
             Configuration = builder.Build();
         }
 
-        [When(@"I click on Eithné's friend page link")]
-        public void WhenIClickOnEithnésFriendPageLink()
+        [When(@"I click on Eithne's friend page link")]
+        public void WhenIClickOnEithnesFriendPageLink()
         {
-            _profilePage.EithnéPageClick();
+            _profilePage.EithnePageClick();
         }
 
 
-        [Then(@"I can see the shared games page for Eithné")]
-        public void ThenISeeSharedGamesForEithné()
+        [Then(@"I can see the shared games page for Eithne")]
+        public void ThenISeeSharedGamesForEithne()
         {
             var title = _friendPage.GetTitle();
             title.Should().ContainEquivalentOf("Friend", AtLeast.Once());
         }
 
-        [Then(@"I can see Eithné's username")]
-        public void ThenICanSeeEithnéUsername()
+        [Then(@"I can see Eithne's username")]
+        public void ThenICanSeeEithneUsername()
         {
-            _friendPage.GetFriendUsername().GetAttribute("innerHTML").Should().ContainEquivalentOf("Eithné", AtLeast.Once());
+            _friendPage.GetFriendUsername().GetAttribute("innerHTML").Should().ContainEquivalentOf("Eithne", AtLeast.Once());
         }
 
     }

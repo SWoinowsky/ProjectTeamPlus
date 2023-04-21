@@ -177,6 +177,12 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "Compete",
+    "Compete/Create",
+    defaults: new { controller = "Compete", action = "Create" }
+);
+
+app.MapControllerRoute(
+    "Compete",
     "Compete/Details/{compId?}",
     defaults: new { controller = "Compete", action = "Details" }
 );

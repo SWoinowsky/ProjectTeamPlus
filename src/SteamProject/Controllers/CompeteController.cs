@@ -311,4 +311,11 @@ public class CompeteController : Controller
         
         return RedirectToAction("Initiate", new { friendSteamId = friendSteamId, appId = appId });
     }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
 }

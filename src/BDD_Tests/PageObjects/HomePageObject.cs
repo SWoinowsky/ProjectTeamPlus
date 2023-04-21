@@ -13,7 +13,7 @@ namespace BDD_Tests.PageObjects
             _pageName = "Home";
         }
 
-        public IWebElement RegisterButton => _webDriver.FindElement(By.Id("register-link"));
+        public IWebElement RegisterButton => _webDriver.FindElement(By.ClassName("register-link"));
         public IWebElement NavBarHelloLink => _webDriver.FindElement(By.CssSelector("a[href=\"/Identity/Account/Manage\"]"));
         public IWebElement NavBarCompeteLink => _webDriver.FindElement(By.Id("navCompete"));
         public IWebElement NavBarProfileLink => _webDriver.FindElement(By.Id("navProfile"));

@@ -25,7 +25,7 @@ else {
     <div class="wrapper">
     @foreach (var friend in Model.Friends)
     {
-    <div class="card friend-card" id=@friend.SteamName>
+    <div class="card friend-card" id='@friend.SteamName @friend.Nickname'>
         <img class="card-img-top friend-card-img" src=@friend.AvatarFullUrl style="height: 138px;width: 138px;margin-top: 2rem;" alt="Title">
         <div class="card-body friend-card-body">
           @if (friend.Nickname != null)

@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Safari;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -39,10 +40,16 @@ namespace BDD_Tests.Drivers
             //ChromeOptions chromeOptions = new ChromeOptions();
             //ChromeDriver driver = new ChromeDriver(chromeDriverService, chromeOptions);
 
+            //Firefox(never trusts the self - signed cert when running locally, so must bypass)
+            // FirefoxOptions firefoxOptions = new FirefoxOptions();
+            //firefoxOptions.AcceptInsecureCertificates = true;
+            //FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
+
+            //IWebDriver driver = new SafariDriver();
             // Firefox (never trusts the self-signed cert when running locally, so must bypass)
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.AcceptInsecureCertificates = true;
-            firefoxOptions.BrowserExecutableLocation = "C:\\Program Files\\Firefox Developer Edition\\firefox.exe";
+            //firefoxOptions.BrowserExecutableLocation = "C:\\Program Files\\Firefox Developer Edition\\firefox.exe";
             FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
 
             return driver;

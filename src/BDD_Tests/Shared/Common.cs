@@ -9,7 +9,7 @@ namespace BDD_Tests.Shared
     // Sitewide definitions and useful methods
     public class Common
     {
-        public const string BaseUrl = "https://localhost:7123";     // copied from launchSettings.json
+        public const string BaseUrl = "http://localhost:5105";     // copied from launchSettings.json
         
 
         // File to store browser cookies in
@@ -22,9 +22,11 @@ namespace BDD_Tests.Shared
             { "Home" , "/" },
             { "Login", "/Identity/Account/Login" },
             { "Compete", "/Compete" },
+            { "Friends", "/Home/Friends" },
             { "Dashboard", "/Dashboard"},
             { "Library","/Library/Index" },
-            { "External Logins", "/Identity/Account/Manage/ExternalLogins" }
+            { "External Logins", "/Identity/Account/Manage/ExternalLogins" },
+            { "Profile", "/Identity/Account/Manage" }
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

@@ -78,11 +78,11 @@ namespace BDD_Tests.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("I am a user and can visit a page that shows my competitions.")]
-        [NUnit.Framework.CategoryAttribute("tag1")]
+        [NUnit.Framework.CategoryAttribute("LoggedIn")]
         public virtual void IAmAUserAndCanVisitAPageThatShowsMyCompetitions_()
         {
             string[] tagsOfScenario = new string[] {
-                    "tag1"};
+                    "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and can visit a page that shows my competitions.", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 7

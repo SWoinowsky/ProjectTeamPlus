@@ -38,6 +38,11 @@ function refreshLibrary()
     })
 }
 
+function closeModal()
+{
+    window.location.reload()
+}
+
 function hideGame(gameName)
 {
     gameName.style.display = "none";

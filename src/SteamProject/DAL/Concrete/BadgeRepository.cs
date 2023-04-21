@@ -19,8 +19,7 @@ public class BadgeRepository : Repository<Badge>,  IBadgeRepository
     public async Task AwardBadgeAsync(User user, int badgeId)
     {
         var userBadge = new UserBadge { UserId = user.Id, BadgeId = badgeId };
-        
+        _userBadgeRepository.AddOrUpdate(userBadge);
 
-        await _context.SaveChangesAsync();
     }
 }

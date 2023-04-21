@@ -281,6 +281,9 @@ public class CompeteController : Controller
                     break;
             }
         }
+        else {
+            existingCompetition = null;
+        }
         
         viewModel.MySteamId = mySteamId;
         viewModel.CurrentCompetition = existingCompetition;

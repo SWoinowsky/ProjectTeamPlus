@@ -1,12 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using SteamProject.Models;
-using SteamProject.Services;
-using System.Diagnostics;
-using System.Text.Json;
-using SteamProject.DAL.Abstract;
-using SteamProject.DAL.Concrete;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using SteamProject.DAL.Abstract;
+using SteamProject.Models;
 using SteamProject.Models.DTO;
+using SteamProject.Services;
 
 namespace SteamProject.Controllers;
 
@@ -20,14 +18,18 @@ public class SteamController : ControllerBase
     private readonly ISteamService _steamService;
     private readonly IGameRepository _gameRepository;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
+    private readonly IEmailSender _emailSender;
+    private readonly IFriendRepository _friendRepository;
 
-    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository )
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _steamService = steamService;
         _gameRepository = gameRepository;
         _userGameInfoRepository = userGameInfoRepository;
+        _emailSender = emailSender;
+        _friendRepository = friendRepository;
     }
 
 
@@ -81,37 +83,68 @@ public class SteamController : ControllerBase
     }
 
     [HttpPost("follow")]
-    public ActionResult Follow(string id)
+    public ActionResult ToggleFollow(string id)
     {
-        var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
+        string? userid = _userManager.GetUserId(User);
 
-        if (game.Followed != true)
+        if (id is null)
         {
-            game.Followed = true;
+            return BadRequest();
         }
         else
         {
-            return Ok();
+            User user = _userRepository.GetUser(userid);
+
+            if (user.SteamId != null)
+            {
+
+                var game = _userGameInfoRepository.GetAll().Where(o => o.OwnerId == user.Id)
+                    .First(g => g.Game.AppId == Int32.Parse(id));
+
+                if (game.Followed != true)
+                {
+                    game.Followed = true;
+                }
+                else
+                {
+                    game.Followed = false;
+                }
+
+                _userGameInfoRepository.AddOrUpdate(game);
+            }
         }
-        
-        _userGameInfoRepository.AddOrUpdate(game);
+
         return Ok();
     }
 
     [HttpPost("unfollow")]
     public ActionResult UnFollow(string id)
     {
-        //Try parse instead of Int32
-        var game = _userGameInfoRepository.GetAll().First(g => g.Game.AppId == Int32.Parse(id));
-        if (game.Followed != true)
+        string? userid = _userManager.GetUserId(User);
+
+        if (id is null)
         {
-            return Ok();
+            return BadRequest();
         }
         else
         {
-            game.Followed = false;
+            User user = _userRepository.GetUser(userid);
+
+            if (user.SteamId != null)
+            {
+
+                var game = _userGameInfoRepository.GetAll().Where(o => o.OwnerId == user.Id)
+                    .First(g => g.Game.AppId == Int32.Parse(id));
+
+                if (game.Followed == true)
+                {
+                    game.Followed = false;
+                }
+
+                _userGameInfoRepository.AddOrUpdate(game);
+            }
         }
-        _userGameInfoRepository.AddOrUpdate(game);
+
         return Ok();
     }
 
@@ -131,4 +164,31 @@ public class SteamController : ControllerBase
 
         return Ok( friend );
     }
+
+    [HttpGet("sendInvite")]
+    public async Task<ActionResult> SendInvite(string email)
+    {
+        string fixedEmail = email.Replace("%40", "@");
+        await _emailSender.SendEmailAsync($"{fixedEmail}", "Invitation", "<a>You're invited!</a>");
+        return Ok();
+    }
+
+    [HttpPatch("setNickname")]
+    public ActionResult SetNickname(string friendSteamId, string nickname)
+    {   
+        var friend = _friendRepository.GetSpecificFriend(friendSteamId);
+        friend.Nickname = nickname;
+        _friendRepository.AddOrUpdate(friend);
+        return Ok();
+    }
+
+    [HttpPatch("revertNickname")]
+    public ActionResult RevertNickname(string friendSteamId)
+    {   
+        var friend = _friendRepository.GetSpecificFriend(friendSteamId);
+        friend.Nickname = null;
+        _friendRepository.AddOrUpdate(friend);
+        return Ok();
+    }
+
 }

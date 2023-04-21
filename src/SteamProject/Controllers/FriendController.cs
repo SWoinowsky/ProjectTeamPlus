@@ -18,6 +18,7 @@ public class FriendController : Controller
     private readonly IFriendRepository _friendRepository;
     private readonly ISteamService _steamService;
 
+
     public FriendController(
         ILogger<FriendController> logger
         ,ISteamService steamService

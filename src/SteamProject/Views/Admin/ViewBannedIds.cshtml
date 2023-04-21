@@ -1,0 +1,32 @@
+@model IEnumerable<string>
+@{
+    ViewData["Title"] = "Admin - Blacklist";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Identity.css" asp-append-version="true">
+</head>
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1>Blacklisted Ids</h1>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Steam ID
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var blackListId in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => blackListId)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>

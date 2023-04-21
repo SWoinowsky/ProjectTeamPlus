@@ -40,6 +40,14 @@ namespace SteamProject.Services
                 msg.SetClickTracking(false, false);
                 return client.SendEmailAsync(msg);
             }
+            if (subject=="Invitation")
+            {
+                msg.AddTo(new EmailAddress(email));
+                msg.TemplateId = "d-7ae7328f98e4461ab61812fde2fcff57";
+                msg.SetTemplateData(new InviteEmail { Url = "https://steamnexus.azurewebsites.net/" });                    
+                msg.SetClickTracking(false, false);
+                return client.SendEmailAsync(msg);
+            }
             else
             {
                 msg.AddTo(new EmailAddress(email));
@@ -57,6 +65,12 @@ namespace SteamProject.Services
         }
 
         private class ResetEmail
+        {
+            [JsonProperty("url")]
+            public string Url { get; set; }
+        }
+
+        private class InviteEmail
         {
             [JsonProperty("url")]
             public string Url { get; set; }

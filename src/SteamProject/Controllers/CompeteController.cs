@@ -1,4 +1,5 @@
 
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -69,12 +70,96 @@ public class CompeteController : Controller
         var viewModel = new CompeteIndexVM();
         viewModel.Competitions = _competitionRepository.GetAllCompetitionsForUser( myEntries );
 
-
-        foreach( var competition in viewModel.Competitions )
+        if ( viewModel.Competitions != null )
         {
-            competition.Game = _gameRepository.GetGameById( competition.GameId );
+            foreach (var competition in viewModel.Competitions)
+            {
+                competition.Game = _gameRepository.GetGameById(competition.GameId);
+            }
         }
         
+        return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult Details( int compId )
+    {
+        var viewModel = new CompeteDetailsVM();
+        var competitionIn = new Competition();
+
+        competitionIn = _competitionRepository.GetCompetitionById( compId );
+
+        if( competitionIn != null )
+        {
+            var gameAssociated = new Game();
+            gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
+
+
+            var compPlayersList = new List<CompetitionPlayer>();
+            compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
+
+
+            // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
+            var idList = new List<string>();
+            foreach( var cPlayer in compPlayersList )
+            {
+                idList.Add( cPlayer.SteamId );
+            }
+            var userList = new List<User>();
+            userList = _steamService.GetManyUsers( idList );
+
+
+            var compAchievements = new List<CompetitionGameAchievement>();
+            compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
+
+            
+            var gameAchievements = new List<GameAchievement>();
+            foreach( var ach in compAchievements )
+            {
+                var achievementFound = new GameAchievement();
+                achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
+
+                if( achievementFound != null )
+                    gameAchievements.Add( achievementFound );
+            }
+            
+
+            // Participant achievement grabbing
+            var userAchDict = new Dictionary<UserAchievement, User>();
+            foreach( var participant in userList )
+            {
+                var ListIntoDict = new List<UserAchievement>();
+
+                var userResponse = new AchievementRoot();
+                userResponse = _steamService.GetAchievements( participant.SteamId, gameAssociated.AppId );
+
+                foreach( var ach in gameAchievements )
+                {
+                    var userAchOut = new UserAchievement();
+                    userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
+                    if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
+                        ListIntoDict.Add( userAchOut );
+                }
+
+                foreach( var achievement in ListIntoDict )
+                {
+                    userAchDict.Add( achievement, participant );
+                }
+            }
+
+            var userAchList = new List<KeyValuePair<UserAchievement, User>>();
+            userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
+            
+            viewModel.CurrentComp = competitionIn;
+            viewModel.Game = gameAssociated;
+            viewModel.CompPlayers = compPlayersList;
+            viewModel.Players = userList;
+            viewModel.CompGameAchList = compAchievements;
+            viewModel.GameAchList = gameAchievements;
+            viewModel.Tracking = userAchList;
+        }
+
         return View( viewModel );
     }
 
@@ -186,12 +271,18 @@ public class CompeteController : Controller
         compsWithUser = _competitionPlayerRepository.GetCompetitionIdsBySteamId( mySteamId );
 
         var existingCompetition = new Competition();
-        foreach( var compPlayer in compsWithUser )
+        if( compsWithUser != null && compsWithUser.Count() != 0 )
         {
-            existingCompetition = _competitionRepository.GetCompetitionByCompPlayerAndGameId( compPlayer, gameIdFound );
-            
-            if( existingCompetition != null )
-                break;
+            foreach( var compPlayer in compsWithUser )
+            {
+                existingCompetition = _competitionRepository.GetCompetitionByCompPlayerAndGameId( compPlayer, gameIdFound );
+                
+                if( existingCompetition != null )
+                    break;
+            }
+        }
+        else {
+            existingCompetition = null;
         }
         
         viewModel.MySteamId = mySteamId;

@@ -28,6 +28,7 @@ CREATE TABLE [Friend]
 	,[LastLogOff]		INT				
 	,[GameExtraInfo]	NVARCHAR(100)
 	,[GameId]			INT
+	,[Nickname]			NVARCHAR(50)
 );
 
 CREATE TABLE [Game]
@@ -94,6 +95,19 @@ CREATE TABLE [CompetitionGameAchievement]
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[CompetitionId]	INT				NOT NULL,
 	[GameAchievementId]	INT				NOT NULL
+);
+
+CREATE TABLE [BlackList]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[SteamId]			NVARCHAR(50)
+);
+
+CREATE TABLE [AdminUser] (
+  	[ID] int PRIMARY KEY IDENTITY(1, 1),
+  	[ASPNetIdentityId] nvarchar(450),
+  	[FirstName] nvarchar(50),
+  	[LastName] nvarchar(50)
 );
 
 

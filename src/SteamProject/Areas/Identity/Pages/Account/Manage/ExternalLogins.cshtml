@@ -27,7 +27,7 @@
                                 <div>
                                     <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
                                     <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                    <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove <i class="bi bi-steam" style="font-size: 1.2rem;"></i></button>
+                                    <button id="removeButton" type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove <i class="bi bi-steam" style="font-size: 1.2rem;"></i></button>
                                 </div>
                             </form>
                         }

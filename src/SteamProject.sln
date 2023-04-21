@@ -8,6 +8,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_Tests", "NUnit_Tests\NUnit_Tests.csproj", "{0A65F51A-DBE3-45F3-B53D-8C076C1A9231}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Javascript_Tests", "Javascript_Tests\Javascript_Tests.esproj", "{20B8EBDA-B35D-4B36-8224-55A6F4ACAAFB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA8BD07F-253D-4E42-A0D0-439EEA9765BD} = {DA8BD07F-253D-4E42-A0D0-439EEA9765BD}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BDD_Tests", "BDD_Tests\BDD_Tests.csproj", "{5E076DB2-1638-4723-94EF-4C686C868DED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA8BD07F-253D-4E42-A0D0-439EEA9765BD} = {DA8BD07F-253D-4E42-A0D0-439EEA9765BD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +37,10 @@ Global
 		{20B8EBDA-B35D-4B36-8224-55A6F4ACAAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20B8EBDA-B35D-4B36-8224-55A6F4ACAAFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{20B8EBDA-B35D-4B36-8224-55A6F4ACAAFB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5E076DB2-1638-4723-94EF-4C686C868DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E076DB2-1638-4723-94EF-4C686C868DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E076DB2-1638-4723-94EF-4C686C868DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E076DB2-1638-4723-94EF-4C686C868DED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

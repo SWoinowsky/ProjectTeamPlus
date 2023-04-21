@@ -1,51 +1,55 @@
 @model SteamProject.ViewModels.GameNewsVM;
 @{
     ViewData["Title"] = "ShowMoreInfo";
-
+    int itemCount = 0;
 }
 
 <head>
     <link rel="stylesheet" href="~/css/ShowMoreNews.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/News/summarizeSpecificNews.js"></script>
+    <script src="~/js/News/dashboardGameNews.js"></script>
 </head>
 
 <div class="container-fluid">
-    <a class="btn btn-outline-info show-btn"  title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
-        <i fill="CurrentColor" class="bi bi-arrow-left"></i>
-    </a>
-    
     @if (Model != null && Model._poco != null)
     {
         <div class="row">
-            <div class="container" style="width: 500px">
-                <div>
-                    <img id="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model._game.AppId)" style="height: 200px"/>
+            <div class="container">
+                <div class="image-container">
+                    <a class="btn btn-info back-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
+                        <i fill="CurrentColor" class="bi bi-arrow-left">Back to Dashboard</i>
+                    </a>
+                    <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/library_hero.jpg", @Model._game.AppId)"/>
+                    <h3 class="news-title-main" style="text-align: center;">News for @Model._game.Name</h3>
                 </div>
             </div>
-        
+
+
             @if (Model._poco.appnews.count > 0)
             {
-                <div class="container-fluid" style="padding-top: 40px; white-space: pre-wrap; justify-content: center;">
-                    <h3 style="text-align: center;">@Model._game.Name</h3>
-
+                <div class="container-fluid" style="white-space: pre-wrap; justify-content: center;">
                     @foreach (var item in Model._poco.appnews.newsitems)
                     {
-                        <hr>
-                        <div class="newsDiv row container-fluid mx-auto">
-                            <div class="col-2">
-                                <p>@item.feedlabel</p>
-                            </div>
-                            <div class="col-8">
-                                <h3 style="text-align: center">@item.title</h3>
-                            </div>
-                            <div class="col-2">
-                                <a href="@item.url">Link to Article</a>
-                            </div>
+                        <div class="newsDiv container-fluid mx-auto">
+                            <div class="row news-container">
+                                <div class="col-2">
+                                    <p class="feedtype">@item.feedlabel</p>
+                                </div>
+                                <div class="col-8">
+                                    <h3 class="news-title" style="text-align: center">@item.title</h3>
+                                </div>
+                                <div class="col-2 button-container">
+                                    <a class="btn link-btn" href="@item.url">Link to Article</a>
+                                    <button class="summarize-btn" data-appid="@Model._game.AppId" data-newsindex="@itemCount">Summarize</button>
+                                </div>
 
-                            <p>@item.contents</p>
-                            <h6 style="text-align: center">@item.dateTime</h6>
+                                <p data-original-content="@item.contents">@item.contents</p>
+                                <h6 class="timestamp" style="text-align: center">@item.dateTime</h6>
+                            </div>
                         </div>
-          
+                        <hr>
+                        itemCount++;
                     }
                 </div>
             }
@@ -53,7 +57,7 @@
             {
                 <h3>There is no news to be displayed for this game, Please try another game or try again later</h3>
             }
-        
+
         </div>
     }
     else

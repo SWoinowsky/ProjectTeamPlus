@@ -271,12 +271,18 @@ public class CompeteController : Controller
         compsWithUser = _competitionPlayerRepository.GetCompetitionIdsBySteamId( mySteamId );
 
         var existingCompetition = new Competition();
-        foreach( var compPlayer in compsWithUser )
+        if( compsWithUser != null && compsWithUser.Count() != 0 )
         {
-            existingCompetition = _competitionRepository.GetCompetitionByCompPlayerAndGameId( compPlayer, gameIdFound );
-            
-            if( existingCompetition != null )
-                break;
+            foreach( var compPlayer in compsWithUser )
+            {
+                existingCompetition = _competitionRepository.GetCompetitionByCompPlayerAndGameId( compPlayer, gameIdFound );
+                
+                if( existingCompetition != null )
+                    break;
+            }
+        }
+        else {
+            existingCompetition = null;
         }
         
         viewModel.MySteamId = mySteamId;

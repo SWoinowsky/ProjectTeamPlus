@@ -15,8 +15,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 using SteamProject.Data;
+using SteamProject.Helpers;
 using SteamProject.Models;
+using SteamProject.Models.Awards.Concrete;
 
 namespace SteamProject.Areas.Identity.Pages.Account.Manage
 {
@@ -25,16 +28,24 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IUserStore<IdentityUser> _userStore;
-        private IUserRepository _userRepo;
-        private IUserGameInfoRepository _userGameInfoRepo;
-        private IFriendRepository _friendRepo;
-        private IBlackListRepository _blackListRepository;
+        private readonly IUserRepository _userRepo;
+        private readonly IUserGameInfoRepository _userGameInfoRepo;
+        private readonly IFriendRepository _friendRepo;
+        private readonly IBlackListRepository _blackListRepository;
+        private readonly IBadgeRepository _badgeRepository;
+        private readonly IUserBadgeRepository _userBadgeRepository;
 
 
         public ExternalLoginsModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore, IUserRepository userRepo, IUserGameInfoRepository userGameInfoRepo, IFriendRepository friendRepo, IBlackListRepository blackListRepository)
+            IUserStore<IdentityUser> userStore, 
+            IUserRepository userRepo, 
+            IUserGameInfoRepository userGameInfoRepo, 
+            IFriendRepository friendRepo, 
+            IBlackListRepository blackListRepository, 
+            IBadgeRepository badgeRepository, 
+            IUserBadgeRepository userBadgeRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,6 +54,8 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
             _userGameInfoRepo = userGameInfoRepo;
             _friendRepo = friendRepo;
             _blackListRepository = blackListRepository;
+            _badgeRepository = badgeRepository;
+            _userBadgeRepository = userBadgeRepository;
         }
 
         /// <summary>
@@ -220,6 +233,13 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                                 currentUser.SteamId = steamId;
                                 
                                 _userRepo.AddOrUpdate(currentUser);
+
+                                //award user for linking their account
+                                // Check and award the badge for linking the Steam account
+                                var awardHelper = new AwardHelper(_userBadgeRepository, _badgeRepository);
+                                var steamAccountLinkedCondition = new SteamAccountLinkedCondition();
+                                int steamAccountLinkedBadgeId = 1; // Replace with the actual badge ID for the "Steam Account Linked" badge
+                                await awardHelper.CheckAndAwardAsync(currentUser, steamAccountLinkedCondition, steamAccountLinkedBadgeId);
                             }
                             catch (DbUpdateConcurrencyException)
                             {

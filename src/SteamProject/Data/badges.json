@@ -1,0 +1,8 @@
+﻿[
+  {
+    "name": "Nexus Newcomer",
+    "description": "Welcome to the Nexus! By linking your Steam account, you've unlocked the Nexus Newcomer badge.",
+    "ImageFileName": "steamLink.png"
+  }
+  // Add more badges here
+]

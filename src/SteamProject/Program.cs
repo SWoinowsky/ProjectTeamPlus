@@ -133,6 +133,9 @@ using (var scope = app.Services.CreateScope())
         var adminPw = config["SeedAdminPW"];
 
         SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "My", "Admin").Wait();
+
+        //also seed badges from json file
+        SeedBadges.Initialize(services).GetAwaiter().GetResult();
     }
     catch (Exception ex)
     {

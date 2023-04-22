@@ -1,33 +1,26 @@
-﻿using SteamProject.Models;
+﻿using SteamProject.DAL.Abstract;
+using SteamProject.Models;
+using SteamProject.Models.Awards.Abstract;
+
+namespace SteamProject.Helpers;
 
 public class AwardHelper
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IUserBadgeRepository _userBadgeRepository;
+    private readonly IBadgeRepository _badgeRepository;
 
-    public AwardHelper(ApplicationDbContext context)
+    public AwardHelper(IUserBadgeRepository userBadgeRepository, IBadgeRepository badgeRepository)
     {
-        _context = context;
+        _userBadgeRepository = userBadgeRepository;
+        _badgeRepository = badgeRepository;
     }
 
     public async Task CheckAndAwardAsync(User user, IAwardCondition condition, int badgeId)
     {
-        if (condition.IsConditionMet(user))
+        if (await _badgeRepository.BadgeExistsAsync(badgeId) && await condition.IsFulfilledAsync(user))
         {
-            await AwardBadgeAsync(user, badgeId);
+            await _badgeRepository.AwardBadgeAsync(user, badgeId);
         }
     }
 
-    private async Task AwardBadgeAsync(User user, int badgeId)
-    {
-        // Check if the user already has the badge
-        var existingBadge = _context.UserBadges.FirstOrDefault(ub => ub.UserId == user.Id && ub.BadgeId == badgeId);
-
-        if (existingBadge == null)
-        {
-            // Award the badge and save it in the database
-            var userBadge = new UserBadge { UserId = user.Id, BadgeId = badgeId };
-            _context.UserBadges.Add(userBadge);
-            await _context.SaveChangesAsync();
-        }
-    }
 }

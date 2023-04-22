@@ -6,4 +6,10 @@ public interface IBadgeRepository : IRepository<Badge>
 {
     Task AwardBadgeAsync(User user, int badgeId);
 
+    Task<bool> BadgeExistsAsync(int badgeId);
+
+    Task SeedBadgesAsync();
+
+    Task SaveChangesAsync();
+
 }

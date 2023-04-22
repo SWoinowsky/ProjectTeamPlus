@@ -16,4 +16,5 @@ public interface ISteamService
     GameVM GetGameInfo(Game game);
     AchievementRoot GetAchievements(string userSteamId, int appId);
     SchemaRoot GetSchema(int appId);
+    GAPRoot GetGAP(int appId);
 }

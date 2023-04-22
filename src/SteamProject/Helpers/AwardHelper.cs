@@ -1,6 +1,5 @@
 ﻿using SteamProject.DAL.Abstract;
 using SteamProject.Models;
-using SteamProject.Models.Awards.Abstract;
 
 namespace SteamProject.Helpers;
 
@@ -15,12 +14,13 @@ public class AwardHelper
         _badgeRepository = badgeRepository;
     }
 
-    public async Task CheckAndAwardAsync(User user, IAwardCondition condition, int badgeId)
+    public async Task<bool> CheckAndAwardAsync(User user, IAwardCondition condition, int badgeId)
     {
-        if (await _badgeRepository.BadgeExistsAsync(badgeId) && await condition.IsFulfilledAsync(user))
+        if (await _badgeRepository.BadgeExistsAsync(badgeId) && await condition.IsFulfilledAsync(user) && !await _userBadgeRepository.UserHasBadge(user.Id, badgeId))
         {
             await _badgeRepository.AwardBadgeAsync(user, badgeId);
+            return true;
         }
+        return false;
     }
-
 }

@@ -1,7 +1,6 @@
 ﻿using SteamProject.Models.DTO;
 using System;
 using System.Collections.Generic;
-using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 

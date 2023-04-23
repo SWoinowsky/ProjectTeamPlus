@@ -26,12 +26,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 <body>
-    <div id="badge-award-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; background-color: white; border: 1px solid #ccc; border-radius: 5px; padding: 15px; width: 300px;">
-        <button id="close-badge-popup" style="float: right; background: none; border: none; cursor: pointer;">&times;</button>
-        <div id="badge-info">
-            <!-- Badge details (name, image, description) will be populated here by the JavaScript code -->
-        </div>
+
+<div id="badge-award-popup" class="badge-popup" style="display: none;">
+    <div class="badge-popup-content">
+        <span id="close-badge-popup" class="badge-popup-close">&times;</span>
+        <div id="badge-info"></div>
     </div>
+</div>
+
 
 <header>
     <nav class="navbar">
@@ -125,54 +127,6 @@
 <script src="~/js/site.js" asp-append-version="true"></script>
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 @await RenderSectionAsync("Scripts", required: false)
-<script>
-    function showAwardPopup(badgeId) {
-        // Fetch badge details (name, image, etc.) from the server and populate the badge-info div.
-        // You may need to create an API endpoint to fetch badge details by badgeId.
-        $.ajax({
-            url: "/api/Badge/GetBadgeDetails/" + badgeId,
-            type: "GET",
-            success: function(badge) {
-                // Populate the badge-info div with the fetched badge details.
-                var badgeInfo = document.getElementById("badge-info");
-                badgeInfo.innerHTML = `
-                            <h3>${badge.name}</h3>
-                            <img src="${badge.imageUrl}" alt="${badge.name}" />
-                            <p>${badge.description}</p>
-                        `;
-
-                // Display the popup
-                document.getElementById("badge-award-popup").style.display = "block";
-            }
-        });
-    }
-
-    function closeAwardPopup() {
-        document.getElementById("badge-award-popup").style.display = "none";
-    }
-
-    document.getElementById("close-badge-popup").addEventListener("click", closeAwardPopup);
-
-    function checkForNewBadges() {
-        var userId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
-
-        if (userId) {
-            $.ajax({
-                    url: "/api/Badge/CheckForNewBadges/" + userId,
-                type: "GET",
-                success: function(badgeId) {
-                    if (badgeId) {
-                        // Display the badge award popup
-                        showAwardPopup(badgeId);
-                    }
-                }
-            });
-        }
-    }
-
-    // Call checkForNewBadges() periodically, e.g., every minute:
-    setInterval(checkForNewBadges, 60000);
-</script>
 
 </body>
 </html>

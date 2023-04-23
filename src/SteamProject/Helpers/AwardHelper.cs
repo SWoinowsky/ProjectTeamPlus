@@ -16,7 +16,8 @@ public class AwardHelper
 
     public async Task<bool> CheckAndAwardAsync(User user, IAwardCondition condition, int badgeId)
     {
-        if (await _badgeRepository.BadgeExistsAsync(badgeId) && await condition.IsFulfilledAsync(user) && !await _userBadgeRepository.UserHasBadge(user.Id, badgeId))
+        var badge = _badgeRepository.FindById(badgeId);
+        if (await _badgeRepository.BadgeExistsAsync(badgeId) && await condition.IsFulfilledAsync(user, _userBadgeRepository) && !await _userBadgeRepository.UserHasBadgeAsync(user.Id, badge.Name))
         {
             await _badgeRepository.AwardBadgeAsync(user, badgeId);
             return true;

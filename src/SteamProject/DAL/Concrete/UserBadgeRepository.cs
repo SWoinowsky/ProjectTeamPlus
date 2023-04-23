@@ -12,9 +12,9 @@ public class UserBadgeRepository : Repository<UserBadge>, IUserBadgeRepository
     {
         _context = ctx;
     }
-    public async Task<bool> UserHasBadge(int userId, int badgeId)
+    public async Task<bool> UserHasBadgeAsync(int userId, string badgeName)
     {
-        return await _context.UserBadges.AnyAsync(ub => ub.UserId == userId && ub.BadgeId == badgeId);
+        return await _context.UserBadges.AnyAsync(ub => ub.UserId == userId && ub.Badge.Name == badgeName);
     }
 
 }

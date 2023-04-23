@@ -42,33 +42,41 @@ namespace SteamProject.Controllers
             else
             {
                 User user = _userRepository.GetUser(id);
-
-                var awardHelper = new AwardHelper(_userBadgeRepository, _badgeRepository);
                 List<int> awardedBadges = new List<int>();
 
                 foreach (var awardCondition in _awardConditions)
                 {
-                    // Find the badge with the same name as the award condition
-                    var badge = _badgeRepository.GetAll().FirstOrDefault(b => b.Name == awardCondition.BadgeName);
+                    // Check if the condition is fulfilled
+                    bool isFulfilled = await awardCondition.IsFulfilledAsync(user, _userBadgeRepository);
 
-                    // Check if the badge is null, and continue to the next iteration if it is
-                    if (badge == null)
+                    if (isFulfilled)
                     {
-                        continue;
-                    }
+                        // Find the badge with the same name as the award condition
+                        var badge = _badgeRepository.GetAll().FirstOrDefault(b => b.Name == awardCondition.BadgeName);
 
-                    // Get the badge ID
-                    int badgeId = badge.Id;
+                        // Check if the badge is null, and continue to the next iteration if it is
+                        if (badge == null)
+                        {
+                            continue;
+                        }
 
-                    if (await awardHelper.CheckAndAwardAsync(user, awardCondition, badgeId))
-                    {
-                        awardedBadges.Add(badgeId);
+                        // Award the badge to the user
+                        UserBadge userBadge = new UserBadge
+                        {
+                            UserId = user.Id,
+                            BadgeId = badge.Id,
+                        };
+
+                        _userBadgeRepository.AddOrUpdate(userBadge);
+
+                        awardedBadges.Add(badge.Id);
                     }
                 }
 
                 return Ok(awardedBadges);
             }
         }
+
 
 
         [HttpGet("GetBadgeDetails/{badgeId}")]

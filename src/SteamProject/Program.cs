@@ -14,6 +14,7 @@ using SteamProject.Areas.Identity.Data;
 using OpenAI.GPT3.Extensions;
 using SteamProject.Data;
 using SteamProject.Utilities;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,6 +112,15 @@ builder.Services.AddOpenAIService();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+
+var assembly = Assembly.GetExecutingAssembly();
+var awardConditionTypes = assembly.GetTypes()
+    .Where(t => t.GetInterfaces().Contains(typeof(IAwardCondition)) && !t.IsAbstract);
+
+foreach (var type in awardConditionTypes)
+{
+    builder.Services.AddScoped(typeof(IAwardCondition), type);
+}
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿function typeWriter(element, text, i, callback) {
+﻿function typeWriter(element, text, i, callback = () => { }) {
     if (i < text.length) {
         const span = document.createElement('span');
         span.textContent = text.charAt(i);

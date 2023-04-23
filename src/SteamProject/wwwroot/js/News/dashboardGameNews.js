@@ -74,6 +74,15 @@ function updateGameNews({ appId, summarizedNews, gameType, isFromAPI }) {
     }
 }
 
+function toggleBadgeDescription(badgeId) {
+    var descriptionElement = document.getElementById("badge-description-" + badgeId);
+    if (descriptionElement.style.display === "none") {
+        descriptionElement.style.display = "block";
+    } else {
+        descriptionElement.style.display = "none";
+    }
+}
+
 
 // Add an event listener to run the code once the DOM content is fully loaded
 document.addEventListener("DOMContentLoaded", function () {

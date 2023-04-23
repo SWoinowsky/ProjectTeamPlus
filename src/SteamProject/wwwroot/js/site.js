@@ -3,7 +3,6 @@
 
 
 // Global Javascript Code
-// Global Javascript Code
 function showAwardPopup(badgeId) {
     // Fetch badge details (name, image, etc.) from the server and populate the badge-info div.
     var baseUrl = window.location.origin;

@@ -134,6 +134,8 @@ animation: loading-spinner 1s linear infinite;
 }
 
 .badge-popup {
+    align-content: center;
+    justify-content: center;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -144,12 +146,27 @@ animation: loading-spinner 1s linear infinite;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+
+#badge-info {
+
+}
+
+.badgeImg {
+    width: 10rem;
+    height: 10rem;
+}
+
 .badge-popup-content {
-    background-color: #fefefe;
+    justify-content: center;
+    text-align: center;
+    text-shadow: 2px 2px 5px whitesmoke;
+    background-color: darkcyan;
+    opacity: .95;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 33%;
+    border-radius: 15px;
 }
 
 .badge-popup-close {

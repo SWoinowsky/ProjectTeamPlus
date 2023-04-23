@@ -234,13 +234,6 @@ namespace SteamProject.Areas.Identity.Pages.Account.Manage
                                 
                                 _userRepo.AddOrUpdate(currentUser);
 
-                                //award user for linking their account
-                                // Check and award the badge for linking the Steam account
-                                var awardHelper = new AwardHelper(_userBadgeRepository, _badgeRepository);
-                                var steamAccountLinkedCondition = new SteamAccountLinkedCondition();
-                                int steamAccountLinkedBadgeId =
-                                    _badgeRepository.GetAll().Where(b => b.Name == "Nexus Newcomer").FirstOrDefault().Id;
-                                await awardHelper.CheckAndAwardAsync(currentUser, steamAccountLinkedCondition, steamAccountLinkedBadgeId);
                             }
                             catch (DbUpdateConcurrencyException)
                             {

@@ -61,7 +61,7 @@ else
                         @foreach (var userBadge in Model.User.UserBadges)
                         {
                             <div class="col-md-4 col-sm-6">
-                                <button type="button" class="btn badge-img" data-bs-toggle="collapse" data-bs-target="#badge-description-@userBadge.BadgeId">
+                                <button type="button" title="@userBadge.Badge.Name Badge" class="btn badge-img" data-bs-toggle="collapse" data-bs-target="#badge-description-@userBadge.BadgeId">
                                     <img src="data:image/png;base64,@Convert.ToBase64String(userBadge.Badge.Image)" class="badge-img-img" alt="@userBadge.Badge.Name" style="max-width: 3rem; max-height: 3rem;">
                                 </button>
                                 <div class="collapse badge-description" id="badge-description-@userBadge.BadgeId">

@@ -15,7 +15,7 @@ function showAwardPopup(badgeId) {
             var badgeInfo = document.getElementById("badge-info");
             badgeInfo.innerHTML = `
                 <h3>${badge.name}</h3>
-                <img src="/api/Badge/GetBadgeImage/${badge.id}" alt="${badge.name}" />
+                <img class="badgeImg" src="/api/Badge/GetBadgeImage/${badge.id}" alt="${badge.name}" />
                 <p>${badge.description}</p>
             `;
 

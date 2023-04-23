@@ -16,8 +16,8 @@ else
 {
     <div class="row" style="width: 100%; padding-top: 5%;">
         <div class="col-sm-6" style="width: 50%;">
+            <div class="currentApp" id=@Model.CurrentComp.Game.AppId hidden></div>
             <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model.CurrentComp.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)">
-
             <br>
             <div>
                 Competing for these acheivements:
@@ -30,10 +30,12 @@ else
                             <br>
 
                             <div class="achievementDiv">
-                                <div class="card achievementCard" style="word-wrap: normal; background-image: linear-gradient(to bottom right, rgb(0,0,0), rgb(75,75,75), rgb(0,0,0));">
-                                    <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 100%; height: 100%;">
+                                <div class="card achievementCard" style="word-wrap: normal; display:flex;">
+                                    <img src="~/assets/flare.png" alt="">
+                                    <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 90%; height: 90%; align-self: center; margin-top:5px;">
                                     <div class="card-body">
-                                        <p class="card-title" style="color: white;"> @achievement.DisplayName </p>
+                                        <p class="card-title" style="color: white;">@achievement.DisplayName</p>
+                                        <p class="ach-value"></p>
                                     </div>
                                 </div>
                             </div>

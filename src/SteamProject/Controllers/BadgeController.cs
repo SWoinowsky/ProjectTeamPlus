@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
 using SteamProject.Helpers;
 using SteamProject.Models;
+using SteamProject.Models.Awards.Abstract;
 using SteamProject.Models.DTO;
 using SteamProject.Services;
 using SteamProject.ViewModels;

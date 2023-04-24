@@ -15,6 +15,7 @@ using OpenAI.GPT3.Extensions;
 using SteamProject.Data;
 using SteamProject.Utilities;
 using System.Reflection;
+using SteamProject.Models.Awards.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 

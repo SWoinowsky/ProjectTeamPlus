@@ -1,5 +1,6 @@
 using SteamProject.DAL.Abstract;
-using SteamProject.Models;
+
+namespace SteamProject.Models.Awards.Abstract;
 
 public interface IAwardCondition
 {

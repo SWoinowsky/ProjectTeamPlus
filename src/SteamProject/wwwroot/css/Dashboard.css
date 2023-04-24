@@ -35,6 +35,10 @@ h6 {
     text-align: center;
 }
 
+h5 {
+    color: white;
+}
+
 li {
     color: #ffffff !important;
 }
@@ -62,27 +66,35 @@ p {
     width: 150px;
 }
 
+.badge-button-img {
+
+    outline: none !important;
+    border: none !important;
+    outline-style: none;
+    box-shadow: none !important;
+}
+
+.badge-button-img:hover, .badge-button-img:focus, .badge-button-img:active {
+    outline: none !important;
+    border: none !important;
+    outline-style: none;
+    box-shadow: none !important;
+}
+
 .badge-img {
-    max-width: 3rem;
-    max-height: 3rem;
-    outline: none !important;
-    border: none !important;
-    outline-style: none;
-    box-shadow: none !important;
-}
-
-.badge-img:hover, .badge-img:focus, .badge-img:active {
-    outline: none !important;
-    border: none !important;
-    outline-style: none;
-    box-shadow: none !important;
-}
-
-.badge-img-img {
     outline: ButtonShadow;
     border-radius: 30px;
-    box-shadow: 0px 0px 10px 7px #2f52ee;
+    max-width: 4rem;
+    max-height: 4rem;
+
 }
+
+
+.badge-img:hover, .badge-img:active {
+    transition: box-shadow 0.5s;
+    box-shadow: 0px 0px 10px 5px #2f52ee;
+}
+
 
 .badge-description {
     bottom: 0;

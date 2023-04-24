@@ -1,5 +1,6 @@
 ﻿using SteamProject.DAL.Abstract;
 using SteamProject.Models;
+using SteamProject.Models.Awards.Abstract;
 
 namespace SteamProject.Helpers;
 

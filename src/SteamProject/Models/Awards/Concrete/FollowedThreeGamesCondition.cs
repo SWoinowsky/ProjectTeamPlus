@@ -1,4 +1,5 @@
 using SteamProject.DAL.Abstract;
+using SteamProject.Models.Awards.Abstract;
 
 namespace SteamProject.Models.Awards.Concrete;
 

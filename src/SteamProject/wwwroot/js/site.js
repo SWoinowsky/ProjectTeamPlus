@@ -3,27 +3,30 @@
 
 
 // Global Javascript Code
-function showAwardPopup(badgeId) {
+function showAwardPopup(badgeArray) {
     // Fetch badge details (name, image, etc.) from the server and populate the badge-info div.
     var baseUrl = window.location.origin;
 
-    $.ajax({
-        url: baseUrl + "/api/Badge/GetBadgeDetails/" + badgeId,
-        type: "GET",
-        success: function (badge) {
-            // Populate the badge-info div with the fetched badge details.
-            var badgeInfo = document.getElementById("badge-info");
-            badgeInfo.innerHTML = `
+    badgeArray.forEach(function (badgeId) {
+        $.ajax({
+            url: baseUrl + "/api/Badge/GetBadgeDetails/" + badgeId,
+            type: "GET",
+            success: function (badge) {
+                // Populate the badge-info div with the fetched badge details.
+                var badgeInfo = document.getElementById("badge-info");
+                badgeInfo.innerHTML += `
                 <h3>${badge.name}</h3>
                 <img class="badgeImg" src="/api/Badge/GetBadgeImage/${badge.id}" alt="${badge.name}" />
                 <p>${badge.description}</p>
             `;
 
-            // Display the popup
-            document.getElementById("badge-award-popup").style.display = "block";
-        }
+                // Display the popup
+                document.getElementById("badge-award-popup").style.display = "block";
+            }
+        });
     });
 }
+
 
 function closeAwardPopup() {
     document.getElementById("badge-award-popup").style.display = "none";

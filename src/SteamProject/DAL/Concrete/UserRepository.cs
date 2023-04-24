@@ -37,6 +37,16 @@ public class UserRepository : Repository<User>, IUserRepository
         // Explicitly load UserBadges collection and include Badge
         _ctx.Entry(currentUser).Collection(u => u.UserBadges).Query().Include(ub => ub.Badge).Load();
 
+        // Explicitly load UserBadges collection and include Badge
+        _ctx.Entry(currentUser).Collection(u => u.UserGameInfos).Query().Load();
+
+        // Explicitly load UserBadges collection and include Badge
+        _ctx.Entry(currentUser).Collection(u => u.Friends).Query().Load();
+
+
+        // Explicitly load UserBadges collection and include Badge
+        _ctx.Entry(currentUser).Collection(u => u.UserAchievements).Query().Load();
+
         return currentUser;
     }
 

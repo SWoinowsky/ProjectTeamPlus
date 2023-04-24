@@ -3,6 +3,28 @@
     "name": "Nexus Newcomer",
     "description": "Welcome to the Nexus! By linking your Steam account, you've unlocked the Nexus Newcomer badge.",
     "ImageFileName": "steamLink.png"
-  }
+  },
   // Add more badges here
+  {
+    "name": "Rising Star",
+    "description": "You're a force to be reckoned with! This badge is awarded for reaching level 10.",
+    "ImageFileName": "level10.png"
+  },
+  {
+    "name": "Dedicated Follower",
+    "description": "Your dedication knows no bounds! This badge is awarded for following at least 3 games on Nexus.",
+    "ImageFileName": "followedThreeGames.png"
+  },
+  {
+    "name": "Achievement Hunter",
+    "description": "You're always up for a challenge! This badge is awarded for unlocking at least 10 achievements across your games.",
+    "ImageFileName": "tenAchievements.png"
+  },
+  {
+    "name": "Friendly Face",
+    "description": "You're quite the social butterfly! This badge is awarded for having at least 5 friends on Nexus.",
+    "ImageFileName": "fiveFriends.png"
+  }
+
+
 ]

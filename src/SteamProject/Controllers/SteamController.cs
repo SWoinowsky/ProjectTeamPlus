@@ -191,4 +191,10 @@ public class SteamController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("gap")]
+    public ActionResult<GAPRoot> GlobalPercentages(int appId)
+    {
+        return _steamService.GetGAP(appId);
+    }
+
 }

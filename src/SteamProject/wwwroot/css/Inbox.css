@@ -1,0 +1,18 @@
+.wrapper {
+    margin: 2rem;
+}
+
+.inbox-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-flow: row wrap;
+}
+
+h3 {
+    margin-right: auto;
+}
+
+.table {
+    width: 75%;
+}

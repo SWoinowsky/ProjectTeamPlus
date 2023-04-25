@@ -193,6 +193,9 @@ public class AdminController: Controller
                 if (currentGame.Genres == null)
                 {
                     GameVM gameVM = _steamService.GetGameInfo(game);
+                    gameVM._game = game;
+                    gameVM._appId = game.AppId;
+                    
                     var genres = gameVM._poco.response.data.genres;
                     foreach(var genre in genres)
                     {

@@ -158,12 +158,8 @@ public class AdminController: Controller
                 var currentGame = _gameRepository.GetGameByAppId(game.AppId);
                 if (currentGame == null)
                 {
-                    var context = new ValidationContext(game);
-                    var results = new List<ValidationResult>();
-                    var isValid = Validator.TryValidateObject(game, context, results);
-                    if(isValid)
-                        _gameRepository.AddOrUpdate(game);
-                        returnGames.Add(game);
+                    _gameRepository.AddOrUpdate(game);
+                    returnGames.Add(game);
                 }
             }
             catch
@@ -186,9 +182,10 @@ public class AdminController: Controller
         else
         {
             List<GameVM> gameVMs = new List<GameVM>();
-            string tempGenreString = "";
+            string tempGenreString;
             foreach(var game in gamesList)
             {
+                tempGenreString = "";
                 var currentGame = _gameRepository.GetGameByAppId(game.AppId);
                 if (currentGame.Genres == null)
                 {

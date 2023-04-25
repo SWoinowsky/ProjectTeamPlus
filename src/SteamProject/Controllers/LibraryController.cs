@@ -110,11 +110,7 @@ public class LibraryController: Controller
                         //Check if game is in database, if not add it
                         if (currentGame == null)
                         {
-                            var context = new ValidationContext(game);
-                            var results = new List<ValidationResult>();
-                            var isValid = Validator.TryValidateObject(game, context, results);
-                            if(isValid)
-                                _gameRepository.AddOrUpdate(game);
+                            _gameRepository.AddOrUpdate(game);
 
                             var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
                             if (currentUserInfo == null)
@@ -137,19 +133,8 @@ public class LibraryController: Controller
                                 UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == temp.Id);
                                 currentGameInfo.LastPlayed = lastPlayed;
                                 currentGameInfo.PlayTime = playTime;
-
-                                
-                                context = new ValidationContext(currentGameInfo);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(currentGameInfo, context, results);
-                                if(isValid)
-                                    _userGameInfoRepository.AddOrUpdate(currentGameInfo);
-
-                                context = new ValidationContext(game);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(game, context, results);
-                                if( isValid )
-                                    userLibraryVM._games.Add(game);
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
                             }
                         }
                         else

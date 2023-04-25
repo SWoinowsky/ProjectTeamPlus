@@ -176,6 +176,12 @@ public class AdminController: Controller
 
     public IActionResult LoadGameInfo()
     {
+        List<Game> gamesList = _gameRepository.GetAll().ToList();
+        List<GameVM> gameVMs = new List<GameVM>();
+        foreach(var game in gamesList)
+        {
+            gameVMs.Add(_steamService.GetGameInfo(game));
+        }
         throw new NotImplementedException();
     }
 

@@ -14,7 +14,7 @@ public interface ISteamService
     IEnumerable<Game> GetGames(string userSteamId, int userId);
     IEnumerable<Game> GetGamesGeneric(string source, int userId);
     IEnumerable<Game> GetSteamCuratorGames();
-    public GameNewsVM GetGameNews(Game game, int count = 10);
+    GameNewsVM GetGameNews(Game game, int count = 10);
     GameVM GetGameInfo(Game game);
     AchievementRoot GetAchievements(string userSteamId, int appId);
     SchemaRoot GetSchema(int appId);

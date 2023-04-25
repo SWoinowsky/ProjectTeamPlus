@@ -41,7 +41,8 @@ CREATE TABLE [Game]
     ,[DescLong]         NVARCHAR(1024)     
     ,[PlayTime]         INT                
     ,[IconUrl]          NVARCHAR(512)      
-    ,[LastPlayed]       INT                
+    ,[LastPlayed]       INT          
+	,[Genres]			NVARCHAR(1024)      
 );
 
 CREATE TABLE [UserGameInfo]

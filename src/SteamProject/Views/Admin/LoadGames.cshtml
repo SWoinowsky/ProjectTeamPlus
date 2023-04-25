@@ -1,0 +1,11 @@
+@model SteamProject.Models.DTO.LibraryPOCO
+@{
+    ViewData["Title"] = "Admin - Load Games";
+    var gamesList = Model.response.games;
+}
+@{
+    foreach(var game in gamesList)
+    {
+        <div>@game.name</div>
+    }
+}

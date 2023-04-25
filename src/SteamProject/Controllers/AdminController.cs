@@ -149,8 +149,8 @@ public class AdminController: Controller
 
     public IActionResult LoadGames()
     {
-        var temp = _steamService.GetSteamCuratorGames();
-        throw new NotImplementedException();
+        LibraryPOCO temp = _steamService.GetSteamCuratorGames();
+        return View(temp);
     }
 
     public IActionResult LoadGameInfo()

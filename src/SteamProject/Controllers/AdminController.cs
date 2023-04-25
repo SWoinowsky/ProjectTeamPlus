@@ -150,6 +150,7 @@ public class AdminController: Controller
     public IActionResult LoadGames()
     {
         IEnumerable<Game> games = _steamService.GetSteamCuratorGames();
+        List<Game> returnGames = new List<Game>();
         foreach(var game in games)
         {
             try
@@ -162,6 +163,7 @@ public class AdminController: Controller
                     var isValid = Validator.TryValidateObject(game, context, results);
                     if(isValid)
                         _gameRepository.AddOrUpdate(game);
+                        returnGames.Add(game);
                 }
             }
             catch
@@ -169,7 +171,7 @@ public class AdminController: Controller
                 throw new Exception("Current game couldn't be saved to the db!" + game.Name);
             }
         }
-        return View(games);
+        return View(returnGames);
     }
 
     public IActionResult LoadGameInfo()

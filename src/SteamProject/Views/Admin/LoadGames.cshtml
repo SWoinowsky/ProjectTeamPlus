@@ -1,11 +1,20 @@
-@model IEnumerable<Game>
+@model List<Game>
 @{
     ViewData["Title"] = "Admin - Load Games";
     var gamesList = Model;
 }
+<br>
 @{
-    foreach(var game in gamesList)
+    if(gamesList.Count() > 0)
     {
-        <div>@game.Name</div>
+        <h1>Games added to the db:</h1>
+        foreach(var game in gamesList)
+        {
+            <div>@game.Name</div>
+        }
+    }
+    else
+    {
+        <h1>All of the games for the curator account are in the database.</h1>
     }
 }

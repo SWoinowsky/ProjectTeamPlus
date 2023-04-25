@@ -153,18 +153,8 @@ public class LibraryController: Controller
                                     Owner = user,
                                     Game = currentGame
                                 };
-
-                                var context = new ValidationContext(newInfo);
-                                var results = new List<ValidationResult>();
-                                var isValid = Validator.TryValidateObject(newInfo, context, results);
-                                if(isValid)
-                                    _userGameInfoRepository.AddOrUpdate(newInfo);
-
-                                context = new ValidationContext(game);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(game, context, results);
-                                if( isValid )
-                                    userLibraryVM._games.Add(game);
+                                _userGameInfoRepository.AddOrUpdate(newInfo);
+                                userLibraryVM._games.Add(game);
 
                             }
                             else
@@ -172,18 +162,8 @@ public class LibraryController: Controller
                                 UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == currentGame.Id);
                                 currentGameInfo.LastPlayed = lastPlayed;
                                 currentGameInfo.PlayTime = playTime;
-
-                                var context = new ValidationContext(currentGameInfo);
-                                var results = new List<ValidationResult>();
-                                var isValid = Validator.TryValidateObject(currentGameInfo, context, results);
-                                if(isValid)
-                                    _userGameInfoRepository.AddOrUpdate(currentGameInfo);
-
-                                context = new ValidationContext(game);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(game, context, results);
-                                if( isValid )
-                                    userLibraryVM._games.Add(game);
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
                             }
                         }
                     }

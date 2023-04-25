@@ -157,7 +157,7 @@ animation: loading-spinner 1s linear infinite;
 
 .vert-nav {
   background-color: #000;
-  height: 400px;
+  height: 430px;
   width: 65px;
   border-radius: 8px;
   border: 1px solid #979797;
@@ -188,7 +188,7 @@ animation: loading-spinner 1s linear infinite;
 
 .vert-nav:hover {
   background-color: #000;
-  height: 400px;
+  height: 440px;
   width: 180px;
   border-radius: 65px;
   border: 1px solid #979797;

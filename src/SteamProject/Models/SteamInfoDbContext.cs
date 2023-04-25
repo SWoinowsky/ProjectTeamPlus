@@ -101,12 +101,13 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07045651C9");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC07AE73D3D1");
 
             entity.ToTable("Game");
 
             entity.Property(e => e.DescLong).HasMaxLength(1024);
             entity.Property(e => e.DescShort).HasMaxLength(512);
+            entity.Property(e => e.Genres).HasMaxLength(1024);
             entity.Property(e => e.IconUrl).HasMaxLength(512);
             entity.Property(e => e.Name).HasMaxLength(512);
         });

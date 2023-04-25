@@ -22,6 +22,8 @@ public partial class Game
     public string? IconUrl { get; set; }
 
     public int? LastPlayed { get; set; }
+    
+    public string? Genres { get; set; }
 
     public virtual ICollection<Competition> Competitions { get; } = new List<Competition>();
 

@@ -178,9 +178,19 @@ public class AdminController: Controller
     {
         List<Game> gamesList = _gameRepository.GetAll().ToList();
         List<GameVM> gameVMs = new List<GameVM>();
+        string tempGenreString = "";
         foreach(var game in gamesList)
         {
-            gameVMs.Add(_steamService.GetGameInfo(game));
+            var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+            if (currentGame.Genres == null)
+            {
+                var genres = _steamService.GetGameInfo(game)._poco.response.data.genres;
+                foreach(var genre in genres)
+                {
+                    tempGenreString += genre.description + ",";
+                }
+                currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+            }
         }
         throw new NotImplementedException();
     }

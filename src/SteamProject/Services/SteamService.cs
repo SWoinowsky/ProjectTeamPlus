@@ -13,11 +13,13 @@ public class SteamService : ISteamService
 {
     public static readonly HttpClient _httpClient = new HttpClient();
     string Token;
+    string AdminToken;
 
     
-    public SteamService( string token )
+    public SteamService( string token, string adminToken )
     {
         Token = token;
+        AdminToken = adminToken;
     }
 
 
@@ -228,10 +230,6 @@ public class SteamService : ISteamService
 
         return gameVM;
     }
-
-
-
-
 
     public AchievementRoot GetAchievements(string userSteamId, int appId)
     {

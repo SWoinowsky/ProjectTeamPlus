@@ -23,15 +23,19 @@ public class AdminController: Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly IBlackListRepository _blackListRepository;
+    private readonly SignInManager<IdentityUser> _signInManager;
+    private IFriendRepository _friendRepository;
     private IUserGameInfoRepository _userGameInfoRepository;
     private readonly ISteamService _steamService;
 
-    public AdminController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService)
+    public AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService)
     {
         _userManager = userManager;
-        _userRepository = userRepository;
+        _signInManager = signInManager;
         _blackListRepository = blackListRepository;
+        _friendRepository = friendRepository;
         _steamService = steamService;
+        _userRepository = userRepository;
         _userGameInfoRepository = userGameInfoRepository;
     }
 
@@ -143,9 +147,9 @@ public class AdminController: Controller
 
     public IActionResult LoadGames()
     {
-        LibraryPOCO temp = _steamService.GetSteamCuratorGames();
+        var temp = _steamService.GetSteamCuratorGames();
 
-        return View(temp);
+        return View();
     }
 
     public IActionResult LoadGameInfo()

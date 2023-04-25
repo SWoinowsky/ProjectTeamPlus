@@ -14,6 +14,7 @@ public class SteamService : ISteamService
     public static readonly HttpClient _httpClient = new HttpClient();
     string Token;
     string AdminToken;
+    string BulkUserSteamId = "76561199495917967";
 
     
     public SteamService( string token, string adminToken )
@@ -140,6 +141,18 @@ public class SteamService : ISteamService
     public IEnumerable<Game> GetGames(string userSteamId, int userId)
     {
         string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid={1}&format=json&include_appinfo=1", Token, userSteamId);
+        return GetGamesGeneric(source, userId);
+    }
+
+    public IEnumerable<Game> GetSteamCuratorGames()
+    {
+        // This will use the shared team Steam account for now so it's a small list to work with for testing.
+        string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid={1}&format=json&include_appinfo=1", AdminToken, BulkUserSteamId);
+        return GetGamesGeneric(source, 1);
+    }
+
+    public IEnumerable<Game> GetGamesGeneric(string source, int userId)
+    {
         string jsonResponse = GetJsonStringFromEndpoint(source);
         if(jsonResponse == null)
             return null;
@@ -160,19 +173,6 @@ public class SteamService : ISteamService
                 }
             }
             return games.OrderBy(g => g.Name);
-        }
-    }
-
-    public LibraryPOCO GetSteamCuratorGames()
-    {
-        // This will use the shared team Steam account for now so it's a small list to work with for testing.
-        string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid=76561199495917967&format=json&include_appinfo=1", AdminToken);
-        string jsonResponse = GetJsonStringFromEndpoint(source);
-        if(jsonResponse == null)
-            return null;
-        else
-        {
-            return JsonSerializer.Deserialize<LibraryPOCO>(jsonResponse);
         }
     }
 

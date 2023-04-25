@@ -25,7 +25,7 @@ public class LibraryController: Controller
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
 
-    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository,IUserGameInfoRepository userGameInfoRepository, ISteamService steamService)
+    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService)
     {
         _userManager = userManager;
         _userRepository = userRepository;

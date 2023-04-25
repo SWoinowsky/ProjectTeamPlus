@@ -27,8 +27,9 @@ public class AdminController: Controller
     private IFriendRepository _friendRepository;
     private IUserGameInfoRepository _userGameInfoRepository;
     private readonly ISteamService _steamService;
+    private readonly IGameRepository _gameRepository;
 
-    public AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService)
+    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -37,6 +38,7 @@ public class AdminController: Controller
         _steamService = steamService;
         _userRepository = userRepository;
         _userGameInfoRepository = userGameInfoRepository;
+        _gameRepository = gameRepository;
     }
 
     public IActionResult Index()
@@ -147,9 +149,27 @@ public class AdminController: Controller
 
     public IActionResult LoadGames()
     {
-        var temp = _steamService.GetSteamCuratorGames();
-
-        return View();
+        IEnumerable<Game> games = _steamService.GetSteamCuratorGames();
+        foreach(var game in games)
+        {
+            try
+            {
+                var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                if (currentGame == null)
+                {
+                    var context = new ValidationContext(game);
+                    var results = new List<ValidationResult>();
+                    var isValid = Validator.TryValidateObject(game, context, results);
+                    if(isValid)
+                        _gameRepository.AddOrUpdate(game);
+                }
+            }
+            catch
+            {
+                throw new Exception("Current game couldn't be saved to the db!" + game.Name);
+            }
+        }
+        return View(games);
     }
 
     public IActionResult LoadGameInfo()

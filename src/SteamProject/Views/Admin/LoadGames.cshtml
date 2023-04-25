@@ -1,11 +1,11 @@
-@model SteamProject.Models.DTO.LibraryPOCO
+@model IEnumerable<Game>
 @{
     ViewData["Title"] = "Admin - Load Games";
-    var gamesList = Model.response.games;
+    var gamesList = Model;
 }
 @{
     foreach(var game in gamesList)
     {
-        <div>@game.name</div>
+        <div>@game.Name</div>
     }
 }

@@ -177,25 +177,34 @@ public class AdminController: Controller
     public IActionResult LoadGameInfo()
     {
         List<Game> gamesList = _gameRepository.GetAll().ToList();
-        List<GameVM> gameVMs = new List<GameVM>();
-        string tempGenreString = "";
-        foreach(var game in gamesList)
+        
+        if (gamesList.Count < 1)
         {
-            var currentGame = _gameRepository.GetGameByAppId(game.AppId);
-            if (currentGame.Genres == null)
-            {
-                GameVM gameVM = _steamService.GetGameInfo(game);
-                var genres = gameVM._poco.response.data.genres;
-                foreach(var genre in genres)
-                {
-                    tempGenreString += genre.description + ",";
-                }
-                currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
-                _gameRepository.AddOrUpdate(currentGame);
-                gameVMs.Add(gameVM);
-            }
+            ViewBag.MyString = "The library is empty!";
+            return View();
         }
-        return View(gameVMs);
+        else
+        {
+            List<GameVM> gameVMs = new List<GameVM>();
+            string tempGenreString = "";
+            foreach(var game in gamesList)
+            {
+                var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                if (currentGame.Genres == null)
+                {
+                    GameVM gameVM = _steamService.GetGameInfo(game);
+                    var genres = gameVM._poco.response.data.genres;
+                    foreach(var genre in genres)
+                    {
+                        tempGenreString += genre.description + ",";
+                    }
+                    currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                    _gameRepository.AddOrUpdate(currentGame);
+                    gameVMs.Add(gameVM);
+                }
+            }
+            return View(gameVMs);
+        }
     }
 
     public IActionResult ViewGames()

@@ -4,7 +4,11 @@
 }
 <br>
 @{
-    if(Model.Count() > 0)
+    if(Model == null)
+    {
+        <h1>@ViewBag.MyString</h1>
+    }
+    else if(Model.Count() > 0)
     {
 
     }

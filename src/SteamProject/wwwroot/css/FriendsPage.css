@@ -139,3 +139,11 @@
 .revert {
     margin-left: 1rem;
 }
+
+.verified-icon {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    left: 67%;
+    top: 5%;
+}

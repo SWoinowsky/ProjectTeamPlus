@@ -258,5 +258,15 @@ public class SteamService : ISteamService
             return deserialized;
         }
 
-    
+    public GAPRoot GetGAP(int appId)
+    {
+        string source = string.Format("https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid={0}&format=json", appId);
+        string response = GetJsonStringFromEndpoint(source);
+        if (response == null)
+        {
+            return null;
+        }
+        GAPRoot deserialized = JsonSerializer.Deserialize<GAPRoot>(response)!;
+        return deserialized;
+    }
 }

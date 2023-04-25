@@ -134,6 +134,15 @@ public class HomeController : Controller
         }
         User user = _userRepository.GetUser(id);
         List<Friend> friends = _friendRepository.GetFriends(user.Id);
+        var steamIds = _userRepository.GetAllUsers().Select(u => u.SteamId);
+
+        foreach (var friend in friends)
+        {
+            if (steamIds.Contains(friend.SteamId)) {
+                friend.Linked = true;
+            }
+        }
+
         FriendsPageVM vm = new(friends, user.Id, user.SteamId);
         return View(vm);
     }

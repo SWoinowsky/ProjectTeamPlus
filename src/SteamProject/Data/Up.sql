@@ -29,6 +29,7 @@ CREATE TABLE [Friend]
 	,[GameExtraInfo]	NVARCHAR(100)
 	,[GameId]			INT
 	,[Nickname]			NVARCHAR(50)
+	,[Linked]			BIT
 );
 
 CREATE TABLE [Game]

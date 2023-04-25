@@ -25,17 +25,19 @@ public class AdminController: Controller
     private readonly IBlackListRepository _blackListRepository;
     private readonly SignInManager<IdentityUser> _signInManager;
     private IFriendRepository _friendRepository;
-            private IUserGameInfoRepository _userGameInfoRepository;
+    private IUserGameInfoRepository _userGameInfoRepository;
+    private readonly ISteamService _steamService;
 
     public AdminController(
         SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository)
+        UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _signInManager = signInManager;
         _blackListRepository = blackListRepository;
         _friendRepository = friendRepository;
+        _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
     }
 
@@ -147,6 +149,7 @@ public class AdminController: Controller
 
     public IActionResult LoadGames()
     {
+        var temp = _steamService.GetSteamCuratorGames();
         throw new NotImplementedException();
     }
 

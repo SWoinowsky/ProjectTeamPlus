@@ -163,6 +163,19 @@ public class SteamService : ISteamService
         }
     }
 
+    public LibraryPOCO GetSteamCuratorGames()
+    {
+        // This will use the shared team Steam account for now so it's a small list to work with for testing.
+        string source = string.Format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={0}&steamid=76561199495917967&format=json&include_appinfo=1", AdminToken);
+        string jsonResponse = GetJsonStringFromEndpoint(source);
+        if(jsonResponse == null)
+            return null;
+        else
+        {
+            return JsonSerializer.Deserialize<LibraryPOCO>(jsonResponse);
+        }
+    }
+
     public GameVM GetGameInfo(Game game)
     {
         var gameVM = new GameVM();
@@ -195,8 +208,6 @@ public class SteamService : ISteamService
         }
         return gameVM;
     }
-
-
 
     public GameNewsVM GetGameNews(Game game, int count = 10)
     {

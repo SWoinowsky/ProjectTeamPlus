@@ -16,6 +16,8 @@ public partial class Friend
 
     public string? Nickname { get; set; } = null!;
 
+    public bool Linked { get; set; }
+
     public int? PersonaState { get; set; }
 
     public string? AvatarUrl { get; set; }

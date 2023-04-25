@@ -26,6 +26,10 @@ else {
     @foreach (var friend in Model.Friends)
     {
     <div class="card friend-card" id='@friend.SteamName @friend.Nickname'>
+        @if (friend.Linked)
+        {
+          <img class="verified-icon" src="~/assets/verified.png" title="This user signed up and linked their STEAM account">
+        }
         <img class="card-img-top friend-card-img" src=@friend.AvatarFullUrl style="height: 138px;width: 138px;margin-top: 2rem;" alt="Title">
         <div class="card-body friend-card-body">
           @if (friend.Nickname != null)

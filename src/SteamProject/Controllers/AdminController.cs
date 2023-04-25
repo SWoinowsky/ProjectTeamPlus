@@ -184,15 +184,18 @@ public class AdminController: Controller
             var currentGame = _gameRepository.GetGameByAppId(game.AppId);
             if (currentGame.Genres == null)
             {
-                var genres = _steamService.GetGameInfo(game)._poco.response.data.genres;
+                GameVM gameVM = _steamService.GetGameInfo(game);
+                var genres = gameVM._poco.response.data.genres;
                 foreach(var genre in genres)
                 {
                     tempGenreString += genre.description + ",";
                 }
                 currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                _gameRepository.AddOrUpdate(currentGame);
+                gameVMs.Add(gameVM);
             }
         }
-        throw new NotImplementedException();
+        return View(gameVMs);
     }
 
     public IActionResult ViewGames()

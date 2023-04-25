@@ -41,3 +41,9 @@ public class CompeteInitiateVM
         FriendsAchievements = friends;
     }
 }
+
+
+public class CompeteCreateVM
+{
+    
+}

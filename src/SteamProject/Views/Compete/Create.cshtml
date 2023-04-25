@@ -7,3 +7,22 @@
     <link rel="stylesheet" href="~/css/Compete.css">
 </head>
 
+
+<div class="formWrapper">
+    <select name="" id="categorySelect">
+        <option value="Duel"> Duel </option>
+        <option value="Free-For-All"> Free-For-All </option>
+    </select>
+    <form id="createForm">
+        <div id="formInternals">
+            
+        </div>
+        <input type="submit">
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="~/js/competeCreatePage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+}

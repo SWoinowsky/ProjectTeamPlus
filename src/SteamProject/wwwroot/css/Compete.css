@@ -183,3 +183,7 @@ strong { color: #292929; }
     left: 87%;
     top: 88%;
 }
+
+.formWrapper {
+    padding-top: 2%;
+}

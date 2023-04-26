@@ -58,9 +58,8 @@ p {
 .badges-container {
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid #ccc;
     padding: 1rem;
-    max-height: 300px; /* adjust the height as needed */
+    max-height: 325px; /* adjust the height as needed */
     overflow: auto;
 }
 

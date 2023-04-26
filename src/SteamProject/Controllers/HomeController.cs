@@ -144,6 +144,20 @@ public class HomeController : Controller
             return View();
         }
         User user = _userRepository.GetUser(id);
+
+        if (!user.Friends.Any())
+        {
+            var Friends = _friendRepository.GetFriends(user.Id);
+            if (Friends.Count() == 0)
+            {
+                Friends = _steamService.GetFriendsList(user.SteamId, user.Id);
+                foreach (var newFriend in Friends)
+                {
+                    _friendRepository.AddOrUpdate(newFriend);
+                }
+            }
+        }
+
         List<Friend> friends = _friendRepository.GetFriends(user.Id);
         FriendsPageVM vm = new(friends, user.Id, user.SteamId);
         return View(vm);

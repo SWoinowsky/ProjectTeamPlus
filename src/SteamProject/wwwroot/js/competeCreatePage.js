@@ -69,7 +69,7 @@ function buildDuel( data )
 function singleFriendSelect( data ) {
     var duelDiv = document.getElementById("DuelDiv");
     var friendSelect = document.createElement("select");
-
+    friendSelect.name = "OpponentId";
     $.each( data, function ( index, item ) {
         var option = document.createElement("option");
         option.value = `${item.steamId}`;

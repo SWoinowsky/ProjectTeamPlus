@@ -47,6 +47,9 @@ public class CompeteCreateVM
 {
     public string SteamId { get; set; }
     public int SinId { get; set; }
+
+    public string OpponentId { get; set; }
+    
     public List<CompetitionPlayer> Competitors { get; set; }
     public List<CompetitionGameAchievement> Achievements { get; set; }
     

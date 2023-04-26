@@ -334,6 +334,7 @@ public class CompeteController : Controller
     [HttpPost]
     public IActionResult Create( CompeteCreateVM compCreatedOut )
     {
-        return View();
+        Console.WriteLine( compCreatedOut.OpponentId );
+        return View( compCreatedOut );
     }
 }

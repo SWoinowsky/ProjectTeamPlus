@@ -48,16 +48,6 @@ function normalizeWhitespace(str) {
     return str.replace(/\s+/g, ' ').trim();
 }
 
-function typeWriter(element, text, i, callback) {
-    if (i < text.length) {
-        element.innerHTML += text.charAt(i);
-        setTimeout(() => typeWriter(element, text, i + 1, callback), 50);
-    } else {
-        callback();
-    }
-}
-
-
 function summarizeSpecificNews(button, appId, newsIndex) {
     if (typingStatus[newsIndex]) {
         return;

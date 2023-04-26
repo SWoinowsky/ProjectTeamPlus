@@ -20,28 +20,34 @@ else
 
     <div class="container">
 
-    <h1>User Dashboard <i id="steamIcon" fill="CurrentColor" class="bi bi-steam"></i>
+    <h1>User Dashboard
         <button type="button" id="toDoButton" class="btn btn-outline-info center" data-bs-toggle="collapse" data-bs-target="#toDoCollapse" title="Coming Soon">
             <i fill="CurrentColor" class="bi bi-arrow-bar-down active"></i>
         </button> </h1>
     <div class="container">
             <div class="row">
                 <div class="col-md-3 center">
-                    <h3 id="divSteamNameLevel" class="center">Level @Model._user.PlayerLevel</h3>
+
+                    <h3 id="divSteamNameLevel" class="center">Level @Model.User.PlayerLevel</h3>
+
                     <div id="userAvatar">
-                        <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-top: 10px" />
+                        <img class="user-avatar" id="@Model.User.SteamId" src="@Model.User.AvatarUrl" style="padding-top: 10px"/>
+
                         <button class="btn show-followed-btn" data-toggle="modal" title="Show Followed Games" data-target="#followModal">
                             <i fill="CurrentColor" class="bi bi-bookmark"></i> Followed Games
                         </button>
                     </div>
-                    <h3 id="userName" class="center">@Model._user.SteamName</h3>
+
+                    <h3 id="userName" class="center">@Model.User.SteamName</h3>
 
                 </div>
                 <div class="col-md-9">
+
                     <div id="toDoCollapse" class="collapse">
                         <p>Here is a centralized location to receive updates and news for the games you are interested in. In the future it will host the following features: </p>
                         <ul>
-                            <li>Game News Tracking</li><ul>
+                            <li>Game News Tracking</li>
+                            <ul>
                                 <li>See the games you follow</li>
                                 <li>Review the games you recently played</li>
                             </ul>
@@ -50,6 +56,28 @@ else
                             <li>See the results of your recent achievement competitions</li>
                         </ul>
                     </div>
+
+                    @if (Model.BadgeImagesBase64.Any())
+                    {
+                        <div class="row">
+                            <h5>Badges Earned:</h5>
+                            <br />
+                            <div class="badges-container">
+                                @foreach (var userBadge in Model.User.UserBadges)
+                                {
+                                    <div class="col-md-2 col-sm-4">
+                                        <button type="button" title="@userBadge.Badge.Name Badge" class="btn badge-button-img" data-bs-toggle="collapse" data-bs-target="#badge-description-@userBadge.BadgeId">
+                                            <img src="data:image/png;base64,@Convert.ToBase64String(userBadge.Badge.Image)" class="badge-img" alt="@userBadge.Badge.Name">
+                                        </button>
+                                        <div class="collapse badge-description" id="badge-description-@userBadge.BadgeId">
+                                            <p class="mt-2">@userBadge.Badge.Description</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>

@@ -49,22 +49,21 @@ function showDuel() {
     var pageForm = findForm();
     pageForm.innerHTML = "";
 
-
-    var eleDuel = document.createElement('div');
-    eleDuel.className = "DynamicInput";
-    eleDuel.id = "DuelDiv"
-    eleDuel.innerHTML = "THIS IS THE DUEL RESULT";
+    var DuelDiv = document.createElement('div');
+    DuelDiv.className = "DynamicInput";
+    DuelDiv.id = "DuelDiv";
+    DuelDiv.innerHTML = "THIS IS THE DUEL RESULT <br>";
 
     getFriendsListForDuel();
 
-
-    pageForm.append(eleDuel);
+    pageForm.append(DuelDiv);
 }
 
 function singleFriendSelect( data ) {
     var duelDiv = document.getElementById("DuelDiv");
 
     var friendSelect = document.createElement("select");
+    friendSelect.id = "friendSelector"
     friendSelect.name = "OpponentId";
     $.each( data, function ( index, item ) {
         var option = document.createElement("option");
@@ -74,7 +73,13 @@ function singleFriendSelect( data ) {
         friendSelect.append( option );
     });
 
+    friendSelect.onchange = function() {
+        getGamesForDuel();
+    }
+
     duelDiv.append( friendSelect );
+
+    getGamesForDuel();
 }
 
 function errorOnAjax() {
@@ -94,6 +99,47 @@ function getFriendsListForDuel() {
     });
 }
 
+function addGameSelector( data ) {
+    var GameDivPrevious = document.getElementById("GameDiv");
+    if( GameDivPrevious != null ) {
+        GameDivPrevious.remove();
+    }
+
+    var GameDiv = document.createElement('div');
+    GameDiv.id = "GameDiv";
+    GameDiv.innerHTML = "";
+
+
+    var gameSelector = document.createElement("select");
+    gameSelector.name = "GameAppId";
+
+    $.each( data, function ( index, item ) {
+        var option = document.createElement("option");
+        option.value = `${item.appId}`;
+        option.innerHTML = `${item.name}`
+
+        gameSelector.append( option );
+    });
+
+    GameDiv.append( gameSelector );
+
+    var DuelDiv = document.getElementById("DuelDiv");
+    DuelDiv.append( GameDiv );
+}
+
 function getGamesForDuel() {
-    var SteamId = document
+    var SteamId = document.getElementById("SteamId").value;
+    var SinId = document.getElementById("SinId").value;
+
+    var friendSelector = document.getElementById("friendSelector");
+    var index = friendSelector.selectedIndex;
+    var friendId = friendSelector.children[index].value;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `http://localhost:5105/api/Steam/sharedGames?userSteamId=${SteamId}&friendSteamId=${friendId}&userId=${SinId}`,
+        success: addGameSelector,
+        error: errorOnAjax
+    });
 }

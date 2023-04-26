@@ -49,6 +49,7 @@ public class CompeteCreateVM
     public int SinId { get; set; }
 
     public string OpponentId { get; set; }
+    public int GameAppId { get; set; }
     
     public List<CompetitionPlayer> Competitors { get; set; }
     public List<CompetitionGameAchievement> Achievements { get; set; }

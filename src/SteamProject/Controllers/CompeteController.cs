@@ -336,7 +336,10 @@ public class CompeteController : Controller
     [HttpPost]
     public IActionResult Create( CompeteCreateVM compCreatedOut )
     {
-        Console.WriteLine( compCreatedOut.OpponentId );
+        var game = new Game();
+        game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
+        
+
         return View( compCreatedOut );
     }
 

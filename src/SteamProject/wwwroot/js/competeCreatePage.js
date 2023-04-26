@@ -157,9 +157,11 @@ function showDuelAchievements( data ) {
         achievementDivPrevious.remove();
     }
 
+
     var achievementDiv = document.createElement("ul");
     achievementDiv.id = "AchievementDiv";
     achievementDiv.className = "row";
+
 
     $.each( data, function ( index, item ) {
         var achievement = document.createElement('li');
@@ -181,8 +183,14 @@ function showDuelAchievements( data ) {
         achievement.append( achDesc );
 
 
-
         achievementDiv.append(achievement);
+
+        var achHiddenId = document.createElement('input');
+        achHiddenId.type = 'hidden';
+        achHiddenId.name = "AchievementApiNames";
+        achHiddenId.value = `${item.name}`;
+
+        achievementDiv.append( achHiddenId );
     });
 
     var DuelDiv = document.getElementById('DuelDiv');

@@ -147,19 +147,14 @@ animation: loading-spinner 1s linear infinite;
 }
 
 
-#badge-info {
-
-}
-
 .badgeImg {
-    width: 10rem;
-    height: 10rem;
+    width: 8rem;
+    height: 8rem;
 }
 
 .badge-popup-content {
     justify-content: center;
     text-align: center;
-    text-shadow: 2px 2px 5px whitesmoke;
     background-color: darkcyan;
     opacity: .95;
     margin: 15% auto;

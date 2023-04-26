@@ -61,18 +61,20 @@ else
                     {
                         <div class="row">
                             <h5>Badges Earned:</h5>
-                            <br/>
-                            @foreach (var userBadge in Model.User.UserBadges)
-                            {
-                                <div class="col-md-2 col-sm-4">
-                                    <button type="button" title="@userBadge.Badge.Name Badge" class="btn badge-button-img" data-bs-toggle="collapse" data-bs-target="#badge-description-@userBadge.BadgeId">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(userBadge.Badge.Image)" class="badge-img" alt="@userBadge.Badge.Name">
-                                    </button>
-                                    <div class="collapse badge-description" id="badge-description-@userBadge.BadgeId">
-                                        <p class="mt-2">@userBadge.Badge.Description</p>
+                            <br />
+                            <div class="badges-container">
+                                @foreach (var userBadge in Model.User.UserBadges)
+                                {
+                                    <div class="col-md-2 col-sm-4">
+                                        <button type="button" title="@userBadge.Badge.Name Badge" class="btn badge-button-img" data-bs-toggle="collapse" data-bs-target="#badge-description-@userBadge.BadgeId">
+                                            <img src="data:image/png;base64,@Convert.ToBase64String(userBadge.Badge.Image)" class="badge-img" alt="@userBadge.Badge.Name">
+                                        </button>
+                                        <div class="collapse badge-description" id="badge-description-@userBadge.BadgeId">
+                                            <p class="mt-2">@userBadge.Badge.Description</p>
+                                        </div>
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     }
 

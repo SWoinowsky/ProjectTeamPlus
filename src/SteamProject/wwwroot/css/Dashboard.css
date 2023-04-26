@@ -58,16 +58,17 @@ p {
 .badges-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    max-height: 300px; /* adjust the height as needed */
+    overflow: auto;
 }
 
 .badge-card {
     position: relative;
-    width: 150px;
 }
 
 .badge-button-img {
-
     outline: none !important;
     border: none !important;
     outline-style: none;
@@ -84,17 +85,16 @@ p {
 .badge-img {
     outline: ButtonShadow;
     border-radius: 30px;
-    max-width: 4rem;
-    max-height: 4rem;
-
+    max-width: 3.5rem;
+    max-height: 3.5rem;
+    padding: 0;
+    margin: 0;
 }
-
 
 .badge-img:hover, .badge-img:active {
     transition: box-shadow 0.5s;
     box-shadow: 0px 0px 10px 5px #2f52ee;
 }
-
 
 .badge-description {
     bottom: 0;
@@ -104,7 +104,6 @@ p {
     border-radius: 20px;
     color: #fff;
     padding: 0.25rem;
-    
 }
 
 .card-img-top {

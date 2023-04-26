@@ -51,4 +51,4 @@ function checkForNewBadges() {
 }
 
 // Call checkForNewBadges() periodically, e.g., every minute:
-setInterval(checkForNewBadges, 60000);
+setInterval(checkForNewBadges, 6000);

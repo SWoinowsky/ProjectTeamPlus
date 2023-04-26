@@ -8,8 +8,6 @@ public interface IBadgeRepository : IRepository<Badge>
 
     Task<bool> BadgeExistsAsync(int badgeId);
 
-    Task SeedBadgesAsync();
-
     Task SaveChangesAsync();
 
 }

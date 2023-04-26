@@ -61,13 +61,9 @@ function showDuel() {
     pageForm.append(eleDuel);
 }
 
-function buildDuel( data )
-{
-    console.log( )
-}
-
 function singleFriendSelect( data ) {
     var duelDiv = document.getElementById("DuelDiv");
+
     var friendSelect = document.createElement("select");
     friendSelect.name = "OpponentId";
     $.each( data, function ( index, item ) {
@@ -96,4 +92,8 @@ function getFriendsListForDuel() {
         success: singleFriendSelect,
         error: errorOnAjax
     });
+}
+
+function getGamesForDuel() {
+    var SteamId = document
 }

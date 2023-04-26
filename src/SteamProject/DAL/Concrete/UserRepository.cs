@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SteamProject.DAL.Abstract;
 using SteamProject.Data;
 using SteamProject.Models;
@@ -6,22 +7,25 @@ namespace SteamProject.DAL.Concrete;
 
 public class UserRepository : Repository<User>, IUserRepository
 {
+    private readonly SteamInfoDbContext _ctx;
+
     public UserRepository(SteamInfoDbContext ctx) : base(ctx)
     {
-
+        _ctx = ctx;
     }
 
     public User GetUser(string userId)
     {
         var currentUser = new User();
         var users = GetAll().ToList();
-        if(users.Count() > 0)
+        if (users.Count() > 0)
         {
-            foreach(var user in users)
+            foreach (var user in users)
             {
-                if(user.AspNetUserId == userId)
+                if (user.AspNetUserId == userId)
                 {
-                    return user;
+                    currentUser = user;
+                    break;
                 }
             }
         }
@@ -29,8 +33,23 @@ public class UserRepository : Repository<User>, IUserRepository
         {
             throw new System.ArgumentNullException();
         }
-        return null;
+
+        // Explicitly load UserBadges collection and include Badge
+        _ctx.Entry(currentUser).Collection(u => u.UserBadges).Query().Include(ub => ub.Badge).Load();
+
+        // Explicitly load UserBadges collection and include Badge
+        _ctx.Entry(currentUser).Collection(u => u.UserGameInfos).Query().Load();
+
+        // Explicitly load UserBadges collection and include Badge
+        _ctx.Entry(currentUser).Collection(u => u.Friends).Query().Load();
+
+
+        // Explicitly load UserBadges collection and include Badge
+        _ctx.Entry(currentUser).Collection(u => u.UserAchievements).Query().Load();
+
+        return currentUser;
     }
+
 
     public IEnumerable<User> GetAllUsers()
     {

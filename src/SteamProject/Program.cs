@@ -14,6 +14,8 @@ using SteamProject.Areas.Identity.Data;
 using OpenAI.GPT3.Extensions;
 using SteamProject.Data;
 using SteamProject.Utilities;
+using System.Reflection;
+using SteamProject.Models.Awards.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,6 +85,8 @@ builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<ICompetitionPlayerRepository, CompetitionPlayerRepository>();
 builder.Services.AddScoped<ICompetitionGameAchievementRepository, CompetitionGameAchievementRepository>();
 builder.Services.AddScoped<IBlackListRepository, BlackListRepository>();
+builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
+builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -110,6 +114,15 @@ builder.Services.AddOpenAIService();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
+var assembly = Assembly.GetExecutingAssembly();
+var awardConditionTypes = assembly.GetTypes()
+    .Where(t => t.GetInterfaces().Contains(typeof(IAwardCondition)) && !t.IsAbstract);
+
+foreach (var type in awardConditionTypes)
+{
+    builder.Services.AddScoped(typeof(IAwardCondition), type);
+}
+
 var app = builder.Build();
 
 // By using a scope for the services to be requested below, we limit their lifetime to this set of calls.
@@ -131,6 +144,9 @@ using (var scope = app.Services.CreateScope())
         var adminPw = config["SeedAdminPW"];
 
         SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "My", "Admin").Wait();
+
+        //also seed badges from json file
+        SeedBadges.Initialize(services).GetAwaiter().GetResult();
     }
     catch (Exception ex)
     {

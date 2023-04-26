@@ -143,3 +143,7 @@ function getGamesForDuel() {
         error: errorOnAjax
     });
 }
+
+function getAchievementsForDuel() {
+    
+}

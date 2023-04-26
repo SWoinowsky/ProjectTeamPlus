@@ -293,6 +293,7 @@ public class CompeteController : Controller
         return View( viewModel );
     }
 
+
     [Authorize]
     [HttpPost]
     public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
@@ -312,6 +313,7 @@ public class CompeteController : Controller
         
         return RedirectToAction("Initiate", new { friendSteamId = friendSteamId, appId = appId });
     }
+
 
     [Authorize]
     [HttpGet]
@@ -337,4 +339,6 @@ public class CompeteController : Controller
         Console.WriteLine( compCreatedOut.OpponentId );
         return View( compCreatedOut );
     }
+
+    
 }

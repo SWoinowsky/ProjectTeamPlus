@@ -16,6 +16,7 @@ public interface ISteamService
     public GameNewsVM GetGameNews(Game game, int count = 10);
     GameVM GetGameInfo(Game game);
     AchievementRoot GetAchievements(string userSteamId, int appId);
+    public List<Achievement> GetSharedMissingAchievements( string userSteamId, string friendSteamId, int appId );
     SchemaRoot GetSchema(int appId);
     GAPRoot GetGAP(int appId);
 }

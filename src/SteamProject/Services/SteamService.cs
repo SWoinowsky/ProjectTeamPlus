@@ -259,6 +259,39 @@ public class SteamService : ISteamService
         return deserialized;
     }
 
+    public List<Achievement> GetSharedMissingAchievements( string userSteamId, string friendSteamId, int appId )
+    {
+        var userAchievementResult = new AchievementRoot();
+        userAchievementResult = GetAchievements( userSteamId, appId );
+
+        var friendAchievementResult = new AchievementRoot();
+        friendAchievementResult = GetAchievements( friendSteamId, appId );
+
+        var userAchList = new List<Achievement>();
+        userAchList = userAchievementResult.playerstats.achievements;
+
+        var friendAchList = new List<Achievement>();
+        friendAchList = friendAchievementResult.playerstats.achievements;
+
+        var sharedMissingAchievements = new List<Achievement>();
+        foreach( var userAch in userAchList )
+        {
+            foreach( var friendAch in friendAchList )
+            {
+                if( userAch.apiname == friendAch.apiname )
+                {
+                    if( userAch.achieved == friendAch.achieved )
+                    {
+                        if( userAch.achieved == 0 )
+                            sharedMissingAchievements.Add( userAch );
+                    }
+                }
+            }
+        }
+
+        return sharedMissingAchievements;
+    }
+
     public SchemaRoot GetSchema(int appId)
         {
             string source = string.Format("https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?appid={0}&key={1}&l=en", appId, Token);

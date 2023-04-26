@@ -1,4 +1,5 @@
 
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -315,6 +316,23 @@ public class CompeteController : Controller
     [Authorize]
     [HttpGet]
     public IActionResult Create()
+    {
+        string id = _userManager.GetUserId(User);
+
+        var currentUser = new SteamProject.Models.User();
+        currentUser = _userRepository.GetUser(id);
+
+        var viewModel = new CompeteCreateVM();
+        viewModel.SteamId = currentUser.SteamId;
+        viewModel.SinId = currentUser.Id;
+        
+
+        return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult Create( CompeteCreateVM compCreatedOut )
     {
         return View();
     }

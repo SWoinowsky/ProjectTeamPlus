@@ -41,6 +41,7 @@ function showFFA() {
     eleNew.className = "DynamicInput";
     eleNew.innerHTML = "THIS IS THE FREE FOR ALL RESULT";
 
+
     pageForm.append(eleNew);
 }
 
@@ -49,9 +50,50 @@ function showDuel() {
     pageForm.innerHTML = "";
 
 
-    var eleNew = document.createElement('div');
-    eleNew.className = "DynamicInput";
-    eleNew.innerHTML = "THIS IS THE DUEL RESULT";
+    var eleDuel = document.createElement('div');
+    eleDuel.className = "DynamicInput";
+    eleDuel.id = "DuelDiv"
+    eleDuel.innerHTML = "THIS IS THE DUEL RESULT";
 
-    pageForm.append(eleNew);
+    getFriendsListForDuel();
+
+
+    pageForm.append(eleDuel);
+}
+
+function buildDuel( data )
+{
+    console.log( )
+}
+
+function singleFriendSelect( data ) {
+    var duelDiv = document.getElementById("DuelDiv");
+    var friendSelect = document.createElement("select");
+
+    $.each( data, function ( index, item ) {
+        var option = document.createElement("option");
+        option.value = `${item.steamId}`;
+        option.innerHTML = `${item.steamName}`
+
+        friendSelect.append( option );
+    });
+
+    duelDiv.append( friendSelect );
+}
+
+function errorOnAjax() {
+    console.log( "ERROR in ajax request" );
+}
+
+function getFriendsListForDuel() {
+    var SteamId = document.getElementById("SteamId").value;
+    var SinId = document.getElementById("SinId").value;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/Steam/friends?steamid=${SteamId}&UserId=${SinId}`,
+        success: singleFriendSelect,
+        error: errorOnAjax
+    });
 }

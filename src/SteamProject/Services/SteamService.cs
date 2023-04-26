@@ -268,10 +268,12 @@ public class SteamService : ISteamService
         friendAchievementResult = GetAchievements( friendSteamId, appId );
 
         var userAchList = new List<Achievement>();
-        userAchList = userAchievementResult.playerstats.achievements;
+        if( userAchievementResult != null )
+            userAchList = userAchievementResult.playerstats.achievements;
 
         var friendAchList = new List<Achievement>();
-        friendAchList = friendAchievementResult.playerstats.achievements;
+        if( friendAchievementResult != null )
+            friendAchList = friendAchievementResult.playerstats.achievements;
 
         var sharedMissingAchievements = new List<Achievement>();
         foreach( var userAch in userAchList )
@@ -289,7 +291,7 @@ public class SteamService : ISteamService
             }
         }
 
-        return sharedMissingAchievements;
+        return sharedMissingAchievements.OrderBy( ach => ach.name ).ToList<Achievement>();
     }
 
     public SchemaRoot GetSchema(int appId)

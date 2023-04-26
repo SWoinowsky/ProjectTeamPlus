@@ -107,10 +107,10 @@ function addGameSelector( data ) {
 
     var GameDiv = document.createElement('div');
     GameDiv.id = "GameDiv";
-    GameDiv.innerHTML = "";
 
 
     var gameSelector = document.createElement("select");
+    gameSelector.id = "gameSelector";
     gameSelector.name = "GameAppId";
 
     $.each( data, function ( index, item ) {
@@ -121,10 +121,16 @@ function addGameSelector( data ) {
         gameSelector.append( option );
     });
 
+    gameSelector.onchange = function () {
+        getAchievementsForDuel();
+    }
+
     GameDiv.append( gameSelector );
 
     var DuelDiv = document.getElementById("DuelDiv");
     DuelDiv.append( GameDiv );
+
+    getAchievementsForDuel();
 }
 
 function getGamesForDuel() {
@@ -138,12 +144,68 @@ function getGamesForDuel() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: `http://localhost:5105/api/Steam/sharedGames?userSteamId=${SteamId}&friendSteamId=${friendId}&userId=${SinId}`,
+        url: `/api/Steam/sharedGames?userSteamId=${SteamId}&friendSteamId=${friendId}&userId=${SinId}`,
         success: addGameSelector,
         error: errorOnAjax
     });
 }
 
+function showDuelAchievements( data ) {
+    var achievementDivPrevious = document.getElementById("AchievementDiv");
+    if( achievementDivPrevious != null )
+    {
+        achievementDivPrevious.remove();
+    }
+
+    var achievementDiv = document.createElement("ul");
+    achievementDiv.id = "AchievementDiv";
+    achievementDiv.className = "row";
+
+    $.each( data, function ( index, item ) {
+        var achievement = document.createElement('li');
+        
+        var achName = document.createElement('b');
+        achName.innerHTML = `${item.name}: `;
+        achievement.append(achName);
+
+        var achDesc = document.createElement('i');
+        var desc = item.description;
+        if( desc != "" )
+        {
+            achDesc.innerHTML = `${desc}`;
+        }
+        else {
+            achDesc.innerHTML = `No Description Provided`;
+        }
+
+        achievement.append( achDesc );
+
+
+
+        achievementDiv.append(achievement);
+    });
+
+    var DuelDiv = document.getElementById('DuelDiv');
+    DuelDiv.append( achievementDiv );
+
+}
+
 function getAchievementsForDuel() {
-    
+    var SteamId = document.getElementById("SteamId").value;
+
+    var friendSelector = document.getElementById("friendSelector");
+    var index = friendSelector.selectedIndex;
+    var friendId = friendSelector.children[index].value;
+
+    var gameSelector = document.getElementById("gameSelector");
+    var index = gameSelector.selectedIndex;
+    var appId = gameSelector.children[index].value;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
+        success: showDuelAchievements,
+        error: errorOnAjax
+    });
 }

@@ -1,11 +1,14 @@
-using Microsoft.AspNetCore.Identity;
 using SteamProject.Models;
 using SteamProject.Models.DTO;
 using SteamProject.Helpers;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using SteamProject.ViewModels;
-using AngleSharp.Dom;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace SteamProject.Services;
 
@@ -14,13 +17,17 @@ public class SteamService : ISteamService
     public static readonly HttpClient _httpClient = new HttpClient();
     string Token;
     string AdminToken;
+    private readonly string _clientId;
+    private readonly string _accessToken;
     string BulkUserSteamId = "76561199495917967";
 
     
-    public SteamService( string token, string adminToken )
+    public SteamService( string token, string adminToken, string clientId, string accessToken )
     {
         Token = token;
         AdminToken = adminToken;
+        _clientId = clientId;
+        _accessToken = accessToken;
     }
 
 
@@ -28,9 +35,7 @@ public class SteamService : ISteamService
     {
         var client = new HttpClient();
         var request = new HttpRequestMessage( HttpMethod.Get, uri );
-
         var response = client.Send(request);
-
         if (response.IsSuccessStatusCode)
         {
             // Note there is only an async version of this so to avoid forcing you to use all async I'm waiting for the result manually
@@ -42,7 +47,6 @@ public class SteamService : ISteamService
             // What to do if failure? 401? Should throw and catch specific exceptions that explain what happened
             return null;
         }
-
     }
 
     public User GetSteamUser(string steamid)
@@ -207,6 +211,22 @@ public class SteamService : ISteamService
             gameVM._poco = JsonSerializer.Deserialize<GameInfoPOCO>(jsonResponse);
         }
         return gameVM;
+    }
+    public async Task<JObject> GetGameInfoAsync(string gameName)
+    {
+        using (var client = new HttpClient())
+        {
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Client-ID", _clientId);
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_accessToken}");
+
+            var body = $"fields genres.name; search \"{gameName}\";";
+            var response = await client.PostAsync("https://api.igdb.com/v4/games", new StringContent(body));
+            var content = await response.Content.ReadAsStringAsync();
+            
+            return JObject.Parse(content);
+            //return JsonSerializer.Deserialize<GenrePOCO>(content);
+        }
     }
 
     public GameNewsVM GetGameNews(Game game, int count = 10)

@@ -70,8 +70,10 @@ if (localDbSource == false)
 var SteamApiToken = builder.Configuration["SteamKey"];
 var openAiToken = builder.Configuration["OpenAiKey"];
 var AdminSeedingApiToken = builder.Configuration["AdminSeedingApiKey"];
+var ClientId = builder.Configuration["ClientId"];
+var AccessToken = builder.Configuration["AccessToken"];
 
-builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken, AdminSeedingApiToken ));
+builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken, AdminSeedingApiToken, ClientId, AccessToken));
 builder.Services.AddScoped<IOpenAiApiService, OpenAiApiService>(a => new OpenAiApiService(openAiToken));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();

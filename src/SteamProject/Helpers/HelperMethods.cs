@@ -32,6 +32,10 @@ public static class HelperMethods
         return item;
     }
 
+    public static string ConvertImageToBase64(byte[] imageBytes)
+    {
+        return Convert.ToBase64String(imageBytes);
+    }
 
 
 

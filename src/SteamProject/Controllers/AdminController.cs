@@ -190,15 +190,22 @@ public class AdminController: Controller
                 if (currentGame.Genres == null)
                 {
                     GameVM gameVM = _steamService.GetGameInfo(game);
-                    gameVM._game = game;
-                    gameVM._appId = game.AppId;
-                    
-                    var genres = gameVM._poco.response.data.genres;
-                    foreach(var genre in genres)
+                    //This seems to only happen with a single game I've tested - COD: MW3 -Multiplayer, but could happen for more.
+                    if(gameVM._poco.response.data == null)
                     {
-                        tempGenreString += genre.description + ",";
+                        game.Genres = "Not Available";
                     }
-                    currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                    else
+                    {
+                        gameVM._game = game;
+                        gameVM._appId = game.AppId;
+                        var genres = gameVM._poco.response.data.genres;
+                        foreach(var genre in genres)
+                        {
+                            tempGenreString += genre.description + ",";
+                        }
+                        currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                    }
                     _gameRepository.AddOrUpdate(currentGame);
                     gameVMs.Add(gameVM);
                 }

@@ -110,6 +110,26 @@ public class LibraryController: Controller
                         //Check if game is in database, if not add it
                         if (currentGame == null)
                         {
+                            //Gets the games info and adds it to the db if a user has games that our Admin didn't load in.
+                            if (game.Genres == null)
+                            {
+                                var tempGenreString = "";
+                                GameVM gameVM = _steamService.GetGameInfo(game);
+                                //This seems to only happen with a single game I've tested - COD: MW3 -Multiplayer, but could happen for more.
+                                if(gameVM._poco.response.data == null)
+                                {
+                                    game.Genres = "Not Available";
+                                }
+                                else
+                                {
+                                    var genres = gameVM._poco.response.data.genres;
+                                    foreach(var genre in genres)
+                                    {
+                                        tempGenreString += genre.description + ",";
+                                    }
+                                    game.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                                }
+                            }
                             _gameRepository.AddOrUpdate(game);
 
                             var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();

@@ -19,7 +19,10 @@ public class SteamService : ISteamService
     string AdminToken;
     private readonly string _clientId;
     private readonly string _accessToken;
-    string BulkUserSteamId = "76561199495917967";	//"76561198070063720";
+
+    // This Steam account is Justin's personal one with 240ish games. In the future we
+    //  could change this to use a larger one, but for now it's all that's needed.
+    string BulkUserSteamId = "76561198070063720";
 
     
     public SteamService( string token, string adminToken, string clientId, string accessToken )
@@ -229,7 +232,7 @@ public class SteamService : ISteamService
 
             while (response.StatusCode ==  System.Net.HttpStatusCode.TooManyRequests)
             {
-                Thread.Sleep(4000);
+                Thread.Sleep(1000);
                 response = await client.PostAsync("https://api.igdb.com/v4/games", new StringContent(body));
             }
             var content = await response.Content.ReadAsStringAsync();

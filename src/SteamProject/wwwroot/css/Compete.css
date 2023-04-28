@@ -79,6 +79,32 @@
 
 strong { color: #292929; }
 
+.float {
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:20%;
+	right:5%;
+	background-color:#e34c4c;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    transition: 1s;
+    border: 1px solid #e34c4c;
+}
+
+.float:hover {
+    background-color: white;
+    color: #e34c4c;
+    border: 1px solid #e34c4c;
+    transition: 1s;
+}
+
+.my-float{
+	margin-top:22px;
+    margin: auto;
+}
 .iron {
     background-image: linear-gradient(210deg, #CED3D1 48%, #9B9E9C 100%, #9B9E9C 100%);
 }
@@ -156,4 +182,159 @@ strong { color: #292929; }
     color: #fff;
     left: 87%;
     top: 88%;
+}
+
+.formWrapper {
+    font-family: 'Space Mono', monospace; 
+    padding-top: 2%;
+}
+
+#createForm {
+    padding-top: 10px;
+    width: 80%;
+    margin: auto;  
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.compTimeIn {
+    width: auto;
+    margin-right: auto;
+}
+
+#DuelDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#ffaDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#friendSelector {
+    width: auto;
+    margin-right: auto;
+}
+
+#compCreateSubmit {
+    width: auto;
+    margin: auto;
+    background-color: white;
+    border: 1px solid #e34c4c;
+    color: #e34c4c;
+    transition: 0.5s;
+}
+
+#compCreateSubmit:hover {
+    background-color: #e34c4c;
+    color: white;
+
+}
+
+.compTimeIn {
+    border-radius: 0%;
+    border: 1px solid black;
+    color: #e34c4c;
+}
+
+.compTimeIn:focus {
+    box-shadow: 0 0 1px #e34c4c;
+    border-color: #e34c4c;
+}
+
+.compTimeIn:focus-visible {
+    outline: 1px solid #e34c4c;
+    border-color: #e34c4c;
+}
+
+
+select {
+    border: 1px solid black;
+    color: #e34c4c;
+    background-color: white;
+    border-radius: 0%;
+    margin-right: auto;
+}
+
+select-items {
+    background-color: #e34c4c;
+    color: white;
+}
+
+#AchievementDiv {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.timeWrapper {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+
+#groupSelector {
+    border: 1px solid black;
+    color: #e34c4c;
+    background-color: white;
+    border-radius: 0%;
+    margin-right: auto;
+}
+
+.SumoSelect {
+    color: #e34c4c;
+}
+
+.placeholder {
+    background-color: white;
+}
+
+.SumoSelect > .CaptionCont {
+    border: 1px solid black;
+    border-radius: 0%;
+}
+
+.SumoSelect > .optWrapper.multiple > .options li.opt span i {
+    box-shadow: none;
+    border: 1px solid black;
+}
+
+.SumoSelect > .optWrapper.multiple > .options li.opt.selected span i {
+    background-color: #e34c4c;
+}
+
+.SumoSelect > .optWrapper > .options li.opt label {
+    color: #e34c4c;
+}
+
+.SumoSelect:hover > .CaptionCont {
+    box-shadow: 0 0 2px #e34c4c;
+    border-color: #e34c4c;
+}
+
+.SumoSelect:focus > .CaptionCont {
+    box-shadow: 0 0 1px #e34c4c;
+    border-color: #e34c4c;
+}
+
+#gameSelector {
+    width: auto;
+    margin-right: auto;
+}
+
+#AchievementList {
+    max-height: 300px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

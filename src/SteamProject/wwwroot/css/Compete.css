@@ -187,3 +187,57 @@ strong { color: #292929; }
 .formWrapper {
     padding-top: 2%;
 }
+
+#createForm {
+    padding-top: 10px;
+    width: 80%;
+    margin: auto;  
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.compTimeIn {
+    width: auto;
+    margin-right: auto;
+}
+
+#DuelDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#friendSelector {
+    width: auto;
+    margin-right: auto;
+}
+
+#compCreateSubmit {
+    width: auto;
+    margin: auto;
+}
+
+.compTimeIn {
+    border-radius: 0%;
+    border: 1px solid black;
+    color: #e34c4c;
+}
+
+select {
+    border: 1px solid black;
+    color: #e34c4c;
+    background-color: white;
+    border-radius: 0%;
+}
+
+select-items {
+    background-color: #e34c4c;
+    color: white;
+}
+
+#AchievementDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

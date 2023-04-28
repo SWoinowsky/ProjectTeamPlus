@@ -276,20 +276,21 @@ public class SteamService : ISteamService
             friendAchList = friendAchievementResult.playerstats.achievements;
 
         var sharedMissingAchievements = new List<Achievement>();
-        foreach( var userAch in userAchList )
-        {
-            foreach( var friendAch in friendAchList )
+        if( userAchList != null )
+            foreach( var userAch in userAchList )
             {
-                if( userAch.apiname == friendAch.apiname )
+                foreach( var friendAch in friendAchList )
                 {
-                    if( userAch.achieved == friendAch.achieved )
+                    if( userAch.apiname == friendAch.apiname )
                     {
-                        if( userAch.achieved == 0 )
-                            sharedMissingAchievements.Add( userAch );
+                        if( userAch.achieved == friendAch.achieved )
+                        {
+                            if( userAch.achieved == 0 )
+                                sharedMissingAchievements.Add( userAch );
+                        }
                     }
                 }
-            }
-        }
+            }   
 
         return sharedMissingAchievements.OrderBy( ach => ach.name ).ToList<Achievement>();
     }

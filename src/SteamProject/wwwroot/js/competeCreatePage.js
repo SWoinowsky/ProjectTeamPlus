@@ -99,6 +99,12 @@ function getFriendsListForDuel() {
 }
 
 function addGameSelector( data ) {
+    var achievementDivPrevious = document.getElementById("AchievementDiv");
+    if( achievementDivPrevious != null )
+    {
+        achievementDivPrevious.remove();
+    }
+
     var GameDivPrevious = document.getElementById("GameDiv");
     if( GameDivPrevious != null ) {
         GameDivPrevious.remove();
@@ -228,7 +234,8 @@ function createSubmitButton() {
 
     var submit = document.createElement("input");
     submit.type = "submit";
-    submit.value = "Begin Competition"
+    submit.value = "Begin Competition";
+    submit.id = "compCreateSubmit";
 
     div.append( submit );
 }

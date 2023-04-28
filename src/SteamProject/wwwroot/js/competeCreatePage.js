@@ -52,7 +52,6 @@ function showDuel() {
     var DuelDiv = document.createElement('div');
     DuelDiv.className = "DynamicInput";
     DuelDiv.id = "DuelDiv";
-    DuelDiv.innerHTML = "THIS IS THE DUEL RESULT <br>";
 
     getFriendsListForDuel();
 
@@ -182,7 +181,6 @@ function showDuelAchievements( data ) {
 
         achievement.append( achDesc );
 
-
         achievementDiv.append(achievement);
 
         var achHiddenId = document.createElement('input');
@@ -196,6 +194,13 @@ function showDuelAchievements( data ) {
     var DuelDiv = document.getElementById('DuelDiv');
     DuelDiv.append( achievementDiv );
 
+    if ( data.length > 0 )
+    {
+        createSubmitButton();
+    } else 
+    {
+        createEmptyWarning();
+    }
 }
 
 function getAchievementsForDuel() {
@@ -216,4 +221,27 @@ function getAchievementsForDuel() {
         success: showDuelAchievements,
         error: errorOnAjax
     });
+}
+
+function createSubmitButton() {
+    var div = document.getElementById( "AchievementDiv" );
+
+    var submit = document.createElement("input");
+    submit.type = "submit";
+    submit.value = "Begin Competition"
+
+    div.append( submit );
+}
+
+function createEmptyWarning() {
+    var div = document.getElementById( "AchievementDiv" );
+
+    var warning = document.createElement("b");
+    warning.innerHTML = "WARNING: NO ACHIEVEMENTS TO COMPETE OVER <br>";
+
+    var suggestion = document.createElement("i");
+    suggestion.innerHTML = "Your friend's achievements may be private. <br> Please select another game or friend.";
+    
+    div.append( warning );
+    div.append( suggestion ); 
 }

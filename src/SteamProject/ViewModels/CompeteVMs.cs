@@ -53,6 +53,9 @@ public class CompeteCreateVM
 
     public List<string> AchievementApiNames { get; set; }
     
+    public DateTime CompStartTime { get; set; }
+    public DateTime CompEndTime { get; set; }
+    
     public List<CompetitionPlayer> Competitors { get; set; }
     public List<CompetitionGameAchievement> Achievements { get; set; }
     

@@ -116,7 +116,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
- testRunner.Then("The page shows me a message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The page shows me a message that I dont have a Steam account linked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

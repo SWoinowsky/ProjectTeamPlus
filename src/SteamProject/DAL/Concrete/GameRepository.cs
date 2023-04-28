@@ -22,16 +22,13 @@ namespace SteamProject.DAL.Concrete
         public HashSet<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo)
         {
             HashSet<Game> uniqueGames = new HashSet<Game>();
-
             foreach (var game in userInfo)
             {
-
                 Game tempGame = this.GetGameById(game.GameId);
                 if (tempGame != null)
                 {
                     uniqueGames.Add(tempGame);
                 }
-                
             }
             return uniqueGames;
         }

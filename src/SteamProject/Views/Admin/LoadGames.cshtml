@@ -1,0 +1,45 @@
+@model List<Game>
+@{
+    ViewData["Title"] = "Admin - Load Games";
+    var gamesList = Model;
+}
+<br>
+@{
+    if(gamesList.Count() > 0)
+    {
+        <div class="row">
+            <table class="table">
+                <h1>Games added</h1>
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Steam App Id
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach(var game in gamesList)
+                        {
+                            <tr>
+                                <td>
+                                    @game.Name
+                                </td>
+                                <td>
+                                    @game.AppId
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <h1>All of the games for the bulk loading account are in the database.</h1>
+    }
+}

@@ -1,6 +1,7 @@
 using SteamProject.Models;
 using SteamProject.Models.DTO;
 using SteamProject.ViewModels;
+using Newtonsoft.Json.Linq;
 
 namespace SteamProject.Services;
 
@@ -13,8 +14,11 @@ public interface ISteamService
     public Friend GetFriendSpecific( string userSteamId, int userId, string friendSteamId );
     IEnumerable<Game> GetGames(string userSteamId, int userId);
     IEnumerable<Game> GetSharedGames( string userSteamId, string friendSteamId, int userId );
-    public GameNewsVM GetGameNews(Game game, int count = 10);
+    IEnumerable<Game> GetGamesGeneric(string source, int userId);
+    IEnumerable<Game> GetSteamCuratorGames();
+    GameNewsVM GetGameNews(Game game, int count = 10);
     GameVM GetGameInfo(Game game);
+    Task<HashSet<string>> GetGameInfoAsync(string gameName);
     AchievementRoot GetAchievements(string userSteamId, int appId);
     public List<Achievement> GetSharedMissingAchievements( string userSteamId, string friendSteamId, int appId );
     SchemaRoot GetSchema(int appId);

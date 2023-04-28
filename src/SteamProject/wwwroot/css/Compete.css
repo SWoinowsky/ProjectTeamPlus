@@ -185,6 +185,7 @@ strong { color: #292929; }
 }
 
 .formWrapper {
+    font-family: 'Space Mono', monospace; 
     padding-top: 2%;
 }
 
@@ -216,6 +217,16 @@ strong { color: #292929; }
 #compCreateSubmit {
     width: auto;
     margin: auto;
+    background-color: white;
+    border: 1px solid #e34c4c;
+    color: #e34c4c;
+    transition: 0.5s;
+}
+
+#compCreateSubmit:hover {
+    background-color: #e34c4c;
+    color: white;
+
 }
 
 .compTimeIn {
@@ -229,6 +240,7 @@ select {
     color: #e34c4c;
     background-color: white;
     border-radius: 0%;
+    margin-right: auto;
 }
 
 select-items {
@@ -237,7 +249,19 @@ select-items {
 }
 
 #AchievementDiv {
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
+
+ul {
+    list-style-type: none;
+}
+
+.timeWrapper {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+

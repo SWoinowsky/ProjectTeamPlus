@@ -4,6 +4,7 @@
 }
 
 <head>
+    <link href="https://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet">
     <link rel="stylesheet" href="~/css/Compete.css">
 </head>
 
@@ -11,13 +12,24 @@
 <input type="hidden" id="SinId" name="SinId" value="@Model.SinId">
 
 <div class="formWrapper">
-    <select name="" id="categorySelect">
-        <option value="Duel"> Duel </option>
-        <option value="Free-For-All"> Free-For-All </option>
-    </select>
+    <div class="timeWrapper">
+        <label>Competition Type: </label>
+        <select name="" id="categorySelect">
+            <option value="Duel"> Duel </option>
+            <option value="Free-For-All"> Free-For-All </option>
+        </select>
+    </div>
+    
     <form id="createForm" method="post">
-        <input type="datetime-local" class="compTimeIn" asp-for="CompStartTime">
-        <input type="datetime-local" class="compTimeIn" asp-for="CompEndTime">
+        <div class="timeWrapper">
+            <label for="compStartTime">Begin Time:</label>
+            <input type="datetime-local" class="compTimeIn" asp-for="CompStartTime">
+        </div>
+        <div class="timeWrapper">
+            <label for="compEndTime">End Time:</label>
+            <input type="datetime-local" class="compTimeIn" asp-for="CompEndTime">
+        </div>
+
         <div id="formInternals">
             
         </div>

@@ -60,6 +60,14 @@ function showDuel() {
 
 function singleFriendSelect( data ) {
     var duelDiv = document.getElementById("DuelDiv");
+    
+    var friendDiv = document.createElement('div');
+    friendDiv.className = "timeWrapper";
+
+    var friendSelectLabel = document.createElement("label");
+    friendSelectLabel.innerHTML = "Friend to Duel:";
+
+    friendDiv.append( friendSelectLabel );
 
     var friendSelect = document.createElement("select");
     friendSelect.id = "friendSelector"
@@ -76,7 +84,9 @@ function singleFriendSelect( data ) {
         getGamesForDuel();
     }
 
-    duelDiv.append( friendSelect );
+    friendDiv.append( friendSelect );
+
+    DuelDiv.append( friendDiv );
 
     getGamesForDuel();
 }
@@ -112,6 +122,13 @@ function addGameSelector( data ) {
 
     var GameDiv = document.createElement('div');
     GameDiv.id = "GameDiv";
+    GameDiv.className = "timeWrapper";
+
+
+    var gameLabel = document.createElement('label');
+    gameLabel.innerHTML = "Game to Compete In:";
+
+    GameDiv.append( gameLabel );
 
 
     var gameSelector = document.createElement("select");

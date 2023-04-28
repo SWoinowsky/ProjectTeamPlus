@@ -24,13 +24,14 @@
     </div>
     
     <form id="createForm" method="post">
+        <input type="hidden" name="SteamId" asp-for="SteamId">
         <div class="timeWrapper">
             <label for="compStartTime">Begin Time:</label>
-            <input type="datetime-local" class="compTimeIn" asp-for="CompStartTime">
+            <input type="datetime-local" value=@Model.MinDate min="2000-01-01T00:00" class="compTimeIn" asp-for="CompStartTime">
         </div>
         <div class="timeWrapper">
             <label for="compEndTime">End Time:</label>
-            <input type="datetime-local" class="compTimeIn" asp-for="CompEndTime">
+            <input type="datetime-local" value=@Model.MinDate min="2000-01-01T00:00" class="compTimeIn" asp-for="CompEndTime">
         </div>
 
         <div id="formInternals">

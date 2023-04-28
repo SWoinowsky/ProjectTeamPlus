@@ -377,9 +377,12 @@ function showFFAAchievements( data ) {
         achievementDivPrevious.remove();
     }
 
-    var achievementDiv = document.createElement("ul");
+    var achievementDiv = document.createElement("div");
     achievementDiv.id = "AchievementDiv";
     achievementDiv.className = "row";
+
+    var achievementList = document.createElement("ul")
+    achievementList.id = "AchievementList";
 
     $.each( data, function ( index, item ) {
         var achievement = document.createElement('li');
@@ -400,15 +403,17 @@ function showFFAAchievements( data ) {
 
         achievement.append( achDesc );
 
-        achievementDiv.append(achievement);
+        achievementList.append(achievement);
 
         var achHiddenId = document.createElement('input');
         achHiddenId.type = 'hidden';
         achHiddenId.name = "AchievementApiNames";
         achHiddenId.value = `${item.displayName}`;
 
-        achievementDiv.append( achHiddenId );
+        achievementList.append( achHiddenId );
     });
+
+    achievementDiv.append( achievementList );
 
     var ffaDiv = document.getElementById('ffaDiv');
     ffaDiv.append( achievementDiv );

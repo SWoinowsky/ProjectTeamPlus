@@ -12,7 +12,9 @@ namespace SteamProject.ViewModels
 {
     public class UserDashboardVM
     {
-        public User _user {get; set;}
+        public User User {get; set;}
+
+        public Dictionary<int, string> BadgeImagesBase64 { get; set; }
 
         public List<List<Game>> RecentGames { get; set; }
 

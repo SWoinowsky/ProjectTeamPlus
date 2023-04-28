@@ -95,6 +95,7 @@ function ajaxFetchFriendAchievements(id) {
         type: "GET",
         datatype: "json",
         url: `/api/Steam/achievements?steamid=${FriendSteamId}&appId=${id}`,
+        //something needs to be fixed here for if a friend is not set to public, it leads to infinite loading
         success: storeFriendAchievements,
         error: errorOnAjaxAchievements
     });

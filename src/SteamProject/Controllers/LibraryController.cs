@@ -106,7 +106,7 @@ public class LibraryController: Controller
                         {
                              currentUserInfo = null;
                         }
-
+// ----------- NEED TO CHANGE THIS SO IT WORKS WITH IGDB NOT STEAMS SYSTEM
                         //Check if game is in database, if not add it
                         if (currentGame == null)
                         {

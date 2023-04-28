@@ -214,6 +214,10 @@ public class SteamService : ISteamService
     }
     public async Task<HashSet<string>> GetGameInfoAsync(string gameName)
     {
+        // Games like Titanfall 2 have a trademark symbol from Steam, so IGDB doesn't understand what they are.
+        string namePattern = @"[^\w\s]";
+        gameName = Regex.Replace(gameName, namePattern, "");
+
         using (var client = new HttpClient())
         {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -251,9 +255,12 @@ public class SteamService : ISteamService
                     var genreNames = new HashSet<string>();
                     foreach(var genreCategory in genrePOCO.MyArray)
                     {
-                        foreach(var genre in genreCategory.genreCategory)
+                        if(genreCategory.genreCategory != null)
                         {
-                            genreNames.Add(genre.name);
+                            foreach(var genre in genreCategory.genreCategory)
+                            {
+                                genreNames.Add(genre.name);
+                            }
                         }
                     }
                     return genreNames;

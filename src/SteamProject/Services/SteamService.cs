@@ -240,7 +240,6 @@ public class SteamService : ISteamService
                 }
                 catch 
                 {
-                    var i = 1;
                     return null;
                 }
             }

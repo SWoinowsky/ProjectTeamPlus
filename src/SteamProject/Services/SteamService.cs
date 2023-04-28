@@ -212,7 +212,7 @@ public class SteamService : ISteamService
         }
         return gameVM;
     }
-    public async Task<GenrePOCO> GetGameInfoAsync(string gameName)
+    public async Task<HashSet<string>> GetGameInfoAsync(string gameName)
     {
         using (var client = new HttpClient())
         {
@@ -229,14 +229,28 @@ public class SteamService : ISteamService
             {
                 try
                 {
+                    // These regex are to remove the /n and white spaces that the json comes with
                     string pattern = @"\s+";
                     content = Regex.Replace(content, pattern, "");
+
                     pattern = @"\""genres\""\s*:";
                     string replacement = "\"genreCategory\":";
                     content = Regex.Replace(content, pattern, replacement);
+
+                    // Needed to wrap the json in something so I could parse it correctly.
                     content = $"{{\"MyArray\":{content}}}";
+
                     var genrePOCO = JsonSerializer.Deserialize<GenrePOCO>(content);
-                    return genrePOCO;
+
+                    var genreNames = new HashSet<string>();
+                    foreach(var genreCategory in genrePOCO.MyArray)
+                    {
+                        foreach(var genre in genreCategory.genreCategory)
+                        {
+                            genreNames.Add(genre.name);
+                        }
+                    }
+                    return genreNames;
                 }
                 catch 
                 {

@@ -19,7 +19,7 @@ public class SteamService : ISteamService
     string AdminToken;
     private readonly string _clientId;
     private readonly string _accessToken;
-    string BulkUserSteamId = "76561198070063720";
+    string BulkUserSteamId = "76561199495917967";	//"76561198070063720";
 
     
     public SteamService( string token, string adminToken, string clientId, string accessToken )

@@ -59,6 +59,12 @@ public class SteamController : ControllerBase
         return _steamService.GetSchema(appId);
     }
 
+    [HttpGet("games")]
+    public ActionResult Games( string userSteamId, int userId )
+    {
+        return Ok(_steamService.GetGames(userSteamId, userId) );
+    }
+
     [HttpGet("sharedGames")]
     public ActionResult SharedGames( string userSteamId, string friendSteamId, int userId )
     {

@@ -33,7 +33,6 @@ function checkSelect() {
     }
 }
 
-// DUEL
 
 function showFFA() {
     var pageForm = findForm();
@@ -42,7 +41,6 @@ function showFFA() {
     var ffaDiv = document.createElement('div');
     ffaDiv.className = "DynamicInput";
     ffaDiv.id = "ffaDiv";
-    ffaDiv.innerHTML = "THIS IS THE FREE FOR ALL RESULT";
 
     getFriendsListForFFA();
 
@@ -132,11 +130,12 @@ function ManyFriendSelect( data ) {
 
     ffaDiv.append( friendDiv );
 
-    // getGamesForDuel();
     $('.selectBox').SumoSelect({
         placeholder: 'Friends!',
         csvDispCount: 3
     });
+
+    getGamesForFFA();
 
 }
 
@@ -170,7 +169,7 @@ function getFriendsListForFFA() {
     });
 }
 
-function addGameSelector( data ) {
+function addGameSelectorForDuel( data ) {
     var achievementDivPrevious = document.getElementById("AchievementDiv");
     if( achievementDivPrevious != null )
     {
@@ -217,6 +216,54 @@ function addGameSelector( data ) {
     getAchievementsForDuel();
 }
 
+function addGameSelectorForFFA( data ) {
+    var achievementDivPrevious = document.getElementById("AchievementDiv");
+    if( achievementDivPrevious != null )
+    {
+        achievementDivPrevious.remove();
+    }
+
+    var GameDivPrevious = document.getElementById("GameDiv");
+    if( GameDivPrevious != null ) {
+        GameDivPrevious.remove();
+    }
+
+    var GameDiv = document.createElement('div');
+    GameDiv.id = "GameDiv";
+    GameDiv.className = "timeWrapper";
+
+
+    var gameLabel = document.createElement('label');
+    gameLabel.innerHTML = "Game to Compete In:";
+
+    GameDiv.append( gameLabel );
+
+
+    var gameSelector = document.createElement("select");
+    gameSelector.id = "gameSelector";
+    gameSelector.name = "GameAppId";
+
+    $.each( data, function ( index, item ) {
+        var option = document.createElement("option");
+        option.value = `${item.appId}`;
+        option.innerHTML = `${item.name}`
+
+        gameSelector.append( option );
+    });
+
+    gameSelector.onchange = function () {
+        getAchievementsForFFA();
+    }
+
+    GameDiv.append( gameSelector );
+
+    var ffaDiv = document.getElementById("ffaDiv");
+    ffaDiv.append( GameDiv );
+
+    getAchievementsForFFA();
+
+}
+
 function getGamesForDuel() {
     var SteamId = document.getElementById("SteamId").value;
     var SinId = document.getElementById("SinId").value;
@@ -229,7 +276,20 @@ function getGamesForDuel() {
         type: "GET",
         dataType: "json",
         url: `/api/Steam/sharedGames?userSteamId=${SteamId}&friendSteamId=${friendId}&userId=${SinId}`,
-        success: addGameSelector,
+        success: addGameSelectorForDuel,
+        error: errorOnAjax
+    });
+}
+
+function getGamesForFFA() {
+    var SteamId = document.getElementById("SteamId").value;
+    var SinId = document.getElementById("SinId").value;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/Steam/games?userSteamId=${SteamId}&userId=${SinId}`,
+        success: addGameSelectorForFFA,
         error: errorOnAjax
     });
 }
@@ -304,6 +364,74 @@ function getAchievementsForDuel() {
         dataType: "json",
         url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
         success: showDuelAchievements,
+        error: errorOnAjax
+    });
+}
+
+function showFFAAchievements( data ) {
+    data = data.game.availableGameStats.achievements;
+
+    var achievementDivPrevious = document.getElementById("AchievementDiv");
+    if( achievementDivPrevious != null )
+    {
+        achievementDivPrevious.remove();
+    }
+
+    var achievementDiv = document.createElement("ul");
+    achievementDiv.id = "AchievementDiv";
+    achievementDiv.className = "row";
+
+    $.each( data, function ( index, item ) {
+        var achievement = document.createElement('li');
+        
+        var achName = document.createElement('b');
+        achName.innerHTML = `${item.displayName}: `;
+        achievement.append(achName);
+
+        var achDesc = document.createElement('i');
+        var desc = item.description;
+        if( desc != "" )
+        {
+            achDesc.innerHTML = `${desc}`;
+        }
+        else {
+            achDesc.innerHTML = `No Description Provided`;
+        }
+
+        achievement.append( achDesc );
+
+        achievementDiv.append(achievement);
+
+        var achHiddenId = document.createElement('input');
+        achHiddenId.type = 'hidden';
+        achHiddenId.name = "AchievementApiNames";
+        achHiddenId.value = `${item.displayName}`;
+
+        achievementDiv.append( achHiddenId );
+    });
+
+    var ffaDiv = document.getElementById('ffaDiv');
+    ffaDiv.append( achievementDiv );
+
+    if ( data.length > 0 )
+    {
+        createSubmitButton();
+    } else 
+    {
+        createEmptyWarning();
+    }
+}
+
+function getAchievementsForFFA() {
+    var gameSelector = document.getElementById("gameSelector");
+    var index = gameSelector.selectedIndex;
+    var appId = gameSelector.children[index].value;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/Steam/schema?appId=${appId}`,
+        success: showFFAAchievements,
         error: errorOnAjax
     });
 }

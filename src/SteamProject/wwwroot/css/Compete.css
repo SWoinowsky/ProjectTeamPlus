@@ -209,6 +209,12 @@ strong { color: #292929; }
     gap: 10px;
 }
 
+#ffaDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 #friendSelector {
     width: auto;
     margin-right: auto;
@@ -320,3 +326,7 @@ ul {
     border-color: #e34c4c;
 }
 
+#gameSelector {
+    width: auto;
+    margin-right: auto;
+}

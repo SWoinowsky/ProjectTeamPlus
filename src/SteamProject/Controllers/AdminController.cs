@@ -170,49 +170,6 @@ public class AdminController: Controller
         return View(returnGames);
     }
 
-    // public IActionResult LoadGameInfo()
-    // {
-    //     List<Game> gamesList = _gameRepository.GetAll().ToList();
-        
-    //     if (gamesList.Count < 1)
-    //     {
-    //         ViewBag.MyString = "The library is empty!";
-    //         return View();
-    //     }
-    //     else
-    //     {
-    //         List<GameVM> gameVMs = new List<GameVM>();
-    //         string tempGenreString;
-    //         foreach(var game in gamesList)
-    //         {
-    //             tempGenreString = "";
-    //             var currentGame = _gameRepository.GetGameByAppId(game.AppId);
-    //             if (currentGame.Genres == null)
-    //             {
-    //                 GameVM gameVM = _steamService.GetGameInfo(game);
-    //                 //This seems to only happen with a single game I've tested - COD: MW3 -Multiplayer, but could happen for more.
-    //                 if(gameVM._poco.response.data == null)
-    //                 {
-    //                     game.Genres = "Not Available";
-    //                 }
-    //                 else
-    //                 {
-    //                     gameVM._game = game;
-    //                     gameVM._appId = game.AppId;
-    //                     var genres = gameVM._poco.response.data.genres;
-    //                     foreach(var genre in genres)
-    //                     {
-    //                         tempGenreString += genre.description + ",";
-    //                     }
-    //                     currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
-    //                 }
-    //                 _gameRepository.AddOrUpdate(currentGame);
-    //                 gameVMs.Add(gameVM);
-    //             }
-    //         }
-    //         return View(gameVMs);
-    //     }
-    // }
     public async Task<IActionResult> LoadGameInfoAsync()
     {
         List<Game> gamesList = await _gameRepository.GetAll().ToListAsync();
@@ -230,7 +187,7 @@ public class AdminController: Controller
             {
                 tempGenreString = "";
                 var currentGame = _gameRepository.GetGameByAppId(game.AppId);
-                if (currentGame.Genres == null)
+                if (currentGame.Genres == null || currentGame.Genres == "The genres couldn't be grabbed")
                 {
                     try
                     {
@@ -239,17 +196,20 @@ public class AdminController: Controller
                         {
                             tempGenreString += genre + ",";
                         }
+                        currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
                     }
                     catch
                     {
                         tempGenreString = "The genres couldn't be grabbed";
                     }
                     var gameVM = _steamService.GetGameInfo(game);
-                    currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
-
+                    
                     gameVM._game = game;
                     gameVM._appId = game.AppId;
-
+                    if(currentGame.Genres == null)
+                    {
+                        currentGame.Genres = "The genres couldn't be grabbed";
+                    }
                     _gameRepository.AddOrUpdate(currentGame);
                     gameVMs.Add(gameVM);
                 }

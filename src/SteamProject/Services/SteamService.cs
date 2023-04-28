@@ -19,7 +19,7 @@ public class SteamService : ISteamService
     string AdminToken;
     private readonly string _clientId;
     private readonly string _accessToken;
-    string BulkUserSteamId = "76561199495917967";
+    string BulkUserSteamId = "76561198070063720";
 
     
     public SteamService( string token, string adminToken, string clientId, string accessToken )
@@ -222,6 +222,12 @@ public class SteamService : ISteamService
 
             var body = $"fields genres.name; search \"{gameName}\";";
             var response = await client.PostAsync("https://api.igdb.com/v4/games", new StringContent(body));
+
+            while (response.StatusCode ==  System.Net.HttpStatusCode.TooManyRequests)
+            {
+                Thread.Sleep(4000);
+                response = await client.PostAsync("https://api.igdb.com/v4/games", new StringContent(body));
+            }
             var content = await response.Content.ReadAsStringAsync();
             if(content == null)
                 return null;

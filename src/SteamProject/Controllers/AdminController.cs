@@ -25,18 +25,20 @@ public class AdminController: Controller
     private readonly IBlackListRepository _blackListRepository;
     private readonly SignInManager<IdentityUser> _signInManager;
     private IFriendRepository _friendRepository;
-            private IUserGameInfoRepository _userGameInfoRepository;
+    private IUserGameInfoRepository _userGameInfoRepository;
+    private readonly ISteamService _steamService;
+    private readonly IGameRepository _gameRepository;
 
-    public AdminController(
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository)
+    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService)
     {
         _userManager = userManager;
-        _userRepository = userRepository;
         _signInManager = signInManager;
         _blackListRepository = blackListRepository;
         _friendRepository = friendRepository;
+        _steamService = steamService;
+        _userRepository = userRepository;
         _userGameInfoRepository = userGameInfoRepository;
+        _gameRepository = gameRepository;
     }
 
     public IActionResult Index()
@@ -147,12 +149,73 @@ public class AdminController: Controller
 
     public IActionResult LoadGames()
     {
-        throw new NotImplementedException();
+        IEnumerable<Game> games = _steamService.GetSteamCuratorGames();
+        List<Game> returnGames = new List<Game>();
+        foreach(var game in games)
+        {
+            try
+            {
+                var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                if (currentGame == null)
+                {
+                    _gameRepository.AddOrUpdate(game);
+                    returnGames.Add(game);
+                }
+            }
+            catch
+            {
+                throw new Exception("Current game couldn't be saved to the db!" + game.Name);
+            }
+        }
+        return View(returnGames);
     }
 
-    public IActionResult LoadGameInfo()
+    public async Task<IActionResult> LoadGameInfoAsync()
     {
-        throw new NotImplementedException();
+        List<Game> gamesList = await _gameRepository.GetAll().ToListAsync();
+        
+        if (gamesList.Count < 1)
+        {
+            ViewBag.MyString = "The library is empty!";
+            return View();
+        }
+        else
+        {
+            List<GameVM> gameVMs = new List<GameVM>();
+            string tempGenreString;
+            foreach(var game in gamesList)
+            {
+                tempGenreString = "";
+                var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                if (currentGame.Genres == null || currentGame.Genres == "The genres couldn't be grabbed")
+                {
+                    try
+                    {
+                        var genreResults = await _steamService.GetGameInfoAsync(game.Name);
+                        foreach(var genre in genreResults)
+                        {
+                            tempGenreString += genre + ",";
+                        }
+                        currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                    }
+                    catch
+                    {
+                        tempGenreString = "The genres couldn't be grabbed";
+                    }
+                    var gameVM = _steamService.GetGameInfo(game);
+                    
+                    gameVM._game = game;
+                    gameVM._appId = game.AppId;
+                    if(currentGame.Genres == null)
+                    {
+                        currentGame.Genres = "The genres couldn't be grabbed";
+                    }
+                    _gameRepository.AddOrUpdate(currentGame);
+                    gameVMs.Add(gameVM);
+                }
+            }
+            return View(gameVMs);
+        }
     }
 
     public IActionResult ViewGames()

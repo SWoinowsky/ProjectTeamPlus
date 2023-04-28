@@ -147,6 +147,7 @@ public partial class SteamInfoDbContext : DbContext
 
             entity.Property(e => e.DescLong).HasMaxLength(1024);
             entity.Property(e => e.DescShort).HasMaxLength(512);
+            entity.Property(e => e.Genres).HasMaxLength(1024);
             entity.Property(e => e.IconUrl).HasMaxLength(512);
             entity.Property(e => e.Name).HasMaxLength(512);
         });

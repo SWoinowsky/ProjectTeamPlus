@@ -56,7 +56,7 @@ public class CompeteCreateVM
     public string MinDate { get; set; } = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH:mm");
 
 
-    public List<string> AchievementApiNames { get; set; }
+    public List<string> AchievementDisplayNames { get; set; }
     
     public DateTime CompStartTime { get; set; }
     public DateTime CompEndTime { get; set; }

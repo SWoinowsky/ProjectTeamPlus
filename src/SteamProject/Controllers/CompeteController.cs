@@ -386,7 +386,7 @@ public class CompeteController : Controller
         }
 
         var achievementsCompeting = new List<GameAchievement>();
-        foreach( var achUnearned in compCreatedOut.AchievementApiNames )
+        foreach( var achUnearned in compCreatedOut.AchievementDisplayNames )
         {
             foreach( var gameAch in presentAchievements )
             {

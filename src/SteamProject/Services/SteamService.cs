@@ -212,7 +212,7 @@ public class SteamService : ISteamService
         }
         return gameVM;
     }
-    public async Task<JObject> GetGameInfoAsync(string gameName)
+    public async Task<GenrePOCO> GetGameInfoAsync(string gameName)
     {
         using (var client = new HttpClient())
         {
@@ -223,9 +223,27 @@ public class SteamService : ISteamService
             var body = $"fields genres.name; search \"{gameName}\";";
             var response = await client.PostAsync("https://api.igdb.com/v4/games", new StringContent(body));
             var content = await response.Content.ReadAsStringAsync();
-            
-            return JObject.Parse(content);
-            //return JsonSerializer.Deserialize<GenrePOCO>(content);
+            if(content == null)
+                return null;
+            else
+            {
+                try
+                {
+                    string pattern = @"\s+";
+                    content = Regex.Replace(content, pattern, "");
+                    pattern = @"\""genres\""\s*:";
+                    string replacement = "\"genreCategory\":";
+                    content = Regex.Replace(content, pattern, replacement);
+                    content = $"{{\"MyArray\":{content}}}";
+                    var genrePOCO = JsonSerializer.Deserialize<GenrePOCO>(content);
+                    return genrePOCO;
+                }
+                catch 
+                {
+                    var i = 1;
+                    return null;
+                }
+            }
         }
     }
 

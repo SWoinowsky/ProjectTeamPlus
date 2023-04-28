@@ -17,7 +17,7 @@ public interface ISteamService
     IEnumerable<Game> GetSteamCuratorGames();
     GameNewsVM GetGameNews(Game game, int count = 10);
     GameVM GetGameInfo(Game game);
-    Task<JObject> GetGameInfoAsync(string gameName);
+    Task<GenrePOCO> GetGameInfoAsync(string gameName);
     AchievementRoot GetAchievements(string userSteamId, int appId);
     SchemaRoot GetSchema(int appId);
     GAPRoot GetGAP(int appId);

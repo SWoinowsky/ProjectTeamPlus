@@ -235,6 +235,17 @@ strong { color: #292929; }
     color: #e34c4c;
 }
 
+.compTimeIn:focus {
+    box-shadow: 0 0 1px #e34c4c;
+    border-color: #e34c4c;
+}
+
+.compTimeIn:focus-visible {
+    outline: 1px solid #e34c4c;
+    border-color: #e34c4c;
+}
+
+
 select {
     border: 1px solid black;
     color: #e34c4c;
@@ -263,5 +274,49 @@ ul {
     display: flex;
     flex-direction: column;
     width: auto;
+}
+
+#groupSelector {
+    border: 1px solid black;
+    color: #e34c4c;
+    background-color: white;
+    border-radius: 0%;
+    margin-right: auto;
+}
+
+.SumoSelect {
+    color: #e34c4c;
+}
+
+.placeholder {
+    background-color: white;
+}
+
+.SumoSelect > .CaptionCont {
+    border: 1px solid black;
+    border-radius: 0%;
+}
+
+.SumoSelect > .optWrapper.multiple > .options li.opt span i {
+    box-shadow: none;
+    border: 1px solid black;
+}
+
+.SumoSelect > .optWrapper.multiple > .options li.opt.selected span i {
+    background-color: #e34c4c;
+}
+
+.SumoSelect > .optWrapper > .options li.opt label {
+    color: #e34c4c;
+}
+
+.SumoSelect:hover > .CaptionCont {
+    box-shadow: 0 0 2px #e34c4c;
+    border-color: #e34c4c;
+}
+
+.SumoSelect:focus > .CaptionCont {
+    box-shadow: 0 0 1px #e34c4c;
+    border-color: #e34c4c;
 }
 

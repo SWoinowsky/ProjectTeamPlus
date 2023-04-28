@@ -33,16 +33,20 @@ function checkSelect() {
     }
 }
 
+// DUEL
+
 function showFFA() {
     var pageForm = findForm();
     pageForm.innerHTML = "";
 
-    var eleNew = document.createElement('div');
-    eleNew.className = "DynamicInput";
-    eleNew.innerHTML = "THIS IS THE FREE FOR ALL RESULT";
+    var ffaDiv = document.createElement('div');
+    ffaDiv.className = "DynamicInput";
+    ffaDiv.id = "ffaDiv";
+    ffaDiv.innerHTML = "THIS IS THE FREE FOR ALL RESULT";
 
+    getFriendsListForFFA();
 
-    pageForm.append(eleNew);
+    pageForm.append( ffaDiv );
 }
 
 function showDuel() {
@@ -59,7 +63,7 @@ function showDuel() {
 }
 
 function singleFriendSelect( data ) {
-    var duelDiv = document.getElementById("DuelDiv");
+    var DuelDiv = document.getElementById("DuelDiv");
     
     var friendDiv = document.createElement('div');
     friendDiv.className = "timeWrapper";
@@ -91,6 +95,51 @@ function singleFriendSelect( data ) {
     getGamesForDuel();
 }
 
+function ManyFriendSelect( data ) {
+    var ffaDiv = document.getElementById( 'ffaDiv' );
+    
+    var friendDiv = document.createElement('div');
+    friendDiv.className = "timeWrapper";
+
+    var friendSelectLabel = document.createElement("label");
+    friendSelectLabel.innerHTML = "Competitors:";
+
+    friendDiv.append( friendSelectLabel );
+
+    var groupSelect = document.createElement("select");
+    groupSelect.multiple = "multiple";
+    groupSelect.id = "groupSelector";
+    groupSelect["dataLiveSearch"] = "true";
+    groupSelect.className = "selectBox";
+    groupSelect.name = "OpponentIds";
+    $.each( data, function ( index, item ) {
+        var option = document.createElement("option");
+        option.value = `${item.steamId}`;
+        option.innerHTML = `${item.steamName}`
+
+        groupSelect.append( option );
+    });
+
+    groupSelect.onchange = function() {
+        // getGamesForDuel();
+        $('.selectBox').SumoSelect({
+            placeholder: 'Friends!',
+            csvDispCount: 3
+        });
+    }
+
+    friendDiv.append( groupSelect );
+
+    ffaDiv.append( friendDiv );
+
+    // getGamesForDuel();
+    $('.selectBox').SumoSelect({
+        placeholder: 'Friends!',
+        csvDispCount: 3
+    });
+
+}
+
 function errorOnAjax() {
     console.log( "ERROR in ajax request" );
 }
@@ -104,6 +153,19 @@ function getFriendsListForDuel() {
         dataType: "json",
         url: `/api/Steam/friends?steamid=${SteamId}&UserId=${SinId}`,
         success: singleFriendSelect,
+        error: errorOnAjax
+    });
+}
+
+function getFriendsListForFFA() {
+    var SteamId = document.getElementById("SteamId").value;
+    var SinId = document.getElementById("SinId").value;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/Steam/friends?steamid=${SteamId}&UserId=${SinId}`,
+        success: ManyFriendSelect,
         error: errorOnAjax
     });
 }
@@ -269,3 +331,5 @@ function createEmptyWarning() {
     div.append( warning );
     div.append( suggestion ); 
 }
+
+

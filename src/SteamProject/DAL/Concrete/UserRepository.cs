@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using SteamProject.DAL.Abstract;
 using SteamProject.Data;
 using SteamProject.Models;
@@ -31,6 +32,16 @@ public class UserRepository : Repository<User>, IUserRepository
 
         return user;
     }
+    public void UpdateUserTheme(int userId, string theme)
+    {
+        var user = _ctx.Users.FirstOrDefault(u => u.Id == userId);
+        if (user != null)
+        {
+            user.Theme = theme;
+            _ctx.SaveChanges();
+        }
+    }
+
 
 
 

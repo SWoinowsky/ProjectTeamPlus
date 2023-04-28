@@ -41,7 +41,8 @@ function checkForNewBadges() {
     $.ajax({
         url: baseUrl + "/api/Badge/CheckForNewBadges",
         type: "GET",
-        success: function (badgeId) {
+        success: BadgeChecker = function (badgeId) {
+            success: function (badgeId) {
             if (badgeId) {
                 // Display the badge award popup
                 showAwardPopup(badgeId);

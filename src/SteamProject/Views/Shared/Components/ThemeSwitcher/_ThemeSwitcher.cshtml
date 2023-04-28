@@ -1,0 +1,10 @@
+﻿@model string
+
+<div class="theme-switcher">
+    <button id="lightThemeButton" class="btn btn-sm @(Model == "light" ? "btn-primary" : "btn-outline-primary")" data-theme="light">Light</button>
+    <button id="darkThemeButton" class="btn btn-sm @(Model == "dark" ? "btn-primary" : "btn-outline-primary")" data-theme="dark">Dark</button>
+</div>
+
+@section Scripts {
+    <script src="~/js/theme-switcher.js"></script>
+}

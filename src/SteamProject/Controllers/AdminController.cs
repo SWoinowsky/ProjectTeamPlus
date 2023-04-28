@@ -235,23 +235,22 @@ public class AdminController: Controller
                     try
                     {
                         var genreResults = await _steamService.GetGameInfoAsync(game.Name);
-                        // foreach(var genre in genreResults)
-                        // {
-                        //     tempGenreString += genre.description + ",";
-                        // }
+                        foreach(var genre in genreResults)
+                        {
+                            tempGenreString += genre + ",";
+                        }
                     }
                     catch
                     {
                         tempGenreString = "The genres couldn't be grabbed";
                     }
                     var gameVM = _steamService.GetGameInfo(game);
+                    currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
 
                     gameVM._game = game;
                     gameVM._appId = game.AppId;
 
-                    
-                    // currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
-                    // _gameRepository.AddOrUpdate(currentGame);
+                    _gameRepository.AddOrUpdate(currentGame);
                     gameVMs.Add(gameVM);
                 }
             }

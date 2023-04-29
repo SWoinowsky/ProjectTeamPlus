@@ -1,9 +1,11 @@
-
+@model List<InboxMessage>
+@{
+    ViewData["Title"] = "Friends";
+}
 
 <head>
     <link rel="stylesheet" href="~/css/Inbox.css">
 </head>
-
 
 <div class="wrapper">
     <h3>Your Inbox</h3>
@@ -19,13 +21,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            @* <tr>
                 <th scope="row">1</th>
                 <th scope="col">21:41:56</th>
                 <td>S.I.N</td>
                 <td>Badge Earned</td>
                 <td>You have earned the "Signed Up" badge for signing up for Steam Info Network</td>
-            </tr>
+            </tr> *@
+            @foreach (var message in Model)
+            {
+                <tr>
+                    <th scope="row">@message.Id</th>
+                    <th scope="col">@message.TimeStamp</th>
+                    <td>@message.Sender</td>
+                    <td>@message.Subject</td>
+                    <td>@message.Content</td>
+                </tr>
+            }
         </tbody>
         </table>
     </div>

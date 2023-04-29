@@ -1,7 +1,9 @@
+using SteamProject.Models;
+
 namespace SteamProject.Services
 {
     public interface IInboxService
     {
-        public Task SendToInbox(string subject, string content);
+        public string SendToInbox(User user, string subject, string content);
     }
 }

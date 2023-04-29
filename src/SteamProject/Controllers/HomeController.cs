@@ -20,8 +20,9 @@ public class HomeController : Controller
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
     private readonly IFriendRepository _friendRepository;
+    private readonly IInboxService _inboxService;
 
-    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository)
+    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository, IInboxService inboxService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -29,6 +30,7 @@ public class HomeController : Controller
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
         _friendRepository = friendRepository;
+        _inboxService = inboxService;
     }
 
     public IActionResult Index()
@@ -169,6 +171,8 @@ public class HomeController : Controller
         }
 
         FriendsPageVM vm = new(friends, user.Id, user.SteamId);
+        string msg = _inboxService.SendToInbox(user, "Friends Test", $"You have {friends.Count}!");
+        Console.WriteLine(msg);
         return View(vm);
     }
 }

@@ -15,13 +15,27 @@ namespace SteamProject.Controllers;
 public class InboxController : Controller
 {
 
-    public InboxController() 
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly IUserRepository _userRepository;
+
+
+    public InboxController(UserManager<IdentityUser> userManager, IUserRepository userRepository) 
     {
-        
+        _userManager = userManager;
+        _userRepository = userRepository;
     }
 
     public IActionResult Index()
     {
-        return View();
+
+        string? id = _userManager.GetUserId(User);
+        if (id is null)
+        {
+            return View();
+        }
+        User user = _userRepository.GetUser(id);
+        List<InboxMessage> userInbox = user.InboxMessages.ToList();
+        Console.WriteLine(userInbox.Count);
+        return View(userInbox);
     }
 }

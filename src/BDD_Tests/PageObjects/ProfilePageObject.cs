@@ -18,7 +18,7 @@ namespace BDD_Tests.PageObjects
         public IWebElement FriendsList => _webDriver.FindElement(By.Id("friendsListDiv"));
         public IWebElement ProfileImage => _webDriver.FindElement(By.Id("divSteamAvatar"));
         public IWebElement UsernameAndLevel => _webDriver.FindElement(By.Id("divSteamNameLevel"));
-        public IWebElement EithnéPageLink => _webDriver.FindElement(By.Id("$Eithné of Brokiloén"));
+        public IWebElement EithnePageLink => _webDriver.FindElement(By.Id("$Eithné of Brokiloén"));
 
         public IWebElement SteamLinkPage => _webDriver.FindElement(By.Id("external-login"));
 
@@ -38,9 +38,9 @@ namespace BDD_Tests.PageObjects
             return (UsernameAndLevel != null);
         }
 
-        public void EithnéPageClick()
+        public void EithnePageClick()
         {
-            EithnéPageLink.Click();
+            EithnePageLink.Click();
         }
 
         public void SteamLinkPageClick()

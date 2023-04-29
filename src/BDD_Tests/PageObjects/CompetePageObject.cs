@@ -16,6 +16,7 @@ namespace BDD_Tests.PageObjects
         public IWebElement RegisterButton => _webDriver.FindElement(By.Id("register-link"));
         public IWebElement NavBarHelloLink => _webDriver.FindElement(By.CssSelector("a[href=\"/Identity/Account/Manage\"]"));
         public IWebElement NavBarCompeteLink => _webDriver.FindElement(By.Id("navCompete"));
+        public IWebElement CompeteCreateLink => _webDriver.FindElement(By.Id("compCreateLink"));
 
 
 
@@ -27,6 +28,11 @@ namespace BDD_Tests.PageObjects
         public void ClickNavBarCompeteLink()
         {
             NavBarCompeteLink.Click();
+        }
+
+        public void ClickCompeteCreateLink()
+        {
+            CompeteCreateLink.Click();
         }
 
         public void Logout()

@@ -62,9 +62,8 @@ namespace BDD_Tests.StepDefinitions
             _libraryPage.GetTitle().Should().ContainEquivalentOf(library, AtLeast.Once());
         }
 
-
-        [Then(@"The page shows me a message")]
-        public void ThenThePageShowsMeAMessage()
+        [Then(@"The page shows me a message that I dont have a Steam account linked")]
+        public void ThenThePageShowsMeAMessageThatIDontHaveASteamAccountLinked()
         {
             _libraryPage.GetLinkingMessage();
         }

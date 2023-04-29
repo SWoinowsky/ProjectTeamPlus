@@ -19,10 +19,6 @@ html {
   background: #858585; 
 }
  
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #2a475e; 
-}
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
@@ -58,24 +54,21 @@ label.Input_Email {
 }
 
 .modal-header, .modal-body, .modal-footer {
-  background-image: linear-gradient(to left, #222731, #2f526e, #222731);
-  border: none;
+    border: none;
 } 
 
 .loading-spinner {
-  width: 96px;
-  height: 96px;
+    width: 96px;
+    height: 96px;
 }
 .loading-spinner:after {
-content: "";
-display: block;
-width: 80px;
-height: 80px;
-margin: 9px;
-border-radius: 50%;
-border: 10px solid #4FE3BB;
-border-color: #4FE3BB transparent #4FE3BB transparent;
-animation: loading-spinner 1s linear infinite;
+    content: "";
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 9px;
+    border-radius: 50%;
+    animation: loading-spinner 1s linear infinite;
 }
 
 @keyframes loading-spinner {
@@ -99,7 +92,7 @@ animation: loading-spinner 1s linear infinite;
   padding: 1%;
 }
 
-#friendsListTable tr:nth-child(even){background-color: rgb(43, 64, 104);};
+
 
 .FriendImage
 {
@@ -424,8 +417,7 @@ div {
 
 /* GAME INFO PAGE */
 .gameInfoCard {
-  background-image: linear-gradient(to left, #222731, #2f526e, #222731); 
-  width: 20rem;
+    width: 20rem;
   padding: 2px;
   height: 200px;
 }

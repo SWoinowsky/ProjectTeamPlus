@@ -12,14 +12,6 @@
     opacity: 92% !important;
 }
 
-body {
-    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
-}
-
-footer {
-    background-image: linear-gradient(180deg,#222731 0%, #000000 60%) !important;
-    height: 65px !important;
-}
 
 .hide-btn, .unhide-btn {
     top: 5px;
@@ -105,14 +97,7 @@ footer {
     border: 3px solid #4FE3BB;
 }
 
-h1, h4, h5, h6 {
-    color: #fff;
-    align-self: flex-start;
-}
 
-p, ul, li {
-    color: white;
-}
 
 #modal-left {
     display: flex;

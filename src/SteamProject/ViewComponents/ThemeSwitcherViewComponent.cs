@@ -20,16 +20,20 @@ namespace SteamProject.ViewComponents
         public IViewComponentResult Invoke()
         {
             string? id = _userManager.GetUserId((ClaimsPrincipal)User);
+            string theme;
             if (id is null)
             {
-                return View("_ThemeSwitcher", "light"); // Return default theme if user not found
+                theme = "light"; // Set default theme if user not found
             }
             else
             {
                 User user = _userRepository.GetUser(id);
-                string theme = user.Theme ?? "light"; // Default to light theme if not set
-                return View("_ThemeSwitcher", theme);
+                theme = user.Theme ?? "light"; // Default to light theme if not set
             }
+            return View("_ThemeSwitcher", theme);
         }
+
+
+
     }
 }

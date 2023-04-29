@@ -5,22 +5,16 @@
 
 <html lang="en">
 <head>
-    <style>
-        div {
-            color: white;
-        }
-        footer {
-            color: black;
-            background-color: white;
-        }
-    </style>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SteamProject</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SteamProject.styles.css" asp-append-version="true" />
-    <link id="theme-link" rel="stylesheet" href="~/css/@(ViewBag.Theme ?? "light")-theme.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await Component.InvokeAsync("ThemeSwitcher")
+    <link id="theme-link" rel="stylesheet" href="~/css/@(ViewData["Theme"])-theme.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -28,6 +22,9 @@
 
 </head>
 <body>
+
+    <p>Current theme: @ViewData["Theme"]</p>
+
 
 <div id="badge-award-popup" class="badge-popup" style="display: none;">
     <div class="badge-popup-content">
@@ -54,65 +51,66 @@
         </a>
     </div>
     <div class="nav-body">
-    @{
-        if (User.IsInRole("admin"))
-        {
-            <div class="nav-litem">
-                <a asp-controller="Admin" asp-action="Index">
-                    <img class="litem-img" src="~/assets/dashgrid.png" alt="">
-                    <div class="litem-label">Management Dashboard</div>
-                </a>
-            </div>
+        @{
+            if (User.IsInRole("admin"))
+            {
+                <div class="nav-litem">
+                    <a asp-controller="Admin" asp-action="Index">
+                        <img class="litem-img" src="~/assets/dashgrid.png" alt="">
+                        <div class="litem-label">Management Dashboard</div>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="nav-litem">
+                    <a id="navProfile" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <img class="litem-img" src="~/assets/person.png" alt="">
+                        <div class="litem-label">Profile</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-controller="Home" asp-action="Friends">
+                        <img class="litem-img" src="~/assets/person.3.sequence@2x.png" alt="">
+                        <div class="litem-label">Friends</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a id="navDashboard" asp-controller="Home" asp-action="Dashboard">
+                        <img class="litem-img" src="~/assets/dashgrid.png" alt="">
+                        <div class="litem-label">Dashboard</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a id="navLibrary" asp-controller="Library" asp-action="Index">
+                        <img class="litem-img" src="~/assets/books.png" alt="">
+                        <div class="litem-label">Library</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a id="navCompete" asp-controller="Compete" asp-action="Index">
+                        <img class="litem-img" src="~/assets/flags.png" alt="">
+                        <div class="litem-label">Compete</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-controller="Home" asp-action="Index">
+                        <img class="litem-img" src="~/assets/people.png" alt="">
+                        <div class="litem-label">Teams</div>
+                    </a>
+                </div>
+                <div class="nav-litem">
+                    <a asp-controller="Home" asp-action="Privacy">
+                        <img class="litem-img" src="~/assets/eye.png" alt="">
+                        <div class="litem-label">Privacy</div>
+                    </a>
+                </div>
+
+            }
         }
-        else
-        {
-            <div class="nav-litem">
-                <a id="navProfile" asp-area="Identity" asp-page="/Account/Manage/Index">
-                    <img class="litem-img" src="~/assets/person.png" alt="">
-                    <div class="litem-label">Profile</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a asp-controller="Home" asp-action="Friends">
-                    <img class="litem-img" src="~/assets/person.3.sequence@2x.png" alt="">
-                    <div class="litem-label">Friends</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a id="navDashboard" asp-controller="Home" asp-action="Dashboard">
-                    <img class="litem-img" src="~/assets/dashgrid.png" alt="">
-                    <div class="litem-label">Dashboard</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a id="navLibrary" asp-controller="Library" asp-action="Index">
-                    <img class="litem-img" src="~/assets/books.png" alt="">
-                    <div class="litem-label">Library</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a id="navCompete" asp-controller="Compete" asp-action="Index">
-                    <img class="litem-img" src="~/assets/flags.png" alt="">
-                    <div class="litem-label">Compete</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a asp-controller="Home" asp-action="Index">
-                    <img class="litem-img" src="~/assets/people.png" alt="">
-                    <div class="litem-label">Teams</div>
-                </a>
-            </div>
-            <div class="nav-litem">
-                <a asp-controller="Home" asp-action="Privacy">
-                    <img class="litem-img" src="~/assets/eye.png" alt="">
-                    <div class="litem-label">Privacy</div>
-                </a>
-            </div>
-        }
-    }
     </div>
 </nav>
-    @await Component.InvokeAsync("ThemeSwitcher")
+
 
 <div class="container">
     <main role="main" class="pb-3">
@@ -127,10 +125,8 @@
         Support: steaminfonexus@gmail.com
     </div>
 </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-<script src="~/js/theme-switcher.js" asp-append-version="true"></script>
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 @await RenderSectionAsync("Scripts", required: false)
 </body>

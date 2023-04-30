@@ -13,7 +13,7 @@
 }
 
 .achievement-btn:hover {
-    opacity: 92% !important;
+    opacity: 0.95 !important;
 }
 
 
@@ -54,7 +54,17 @@
     outline: ridge #2f526e;
     outline-width: 3px;
     outline-offset: -2px;
-    transition: all 1s ease;
+    border-radius: 1px;
+    transition: all 0.5s;
+
+}
+.gameContainer:hover {
+    outline: solid darkcyan;
+    opacity: 0.9;
+    outline-width: 7px;
+    outline-offset: -6px;
+    z-index: 1000;
+    
 }
 
 .ach-modal-content {
@@ -63,7 +73,7 @@
 
 .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
 .gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn, .gameContainer:hover > .unhide-btn  {
-    opacity: .70;
+    opacity: .50;
 }
 
 .hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover, .unhide-btn:hover {

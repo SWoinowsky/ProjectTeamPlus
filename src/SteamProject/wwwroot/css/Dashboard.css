@@ -231,8 +231,3 @@ footer {
     overflow: hidden;
 }
 
-.laser-engrave {
-    animation: laser-engrave 0.3s ease-out forwards, white-fire 1s infinite, sparkle 0.5s infinite;
-    -webkit-background-clip: text;
-    color: transparent;
-}

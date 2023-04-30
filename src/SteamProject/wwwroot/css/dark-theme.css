@@ -1,29 +1,7 @@
 ﻿/*General Stuff*/
 body {
-    transition: opacity 5s ease;
-}
-
-body::before, body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    transition: opacity 0.5s;
-}
-
-body::before {
     background: linear-gradient(to left, #222731, #2f526e, #222731);
-    opacity: 1;
 }
-
-body::after {
-    background-color: #fff;
-    opacity: 0;
-}
-
 
 footer {
     background-image: linear-gradient(180deg,#222731 0%, #000000 60%) !important;
@@ -72,6 +50,12 @@ h1,h2,h3, h4, h5, h6 {
 }
 
 /*animation for type writer color*/
+.laser-engrave {
+    animation: laser-engrave 0.5s forwards, white-fire 1s infinite, sparkle 0.5s infinite;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
 @keyframes laser-engrave {
     0% {
         text-shadow: none;
@@ -94,7 +78,7 @@ h1,h2,h3, h4, h5, h6 {
 
 @keyframes sparkle {
     0%, 100% { text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff, 0 0 80px #fff, 0 0 0px #fff; }
-
+}
 
 /*ShowMoreInfo Css*/
 .card-title, .card-text {

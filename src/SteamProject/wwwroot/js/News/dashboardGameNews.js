@@ -2,12 +2,13 @@
     if (i < text.length) {
         const span = document.createElement('span');
         span.textContent = text.charAt(i);
-        span.classList.add('glowing-text');
+        span.classList.add('laser-engrave');
         element.appendChild(span);
 
         setTimeout(() => {
+            span.classList.remove('laser-engrave');
             typeWriter(element, text, i + 1, callback);
-        }, 10);
+        }, 5);
     } else {
         callback();
     }

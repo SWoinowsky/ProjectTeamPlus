@@ -7,25 +7,25 @@ body {
 }
 
 h1 {
+    color: #ffffff !important;
     margin-top: 20px !important;
     margin-bottom: 10px !important;
-    color: #ffffff !important;
     text-align: center !important;
 }
 
 h3 {
     margin-top: 15px !important;
     margin-bottom: 5px !important;
-    color: darkcyan ;
+    color: darkcyan !important;
 }
 
 p {
     margin-bottom: 10px !important;
-    color: #ffffff ;
+    color: whitesmoke !important;
 }
 
 li {
-    color: #d6d7d8;
+    color: #d6d7d8 !important;
 }
 
 

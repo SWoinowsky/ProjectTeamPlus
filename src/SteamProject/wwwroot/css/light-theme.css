@@ -51,6 +51,11 @@ h1, h2, h4, h5, h6 {
     color: #4ba0bc;
 }
 
+.carousel-inner {
+    border-color: #4ba0bc;
+    background-color: #c3cfe2;
+}
+
 
 
 /*animation for type writer color*/

@@ -1,10 +1,10 @@
-﻿@model string
-
-<input type="hidden" id="currentTheme" value="@Model" />
+﻿@{
+    var currentTheme = ViewData["Theme"] as string;
+}
 
 <div class="theme-switcher">
-    <button id="lightThemeButton" class="btn btn-sm @(Model == "light" ? "btn-primary" : "btn-outline-primary")" data-theme="light">Light</button>
-    <button id="darkThemeButton" class="btn btn-sm @(Model == "dark" ? "btn-primary" : "btn-outline-primary")" data-theme="dark">Dark</button>
+    <button id="lightThemeButton" class="btn btn-sm @(currentTheme == "light" ? "btn-primary" : "btn-outline-primary")" data-theme="light">Light</button>
+    <button id="darkThemeButton" class="btn btn-sm @(currentTheme == "dark" ? "btn-primary" : "btn-outline-primary")" data-theme="dark">Dark</button>
 </div>
 
 <script src="~/js/theme-switcher.js"></script>

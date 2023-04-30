@@ -43,48 +43,47 @@ h1, h2, h4, h5, h6 {
 
 .show-followed-btn {
     background-color: #2f526e;
-    color: black;
+    color: white;
+    font-size: 1.2rem;
 }
 
 #steamIcon {
     color: #4ba0bc;
 }
 
+
+
 /*animation for type writer color*/
 .laser-engrave {
-    animation: laser-engrave 0.3s ease-out forwards, white-fire 1s infinite, sparkle 0.5s infinite;
+    animation: laser-engrave 0.2s forwards, white-fire 0.2s infinite, sparkle 0.5s infinite;
     -webkit-background-clip: text;
     color: transparent;
 }
 
 
-@keyframes laser-engrave-blue {
+@keyframes laser-engrave {
     0% {
         text-shadow: none;
     }
 
     100% {
-        text-shadow: 0 0 20px #50b7f9, 0 0 40px #50b7f9, 0 0 60px #50b7f9;
+        text-shadow: 0 0 20px blue, 0 0 40px blue, 0 0 60px red;
     }
 }
 
-@keyframes white-fire-blue {
+@keyframes white-fire {
     0%, 100% {
-        text-shadow: 0 0 20px #50b7f9, 0 0 40px #50b7f9, 0 0 60px #50b7f9, 0 0 80px #50b7f9;
+        text-shadow: 0 0 20px cyan, 0 0 40px black, 0 0 60px cyan, 0 0 80px black;
     }
 
     50% {
-        text-shadow: 0 0 30px #50b7f9, 0 0 60px #50b7f9, 0 0 90px #50b7f9, 0 0 120px #50b7f9;
+        text-shadow: 0 0 30px cyan, 0 0 60px black, 0 0 90px cyan, 0 0 120px black;
     }
 }
 
-@keyframes sparkle-blue {
+@keyframes sparkle {
     0%, 100% {
-        text-shadow: 0 0 20px #50b7f9, 0 0 40px #50b7f9, 0 0 60px #50b7f9, 0 0 80px #50b7f9, 0 0 0px #50b7f9;
-    }
-
-    50% {
-        text-shadow: 0 0 30px #50b7f9, 0 0 60px #50b7f9, 0 0 90px #50b7f9, 0 0 120px #50b7f9, 0 -20px 60px #50b7f9;
+        text-shadow: 0 0 20px cyan, 0 0 40px green, 0 0 60px red, 0 0 80px cyan, 0 0 0px b;
     }
 }
 

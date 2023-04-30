@@ -379,7 +379,8 @@ div {
 }
 
 .test-text {
-  text-align: center;
+    text-align: center;
+    font-size: 1.1rem;
 }
 
 .github-plug {

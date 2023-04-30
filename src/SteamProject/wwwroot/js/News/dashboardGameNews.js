@@ -2,17 +2,18 @@
     if (i < text.length) {
         const span = document.createElement('span');
         span.textContent = text.charAt(i);
-        span.classList.add('laser-engrave');
+        span.classList.add('glowing-text');
         element.appendChild(span);
 
         setTimeout(() => {
-            span.classList.remove('laser-engrave');
             typeWriter(element, text, i + 1, callback);
         }, 10);
     } else {
         callback();
     }
 }
+
+
 
 // Function to save fetched game news and its timestamp to local storage
 function saveGameNewsToLocalStorage(appId, summarizedNews, timestamp) {

@@ -78,35 +78,36 @@ h1, h2, h4, h5, h6 {
 }
 
 /*animation for type writer color*/
-@keyframes laser-engrave {
+@keyframes laser-engrave-blue {
     0% {
         text-shadow: none;
     }
 
     100% {
-        text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff;
+        text-shadow: 0 0 20px #50b7f9, 0 0 40px #50b7f9, 0 0 60px #50b7f9;
     }
 }
 
-@keyframes white-fire {
+@keyframes white-fire-blue {
     0%, 100% {
-        text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff, 0 0 80px #fff;
+        text-shadow: 0 0 20px #50b7f9, 0 0 40px #50b7f9, 0 0 60px #50b7f9, 0 0 80px #50b7f9;
     }
 
     50% {
-        text-shadow: 0 0 30px #fff, 0 0 60px #fff, 0 0 90px #fff, 0 0 120px #fff;
+        text-shadow: 0 0 30px #50b7f9, 0 0 60px #50b7f9, 0 0 90px #50b7f9, 0 0 120px #50b7f9;
     }
 }
 
-@keyframes sparkle {
+@keyframes sparkle-blue {
     0%, 100% {
-        text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff, 0 0 80px #fff, 0 0 0px #fff;
+        text-shadow: 0 0 20px #50b7f9, 0 0 40px #50b7f9, 0 0 60px #50b7f9, 0 0 80px #50b7f9, 0 0 0px #50b7f9;
     }
 
     50% {
-        text-shadow: 0 0 30px #fff, 0 0 60px #fff, 0 0 90px #fff, 0 0 120px #fff, 0 -20px 60px #fff;
+        text-shadow: 0 0 30px #50b7f9, 0 0 60px #50b7f9, 0 0 90px #50b7f9, 0 0 120px #50b7f9, 0 -20px 60px #50b7f9;
     }
 }
+
 
 /*ShowMoreInfo Css*/
 .card-title, .card-text {
@@ -173,8 +174,3 @@ th, tr, td {
     color: darkblue;
 }
 
-
-
-body, footer, p, ul, li, h1, h2, h4, h5, h6, .modal-content, .userCard, .carousel-control-prev-icon, .carousel-control-next-icon, .carousel-inner, .show-followed-btn, #steamIcon, .card-title, .card-text, th, tr, td, .modal-header, .modal-body, .modal-footer, #friendsListTable tr:nth-child(even), .gameInfoCard, .news-title, .news-title-main, .link-btn, .summarize-btn, .feedtype, .timestamp {
-    transition: color 2s ease;
-}

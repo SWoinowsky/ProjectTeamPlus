@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif !important;
     font-size: 16px !important;
     background-color: #333333 !important;
+    
 }
 
 h1 {
@@ -15,16 +16,16 @@ h1 {
 h3 {
     margin-top: 15px !important;
     margin-bottom: 5px !important;
-    color: #87cefa !important;
+    color: darkcyan ;
 }
 
 p {
     margin-bottom: 10px !important;
-    color: #ffffff !important;
+    color: #ffffff ;
 }
 
 li {
-    color: #d6d7d8 !important;
+    color: #d6d7d8;
 }
 
 

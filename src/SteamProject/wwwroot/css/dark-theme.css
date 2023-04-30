@@ -66,6 +66,7 @@ h1,h2,h3, h4, h5, h6 {
     color: white;
 }
 
+
 #steamIcon {
     color: #4ba0bc;
 }
@@ -94,8 +95,6 @@ h1,h2,h3, h4, h5, h6 {
 @keyframes sparkle {
     0%, 100% { text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff, 0 0 80px #fff, 0 0 0px #fff; }
 
-    50% { text-shadow: 0 0 30px #fff, 0 0 60px #fff, 0 0 90px #fff, 0 0 120px #fff, 0 -20px 60px #fff; }
-}
 
 /*ShowMoreInfo Css*/
 .card-title, .card-text {
@@ -142,6 +141,10 @@ th, tr, td {
     color: whitesmoke;
 }
 
+.bi-envelope-paper {
+    color: white;
+}
+
 .link-btn {
     background-color: #2f526e;
     color: white;
@@ -163,8 +166,10 @@ th, tr, td {
     color: #b1c8ce;
 }
 
-body, footer, p, ul, li, h1, h2, h4, h5, h6, .modal-content, .userCard, .carousel-control-prev-icon, .carousel-control-next-icon, .carousel-inner, .show-followed-btn, #steamIcon, .card-title, .card-text, th, tr, td, .modal-header, .modal-body, .modal-footer, #friendsListTable tr:nth-child(even), .gameInfoCard, .news-title, .news-title-main, .link-btn, .summarize-btn, .feedtype, .timestamp {
-    transition: color 2s ease;
-    transition:background-color  2s ease;
-    transition: all 0.5s;
+.test-text {
+    color: white !important;
+}
+
+.minor2 {
+    color: white!important;
 }

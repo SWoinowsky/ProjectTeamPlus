@@ -8,6 +8,10 @@
     background-image: url('../assets/achievement.png');
 }
 
+.user-avatar {
+    border-radius: 25px;
+}
+
 .achievement-btn:hover {
     opacity: 92% !important;
 }
@@ -24,7 +28,7 @@
 }
 
 .show-btn {
-    top: 38%;
+    top: 35%;
     right: 5px;
 }
 
@@ -40,12 +44,16 @@
 .hide-btn, .follow-btn, .show-btn, .unhide-btn {
     transition: all 1s ease;
     position: absolute;
-    opacity: 0%;
-    font-size: 1.6rem;
-    outline: 3px inset black;
+    opacity: 0.1;
+    font-size: 2rem;
+    outline: 2px inset black;
 }
 
+
 .gameContainer {
+    outline: ridge #2f526e;
+    outline-width: 3px;
+    outline-offset: -2px;
     transition: all 1s ease;
 }
 
@@ -55,7 +63,7 @@
 
 .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
 .gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn, .gameContainer:hover > .unhide-btn  {
-    opacity: 35%;
+    opacity: .70;
 }
 
 .hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover, .unhide-btn:hover {
@@ -157,7 +165,7 @@
 }
 
 .unearned {
-    opacity: 40%;
+    opacity: .30;
 }
 
 #search-input {
@@ -166,5 +174,7 @@
     border-radius: 2rem;
     background-color: #fff;
     padding-left: 1rem;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 

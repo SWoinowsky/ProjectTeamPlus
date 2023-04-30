@@ -1,7 +1,29 @@
 ﻿/*General Stuff*/
 body {
-    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
+    transition: opacity 5s ease;
 }
+
+body::before, body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: opacity 0.5s;
+}
+
+body::before {
+    background: linear-gradient(to left, #222731, #2f526e, #222731);
+    opacity: 1;
+}
+
+body::after {
+    background-color: #fff;
+    opacity: 0;
+}
+
 
 footer {
     background-image: linear-gradient(180deg,#222731 0%, #000000 60%) !important;
@@ -12,7 +34,7 @@ p, ul, li {
     color: white;
 }
 
-h1,h2, h4, h5, h6 {
+h1,h2,h3, h4, h5, h6 {
     color: #fff;
     align-self: flex-start;
 }
@@ -139,4 +161,10 @@ th, tr, td {
 
 .timestamp {
     color: #b1c8ce;
+}
+
+body, footer, p, ul, li, h1, h2, h4, h5, h6, .modal-content, .userCard, .carousel-control-prev-icon, .carousel-control-next-icon, .carousel-inner, .show-followed-btn, #steamIcon, .card-title, .card-text, th, tr, td, .modal-header, .modal-body, .modal-footer, #friendsListTable tr:nth-child(even), .gameInfoCard, .news-title, .news-title-main, .link-btn, .summarize-btn, .feedtype, .timestamp {
+    transition: color 2s ease;
+    transition:background-color  2s ease;
+    transition: all 0.5s;
 }

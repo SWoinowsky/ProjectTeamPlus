@@ -6,8 +6,39 @@ footer {
     height: 65px !important;
 }
 
+body {
+    background-color: #fff;
+}
+
+body::before, body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: opacity 0.5s;
+}
+
+body::before {
+    background: linear-gradient(to left, #222731, #2f526e, #222731);
+    opacity: 0;
+}
+
+body::after {
+    background-color: #fff;
+    opacity: 1;
+}
+
 p, ul, li {
     color: black;
+}
+
+hr {
+    color: black;
+    background-color: black;
+    border-color: black;
 }
 
 h1, h2, h4, h5, h6 {
@@ -106,7 +137,7 @@ th, tr, td {
 }
 
 .gameInfoCard {
-    background-image: linear-gradient(to left, #222731, #2f526e, #222731);
+    background: linear-gradient(120deg, gainsboro 0%, #8fd3f4 100%);
 }
 
 /*ShowMoreNew.css page stuff here*/
@@ -140,4 +171,10 @@ th, tr, td {
 
 .timestamp {
     color: darkblue;
+}
+
+
+
+body, footer, p, ul, li, h1, h2, h4, h5, h6, .modal-content, .userCard, .carousel-control-prev-icon, .carousel-control-next-icon, .carousel-inner, .show-followed-btn, #steamIcon, .card-title, .card-text, th, tr, td, .modal-header, .modal-body, .modal-footer, #friendsListTable tr:nth-child(even), .gameInfoCard, .news-title, .news-title-main, .link-btn, .summarize-btn, .feedtype, .timestamp {
+    transition: color 2s ease;
 }

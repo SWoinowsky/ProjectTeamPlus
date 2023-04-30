@@ -2,9 +2,16 @@
     var currentTheme = ViewData["Theme"] as string;
 }
 
-<div class="theme-switcher">
-    <button id="lightThemeButton" class="btn btn-sm @(currentTheme == "light" ? "btn-primary" : "btn-outline-primary")" data-theme="light">Light</button>
-    <button id="darkThemeButton" class="btn btn-sm @(currentTheme == "dark" ? "btn-primary" : "btn-outline-primary")" data-theme="dark">Dark</button>
+<input type="hidden" id="currentTheme" value="@currentTheme">
+
+<div class="btn-container">
+    <i class="fa fa-sun-o" aria-hidden="true"></i>
+    <label class="switch btn-color-mode-switch">
+        <input type="checkbox" name="color_mode" id="color_mode" value="1">
+        <label for="color_mode" data-on="Dark" data-off="Light" class="btn-color-mode-switch-inner"></label>
+    </label>
+    <i class="fa fa-moon-o" aria-hidden="true"></i>
 </div>
+
 
 <script src="~/js/theme-switcher.js"></script>

@@ -1,12 +1,26 @@
 using SteamProject.Models;
+using SteamProject.DAL.Abstract;
 
 namespace SteamProject.Services
 {
     public class InboxService : IInboxService
     {
-        public Task SendToInbox(string subject, string content)
+        private readonly IUserRepository _userRepository;
+        public InboxService(IUserRepository userRepository)
         {
-            return null;
+            _userRepository = userRepository;
+        }
+
+        public void SendToInbox(User user, string subject, string content)
+        {
+            InboxMessage newMessage = new();
+            newMessage.TimeStamp = DateTime.UtcNow;
+            newMessage.MessageId = Random.Shared.Next();
+            newMessage.Sender = "S.I.N";
+            newMessage.Subject = subject;
+            newMessage.Content = content;
+            user.InboxMessages.Add(newMessage);
+            _userRepository.AddOrUpdate(user);
         }
     }
 }

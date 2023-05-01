@@ -112,9 +112,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
-// builder.Services.AddTransient<IInboxService, InboxService>();
-builder.Services.AddSingleton<IInboxService, InboxService>();
-
+builder.Services.AddTransient<IInboxService, InboxService>();
 
 builder.Services.AddOpenAIService();
 

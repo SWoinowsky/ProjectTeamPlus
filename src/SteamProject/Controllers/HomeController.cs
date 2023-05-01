@@ -171,8 +171,7 @@ public class HomeController : Controller
         }
 
         FriendsPageVM vm = new(friends, user.Id, user.SteamId);
-        string msg = _inboxService.SendToInbox(user, "Friends Test", $"You have {friends.Count}!");
-        Console.WriteLine(msg);
+        _inboxService.SendToInbox(user, "Friends Test", $"You have {friends.Count}!");
         return View(vm);
     }
 }

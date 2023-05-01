@@ -41,3 +41,24 @@ public class CompeteInitiateVM
         FriendsAchievements = friends;
     }
 }
+
+
+public class CompeteCreateVM
+{
+    public string SteamId { get; set; }
+    public int SinId { get; set; }
+
+    public string OpponentId { get; set; }
+    public List<string> OpponentIds { get; set; }
+
+    public int GameAppId { get; set; }
+
+    public string MinDate { get; set; } = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH:mm");
+
+
+    public List<string> AchievementDisplayNames { get; set; }
+    
+    public DateTime CompStartTime { get; set; }
+    public DateTime CompEndTime { get; set; }
+
+}

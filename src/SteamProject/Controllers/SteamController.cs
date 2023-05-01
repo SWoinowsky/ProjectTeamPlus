@@ -47,10 +47,28 @@ public class SteamController : ControllerBase
         return _steamService.GetAchievements(steamid, appId);
     }
 
+    [HttpGet("sharedMissingAchievements")]
+    public ActionResult SharedMissingAchievements( string userSteamId, string friendSteamId, int appId )
+    {
+        return Ok(_steamService.GetSharedMissingAchievements( userSteamId, friendSteamId, appId ));
+    }
+
     [HttpGet("schema")]
     public ActionResult<SchemaRoot> GameSchema(int appId)
     {
         return _steamService.GetSchema(appId);
+    }
+
+    [HttpGet("games")]
+    public ActionResult Games( string userSteamId, int userId )
+    {
+        return Ok(_steamService.GetGames(userSteamId, userId) );
+    }
+
+    [HttpGet("sharedGames")]
+    public ActionResult SharedGames( string userSteamId, string friendSteamId, int userId )
+    {
+        return Ok( _steamService.GetSharedGames( userSteamId, friendSteamId, userId ) );
     }
     
     [HttpPost("hide")]
@@ -196,5 +214,25 @@ public class SteamController : ControllerBase
     {
         return _steamService.GetGAP(appId);
     }
+
+
+    [HttpPost("UpdateTheme")]
+    public IActionResult UpdateTheme(string theme)
+    {
+        string? id = _userManager.GetUserId(User);
+
+        if (id is null)
+        {
+            return BadRequest(new { success = false, message = "User not found" });
+        }
+        else
+        {
+            User user = _userRepository.GetUser(id);
+            _userRepository.UpdateUserTheme(user.Id, theme);
+            return Ok(new { success = true });
+        }
+    }
+
+
 
 }

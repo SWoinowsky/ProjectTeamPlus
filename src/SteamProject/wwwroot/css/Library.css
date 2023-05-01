@@ -8,18 +8,14 @@
     background-image: url('../assets/achievement.png');
 }
 
+.user-avatar {
+    border-radius: 25px;
+}
+
 .achievement-btn:hover {
-    opacity: 92% !important;
+    opacity: 0.95 !important;
 }
 
-body {
-    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
-}
-
-footer {
-    background-image: linear-gradient(180deg,#222731 0%, #000000 60%) !important;
-    height: 65px !important;
-}
 
 .hide-btn, .unhide-btn {
     top: 5px;
@@ -32,7 +28,7 @@ footer {
 }
 
 .show-btn {
-    top: 38%;
+    top: 35%;
     right: 5px;
 }
 
@@ -48,13 +44,27 @@ footer {
 .hide-btn, .follow-btn, .show-btn, .unhide-btn {
     transition: all 1s ease;
     position: absolute;
-    opacity: 0%;
-    font-size: 1.6rem;
-    outline: 3px inset black;
+    opacity: 0.1;
+    font-size: 2rem;
+    outline: 2px inset black;
 }
 
+
 .gameContainer {
-    transition: all 1s ease;
+    outline: ridge #2f526e;
+    outline-width: 3px;
+    outline-offset: -2px;
+    border-radius: 1px;
+    transition: all 0.5s;
+
+}
+.gameContainer:hover {
+    outline: solid darkcyan;
+    opacity: 0.9;
+    outline-width: 7px;
+    outline-offset: -6px;
+    z-index: 1000;
+    
 }
 
 .ach-modal-content {
@@ -63,7 +73,7 @@ footer {
 
 .gameContainer:hover > .hide-btn, .gameContainer:hover > .follow-btn, .gameContainer:hover > .achievement-btn, 
 .gameContainer:hover > .show-btn, .gameContainer:hover > .refresh-btn, .gameContainer:hover > .unhide-btn  {
-    opacity: 35%;
+    opacity: .50;
 }
 
 .hide-btn:hover, .follow-btn:hover, .show-btn:hover, .refresh-btn:hover, .show-hidden-btn:hover, .profile-btn:hover, .unhide-btn:hover {
@@ -105,14 +115,7 @@ footer {
     border: 3px solid #4FE3BB;
 }
 
-h1, h4, h5, h6 {
-    color: #fff;
-    align-self: flex-start;
-}
 
-p, ul, li {
-    color: white;
-}
 
 #modal-left {
     display: flex;
@@ -172,7 +175,7 @@ p, ul, li {
 }
 
 .unearned {
-    opacity: 40%;
+    opacity: .30;
 }
 
 #search-input {
@@ -181,5 +184,7 @@ p, ul, li {
     border-radius: 2rem;
     background-color: #fff;
     padding-left: 1rem;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 

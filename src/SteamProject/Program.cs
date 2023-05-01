@@ -173,6 +173,7 @@ else
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -180,6 +181,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<SteamProject.Middlewares.ThemeMiddleware>();
 
 
 app.MapControllerRoute(
@@ -192,6 +194,12 @@ app.MapControllerRoute(
     "Compete",
     "Compete",
     defaults: new { controller = "Compete", action = "Index" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/Create",
+    defaults: new { controller = "Compete", action = "Create" }
 );
 
 app.MapControllerRoute(

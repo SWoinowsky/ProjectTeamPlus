@@ -62,7 +62,9 @@ else
                         <label for="genre" class="mr-2 d-inline-block align-middle" style="margin-right: 10px;">Select a Genre: </label>
                         <select id="genre" name="genre" asp-items="@(new SelectList(Model._genres))" class="form-control" style="margin-right: 10px; border-radius: 20px"></select>
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">Sort</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-sort-down"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

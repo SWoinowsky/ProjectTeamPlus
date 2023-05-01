@@ -276,6 +276,7 @@ public class LibraryController: Controller
     [HttpPost]
     public IActionResult Sort(string genre)
     {
+        ViewBag.MyString = genre;
         string? id = _userManager.GetUserId(User);
         User user = _userRepository.GetUser(id);
         List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
@@ -312,6 +313,7 @@ public class LibraryController: Controller
                 // Don't need it to do anything here since we are just getting info.
             }
         }
-        return View(userGamesByGenre);
+        userLibraryVM._userGameInfo = userGamesByGenre;
+        return View(userLibraryVM);
     }
 }

@@ -24,14 +24,16 @@ public class LibraryController: Controller
     private readonly IGameRepository _gameRepository;
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
+    private readonly IIGDBGenresRepository _iGDBGenreRepository;
 
-    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService)
+    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IIGDBGenresRepository iGDBGenresRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _gameRepository = gameRepository;
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
+        _iGDBGenreRepository = iGDBGenresRepository;
     }
 
     [Authorize]
@@ -81,6 +83,7 @@ public class LibraryController: Controller
             }
             if(refresh == true)
             {
+                HashSet<string> genreList = new HashSet<string>();
                 List<Game>? games = _steamService.GetGames(user.SteamId, user.Id).ToList();
                 
                 if(games.Count == 0)
@@ -102,6 +105,7 @@ public class LibraryController: Controller
                                 foreach(var genre in genreResults)
                                 {
                                     tempGenreString += genre + ",";
+                                    genreList.Add(genre);
                                 }
                                 currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
                             }
@@ -142,6 +146,7 @@ public class LibraryController: Controller
                                     foreach(var genre in genreResults)
                                     {
                                         tempGenreString += genre + ",";
+                                        genreList.Add(genre);
                                     }
                                     game.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
                                 }
@@ -215,8 +220,20 @@ public class LibraryController: Controller
                     {
                         throw new Exception("Current game couldn't be saved to the db!" + game.Name);
                     }
+                }
+                var genres = _iGDBGenreRepository.GetGenreList();
+
+                foreach(var genre in genreList)
+                {
+                    bool contains = _iGDBGenreRepository.GetGenreList().Contains(genre);
+                    if(!contains)
+                    {
+                        _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
+                        Name = genre
+                        });
                     }
                 }
+            }
             else
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);

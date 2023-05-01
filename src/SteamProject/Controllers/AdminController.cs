@@ -220,7 +220,8 @@ public class AdminController: Controller
 
     public IActionResult ViewGames()
     {
-        throw new NotImplementedException();
+        var gameList = _gameRepository.GetAll().ToList();
+        return View(gameList);
     }
 
     public IActionResult ViewBannedIds()

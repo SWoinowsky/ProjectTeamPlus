@@ -1,0 +1,66 @@
+@model List<SteamProject.Models.Game>
+@{
+ViewData["Title"] = "Admin - Load Game Info";
+}
+<br>
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1>Current Game List</h1>
+        <hr>
+        <div class="row">
+            @Html.Partial("AdminNavigation")
+            @{
+                if(Model == null)
+                {
+
+                }
+                else if(Model.Count() > 0)
+                {
+                    <div class="col">
+                        <div class="row">
+                            <table = class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Steam App Id
+                                        </th>
+                                        <th>
+                                            Genres
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        @{
+                                            foreach(var game in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @game.Name
+                                                    </td>
+                                                    <td>
+                                                        @game.AppId
+                                                    </td>
+                                                    <td>
+                                                        @game.Genres
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col">
+                        <h1>There's no games in the db! You should go load some before someone has to wait like you need to...</h1>
+                    </div>
+                }
+            }
+        </div>
+    </main>
+</div>

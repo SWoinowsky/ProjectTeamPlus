@@ -23,13 +23,13 @@ public class SteamService : ISteamService
     // This is the shared account for testing the admin and library funcitons with a small set of games.
     // If you want to use the whole library, comment this line out and uncomment the other BulkUserSTeamId
     //  which has the number ending in 720 -- It's line 32 right now that but that may change
-    string BulkUserSteamId = "76561199495917967";
+    //string BulkUserSteamId = "76561199495917967";
 
     // This Steam account is Justin's personal one with 240ish games. In the future we
     //  could change this to use a larger one, but for now it's all that's needed.
     // If you plan on using the shared account for testing, comment this out and uncomment the other 
     // BulkUserSTeamId which has the number ending in 967 -- It's line 26 right now but that may change
-    //string BulkUserSteamId = "76561198070063720";
+    string BulkUserSteamId = "76561198070063720";
 
     
     public SteamService( string token, string adminToken, string clientId, string accessToken )

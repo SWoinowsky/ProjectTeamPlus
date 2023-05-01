@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/css/Library.css">
 </head>
 <br><br>
-@if(Model == null)
+@if(Model._games == null)
 {
     <h1>It looks like you don't have any games with the genre: @ViewBag.MyString</h1>
 }

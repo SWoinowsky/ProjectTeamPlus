@@ -28,8 +28,9 @@ public class AdminController: Controller
     private IUserGameInfoRepository _userGameInfoRepository;
     private readonly ISteamService _steamService;
     private readonly IGameRepository _gameRepository;
+    private readonly IGenreRepository _genreRepository;
 
-    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService)
+    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService, IGenreRepository genreRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -39,6 +40,7 @@ public class AdminController: Controller
         _userRepository = userRepository;
         _userGameInfoRepository = userGameInfoRepository;
         _gameRepository = gameRepository;
+        _genreRepository = genreRepository;
     }
 
     public IActionResult Index()

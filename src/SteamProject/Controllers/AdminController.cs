@@ -172,6 +172,8 @@ public class AdminController: Controller
 
     public async Task<IActionResult> LoadGameInfoAsync()
     {
+        var genreList = await _steamService.GetGenresAsync();
+
         List<Game> gamesList = await _gameRepository.GetAll().ToListAsync();
         
         if (gamesList.Count < 1)

@@ -127,6 +127,11 @@ CREATE TABLE [UserBadge] (
     [BadgeId] 	INT NOT NULL,
 );
 
+CREATE TABLE [Genres] (
+	[Id]		INT PRIMARY KEY IDENTITY(1, 1),
+	[Name]		INT NOT NULL
+);
+
 
 ALTER TABLE [Friend]					 ADD CONSTRAINT [Friend_Fk_User]							FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE	[UserGameInfo]				 ADD CONSTRAINT [UserGameInfo_FK_User]						FOREIGN KEY ([OwnerId])			REFERENCES [User] ([Id])			ON DELETE CASCADE   ON UPDATE NO ACTION;

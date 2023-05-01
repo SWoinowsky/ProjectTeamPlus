@@ -297,6 +297,43 @@ public class SteamService : ISteamService
         }
     }
 
+    public async Task<HashSet<GameGenresPOCO>> GetGenresAsync()
+    {
+        HashSet<GameGenresPOCO> genres = new HashSet<GameGenresPOCO>();
+        using (var client = new HttpClient())
+        {
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Client-ID", _clientId);
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_accessToken}");
+
+            var queryString = "fields=name";
+            var response = await client.GetAsync($"https://api.igdb.com/v4/genres?{queryString}");
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            if(content == null)
+                return null;
+            else
+            {
+                try
+                {
+                    content = Regex.Replace(content, @"[\s\n]+", "");
+
+                    var genresFromJson = JsonSerializer.Deserialize<List<GameGenresPOCO>>(content);
+                    foreach(var genre in genresFromJson)
+                    {
+                        genres.Add(genre);
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return genres;
+        }
+    }
+
     public GameNewsVM GetGameNews(Game game, int count = 10)
     {
         var gameVM = new GameNewsVM();

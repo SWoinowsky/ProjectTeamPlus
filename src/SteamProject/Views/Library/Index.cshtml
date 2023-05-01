@@ -55,13 +55,17 @@ else
         <div class="col-md">
             <input id="search-input" type="search" placeholder= "🔍 search for a game...">
         </div>
-        <div class="col-md" style="text-align: right">
+        <div class="col-md text-right">
             <form asp-action="Sort" method="post">
-                <div class="form-group">
-                    <label for="genre" style="color:white">Select a Genre to sort by:</label>
-                    <select id="genre" name="genre" asp-items="@(new SelectList(Model._genres))" class="form-control"></select>
+                <div class="form-group d-flex justify-content-end align-items-center">
+                    <div class="input-group" style="width:auto;">
+                        <label for="genre" class="mr-2 d-inline-block align-middle" style="margin-right: 10px;">Select a Genre: </label>
+                        <select id="genre" name="genre" asp-items="@(new SelectList(Model._genres))" class="form-control" style="margin-right: 10px; border-radius: 20px"></select>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Sort</button>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

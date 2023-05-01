@@ -4,9 +4,9 @@ using SteamProject.Models;
 
 namespace SteamProject.DAL.Concrete;
 
-public class GenreRepository : Repository<Genre>, IGenreRepository
+public class IGDBGenresRepository : Repository<Igdbgenre>, IIGDBGenresRepository
 {
-    public GenreRepository(SteamInfoDbContext ctx) : base(ctx)
+    public IGDBGenresRepository(SteamInfoDbContext ctx) : base(ctx)
     {
     }
 

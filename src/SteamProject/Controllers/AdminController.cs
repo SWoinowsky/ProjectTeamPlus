@@ -28,9 +28,10 @@ public class AdminController: Controller
     private IUserGameInfoRepository _userGameInfoRepository;
     private readonly ISteamService _steamService;
     private readonly IGameRepository _gameRepository;
-    private readonly IGenreRepository _genreRepository;
+    private readonly IIGDBGenresRepository _iGDBGenreRepository;
 
-    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService, IGenreRepository genreRepository)
+
+    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService, IIGDBGenresRepository iGDBGenresRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -40,7 +41,7 @@ public class AdminController: Controller
         _userRepository = userRepository;
         _userGameInfoRepository = userGameInfoRepository;
         _gameRepository = gameRepository;
-        _genreRepository = genreRepository;
+        _iGDBGenreRepository = iGDBGenresRepository;
     }
 
     public IActionResult Index()
@@ -174,8 +175,7 @@ public class AdminController: Controller
 
     public async Task<IActionResult> LoadGameInfoAsync()
     {
-        var genreList = await _steamService.GetGenresAsync();
-
+        HashSet<string> genreList = new HashSet<string>();
         List<Game> gamesList = await _gameRepository.GetAll().ToListAsync();
         
         if (gamesList.Count < 1)
@@ -199,6 +199,7 @@ public class AdminController: Controller
                         foreach(var genre in genreResults)
                         {
                             tempGenreString += genre + ",";
+                            genreList.Add(genre);
                         }
                         currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
                     }
@@ -216,6 +217,19 @@ public class AdminController: Controller
                     }
                     _gameRepository.AddOrUpdate(currentGame);
                     gameVMs.Add(gameVM);
+                }
+            }
+
+            var genres = _iGDBGenreRepository.GetGenreList();
+
+            foreach(var genre in genreList)
+            {
+                bool contains = _iGDBGenreRepository.GetGenreList().Contains(genre);
+                if(!contains)
+                {
+                    _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
+                    Name = genre
+                    });
                 }
             }
             return View(gameVMs);

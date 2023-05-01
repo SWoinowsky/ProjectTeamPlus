@@ -20,8 +20,9 @@ public class HomeController : Controller
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
     private readonly IFriendRepository _friendRepository;
+    private readonly IIGDBGenresRepository _iGDBGenreRepository;
 
-    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository)
+    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository, IIGDBGenresRepository IGDBGenresRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -29,10 +30,18 @@ public class HomeController : Controller
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
         _friendRepository = friendRepository;
+        _iGDBGenreRepository = IGDBGenresRepository;
     }
 
     public IActionResult Index()
     {
+        var genreList = _steamService.GetGenresAsync().Result;
+        foreach(var genre in genreList)
+        {
+            _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
+                Name = genre.name
+            });
+        }
         return View();
     }
 

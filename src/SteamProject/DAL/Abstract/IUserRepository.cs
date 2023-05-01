@@ -17,5 +17,7 @@ namespace SteamProject.DAL.Abstract
         /// <summary>
         /// <returns>A list of all the users on the site.
         IEnumerable<User> GetAllUsers();
+
+        void UpdateUserTheme(int userId, string theme);
     }
 }

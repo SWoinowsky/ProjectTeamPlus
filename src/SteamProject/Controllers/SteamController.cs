@@ -216,4 +216,24 @@ public class SteamController : ControllerBase
         return _steamService.GetGAP(appId);
     }
 
+
+    [HttpPost("UpdateTheme")]
+    public IActionResult UpdateTheme(string theme)
+    {
+        string? id = _userManager.GetUserId(User);
+
+        if (id is null)
+        {
+            return BadRequest(new { success = false, message = "User not found" });
+        }
+        else
+        {
+            User user = _userRepository.GetUser(id);
+            _userRepository.UpdateUserTheme(user.Id, theme);
+            return Ok(new { success = true });
+        }
+    }
+
+
+
 }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using SteamProject.DAL.Abstract;
 using SteamProject.Data;
 using SteamProject.Models;
@@ -25,6 +26,17 @@ public class UserRepository : Repository<User>, IUserRepository
                 if (user.AspNetUserId == userId)
                 {
                     currentUser = user;
+
+                    //These are meant to make creating new badges easier by eager loading these tables for the user
+                    // Explicitly load UserBadges collection
+                    _ctx.Entry(currentUser).Collection(u => u.UserBadges).Query().Include(ub => ub.Badge).Load();
+                    // Explicitly load UserGameInfos 
+                    _ctx.Entry(currentUser).Collection(u => u.UserGameInfos).Query().Load();
+                    // Explicitly load Friends 
+                    _ctx.Entry(currentUser).Collection(u => u.Friends).Query().Load();
+                    // Explicitly load UserAchievements
+                    _ctx.Entry(currentUser).Collection(u => u.UserAchievements).Query().Load();
+                    
                     break;
                 }
             }
@@ -34,21 +46,19 @@ public class UserRepository : Repository<User>, IUserRepository
             throw new System.ArgumentNullException();
         }
 
-        // Explicitly load UserBadges collection and include Badge
-        _ctx.Entry(currentUser).Collection(u => u.UserBadges).Query().Include(ub => ub.Badge).Load();
-
-        // Explicitly load UserBadges collection and include Badge
-        _ctx.Entry(currentUser).Collection(u => u.UserGameInfos).Query().Load();
-
-        // Explicitly load UserBadges collection and include Badge
-        _ctx.Entry(currentUser).Collection(u => u.Friends).Query().Load();
-
-
-        // Explicitly load UserBadges collection and include Badge
-        _ctx.Entry(currentUser).Collection(u => u.UserAchievements).Query().Load();
-
         return currentUser;
     }
+    public void UpdateUserTheme(int userId, string theme)
+    {
+        var user = _ctx.Users.FirstOrDefault(u => u.Id == userId);
+        if (user != null)
+        {
+            user.Theme = theme;
+            _ctx.SaveChanges();
+        }
+    }
+
+
 
 
     public IEnumerable<User> GetAllUsers()

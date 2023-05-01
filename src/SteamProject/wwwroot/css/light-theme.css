@@ -1,0 +1,160 @@
+﻿/*General Stuff*/
+body {
+    background-color: #fff;
+}
+
+
+p, ul, li {
+    color: black;
+}
+
+hr {
+    color: black;
+    background-color: black;
+    border-color: black;
+}
+
+h1, h2, h4, h5, h6 {
+    color: black;
+    align-self: flex-start;
+}
+
+/*Dashboard Specific stuff*/
+.modal-content {
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.userCard {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 80%);
+    border-radius: 15px !important;
+}
+
+.carousel-control-prev-icon {
+    background-color: rgba(75, 160, 188, 0.8);
+}
+
+.carousel-control-next-icon {
+    background-color: rgba(75, 160, 188, 0.8);
+}
+
+.carousel-inner {
+    border-color: #4ba0bc;
+}
+
+.show-followed-btn {
+    background-color: #2f526e;
+    color: white;
+    font-size: 1.2rem;
+}
+
+#steamIcon {
+    color: #4ba0bc;
+}
+
+.carousel-inner {
+    border-color: #4ba0bc;
+    background-color: #c3cfe2;
+}
+
+
+
+/*animation for type writer color*/
+.laser-engrave {
+    animation: laser-engrave 0.2s forwards, white-fire 0.2s infinite, sparkle 0.5s infinite;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+
+@keyframes laser-engrave {
+    0% {
+        text-shadow: none;
+    }
+
+    100% {
+        text-shadow: 0 0 20px blue, 0 0 40px blue, 0 0 60px red;
+    }
+}
+
+@keyframes white-fire {
+    0%, 100% {
+        text-shadow: 0 0 20px cyan, 0 0 40px black, 0 0 60px cyan, 0 0 80px black;
+    }
+
+    50% {
+        text-shadow: 0 0 30px cyan, 0 0 60px black, 0 0 90px cyan, 0 0 120px black;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        text-shadow: 0 0 20px cyan, 0 0 40px green, 0 0 60px red, 0 0 80px cyan, 0 0 0px b;
+    }
+}
+
+
+/*ShowMoreInfo Css*/
+.card-title, .card-text {
+    color: black;
+}
+
+th, tr, td {
+    color: black;
+    border-color: black;
+}
+
+/*Site.css Stuff*/
+::-webkit-scrollbar-thumb {
+    background: #2a475e;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    background-image: linear-gradient(to left, #222731, #2f526e, #222731);
+}
+
+.loading-spinner:after {
+    border: 10px solid #4FE3BB;
+    border-color: #4FE3BB transparent #4FE3BB transparent;
+}
+
+#friendsListTable tr:nth-child(even) {
+    background-color: rgb(43, 64, 104);
+}
+
+.gameInfoCard {
+    background: linear-gradient(120deg, gainsboro 0%, #8fd3f4 100%);
+}
+
+/*ShowMoreNew.css page stuff here*/
+
+.news-title {
+    color: black;
+}
+
+.news-title-main {
+    background-color: #2f526e;
+    color: white;
+}
+
+.link-btn {
+    background-color: #2f526e;
+    color: whitesmoke;
+}
+
+.summarize-btn {
+    background-color: #007bff;
+    color: whitesmoke;
+}
+
+    .summarize-btn.show-original {
+        background-color: green;
+    }
+
+.feedtype {
+    color: darkcyan;
+}
+
+.timestamp {
+    color: darkblue;
+}
+

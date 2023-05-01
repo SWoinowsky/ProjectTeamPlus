@@ -8,11 +8,13 @@
         setTimeout(() => {
             span.classList.remove('laser-engrave');
             typeWriter(element, text, i + 1, callback);
-        }, 10);
+        }, 5);
     } else {
         callback();
     }
 }
+
+
 
 // Function to save fetched game news and its timestamp to local storage
 function saveGameNewsToLocalStorage(appId, summarizedNews, timestamp) {

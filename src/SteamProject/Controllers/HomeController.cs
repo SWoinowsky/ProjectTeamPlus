@@ -150,7 +150,7 @@ public class HomeController : Controller
         if (!user.Friends.Any())
         {
             var Friends = _friendRepository.GetFriends(user.Id);
-            if (Friends.Count() == 0)
+            if (Friends.Count() == 0 && user.SteamId != null)
             {
                 Friends = _steamService.GetFriendsList(user.SteamId, user.Id);
                 foreach (var newFriend in Friends)

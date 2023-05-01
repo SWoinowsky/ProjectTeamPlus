@@ -47,10 +47,28 @@ public class SteamController : ControllerBase
         return _steamService.GetAchievements(steamid, appId);
     }
 
+    [HttpGet("sharedMissingAchievements")]
+    public ActionResult SharedMissingAchievements( string userSteamId, string friendSteamId, int appId )
+    {
+        return Ok(_steamService.GetSharedMissingAchievements( userSteamId, friendSteamId, appId ));
+    }
+
     [HttpGet("schema")]
     public ActionResult<SchemaRoot> GameSchema(int appId)
     {
         return _steamService.GetSchema(appId);
+    }
+
+    [HttpGet("games")]
+    public ActionResult Games( string userSteamId, int userId )
+    {
+        return Ok(_steamService.GetGames(userSteamId, userId) );
+    }
+
+    [HttpGet("sharedGames")]
+    public ActionResult SharedGames( string userSteamId, string friendSteamId, int userId )
+    {
+        return Ok( _steamService.GetSharedGames( userSteamId, friendSteamId, userId ) );
     }
     
     [HttpPost("hide")]

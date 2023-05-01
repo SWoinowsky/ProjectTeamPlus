@@ -135,7 +135,7 @@ public class SteamService : ISteamService
             FriendsList.Add(FriendOut);
         }
 
-        return FriendsList;
+        return FriendsList.OrderBy( f => f.SteamName ).ToList<Friend>();
     }
 
     public Friend GetFriendSpecific( string userSteamId, int userId, string friendSteamId )
@@ -181,6 +181,20 @@ public class SteamService : ISteamService
             }
             return games.OrderBy(g => g.Name);
         }
+    }
+
+    public IEnumerable<Game> GetSharedGames( string userSteamId, string friendSteamId, int userId )
+    {
+        var myGames = new List<Game>();
+        myGames = GetGames( userSteamId, userId ).ToList<Game>();
+
+        var friendsGames = new List<Game>();
+        friendsGames = GetGames( friendSteamId, 0 ).ToList<Game>();
+
+        var sharedGames = new List<Game>();
+        sharedGames = myGames.Join(friendsGames, g1 => g1.AppId, g2 => g2.AppId, (g1, g2) => g1 ).ToList<Game>();
+
+        return sharedGames.OrderBy( g => g.Name );
     }
 
     public GameVM GetGameInfo(Game game)
@@ -319,6 +333,42 @@ public class SteamService : ISteamService
         }
         AchievementRoot deserialized = JsonSerializer.Deserialize<AchievementRoot>(response)!;
         return deserialized;
+    }
+
+    public List<Achievement> GetSharedMissingAchievements( string userSteamId, string friendSteamId, int appId )
+    {
+        var userAchievementResult = new AchievementRoot();
+        userAchievementResult = GetAchievements( userSteamId, appId );
+
+        var friendAchievementResult = new AchievementRoot();
+        friendAchievementResult = GetAchievements( friendSteamId, appId );
+
+        var userAchList = new List<Achievement>();
+        if( userAchievementResult != null )
+            userAchList = userAchievementResult.playerstats.achievements;
+
+        var friendAchList = new List<Achievement>();
+        if( friendAchievementResult != null )
+            friendAchList = friendAchievementResult.playerstats.achievements;
+
+        var sharedMissingAchievements = new List<Achievement>();
+        if( userAchList != null )
+            foreach( var userAch in userAchList )
+            {
+                foreach( var friendAch in friendAchList )
+                {
+                    if( userAch.apiname == friendAch.apiname )
+                    {
+                        if( userAch.achieved == friendAch.achieved )
+                        {
+                            if( userAch.achieved == 0 )
+                                sharedMissingAchievements.Add( userAch );
+                        }
+                    }
+                }
+            }   
+
+        return sharedMissingAchievements.OrderBy( ach => ach.name ).ToList<Achievement>();
     }
 
     public SchemaRoot GetSchema(int appId)

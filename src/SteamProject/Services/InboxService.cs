@@ -15,7 +15,7 @@ namespace SteamProject.Services
         {
             InboxMessage newMessage = new();
             newMessage.TimeStamp = DateTime.UtcNow;
-            newMessage.MessageId = Random.Shared.Next();
+            newMessage.RecipientId = user.Id;
             newMessage.Sender = "S.I.N";
             newMessage.Subject = subject;
             newMessage.Content = content;

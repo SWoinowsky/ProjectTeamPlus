@@ -33,6 +33,7 @@ public class InboxController : Controller
         }
         User user = _userRepository.GetUser(id);
         List<InboxMessage> userMessages = user.InboxMessages.ToList();
+        Console.WriteLine(user.InboxMessages.Count);
         return View(userMessages);
     }
 }

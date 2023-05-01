@@ -130,7 +130,7 @@ CREATE TABLE [UserBadge] (
 CREATE TABLE [InboxMessage]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
-	,[MessageId]		INT				NOT NULL
+	,[RecipientId]		INT				NOT NULL
 	,[TimeStamp]		DATETIME		
 	,[Sender]			NVARCHAR(50)
 	,[Subject]			NVARCHAR(50)
@@ -148,4 +148,4 @@ ALTER TABLE [CompetitionPlayer] 		 ADD CONSTRAINT [CompetitionPlayer_Fk_Competit
 ALTER TABLE [CompetitionGameAchievement] ADD CONSTRAINT [CompetitionGameAchievement_Fk_Competition] FOREIGN KEY ([CompetitionId]) 	REFERENCES [Competition] ([Id])		ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_User] 						FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_Badge] 						FOREIGN KEY ([BadgeId]) 		REFERENCES [Badge] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE [InboxMessage]				 ADD CONSTRAINT [InboxMessage_Fk_User]						FOREIGN KEY ([MessageId])		REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [InboxMessage]				 ADD CONSTRAINT [InboxMessage_Fk_User]						FOREIGN KEY ([RecipientId])		REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;

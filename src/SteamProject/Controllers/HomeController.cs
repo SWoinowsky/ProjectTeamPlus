@@ -88,7 +88,7 @@ public class HomeController : Controller
                     var badgeImageBase64 = Convert.ToBase64String(userBadge.Badge.Image);
                     dashboardVm.BadgeImagesBase64[userBadge.BadgeId] = badgeImageBase64;
                 }
-
+                Console.WriteLine($"from dashboard action {user.InboxMessages.Count}");
                 return View(dashboardVm);
             }
 
@@ -116,6 +116,7 @@ public class HomeController : Controller
                 return View(gameNewsVM);
 
             }
+            Console.WriteLine($"from news action {user.InboxMessages.Count}");
 
             return View();
 

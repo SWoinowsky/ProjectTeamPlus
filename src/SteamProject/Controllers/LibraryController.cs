@@ -276,7 +276,42 @@ public class LibraryController: Controller
     [HttpPost]
     public IActionResult Sort(string genre)
     {
-        var x = 1;
-        return View();
+        string? id = _userManager.GetUserId(User);
+        User user = _userRepository.GetUser(id);
+        List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+
+        var userLibraryVM = new UserLibraryVM();
+        userLibraryVM._user = user;
+        UserGameInfo? currentUserInfo = new UserGameInfo();
+
+        // Grab the list of games a user has
+        List<Game>? games = _steamService.GetGames(user.SteamId, user.Id).ToList();
+
+        HashSet<UserGameInfo> userGamesByGenre = new HashSet<UserGameInfo>();
+
+        if(games.Count == 0)
+            return View();
+
+        foreach(var game in games)
+        {
+            try
+            {
+                var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                foreach(var currentGenre in currentGame.Genres.Split(",").ToList())
+                {
+                    if(currentGenre == genre)
+                    {
+                        currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.AppId, user.Id);
+                        userGamesByGenre.Add(currentUserInfo);
+                    }
+                }
+                
+            }
+            catch
+            {
+                // Don't need it to do anything here since we are just getting info.
+            }
+        }
+        return View(userGamesByGenre);
     }
 }

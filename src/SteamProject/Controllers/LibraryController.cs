@@ -228,17 +228,27 @@ public class LibraryController: Controller
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
             var genres = _iGDBGenreRepository.GetGenreList();
+            userLibraryVM._genres = new HashSet<string>();
 
-            foreach(var genre in genreList)
+            if(genreList.Count() == 0)
             {
-                bool contains = _iGDBGenreRepository.GetGenreList().Contains(genre);
-                if(!contains)
+                foreach(var genre in genres)
+                    userLibraryVM._genres.Add(genre);
+            }
+            else
+            {
+                foreach(var genre in genreList)
                 {
-                    _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
-                    Name = genre
-                    });
+                    bool contains = _iGDBGenreRepository.GetGenreList().Contains(genre);
+                    if(!contains)
+                    {
+                        _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
+                        Name = genre
+                        });
+                    }
                 }
             }
+
             userLibraryVM._user.UserGameInfos = userLibraryVM._user.UserGameInfos.OrderBy(g => g.Game.Name).ToList();
             return View(userLibraryVM);
         }

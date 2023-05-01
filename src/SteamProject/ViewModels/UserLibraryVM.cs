@@ -13,6 +13,7 @@ namespace SteamProject.ViewModels
     {
         public User _user {get; set;}
         public HashSet<Game> _games {get; set;}
+        public HashSet<string> _genres {get; set;}
 
         public UserLibraryVM()
         {

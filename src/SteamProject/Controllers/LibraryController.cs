@@ -88,54 +88,53 @@ public class LibraryController: Controller
 
                 // Checks to see  if each individual game from Steam is in our db or not on a library refresh
                 // --- Refresh isn't the page refreshing, it's the user initiating a refresh to get newly added games
-                Game currentGame = new Game();
                 foreach(var game in games)
                 {
-                    currentGame = _gameRepository.GetGameByAppId(game.AppId);
-                    if(currentGame == null)
+                    try
                     {
-                        try
+                        var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                        var tempGenreString = "";
+                        if(currentGame != null && currentGame.Genres == null)
                         {
-                            currentGame = _gameRepository.GetGameByAppId(game.AppId);
-                            var tempGenreString = "";
-                            if(currentGame != null && currentGame.Genres == null)
-                            {
-                                try
-                                {
-                                    var genreResults = await _steamService.GetGameInfoAsync(game.Name);
-                                    foreach(var genre in genreResults)
-                                    {
-                                        tempGenreString += genre + ",";
-                                    }
-                                    currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
-                                }
-                                catch
-                                {
-                                    tempGenreString = "The genres couldn't be grabbed";
-                                }
-                                
-                                if(currentGame.Genres == null)
-                                {
-                                    currentGame.Genres = "The genres couldn't be grabbed";
-                                }
-                            }
-
-                            int? playTime = game.PlayTime;
-                            int? lastPlayed = game.LastPlayed;
-
-                            game.PlayTime = 0;
-                            game.LastPlayed = 0;
-
                             try
                             {
-                                currentUserInfo = _userGameInfoRepository.GetUserInfoForGame( game.AppId, user.Id );
+                                var genreResults = await _steamService.GetGameInfoAsync(game.Name);
+                                foreach(var genre in genreResults)
+                                {
+                                    tempGenreString += genre + ",";
+                                }
+                                currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
                             }
                             catch
                             {
-                                currentUserInfo = null;
+                                tempGenreString = "The genres couldn't be grabbed";
                             }
-                            //Check if game is in database, if not add it
-                            if (game.Genres == null)
+                            
+                            if(currentGame.Genres == null)
+                            {
+                                currentGame.Genres = "The genres couldn't be grabbed";
+                            }
+                        }
+
+                        int? playTime = game.PlayTime;
+                        int? lastPlayed = game.LastPlayed;
+
+                        game.PlayTime = 0;
+                        game.LastPlayed = 0;
+
+                        try
+                        {
+                            currentUserInfo = _userGameInfoRepository.GetUserInfoForGame( game.AppId, user.Id );
+                        }
+                        catch
+                        {
+                            currentUserInfo = null;
+                        }
+
+                        //Check if game is in database, if not add it
+                        if (currentGame == null)
+                        {
+                            if(refresh)
                             {
                                 try
                                 {
@@ -156,69 +155,68 @@ public class LibraryController: Controller
                                     game.Genres = "The genres couldn't be grabbed";
                                 }
                                 _gameRepository.AddOrUpdate(game);
+                            }
 
-                                var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
-                                if (currentUserInfo == null)
-                                {
-                                    
-                                    _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
-                                        OwnerId = user.Id,
-                                        GameId = temp.Id,
-                                        PlayTime = playTime,
-                                        LastPlayed = lastPlayed,
-                                        Hidden = false,
-                                        Followed = false,
-                                        Game = game,
-                                        Owner = user
-                                    });
-                                    userLibraryVM._games.Add(game);
-                                }
-                                else
-                                {
-                                    UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == temp.Id);
-                                    currentGameInfo.LastPlayed = lastPlayed;
-                                    currentGameInfo.PlayTime = playTime;
-                                    _userGameInfoRepository.AddOrUpdate(currentGameInfo);
-                                    userLibraryVM._games.Add(game);
-                                }
+                            var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
+                            if (currentUserInfo == null)
+                            {
+                                _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
+                                    OwnerId = user.Id,
+                                    GameId = temp.Id,
+                                    PlayTime = playTime,
+                                    LastPlayed = lastPlayed,
+                                    Hidden = false,
+                                    Followed = false,
+                                    Game = game,
+                                    Owner = user
+                                });
+                                userLibraryVM._games.Add(game);
                             }
                             else
                             {
-                                if (currentUserInfo == null)
-                                {
-
-                                    UserGameInfo newInfo = new UserGameInfo
-                                    {
-                                        OwnerId = user.Id,
-                                        GameId = currentGame.Id,
-                                        PlayTime = playTime,
-                                        LastPlayed = lastPlayed,
-                                        Hidden = false,
-                                        Followed = false,
-                                        Owner = user,
-                                        Game = currentGame
-                                    };
-                                    _userGameInfoRepository.AddOrUpdate(newInfo);
-                                    userLibraryVM._games.Add(game);
-
-                                }
-                                else
-                                {
-                                    UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == currentGame.Id);
-                                    currentGameInfo.LastPlayed = lastPlayed;
-                                    currentGameInfo.PlayTime = playTime;
-                                    _userGameInfoRepository.AddOrUpdate(currentGameInfo);
-                                    userLibraryVM._games.Add(game);
-                                }
+                                UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == temp.Id);
+                                currentGameInfo.LastPlayed = lastPlayed;
+                                currentGameInfo.PlayTime = playTime;
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
                             }
                         }
-                        catch
+                        else
                         {
-                            throw new Exception("Current game couldn't be saved to the db!" + game.Name);
+                            if (currentUserInfo == null)
+                            {
+
+                                UserGameInfo newInfo = new UserGameInfo
+                                {
+                                    OwnerId = user.Id,
+                                    GameId = currentGame.Id,
+                                    PlayTime = playTime,
+                                    LastPlayed = lastPlayed,
+                                    Hidden = false,
+                                    Followed = false,
+                                    Owner = user,
+                                    Game = currentGame
+                                };
+                                _userGameInfoRepository.AddOrUpdate(newInfo);
+                                userLibraryVM._games.Add(game);
+
+                            }
+                            else
+                            {
+                                UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == currentGame.Id);
+                                currentGameInfo.LastPlayed = lastPlayed;
+                                currentGameInfo.PlayTime = playTime;
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
+                            }
                         }
                     }
+                    catch
+                    {
+                        throw new Exception("Current game couldn't be saved to the db!" + game.Name);
+                    }
+                    }
                 }
-            }
             else
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);

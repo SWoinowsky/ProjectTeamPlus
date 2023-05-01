@@ -174,6 +174,7 @@ else
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -181,6 +182,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<SteamProject.Middlewares.ThemeMiddleware>();
 
 
 app.MapControllerRoute(

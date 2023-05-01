@@ -1,21 +1,15 @@
 body {
     font-family: Arial, sans-serif !important;
     font-size: 16px !important;
-    background-color: #333333 !important;
     line-height: 1.6;
-    color: #ffffff !important;
 }
 
 h1 {
     margin-top: 20px !important;
     margin-bottom: 10px !important;
-    color: #ffffff !important;
     text-align: center !important;
 }
 
-h2 {
-    color: #ffffff !important;
-}
 
 
 h3 {
@@ -25,22 +19,15 @@ h3 {
 }
 
 h4 {
-    color: #ffffff !important;
     font-size: 1.25rem;
     margin-bottom: 5px;
 }
 
 h6 {
-    color: white;
     text-align: center;
 }
 
 h5 {
-    color: white;
-}
-
-li {
-    color: #ffffff !important;
 }
 
 .center {
@@ -52,7 +39,6 @@ li {
 
 p {
     margin-bottom: 10px !important;
-    color: #ffffff !important;
 }
 
 .badges-container {
@@ -88,10 +74,11 @@ p {
     max-height: 3.5rem;
     padding: 0;
     margin: 0;
+    transition: box-shadow 0.4s ease;
 }
 
+
 .badge-img:hover, .badge-img:active {
-    transition: box-shadow 0.5s;
     box-shadow: 0px 0px 10px 5px #2f52ee;
 }
 
@@ -123,17 +110,12 @@ p {
 .userCard {
     text-align: center;
     justify-content: center;
-    background: linear-gradient(to left, #222731, #2f526e, #222731);
     margin-top: 0px;
     border-radius: 0;
     width: 100% !important;
     height: 100%;
-    min-width: 100%;
 }
 
-body {
-    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
-}
 
 .followCard {
     text-align: center;
@@ -144,7 +126,7 @@ body {
 }
 
 #recentGamesCarousel {
-    width: 100%;
+    width: 100% !important;
 }
 
 #followedGamesCarousel {
@@ -161,13 +143,9 @@ body {
     margin-top: -5px;
 }
 
-.modal-content {
-    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
-}
 
-#steamIcon {
-    color: #4ba0bc;
-}
+
+
 
 #toDoButton:focus, .toDoButton:active, toDoButton:hover {
     outline: none;
@@ -181,7 +159,6 @@ body {
 }
 
 .carousel-control-prev-icon{
-    background-color: rgba(75, 160, 188, 0.5);
     border-radius: 25% 0% 0% 25%;
     height: 6rem;
     padding: 4px;
@@ -190,7 +167,6 @@ body {
 }
 
 .carousel-control-next-icon {
-    background-color: rgba(75, 160, 188, 0.5);
     border-radius: 0% 25% 25% 0;
     height: 6rem;
     padding: 4px;
@@ -213,12 +189,12 @@ body {
 
 .carousel-inner {
     border-style: ridge;
-    border-width: 3px;
-    border-color: #4ba0bc;
+    border-width: 5px;
     border-radius: 20px;
-    background-color: #222731;
     justify-content: center;
     width: 100%;
+    padding: 5px
+
 }
 
 .show-follow-btn {
@@ -231,8 +207,6 @@ body {
     width: 70%;
     border-radius: 0;
     border-radius: 0 0 35px 35px;
-    color: white;
-    background-color: #2f526e;
     margin-bottom: 20px;
 }
 
@@ -243,8 +217,6 @@ body {
 }
 
 footer {
-    height: 65px !important;
-    background-image: linear-gradient(180deg,#222731 0%, #000000 50%) !important;
     display: flex;
     align-items: flex-end;
     bottom: 0;
@@ -261,38 +233,3 @@ footer {
     overflow: hidden;
 }
 
-.laser-engrave {
-    animation: laser-engrave 0.3s ease-out forwards, white-fire 1s infinite, sparkle 0.5s infinite;
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
-@keyframes laser-engrave {
-    0% {
-        text-shadow: none;
-    }
-
-    100% {
-        text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff;
-    }
-}
-
-@keyframes white-fire {
-    0%, 100% {
-        text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff, 0 0 80px #fff;
-    }
-
-    50% {
-        text-shadow: 0 0 30px #fff, 0 0 60px #fff, 0 0 90px #fff, 0 0 120px #fff;
-    }
-}
-
-@keyframes sparkle {
-    0%, 100% {
-        text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #fff, 0 0 80px #fff, 0 0 0px #fff;
-    }
-
-    50% {
-        text-shadow: 0 0 30px #fff, 0 0 60px #fff, 0 0 90px #fff, 0 0 120px #fff, 0 -20px 60px #fff;
-    }
-}

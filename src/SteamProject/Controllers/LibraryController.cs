@@ -272,4 +272,11 @@ public class LibraryController: Controller
 
         return View(gameVM);
     }
+
+    [HttpPost]
+    public IActionResult Sort(string genre)
+    {
+        var x = 1;
+        return View();
+    }
 }

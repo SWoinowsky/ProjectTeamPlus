@@ -51,7 +51,20 @@ else
             
         </div>
     </div>
-    <input id="search-input" type="search" placeholder= "🔍 search for a game..."> 
+    <div class="row">
+        <div class="col-md">
+            <input id="search-input" type="search" placeholder= "🔍 search for a game...">
+        </div>
+        <div class="col-md" style="text-align: right">
+            <form asp-action="Sort" method="post">
+                <div class="form-group">
+                    <label for="genre" style="color:white">Select a Genre to sort by:</label>
+                    <select id="genre" name="genre" asp-items="@(new SelectList(Model._genres))" class="form-control"></select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
     <div class="flex-container" id="game-Library">
         @{
             foreach(var game in Model._user.UserGameInfos)

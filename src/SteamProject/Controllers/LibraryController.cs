@@ -39,6 +39,8 @@ public class LibraryController: Controller
     [Authorize]
     public async Task<IActionResult> Index(bool refresh)
     {
+        // Going to be used to populate the genre table
+        HashSet<string> genreList = new HashSet<string>();
         string? id = _userManager.GetUserId(User);
 
         if (refresh == null)
@@ -83,7 +85,6 @@ public class LibraryController: Controller
             }
             if(refresh == true)
             {
-                HashSet<string> genreList = new HashSet<string>();
                 List<Game>? games = _steamService.GetGames(user.SteamId, user.Id).ToList();
                 
                 if(games.Count == 0)
@@ -221,22 +222,22 @@ public class LibraryController: Controller
                         throw new Exception("Current game couldn't be saved to the db!" + game.Name);
                     }
                 }
-                var genres = _iGDBGenreRepository.GetGenreList();
-
-                foreach(var genre in genreList)
-                {
-                    bool contains = _iGDBGenreRepository.GetGenreList().Contains(genre);
-                    if(!contains)
-                    {
-                        _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
-                        Name = genre
-                        });
-                    }
-                }
             }
             else
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
+            }
+            var genres = _iGDBGenreRepository.GetGenreList();
+
+            foreach(var genre in genreList)
+            {
+                bool contains = _iGDBGenreRepository.GetGenreList().Contains(genre);
+                if(!contains)
+                {
+                    _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
+                    Name = genre
+                    });
+                }
             }
             userLibraryVM._user.UserGameInfos = userLibraryVM._user.UserGameInfos.OrderBy(g => g.Game.Name).ToList();
             return View(userLibraryVM);

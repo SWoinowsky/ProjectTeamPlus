@@ -35,13 +35,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var genreList = _steamService.GetGenresAsync().Result;
-        foreach(var genre in genreList)
-        {
-            _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
-                Name = genre.name
-            });
-        }
         return View();
     }
 

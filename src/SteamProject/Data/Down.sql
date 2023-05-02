@@ -24,3 +24,4 @@ DROP TABLE [BlackList];
 DROP TABLE [AdminUser];
 DROP TABLE [UserBadge];
 DROP TABLE [Badge];
+DROP TABLE [IGDBGenres];

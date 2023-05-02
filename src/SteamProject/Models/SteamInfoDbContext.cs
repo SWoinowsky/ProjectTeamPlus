@@ -46,6 +46,15 @@ public partial class SteamInfoDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Igdbgenre>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__IGDBGenr__3214EC070BDF96FD");
+
+            entity.ToTable("IGDBGenres");
+
+            entity.Property(e => e.Name).HasMaxLength(100);
+        });
+        
         modelBuilder.Entity<AdminUser>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__AdminUse__3214EC272984CA86");

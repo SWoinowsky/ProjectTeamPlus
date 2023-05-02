@@ -4,42 +4,53 @@
     var gamesList = Model;
 }
 <br>
-@{
-    if(gamesList.Count() > 0)
-    {
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1>Load Bulk Games List</h1>
+        <hr>
         <div class="row">
-            <table class="table">
-                <h1>Games added</h1>
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Steam App Id
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        foreach(var game in gamesList)
-                        {
-                            <tr>
-                                <td>
-                                    @game.Name
-                                </td>
-                                <td>
-                                    @game.AppId
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+            @Html.Partial("AdminNavigation")
+            @{
+                if(gamesList.Count() > 0)
+                {
+                    <div class="col">
+                        <table class="table">
+                            <h1>Games Added</h1>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Steam App Id
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach(var game in gamesList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @game.Name
+                                            </td>
+                                            <td>
+                                                @game.AppId
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="col">
+                        <h1>All of the games for the bulk loading account are in the database.</h1>
+                    </div>
+                }
+            }
         </div>
-    }
-    else
-    {
-        <h1>All of the games for the bulk loading account are in the database.</h1>
-    }
-}
+    </main>
+</div>

@@ -9,24 +9,29 @@
     <main role="main" class="pb-3">
         <h1>Blacklisted Ids</h1>
         <hr>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Steam ID
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var blackListId in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => blackListId)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="row">
+            @Html.Partial("AdminNavigation")
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Steam ID
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var blackListId in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => blackListId)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 </div>

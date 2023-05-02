@@ -14,28 +14,41 @@ h3 {
 }
 
 .table {
-    width: 75%;
+    width: 90%;
 }
 
 #num {
-    width: 5%;
+    color: #1ED3B3;
+    width: 2.5%;
 }
 
 #tstamp {
+    color: #1ED3B3;
     padding: none;
     width: 15%;
 }
 
+#mTstamp {
+    opacity: 80%;
+}
+
 #sndr {
-    width: 5%;
+    color: #1ED3B3;
+    width: 15%;
 }
 
 #sbjct {
+    color: #1ED3B3;
     width: 10%;
 }
 
+#mSbjct {
+    opacity: 80%;
+}
+
 #msg {
-    width: 35%;
+    color: #1ED3B3;
+    width: 45%;
 }
 
 th, td, tr {
@@ -43,5 +56,9 @@ th, td, tr {
 }
 
 tr {
-    height: 1.5rem;
+    height: 4rem;
+}
+
+td {
+    padding-top: 1rem;
 }

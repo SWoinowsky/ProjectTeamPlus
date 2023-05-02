@@ -14,5 +14,4 @@ public class InboxRepository : Repository<InboxMessage>, IInboxRepository
     {
         return GetAll().Where(x => x.RecipientId == userId ).ToList<InboxMessage>();
     }
-
 }

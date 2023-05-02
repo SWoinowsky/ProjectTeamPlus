@@ -20,8 +20,9 @@ public class SteamController : ControllerBase
     private readonly IUserGameInfoRepository _userGameInfoRepository;
     private readonly IEmailSender _emailSender;
     private readonly IFriendRepository _friendRepository;
+    private readonly IInboxService _inboxService;
 
-    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository)
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -30,6 +31,7 @@ public class SteamController : ControllerBase
         _userGameInfoRepository = userGameInfoRepository;
         _emailSender = emailSender;
         _friendRepository = friendRepository;
+        _inboxService = inboxService;
     }
 
 

@@ -41,7 +41,7 @@ public class CompeteController : Controller
         ,ICompetitionPlayerRepository competitionPlayerRepository
         ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
         ,UserManager<IdentityUser> userManager
-        ,InboxService inboxService
+        ,IInboxService inboxService
         )
     {
         _logger = logger;
@@ -331,7 +331,8 @@ public class CompeteController : Controller
         var viewModel = new CompeteCreateVM();
         viewModel.SteamId = currentUser.SteamId;
         viewModel.SinId = currentUser.Id;
-        
+
+        _inboxService.SendToInbox(currentUser.Id, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
 
         return View( viewModel );
     }

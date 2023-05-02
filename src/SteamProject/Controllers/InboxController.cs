@@ -35,7 +35,7 @@ public class InboxController : Controller
             return View();
         }
         User user = _userRepository.GetUser(id);
-        List<InboxMessage> userMessages = _inboxRepository.GetInboxMessages(user.Id);
+        List<InboxMessage> userMessages = _inboxRepository.GetInboxMessages(user.Id).OrderByDescending(s => s.Id).ToList();
         return View(userMessages);
     }
 }

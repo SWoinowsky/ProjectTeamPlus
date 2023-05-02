@@ -1,6 +1,6 @@
 @model List<InboxMessage>
 @{
-    ViewData["Title"] = "Friends";
+    ViewData["Title"] = "Inbox";
 }
 
 <head>
@@ -24,11 +24,11 @@
             @foreach (var message in Model)
             {
                 <tr>
-                    <th scope="row">@message.Id</th>
-                    <td scope="col">@message.TimeStamp</td>
-                    <td scope="col">@message.Sender</td>
-                    <td scope="col">@message.Subject</td>
-                    <td scope="col">@message.Content</td>
+                    <th id="mNum" scope="row">@message.Id</th>
+                    <td id="mTstamp" scope="col">@message.TimeStamp</td>
+                    <td id="mSndr" scope="col">@message.Sender</td>
+                    <td id="mSbjct" scope="col">@message.Subject</td>
+                    <td id="mMsg" scope="col">@message.Content</td>
                 </tr>
             }
         </tbody>

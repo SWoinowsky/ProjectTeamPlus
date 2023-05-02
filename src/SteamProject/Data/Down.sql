@@ -27,3 +27,4 @@ DROP TABLE [AdminUser];
 DROP TABLE [UserBadge];
 DROP TABLE [Badge];
 DROP TABLE [InboxMessage];
+DROP TABLE [IGDBGenres];

@@ -16,3 +16,32 @@ h3 {
 .table {
     width: 75%;
 }
+
+#num {
+    width: 5%;
+}
+
+#tstamp {
+    padding: none;
+    width: 15%;
+}
+
+#sndr {
+    width: 5%;
+}
+
+#sbjct {
+    width: 10%;
+}
+
+#msg {
+    width: 35%;
+}
+
+th, td, tr {
+    text-align: center;
+}
+
+tr {
+    height: 1.5rem;
+}

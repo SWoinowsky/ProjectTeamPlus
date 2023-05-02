@@ -17,11 +17,14 @@ public class InboxController : Controller
 
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
+    private readonly IInboxRepository _inboxRepository;
 
-    public InboxController(UserManager<IdentityUser> userManager, IUserRepository userRepository) 
+
+    public InboxController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IInboxRepository inboxRepository) 
     {
         _userManager = userManager;
         _userRepository = userRepository;
+        _inboxRepository = inboxRepository;
     }
 
     public IActionResult Index()
@@ -32,8 +35,7 @@ public class InboxController : Controller
             return View();
         }
         User user = _userRepository.GetUser(id);
-        List<InboxMessage> userMessages = user.InboxMessages.ToList();
-        Console.WriteLine(user.InboxMessages.Count);
+        List<InboxMessage> userMessages = _inboxRepository.GetInboxMessages(user.Id);
         return View(userMessages);
     }
 }

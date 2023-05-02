@@ -246,7 +246,7 @@ public partial class SteamInfoContext : DbContext
             entity.Property(e => e.Subject).HasMaxLength(50);
             entity.Property(e => e.TimeStamp).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Message).WithMany(p => p.InboxMessages)
+            entity.HasOne(d => d.Recipient).WithMany(p => p.InboxMessages)
                 .HasForeignKey(d => d.RecipientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("InboxMessage_Fk_User");

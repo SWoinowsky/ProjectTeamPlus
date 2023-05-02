@@ -90,6 +90,7 @@ builder.Services.AddScoped<ICompetitionGameAchievementRepository, CompetitionGam
 builder.Services.AddScoped<IBlackListRepository, BlackListRepository>();
 builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
 builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
+builder.Services.AddScoped<IInboxRepository, InboxRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

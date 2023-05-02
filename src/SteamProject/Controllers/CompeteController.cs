@@ -26,6 +26,7 @@ public class CompeteController : Controller
     private readonly ICompetitionPlayerRepository _competitionPlayerRepository;
     private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
+    private readonly IInboxService _inboxService;
 
     public CompeteController(
         ILogger<FriendController> logger
@@ -40,6 +41,7 @@ public class CompeteController : Controller
         ,ICompetitionPlayerRepository competitionPlayerRepository
         ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
         ,UserManager<IdentityUser> userManager
+        ,InboxService inboxService
         )
     {
         _logger = logger;
@@ -54,6 +56,7 @@ public class CompeteController : Controller
         _competitionPlayerRepository = competitionPlayerRepository;
         _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
+        _inboxService = inboxService;
     }
 
 

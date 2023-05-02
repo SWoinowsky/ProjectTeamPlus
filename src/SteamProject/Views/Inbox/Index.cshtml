@@ -13,11 +13,11 @@
         <table class="table table-sm table-dark">
         <thead>
             <tr>
-            <th scope="col">#</th>
-            <th scope="col">Timestamp</th>
-            <th scope="col">Sender</th>
-            <th scope="col">Subject</th>
-            <th scope="col">Message</th>
+            <th id="num" scope="col">#</th>
+            <th id="tstamp" scope="col">Timestamp</th>
+            <th id="sndr" scope="col">Sender</th>
+            <th id="sbjct" scope="col">Subject</th>
+            <th id="msg" scope="col">Message</th>
             </tr>
         </thead>
         <tbody>
@@ -25,10 +25,10 @@
             {
                 <tr>
                     <th scope="row">@message.Id</th>
-                    <th scope="col">@message.TimeStamp</th>
-                    <td>@message.Sender</td>
-                    <td>@message.Subject</td>
-                    <td>@message.Content</td>
+                    <td scope="col">@message.TimeStamp</td>
+                    <td scope="col">@message.Sender</td>
+                    <td scope="col">@message.Subject</td>
+                    <td scope="col">@message.Content</td>
                 </tr>
             }
         </tbody>

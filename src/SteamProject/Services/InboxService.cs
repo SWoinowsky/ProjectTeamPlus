@@ -5,22 +5,22 @@ namespace SteamProject.Services
 {
     public class InboxService : IInboxService
     {
-        private readonly IUserRepository _userRepository;
-        public InboxService(IUserRepository userRepository)
+        private readonly IInboxRepository _inboxRepository;
+        public InboxService(IInboxRepository inboxRepository)
         {
-            _userRepository = userRepository;
+            _inboxRepository = inboxRepository;
         }
 
-        public void SendToInbox(User user, string subject, string content)
+        public void SendToInbox(int userId, string sender , string subject, string content)
         {
-            InboxMessage newMessage = new();
-            newMessage.TimeStamp = DateTime.UtcNow;
-            newMessage.RecipientId = user.Id;
-            newMessage.Sender = "S.I.N";
-            newMessage.Subject = subject;
-            newMessage.Content = content;
-            user.InboxMessages.Add(newMessage);
-            _userRepository.AddOrUpdate(user);
+            InboxMessage message = new();
+            message.RecipientId = userId;
+            message.TimeStamp = DateTime.Now;
+            message.Sender = sender;
+            message.Subject = subject;
+            message.Content = content;
+            _inboxRepository.AddOrUpdate(message);
         }
+        
     }
 }

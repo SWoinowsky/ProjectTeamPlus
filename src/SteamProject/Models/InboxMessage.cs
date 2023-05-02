@@ -17,5 +17,5 @@ public partial class InboxMessage
 
     public string? Content { get; set; }
 
-    public virtual User Message { get; set; } = null!;
+    public virtual User Recipient { get; set; } = null!;
 }

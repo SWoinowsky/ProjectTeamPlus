@@ -1,0 +1,37 @@
+@model List<InboxMessage>
+@{
+    ViewData["Title"] = "Inbox";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Inbox.css">
+</head>
+
+<div class="wrapper">
+    <h3>Your Inbox</h3>
+    <div class="inbox-container">
+        <table class="table table-sm table-dark">
+        <thead>
+            <tr>
+            <th id="num" scope="col">#</th>
+            <th id="tstamp" scope="col">Timestamp</th>
+            <th id="sndr" scope="col">Sender</th>
+            <th id="sbjct" scope="col">Subject</th>
+            <th id="msg" scope="col">Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var message in Model)
+            {
+                <tr>
+                    <th id="mNum" scope="row">@message.Id</th>
+                    <td id="mTstamp" scope="col">@message.TimeStamp</td>
+                    <td id="mSndr" scope="col">@message.Sender</td>
+                    <td id="mSbjct" scope="col">@message.Subject</td>
+                    <td id="mMsg" scope="col">@message.Content</td>
+                </tr>
+            }
+        </tbody>
+        </table>
+    </div>
+</div>

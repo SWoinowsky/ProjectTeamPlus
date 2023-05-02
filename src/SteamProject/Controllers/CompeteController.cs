@@ -26,6 +26,7 @@ public class CompeteController : Controller
     private readonly ICompetitionPlayerRepository _competitionPlayerRepository;
     private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
+    private readonly IInboxService _inboxService;
 
     public CompeteController(
         ILogger<FriendController> logger
@@ -40,6 +41,7 @@ public class CompeteController : Controller
         ,ICompetitionPlayerRepository competitionPlayerRepository
         ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
         ,UserManager<IdentityUser> userManager
+        ,IInboxService inboxService
         )
     {
         _logger = logger;
@@ -54,6 +56,7 @@ public class CompeteController : Controller
         _competitionPlayerRepository = competitionPlayerRepository;
         _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
+        _inboxService = inboxService;
     }
 
 
@@ -328,7 +331,8 @@ public class CompeteController : Controller
         var viewModel = new CompeteCreateVM();
         viewModel.SteamId = currentUser.SteamId;
         viewModel.SinId = currentUser.Id;
-        
+
+        _inboxService.SendToInbox(currentUser.Id, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
 
         return View( viewModel );
     }

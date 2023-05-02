@@ -90,6 +90,7 @@ builder.Services.AddScoped<ICompetitionGameAchievementRepository, CompetitionGam
 builder.Services.AddScoped<IBlackListRepository, BlackListRepository>();
 builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
 builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
+builder.Services.AddScoped<IInboxRepository, InboxRepository>();
 builder.Services.AddScoped<IIGDBGenresRepository, IGDBGenresRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -112,6 +113,8 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
+builder.Services.AddTransient<IInboxService, InboxService>();
 
 builder.Services.AddOpenAIService();
 

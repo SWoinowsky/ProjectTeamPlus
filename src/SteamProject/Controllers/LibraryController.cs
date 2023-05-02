@@ -282,6 +282,7 @@ public class LibraryController: Controller
         List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
 
         var userLibraryVM = new UserLibraryVM();
+        userLibraryVM._games = new HashSet<Game>();
         userLibraryVM._user = user;
         UserGameInfo? currentUserInfo = new UserGameInfo();
 
@@ -304,9 +305,9 @@ public class LibraryController: Controller
                     {
                         currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.AppId, user.Id);
                         userGamesByGenre.Add(currentUserInfo);
+                        userLibraryVM._games.Add(game);
                     }
                 }
-                
             }
             catch
             {

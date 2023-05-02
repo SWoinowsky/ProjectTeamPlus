@@ -273,7 +273,7 @@ public class LibraryController: Controller
         return View(gameVM);
     }
 
-    [HttpPost]
+    [HttpGet]
     public IActionResult Sort(string genre)
     {
         ViewBag.MyString = genre;

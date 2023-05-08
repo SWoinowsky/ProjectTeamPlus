@@ -1,4 +1,4 @@
-﻿function typeWriter(element, text, i, callback) {
+﻿function typeWriter(element, text, i, callback = () => { }) {
     if (i < text.length) {
         const span = document.createElement('span');
         span.textContent = text.charAt(i);
@@ -8,11 +8,13 @@
         setTimeout(() => {
             span.classList.remove('laser-engrave');
             typeWriter(element, text, i + 1, callback);
-        }, 10);
+        }, 5);
     } else {
         callback();
     }
 }
+
+
 
 // Function to save fetched game news and its timestamp to local storage
 function saveGameNewsToLocalStorage(appId, summarizedNews, timestamp) {
@@ -71,6 +73,15 @@ function updateGameNews({ appId, summarizedNews, gameType, isFromAPI }) {
     } else {
         // If the news is from local storage, simply display the text
         gameElement.innerHTML = summarizedNews;
+    }
+}
+
+function toggleBadgeDescription(badgeId) {
+    var descriptionElement = document.getElementById("badge-description-" + badgeId);
+    if (descriptionElement.style.display === "none") {
+        descriptionElement.style.display = "block";
+    } else {
+        descriptionElement.style.display = "none";
     }
 }
 

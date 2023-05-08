@@ -24,19 +24,23 @@ public class LibraryController: Controller
     private readonly IGameRepository _gameRepository;
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
+    private readonly IIGDBGenresRepository _iGDBGenreRepository;
 
-    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository,IUserGameInfoRepository userGameInfoRepository, ISteamService steamService)
+    public LibraryController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IIGDBGenresRepository iGDBGenresRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
         _gameRepository = gameRepository;
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
+        _iGDBGenreRepository = iGDBGenresRepository;
     }
 
     [Authorize]
-    public IActionResult Index(bool refresh)
+    public async Task<IActionResult> Index(bool refresh)
     {
+        // Going to be used to populate the genre table
+        HashSet<string> genreList = new HashSet<string>();
         string? id = _userManager.GetUserId(User);
 
         if (refresh == null)
@@ -82,15 +86,40 @@ public class LibraryController: Controller
             if(refresh == true)
             {
                 List<Game>? games = _steamService.GetGames(user.SteamId, user.Id).ToList();
-
+                
                 if(games.Count == 0)
                     return View();
 
+                // Checks to see  if each individual game from Steam is in our db or not on a library refresh
+                // --- Refresh isn't the page refreshing, it's the user initiating a refresh to get newly added games
                 foreach(var game in games)
                 {
                     try
                     {
                         var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                        var tempGenreString = "";
+                        if(currentGame != null && currentGame.Genres == null)
+                        {
+                            try
+                            {
+                                var genreResults = await _steamService.GetGameInfoAsync(game.Name);
+                                foreach(var genre in genreResults)
+                                {
+                                    tempGenreString += genre + ",";
+                                    genreList.Add(genre);
+                                }
+                                currentGame.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                            }
+                            catch
+                            {
+                                tempGenreString = "The genres couldn't be grabbed";
+                            }
+                            
+                            if(currentGame.Genres == null)
+                            {
+                                currentGame.Genres = "The genres couldn't be grabbed";
+                            }
+                        }
 
                         int? playTime = game.PlayTime;
                         int? lastPlayed = game.LastPlayed;
@@ -104,22 +133,39 @@ public class LibraryController: Controller
                         }
                         catch
                         {
-                             currentUserInfo = null;
+                            currentUserInfo = null;
                         }
 
                         //Check if game is in database, if not add it
                         if (currentGame == null)
                         {
-                            var context = new ValidationContext(game);
-                            var results = new List<ValidationResult>();
-                            var isValid = Validator.TryValidateObject(game, context, results);
-                            if(isValid)
+                            if(refresh)
+                            {
+                                try
+                                {
+                                    var genreResults = await _steamService.GetGameInfoAsync(game.Name);
+                                    foreach(var genre in genreResults)
+                                    {
+                                        tempGenreString += genre + ",";
+                                        genreList.Add(genre);
+                                    }
+                                    game.Genres = tempGenreString.Substring(0, (tempGenreString.Length - 1));
+                                }
+                                catch
+                                {
+                                    tempGenreString = "The genres couldn't be grabbed";
+                                }
+                                
+                                if(game.Genres == null)
+                                {
+                                    game.Genres = "The genres couldn't be grabbed";
+                                }
                                 _gameRepository.AddOrUpdate(game);
+                            }
 
                             var temp = _gameRepository.GetAll(g => g.AppId == game.AppId).FirstOrDefault();
                             if (currentUserInfo == null)
                             {
-                                
                                 _userGameInfoRepository.AddOrUpdate(new UserGameInfo{
                                     OwnerId = user.Id,
                                     GameId = temp.Id,
@@ -137,19 +183,8 @@ public class LibraryController: Controller
                                 UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == temp.Id);
                                 currentGameInfo.LastPlayed = lastPlayed;
                                 currentGameInfo.PlayTime = playTime;
-
-                                
-                                context = new ValidationContext(currentGameInfo);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(currentGameInfo, context, results);
-                                if(isValid)
-                                    _userGameInfoRepository.AddOrUpdate(currentGameInfo);
-
-                                context = new ValidationContext(game);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(game, context, results);
-                                if( isValid )
-                                    userLibraryVM._games.Add(game);
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
                             }
                         }
                         else
@@ -168,18 +203,8 @@ public class LibraryController: Controller
                                     Owner = user,
                                     Game = currentGame
                                 };
-
-                                var context = new ValidationContext(newInfo);
-                                var results = new List<ValidationResult>();
-                                var isValid = Validator.TryValidateObject(newInfo, context, results);
-                                if(isValid)
-                                    _userGameInfoRepository.AddOrUpdate(newInfo);
-
-                                context = new ValidationContext(game);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(game, context, results);
-                                if( isValid )
-                                    userLibraryVM._games.Add(game);
+                                _userGameInfoRepository.AddOrUpdate(newInfo);
+                                userLibraryVM._games.Add(game);
 
                             }
                             else
@@ -187,18 +212,8 @@ public class LibraryController: Controller
                                 UserGameInfo currentGameInfo = gameInfo.Single(g => g.GameId == currentGame.Id);
                                 currentGameInfo.LastPlayed = lastPlayed;
                                 currentGameInfo.PlayTime = playTime;
-
-                                var context = new ValidationContext(currentGameInfo);
-                                var results = new List<ValidationResult>();
-                                var isValid = Validator.TryValidateObject(currentGameInfo, context, results);
-                                if(isValid)
-                                    _userGameInfoRepository.AddOrUpdate(currentGameInfo);
-
-                                context = new ValidationContext(game);
-                                results = new List<ValidationResult>();
-                                isValid = Validator.TryValidateObject(game, context, results);
-                                if( isValid )
-                                    userLibraryVM._games.Add(game);
+                                _userGameInfoRepository.AddOrUpdate(currentGameInfo);
+                                userLibraryVM._games.Add(game);
                             }
                         }
                     }
@@ -212,6 +227,28 @@ public class LibraryController: Controller
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
+            var genres = _iGDBGenreRepository.GetGenreList();
+            userLibraryVM._genres = new HashSet<string>();
+
+            if(genreList.Count() == 0)
+            {
+                foreach(var genre in genres)
+                    userLibraryVM._genres.Add(genre);
+            }
+            else
+            {
+                foreach(var genre in genreList)
+                {
+                    bool contains = _iGDBGenreRepository.GetGenreList().Contains(genre);
+                    if(!contains)
+                    {
+                        _iGDBGenreRepository.AddOrUpdate(new Igdbgenre {
+                        Name = genre
+                        });
+                    }
+                }
+            }
+
             userLibraryVM._user.UserGameInfos = userLibraryVM._user.UserGameInfos.OrderBy(g => g.Game.Name).ToList();
             return View(userLibraryVM);
         }
@@ -234,5 +271,50 @@ public class LibraryController: Controller
         gameVM.cleanDescriptions();
 
         return View(gameVM);
+    }
+
+    [HttpGet]
+    public IActionResult Sort(string genre)
+    {
+        ViewBag.MyString = genre;
+        string? id = _userManager.GetUserId(User);
+        User user = _userRepository.GetUser(id);
+        List<UserGameInfo> gameInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+
+        var userLibraryVM = new UserLibraryVM();
+        userLibraryVM._games = new HashSet<Game>();
+        userLibraryVM._user = user;
+        UserGameInfo? currentUserInfo = new UserGameInfo();
+
+        // Grab the list of games a user has
+        List<Game>? games = _steamService.GetGames(user.SteamId, user.Id).ToList();
+
+        HashSet<UserGameInfo> userGamesByGenre = new HashSet<UserGameInfo>();
+
+        if(games.Count == 0)
+            return View();
+
+        foreach(var game in games)
+        {
+            try
+            {
+                var currentGame = _gameRepository.GetGameByAppId(game.AppId);
+                foreach(var currentGenre in currentGame.Genres.Split(",").ToList())
+                {
+                    if(currentGenre == genre)
+                    {
+                        currentUserInfo = _userGameInfoRepository.GetUserInfoForGame(game.AppId, user.Id);
+                        userGamesByGenre.Add(currentUserInfo);
+                        userLibraryVM._games.Add(game);
+                    }
+                }
+            }
+            catch
+            {
+                // Don't need it to do anything here since we are just getting info.
+            }
+        }
+        userLibraryVM._userGameInfo = userGamesByGenre;
+        return View(userLibraryVM);
     }
 }

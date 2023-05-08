@@ -14,6 +14,8 @@ using SteamProject.Areas.Identity.Data;
 using OpenAI.GPT3.Extensions;
 using SteamProject.Data;
 using SteamProject.Utilities;
+using System.Reflection;
+using SteamProject.Models.Awards.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,8 +71,11 @@ if (localDbSource == false)
 
 var SteamApiToken = builder.Configuration["SteamKey"];
 var openAiToken = builder.Configuration["OpenAiKey"];
+var AdminSeedingApiToken = builder.Configuration["AdminSeedingApiKey"];
+var ClientId = builder.Configuration["ClientId"];
+var AccessToken = builder.Configuration["AccessToken"];
 
-builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken ));
+builder.Services.AddScoped<ISteamService, SteamService>( s => new SteamService( SteamApiToken, AdminSeedingApiToken, ClientId, AccessToken));
 builder.Services.AddScoped<IOpenAiApiService, OpenAiApiService>(a => new OpenAiApiService(openAiToken));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -83,6 +88,10 @@ builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<ICompetitionPlayerRepository, CompetitionPlayerRepository>();
 builder.Services.AddScoped<ICompetitionGameAchievementRepository, CompetitionGameAchievementRepository>();
 builder.Services.AddScoped<IBlackListRepository, BlackListRepository>();
+builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
+builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
+builder.Services.AddScoped<IInboxRepository, InboxRepository>();
+builder.Services.AddScoped<IIGDBGenresRepository, IGDBGenresRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -105,10 +114,21 @@ builder.Services.AddAuthentication()
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
+builder.Services.AddTransient<IInboxService, InboxService>();
+
 builder.Services.AddOpenAIService();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+
+var assembly = Assembly.GetExecutingAssembly();
+var awardConditionTypes = assembly.GetTypes()
+    .Where(t => t.GetInterfaces().Contains(typeof(IAwardCondition)) && !t.IsAbstract);
+
+foreach (var type in awardConditionTypes)
+{
+    builder.Services.AddScoped(typeof(IAwardCondition), type);
+}
 
 var app = builder.Build();
 
@@ -131,6 +151,9 @@ using (var scope = app.Services.CreateScope())
         var adminPw = config["SeedAdminPW"];
 
         SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "My", "Admin").Wait();
+
+        //also seed badges from json file
+        SeedBadges.Initialize(services).GetAwaiter().GetResult();
     }
     catch (Exception ex)
     {
@@ -154,6 +177,7 @@ else
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -161,6 +185,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<SteamProject.Middlewares.ThemeMiddleware>();
 
 
 app.MapControllerRoute(
@@ -173,6 +198,12 @@ app.MapControllerRoute(
     "Compete",
     "Compete",
     defaults: new { controller = "Compete", action = "Index" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/Create",
+    defaults: new { controller = "Compete", action = "Create" }
 );
 
 app.MapControllerRoute(

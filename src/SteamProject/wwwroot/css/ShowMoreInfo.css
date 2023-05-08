@@ -1,26 +1,6 @@
 th, tr, td {
-    color: white;
     width: 25%;
-    border-color:black;
 }
-
-.card-title, .card-text {
-    color: #fff;
-}
-
-body {
-    background: linear-gradient(to left, #222731, #2f526e, #222731) !important;
-}
-
-h1, h2, h3, h4, p {
-    color: white;
-}
-
-footer {
-    background-image: linear-gradient(180deg,#222731 0%, #000000 50%) !important;
-    height: 70px !important;
-}
-
 
 header {
     margin-bottom: 30px;

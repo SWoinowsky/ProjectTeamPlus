@@ -20,8 +20,9 @@ public class HomeController : Controller
     private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
     private readonly IFriendRepository _friendRepository;
+    private readonly IInboxService _inboxService;
 
-    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository)
+    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository, IInboxService inboxService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -29,6 +30,7 @@ public class HomeController : Controller
         _steamService = steamService;
         _userGameInfoRepository = userGameInfoRepository;
         _friendRepository = friendRepository;
+        _inboxService = inboxService;
     }
 
     public IActionResult Index()
@@ -51,7 +53,8 @@ public class HomeController : Controller
             dashboardVm.RecentGames = new List<List<Game>>();
             dashboardVm.FollowedGames = new List<List<Game>>();
             User user = _userRepository.GetUser(id);
-            dashboardVm._user = user;
+
+            dashboardVm.User = user;
 
             if (user.SteamId != null)
             {
@@ -78,8 +81,17 @@ public class HomeController : Controller
                     dashboardVm.FollowedGames.Add(threeGames);
                 }
 
+                dashboardVm.BadgeImagesBase64 = new Dictionary<int, string>();
+
+                foreach (var userBadge in user.UserBadges)
+                {
+                    var badgeImageBase64 = Convert.ToBase64String(userBadge.Badge.Image);
+                    dashboardVm.BadgeImagesBase64[userBadge.BadgeId] = badgeImageBase64;
+                }
                 return View(dashboardVm);
             }
+
+
 
             return View();
         }
@@ -103,7 +115,6 @@ public class HomeController : Controller
                 return View(gameNewsVM);
 
             }
-
             return View();
 
         }
@@ -133,7 +144,30 @@ public class HomeController : Controller
             return View();
         }
         User user = _userRepository.GetUser(id);
+
+        if (!user.Friends.Any())
+        {
+            var Friends = _friendRepository.GetFriends(user.Id);
+            if (Friends.Count() == 0 && user.SteamId != null)
+            {
+                Friends = _steamService.GetFriendsList(user.SteamId, user.Id);
+                foreach (var newFriend in Friends)
+                {
+                    _friendRepository.AddOrUpdate(newFriend);
+                }
+            }
+        }
+
         List<Friend> friends = _friendRepository.GetFriends(user.Id);
+        var steamIds = _userRepository.GetAllUsers().Select(u => u.SteamId);
+
+        foreach (var friend in friends)
+        {
+            if (steamIds.Contains(friend.SteamId)) {
+                friend.Linked = true;
+            }
+        }
+
         FriendsPageVM vm = new(friends, user.Id, user.SteamId);
         return View(vm);
     }

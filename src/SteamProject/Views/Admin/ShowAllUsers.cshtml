@@ -8,51 +8,56 @@
 <div class="container">
     <main role="main" class="pb-3">
         <h1>Site-wide User List</h1>
-        <h2>Mange Users</h2>
+        <h2>Manage Users</h2>
         <hr>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.AspNetUserId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Email)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SteamName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SteamId)
-                    </th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var user in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => user.AspNetUserId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => user.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => user.SteamName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => user.SteamId)
-                        </td>
-                        <td>
-                            @if(user.SteamId != null)
-                            {
-                                <a asp-action="Delete" asp-route-id="@user.SteamId">Ban</a>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="row">
+            @Html.Partial("AdminNavigation")
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AspNetUserId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SteamName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SteamId)
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.AspNetUserId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.SteamName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.SteamId)
+                                </td>
+                                <td>
+                                    @if(user.SteamId != null)
+                                    {
+                                        <a asp-action="Delete" asp-route-id="@user.SteamId">Ban</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 </div>

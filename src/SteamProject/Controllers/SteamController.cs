@@ -20,8 +20,9 @@ public class SteamController : ControllerBase
     private readonly IUserGameInfoRepository _userGameInfoRepository;
     private readonly IEmailSender _emailSender;
     private readonly IFriendRepository _friendRepository;
+    private readonly IInboxService _inboxService;
 
-    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository)
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -30,6 +31,7 @@ public class SteamController : ControllerBase
         _userGameInfoRepository = userGameInfoRepository;
         _emailSender = emailSender;
         _friendRepository = friendRepository;
+        _inboxService = inboxService;
     }
 
 
@@ -47,10 +49,28 @@ public class SteamController : ControllerBase
         return _steamService.GetAchievements(steamid, appId);
     }
 
+    [HttpGet("sharedMissingAchievements")]
+    public ActionResult SharedMissingAchievements( string userSteamId, string friendSteamId, int appId )
+    {
+        return Ok(_steamService.GetSharedMissingAchievements( userSteamId, friendSteamId, appId ));
+    }
+
     [HttpGet("schema")]
     public ActionResult<SchemaRoot> GameSchema(int appId)
     {
         return _steamService.GetSchema(appId);
+    }
+
+    [HttpGet("games")]
+    public ActionResult Games( string userSteamId, int userId )
+    {
+        return Ok(_steamService.GetGames(userSteamId, userId) );
+    }
+
+    [HttpGet("sharedGames")]
+    public ActionResult SharedGames( string userSteamId, string friendSteamId, int userId )
+    {
+        return Ok( _steamService.GetSharedGames( userSteamId, friendSteamId, userId ) );
     }
     
     [HttpPost("hide")]
@@ -142,6 +162,7 @@ public class SteamController : ControllerBase
                 }
 
                 _userGameInfoRepository.AddOrUpdate(game);
+                
             }
         }
 
@@ -190,5 +211,31 @@ public class SteamController : ControllerBase
         _friendRepository.AddOrUpdate(friend);
         return Ok();
     }
+
+    [HttpGet("gap")]
+    public ActionResult<GAPRoot> GlobalPercentages(int appId)
+    {
+        return _steamService.GetGAP(appId);
+    }
+
+
+    [HttpPost("UpdateTheme")]
+    public IActionResult UpdateTheme(string theme)
+    {
+        string? id = _userManager.GetUserId(User);
+
+        if (id is null)
+        {
+            return BadRequest(new { success = false, message = "User not found" });
+        }
+        else
+        {
+            User user = _userRepository.GetUser(id);
+            _userRepository.UpdateUserTheme(user.Id, theme);
+            return Ok(new { success = true });
+        }
+    }
+
+
 
 }

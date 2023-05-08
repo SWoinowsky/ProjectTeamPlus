@@ -11,6 +11,6 @@ A short summary of the feature
 Scenario: I am the test user and want to see games I share with Eithné of Brokiloén
 	Given I am signed in
 	When I click on the profile link
-	And I click on Eithné's friend page link
-	Then I can see the shared games page for Eithné
-	And I can see Eithné's username
+	And I click on Eithne's friend page link
+	Then I can see the shared games page for Eithne
+	And I can see Eithne's username

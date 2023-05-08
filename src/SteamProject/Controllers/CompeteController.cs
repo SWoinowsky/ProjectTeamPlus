@@ -1,4 +1,5 @@
 
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,7 @@ public class CompeteController : Controller
     private readonly ICompetitionPlayerRepository _competitionPlayerRepository;
     private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
+    private readonly IInboxService _inboxService;
 
     public CompeteController(
         ILogger<FriendController> logger
@@ -39,6 +41,7 @@ public class CompeteController : Controller
         ,ICompetitionPlayerRepository competitionPlayerRepository
         ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
         ,UserManager<IdentityUser> userManager
+        ,IInboxService inboxService
         )
     {
         _logger = logger;
@@ -53,6 +56,7 @@ public class CompeteController : Controller
         _competitionPlayerRepository = competitionPlayerRepository;
         _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
+        _inboxService = inboxService;
     }
 
 
@@ -134,13 +138,14 @@ public class CompeteController : Controller
                 var userResponse = new AchievementRoot();
                 userResponse = _steamService.GetAchievements( participant.SteamId, gameAssociated.AppId );
 
-                foreach( var ach in gameAchievements )
-                {
-                    var userAchOut = new UserAchievement();
-                    userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
-                    if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
-                        ListIntoDict.Add( userAchOut );
-                }
+                if( userResponse != null )
+                    foreach( var ach in gameAchievements )
+                    {
+                        var userAchOut = new UserAchievement();
+                        userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
+                        if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
+                            ListIntoDict.Add( userAchOut );
+                    }
 
                 foreach( var achievement in ListIntoDict )
                 {
@@ -292,6 +297,7 @@ public class CompeteController : Controller
         return View( viewModel );
     }
 
+
     [Authorize]
     [HttpPost]
     public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
@@ -311,4 +317,96 @@ public class CompeteController : Controller
         
         return RedirectToAction("Initiate", new { friendSteamId = friendSteamId, appId = appId });
     }
+
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult Create()
+    {
+        string id = _userManager.GetUserId(User);
+
+        var currentUser = new SteamProject.Models.User();
+        currentUser = _userRepository.GetUser(id);
+
+        var viewModel = new CompeteCreateVM();
+        viewModel.SteamId = currentUser.SteamId;
+        viewModel.SinId = currentUser.Id;
+
+        _inboxService.SendToInbox(currentUser.Id, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
+
+        return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult Create( CompeteCreateVM compCreatedOut )
+    {
+        var timeString = compCreatedOut.MinDate.ToString();
+        var game = new Game();
+        game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
+
+        var comp = new Competition()
+        {
+            GameId = game.Id,
+            StartDate = compCreatedOut.CompStartTime,
+            EndDate = compCreatedOut.CompEndTime,
+            Game = game,
+        };
+
+        _competitionRepository.AddOrUpdate( comp );
+
+
+        var competitors = new List<CompetitionPlayer>();
+        competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.SteamId } );
+        
+        if( compCreatedOut.OpponentId != null )
+            competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.OpponentId } );
+        
+        if( compCreatedOut.OpponentIds != null )
+            foreach( string id in compCreatedOut.OpponentIds )
+            {
+                competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = id, Competition = comp } );
+            }
+
+        foreach( CompetitionPlayer opp in competitors )
+        {
+            _competitionPlayerRepository.AddOrUpdate( opp );
+        }
+
+        var presentAchievements = new List<GameAchievement>();
+        presentAchievements = _gameAchievementRepository.GetAchievementsFromGameId( game.Id );        
+
+        if( presentAchievements.Count() <= 0 )
+        {
+            var achievementList = new List<SchemaAchievement>();
+            achievementList = _steamService.GetSchema( game.AppId ).game.availableGameStats.achievements;
+
+            foreach( SchemaAchievement ach in achievementList )
+            {   
+                var newAch = new GameAchievement( ach );
+                _gameAchievementRepository.AddOrUpdate( newAch );
+                presentAchievements.Add( newAch );
+            }
+        }
+
+        var achievementsCompeting = new List<GameAchievement>();
+        foreach( var achUnearned in compCreatedOut.AchievementDisplayNames )
+        {
+            foreach( var gameAch in presentAchievements )
+            {
+                if( achUnearned == gameAch.DisplayName )
+                    achievementsCompeting.Add( gameAch );
+            }
+        }
+
+        foreach( GameAchievement ach in achievementsCompeting )
+        {
+            var compAch = new CompetitionGameAchievement() { CompetitionId = comp.Id, GameAchievementId = ach.Id };
+            _competitionGameAchievementRepository.AddOrUpdate( compAch );
+        }
+
+        return View( compCreatedOut );
+    }
+
+    
 }

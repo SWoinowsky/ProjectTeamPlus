@@ -341,12 +341,16 @@ public class CompeteController : Controller
     [HttpPost]
     public IActionResult Create( CompeteCreateVM compCreatedOut )
     {
+        string authid = _userManager.GetUserId(User);
+        var SinId = _userRepository.GetUser( authid ).Id;
+
         var timeString = compCreatedOut.MinDate.ToString();
         var game = new Game();
         game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
 
         var comp = new Competition()
         {
+            CreatorId = SinId,
             GameId = game.Id,
             StartDate = compCreatedOut.CompStartTime,
             EndDate = compCreatedOut.CompEndTime,

@@ -21,14 +21,16 @@ namespace SteamProject.Controllers
         private readonly IUserBadgeRepository _userBadgeRepository;
         private readonly IEnumerable<IAwardCondition> _awardConditions;
         private readonly IUserRepository _userRepository;
+        private readonly IInboxService _inboxService;
 
-        public BadgeController(UserManager<IdentityUser> userManager, IBadgeRepository badgeRepository, IUserBadgeRepository userBadgeRepository, IEnumerable<IAwardCondition> awardConditions, IUserRepository userRepository)
+        public BadgeController(UserManager<IdentityUser> userManager, IBadgeRepository badgeRepository, IUserBadgeRepository userBadgeRepository, IEnumerable<IAwardCondition> awardConditions, IUserRepository userRepository, IInboxService inboxService)
         {
             _userManager = userManager;
             _badgeRepository = badgeRepository;
             _userBadgeRepository = userBadgeRepository;
             _awardConditions = awardConditions;
             _userRepository = userRepository;
+            _inboxService = inboxService;
         }
 
         [HttpGet("CheckForNewBadges")]
@@ -68,6 +70,7 @@ namespace SteamProject.Controllers
                             BadgeId = badge.Id,
                         };
 
+                        _inboxService.SendToInbox(user.Id, "S.I.N Badges", "New Badge", $"Looks like you earned the {badge.Name} badge, keep it up and try to collect them all!");
                         _userBadgeRepository.AddOrUpdate(userBadge);
 
                         awardedBadges.Add(badge.Id);

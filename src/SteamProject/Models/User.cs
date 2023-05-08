@@ -30,7 +30,10 @@ public partial class User
 
     public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
 
+    public virtual ICollection<InboxMessage> InboxMessages { get; set; } = new List<InboxMessage>();
+
     public virtual ICollection<UserGameInfo> UserGameInfos { get; set; } = new List<UserGameInfo>();
+
     public void TakeSteamPOCO(SteamUserPOCO poco)
     {
         var userData = poco.response.players[0];

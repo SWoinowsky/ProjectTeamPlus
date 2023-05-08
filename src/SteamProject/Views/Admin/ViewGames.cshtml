@@ -1,25 +1,24 @@
-@model List<SteamProject.ViewModels.GameVM>
+@model List<SteamProject.Models.Game>
 @{
-    ViewData["Title"] = "Admin - Load Game Info";
+ViewData["Title"] = "Admin - Load Game Info";
 }
 <br>
 <div class="container">
     <main role="main" class="pb-3">
-        <h1>Load Bulk Game Info</h1>
+        <h1>Current Game List</h1>
         <hr>
         <div class="row">
             @Html.Partial("AdminNavigation")
             @{
                 if(Model == null)
                 {
-                    <h1>@ViewBag.MyString</h1>
+
                 }
                 else if(Model.Count() > 0)
                 {
                     <div class="col">
                         <div class="row">
-                            <table class="table">
-                                <h1>Game Info Added</h1>
+                            <table = class="table">
                                 <thead>
                                     <tr>
                                         <th>
@@ -34,23 +33,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @{
-                                        foreach(var game in Model)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @game._game.Name
-                                                </td>
-                                                <td>
-                                                    @game._appId
-                                                </td>
-                                                <td>
-                                                    @game._game.Genres
-                                                </td>
-                                            </tr>
+                                        @{
+                                            foreach(var game in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @game.Name
+                                                    </td>
+                                                    <td>
+                                                        @game.AppId
+                                                    </td>
+                                                    <td>
+                                                        @game.Genres
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
-                                    }
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
@@ -58,7 +57,7 @@
                 else
                 {
                     <div class="col">
-                        <h1>All of the games in the server library have bulk info already loaded.</h1>
+                        <h1>There's no games in the db! You should go load some before someone has to wait like you need to...</h1>
                     </div>
                 }
             }

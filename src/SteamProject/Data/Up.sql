@@ -127,6 +127,21 @@ CREATE TABLE [UserBadge] (
     [BadgeId] 	INT NOT NULL,
 );
 
+CREATE TABLE [InboxMessage]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[RecipientId]		INT				NOT NULL
+	,[TimeStamp]		DATETIME		
+	,[Sender]			NVARCHAR(50)
+	,[Subject]			NVARCHAR(50)
+	,[Content]			NVARCHAR(128)
+);
+
+CREATE TABLE [IGDBGenres] (
+	[Id]		INT PRIMARY KEY IDENTITY(1, 1),
+	[Name]		NVARCHAR(100) NOT NULL
+);
+
 
 ALTER TABLE [Friend]					 ADD CONSTRAINT [Friend_Fk_User]							FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE	[UserGameInfo]				 ADD CONSTRAINT [UserGameInfo_FK_User]						FOREIGN KEY ([OwnerId])			REFERENCES [User] ([Id])			ON DELETE CASCADE   ON UPDATE NO ACTION;
@@ -138,3 +153,4 @@ ALTER TABLE [CompetitionPlayer] 		 ADD CONSTRAINT [CompetitionPlayer_Fk_Competit
 ALTER TABLE [CompetitionGameAchievement] ADD CONSTRAINT [CompetitionGameAchievement_Fk_Competition] FOREIGN KEY ([CompetitionId]) 	REFERENCES [Competition] ([Id])		ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_User] 						FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_Badge] 						FOREIGN KEY ([BadgeId]) 		REFERENCES [Badge] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [InboxMessage]				 ADD CONSTRAINT [InboxMessage_Fk_User]						FOREIGN KEY ([RecipientId])		REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;

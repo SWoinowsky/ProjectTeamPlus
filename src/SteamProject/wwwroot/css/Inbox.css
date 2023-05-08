@@ -1,0 +1,64 @@
+.wrapper {
+    margin: 2rem;
+}
+
+.inbox-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-flow: row wrap;
+}
+
+h3 {
+    margin-right: auto;
+}
+
+.table {
+    width: 90%;
+}
+
+#num {
+    color: #1ED3B3;
+    width: 2.5%;
+}
+
+#tstamp {
+    color: #1ED3B3;
+    padding: none;
+    width: 15%;
+}
+
+#mTstamp {
+    opacity: 80%;
+}
+
+#sndr {
+    color: #1ED3B3;
+    width: 15%;
+}
+
+#sbjct {
+    color: #1ED3B3;
+    width: 10%;
+}
+
+#mSbjct {
+    opacity: 80%;
+}
+
+#msg {
+    color: #1ED3B3;
+    width: 45%;
+}
+
+th, td, tr {
+    text-align: center;
+}
+
+tr {
+    height: 4rem;
+}
+
+td {
+    padding-top: 1rem;
+}

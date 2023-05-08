@@ -19,6 +19,7 @@ public interface ISteamService
     GameNewsVM GetGameNews(Game game, int count = 10);
     GameVM GetGameInfo(Game game);
     Task<HashSet<string>> GetGameInfoAsync(string gameName);
+    Task<HashSet<GameGenresPOCO>> GetGenresAsync();
     AchievementRoot GetAchievements(string userSteamId, int appId);
     public List<Achievement> GetSharedMissingAchievements( string userSteamId, string friendSteamId, int appId );
     SchemaRoot GetSchema(int appId);

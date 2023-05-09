@@ -89,8 +89,13 @@ public class CompeteController : Controller
     [HttpGet]
     public IActionResult Details( int compId )
     {
+        var authId = _userManager.GetUserId(User);
+        int SinId = _userRepository.GetUser( authId ).Id;
+
         var viewModel = new CompeteDetailsVM();
         var competitionIn = new Competition();
+
+        viewModel.SinId = SinId;
 
         competitionIn = _competitionRepository.GetCompetitionById( compId );
 

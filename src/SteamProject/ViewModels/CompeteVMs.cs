@@ -15,6 +15,7 @@ public class CompeteIndexVM
 
 public class CompeteDetailsVM
 {
+    public int SinId { get; set; }
     public Competition CurrentComp { get; set; } = null;
     public Game Game { get; set; } = null;
     public List<CompetitionPlayer> CompPlayers { get; set; } = null;

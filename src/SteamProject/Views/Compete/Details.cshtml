@@ -14,6 +14,7 @@
 }
 else 
 {
+    
     <div class="row" style="width: 100%; padding-top: 5%;">
         <div class="col-sm-6" style="width: 50%;">
             <div class="currentApp" id=@Model.CurrentComp.Game.AppId hidden></div>
@@ -47,6 +48,13 @@ else
         <div class="col-sm-6" style="width: 50%;">
             <h1 style=""> Competition in @Model.CurrentComp.Game.Name </h1>
             <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
+
+            @if( Model.SinId == Model.CurrentComp.CreatorId )
+            {
+                <div>
+                    <button id="compDeleteBtn" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
+                </div>
+            }
 
             <br>
             <div>
@@ -90,4 +98,5 @@ else
 @section Scripts
 {
     <script type="text/javascript" src="~/js/achValues.js"></script>
+    <script type="text/javascript" src="~/js/competeDetails.js"></script>
 }

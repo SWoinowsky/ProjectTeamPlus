@@ -1,6 +1,6 @@
-﻿using SteamProject.Models.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -24,13 +24,15 @@ public partial class User
 
     public string? Theme { get; set; }
 
+    public virtual ICollection<Competition> Competitions { get; set; } = new List<Competition>();
+
     public virtual ICollection<Friend> Friends { get; set; } = new List<Friend>();
+
+    public virtual ICollection<InboxMessage> InboxMessages { get; set; } = new List<InboxMessage>();
 
     public virtual ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
 
     public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
-
-    public virtual ICollection<InboxMessage> InboxMessages { get; set; } = new List<InboxMessage>();
 
     public virtual ICollection<UserGameInfo> UserGameInfos { get; set; } = new List<UserGameInfo>();
 

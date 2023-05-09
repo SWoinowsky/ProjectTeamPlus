@@ -4,9 +4,7 @@ $( function () {
     deleter.onclick = function () {
         console.log( `DELETING COMPETITION WITH ID ${compId}`)
         Delete( compId );
-
     }
-
 });
 
 function Delete( int )
@@ -27,5 +25,4 @@ function errorOnAjax() {
 function successOnAjax() {
     console.log( "SUCCESS in ajax request" );
     location.href = `/compete/`;
-
 }

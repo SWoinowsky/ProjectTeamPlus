@@ -227,7 +227,7 @@ public class LibraryController: Controller
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
-            var genres = _iGDBGenreRepository.GetGenreList();
+            var genres = _iGDBGenreRepository.GetGenreList().OrderBy(s => s);
             userLibraryVM._genres = new HashSet<string>();
 
             if(genreList.Count() == 0)
@@ -248,7 +248,6 @@ public class LibraryController: Controller
                     }
                 }
             }
-
             userLibraryVM._user.UserGameInfos = userLibraryVM._user.UserGameInfos.OrderBy(g => g.Game.Name).ToList();
             return View(userLibraryVM);
         }

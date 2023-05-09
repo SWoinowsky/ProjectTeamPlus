@@ -46,12 +46,12 @@ else
             </div>
         </div>
         <div class="col-sm-6" style="width: 50%;">
-            <h1 style=""> Competition in @Model.CurrentComp.Game.Name </h1>
+            <h1> Competition in @Model.CurrentComp.Game.Name </h1>
             <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
 
             @if( Model.SinId == Model.CurrentComp.CreatorId )
             {
-                <div>
+                <div id="compDeleteBtnDiv">
                     <button id="compDeleteBtn" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
                 </div>
             }
@@ -64,10 +64,10 @@ else
                     @foreach( var player in Model.Players )
                     {
                         <div class="col-sm-2" style="margin: auto; width: auto;">
-                            <div class="card" style="background-image: linear-gradient(to bottom right, rgb(0,0,0), rgb(75,75,75), rgb(0,0,0));">
+                            <div class="card" >
                                 <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
                                 <div class="card-body">
-                                    <i class="card-title" style="color: white;"> @player.SteamName </i>
+                                    <i class="card-title" > @player.SteamName </i>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@ else
             </div>
 
             @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
-            <div id="CompletionHistory" style="width: 100%; padding-left: 7%; padding-top: 3%; font-weight: bold;"> 
+            <div id="CompletionHistory" > 
                 <strong> History </strong>
                 <ol>
                     @foreach( var completion in Model.Tracking )

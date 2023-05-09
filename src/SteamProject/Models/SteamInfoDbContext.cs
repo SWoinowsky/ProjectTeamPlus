@@ -239,6 +239,23 @@ public partial class SteamInfoDbContext : DbContext
                 .HasConstraintName("UserGameInfo_FK_User");
         });
 
+        modelBuilder.Entity<InboxMessage>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__InboxMes__3214EC07BDF64EF2");
+
+            entity.ToTable("InboxMessage");
+
+            entity.Property(e => e.Content).HasMaxLength(128);
+            entity.Property(e => e.Sender).HasMaxLength(50);
+            entity.Property(e => e.Subject).HasMaxLength(50);
+            entity.Property(e => e.TimeStamp).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Recipient).WithMany(p => p.InboxMessages)
+                .HasForeignKey(d => d.RecipientId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("InboxMessage_Fk_User");
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
 

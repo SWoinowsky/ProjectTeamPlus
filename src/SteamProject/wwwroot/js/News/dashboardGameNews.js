@@ -67,6 +67,11 @@ function getRecentGameNews(appId, gameType) {
 function updateGameNews({ appId, summarizedNews, gameType, isFromAPI }) {
     const gameElement = document.querySelector(`.card .card-body .${gameType}-game-news[data-gameid="${appId}"]`);
 
+    // Check if the summarizedNews is null, empty or the string "null", and display a fallback message if necessary
+    if (!summarizedNews || summarizedNews.trim() === '' || summarizedNews.trim().toLowerCase() === 'null') {
+        summarizedNews = 'No news available at this time.';
+    }
+
     // If the news is fetched from the API, use the typing animation
     if (isFromAPI) {
         typeWriter(gameElement, summarizedNews, 0);
@@ -75,6 +80,7 @@ function updateGameNews({ appId, summarizedNews, gameType, isFromAPI }) {
         gameElement.innerHTML = summarizedNews;
     }
 }
+
 
 function toggleBadgeDescription(badgeId) {
     var descriptionElement = document.getElementById("badge-description-" + badgeId);

@@ -125,7 +125,7 @@ public class NewsController : Controller
                 }
                 else
                 {
-                    summarizedNews = "There was no news found for the provided index";
+                    summarizedNews = "There was no news found for the provided game";
                 }
 
                 return Ok(new { appId, summarizedNews });

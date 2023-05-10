@@ -143,6 +143,21 @@ CREATE TABLE [IGDBGenres] (
 	[Name]		NVARCHAR(100) NOT NULL
 );
 
+CREATE TABLE [GameVote]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[GameId]			INT				NOT NULL
+	,[UserId]			INT				NOT NULL
+	,[Vote]				BIT				NOT NULL
+);
+
+CREATE TABLE [CompetitionVote]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[CompetitionId]	INT				NOT NULL
+	,[UserId]			INT				NOT NULL
+	,[WantsToPlayAgain]	BIT				NOT NULL
+);
 
 ALTER TABLE [Friend]					 ADD CONSTRAINT [Friend_Fk_User]							FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE	[UserGameInfo]				 ADD CONSTRAINT [UserGameInfo_FK_User]						FOREIGN KEY ([OwnerId])			REFERENCES [User] ([Id])			ON DELETE CASCADE   ON UPDATE NO ACTION;
@@ -156,3 +171,7 @@ ALTER TABLE [CompetitionGameAchievement] ADD CONSTRAINT [CompetitionGameAchievem
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_User] 						FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_Badge] 						FOREIGN KEY ([BadgeId]) 		REFERENCES [Badge] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [InboxMessage]				 ADD CONSTRAINT [InboxMessage_Fk_User]						FOREIGN KEY ([RecipientId])		REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_Competition] 			FOREIGN KEY ([CompetitionId]) 	REFERENCES [Competition] ([Id]) 	ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_User] 					FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_Game] 							FOREIGN KEY ([GameId]) 			REFERENCES [Game] ([Id])			ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_User] 							FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;

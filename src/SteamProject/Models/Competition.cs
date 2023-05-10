@@ -19,6 +19,8 @@ public partial class Competition
 
     public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; } = new List<CompetitionPlayer>();
 
+    public virtual ICollection<CompetitionVote> CompetitionVotes { get; } = new List<CompetitionVote>();
+
     public virtual User Creator { get; set; } = null!;
 
     public virtual Game Game { get; set; } = null!;

@@ -441,7 +441,7 @@ function getAchievementsForFFA() {
         dataType: "json",
         url: `/api/Steam/schema?appId=${appId}`,
         success: showFFAAchievements,
-        error: errorOnAjax
+        error: errorOnAjaxo
     });
 }
 

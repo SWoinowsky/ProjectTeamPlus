@@ -122,15 +122,30 @@ public class CompeteController : Controller
             var compAchievements = new List<CompetitionGameAchievement>();
             compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
 
+            var percentages = new List<GlobalAchievement>();
+            percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
             
             var gameAchievements = new List<GameAchievement>();
             foreach( var ach in compAchievements )
             {
+
                 var achievementFound = new GameAchievement();
                 achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
 
                 if( achievementFound != null )
                     gameAchievements.Add( achievementFound );
+            }
+
+            var pointProcessor = new GapProcessor();
+            foreach( var gameAch in gameAchievements )
+            {
+                foreach( var percent in percentages )
+                {
+                    if( gameAch.ApiName == percent.name )
+                    {
+                        gameAch.PointVal = pointProcessor.HandlePercent( percent.percent );
+                    }
+                }
             }
             
 

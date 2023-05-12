@@ -1,0 +1,19 @@
+@model List<Dictionary<Game, int>>
+@{
+    ViewData["Title"] = "Recommended games";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Library.css">
+</head>
+<br><br>
+@if (Model == null || Model.Count() == 0)
+{
+    <h1>We don't have any games to recommend!</h1>
+    <br>
+    <h2>This may be because you own all of the games we have in our database, or something werid is happening.</h2>
+}
+else
+{
+    <h1>Your recommendations:</h1>
+}

@@ -163,6 +163,13 @@ public class CompeteController : Controller
                     {
                         var userAchOut = new UserAchievement();
                         userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
+                        
+                        if( userAchOut.Achievement.DisplayName == "Lucatiel" )
+                        {
+                            userAchOut.Achieved = true;
+                            userAchOut.UnlockTime = DateTime.Now;
+                        }
+
                         if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
                             ListIntoDict.Add( userAchOut );
                     }
@@ -175,6 +182,28 @@ public class CompeteController : Controller
 
             var userAchList = new List<KeyValuePair<UserAchievement, User>>();
             userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
+
+            var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
+            foreach( var player in compPlayersList )
+            {
+                foreach( var user in userList )
+                {
+                    if( player.SteamId == user.SteamId )
+                        userScoreList.Add( new (user, player) );
+                }
+            }
+
+            foreach( var us in userScoreList )
+            {
+                foreach( var ua in userAchList )
+                {
+                    if( us.Key == ua.Value )
+                    {
+                        us.Value.Score += ua.Key.Achievement.PointVal;
+                    }
+                }
+            }
+            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
             
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
@@ -183,6 +212,7 @@ public class CompeteController : Controller
             viewModel.CompGameAchList = compAchievements;
             viewModel.GameAchList = gameAchievements;
             viewModel.Tracking = userAchList;
+            viewModel.Scoreboard = userScoreList;
         }
 
         return View( viewModel );

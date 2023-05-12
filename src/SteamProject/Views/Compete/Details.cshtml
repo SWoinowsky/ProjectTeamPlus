@@ -76,15 +76,27 @@ else
             </div>
 
             @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
-            <div id="CompletionHistory" > 
-                <strong> History </strong>
-                <ol>
-                    @foreach( var completion in Model.Tracking )
-                    {
-                        <li style="padding-bottom: 2%;"> <strong>@completion.Value.SteamName</strong> completed <strong>@completion.Key.Achievement.DisplayName</strong> with timestamp <strong>@completion.Key.UnlockTime!</strong> </li>
-                    }
-                </ol>
+            <div style="display: flex; flex-direction: column;">
+                <div id="CompletionHistory" > 
+                    <strong> Leaderboard </strong>
+                    <ol>
+                        @foreach( var score in Model.Scoreboard )
+                        {
+                            <li style="padding-bottom: 2%;"> <strong> @score.Key.SteamName: </Strong> <i> @score.Value.Score points </i> </li>
+                        }
+                    </ol>
+                </div>
+                <div id="CompletionHistory" > 
+                    <strong> History </strong>
+                    <ol>
+                        @foreach( var completion in Model.Tracking )
+                        {
+                            <li style="padding-bottom: 2%;"> <strong>@completion.Value.SteamName</strong> completed <strong>@completion.Key.Achievement.DisplayName</strong> with timestamp <strong>@completion.Key.UnlockTime!</strong> </li>
+                        }
+                    </ol>
+                </div>
             </div>
+            
         </div>
 
     </div>

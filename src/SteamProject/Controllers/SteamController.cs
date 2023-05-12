@@ -21,8 +21,9 @@ public class SteamController : ControllerBase
     private readonly IEmailSender _emailSender;
     private readonly IFriendRepository _friendRepository;
     private readonly IInboxService _inboxService;
+    private readonly IIGDBGenresRepository _iGDBGenreRepository;
 
-    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService)
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService, IIGDBGenresRepository iGDBGenresRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -32,6 +33,7 @@ public class SteamController : ControllerBase
         _emailSender = emailSender;
         _friendRepository = friendRepository;
         _inboxService = inboxService;
+        _iGDBGenreRepository = iGDBGenresRepository;
     }
 
 
@@ -248,7 +250,21 @@ public class SteamController : ControllerBase
         else
         {
             User user = _userRepository.GetUser(id);
-            List<UserGameInfo>? gamesInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+            List<UserGameInfo>? userGameList = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+            List<Game> dbGameList = _gameRepository.GetAll().ToList();
+
+            List<object> genreScores = new List<object>();
+            foreach(var genre in _iGDBGenreRepository.GetGenreList())
+            {
+                genreScores.Add(new {Genre = genre, Value = 0});
+            }
+
+            foreach(var game in userGameList)
+            {
+                var tempGame = _gameRepository.FindById(game.GameId);
+                var x = 0;
+            }
+            
         }
 
         return RedirectToAction("Recommendations", "Library");

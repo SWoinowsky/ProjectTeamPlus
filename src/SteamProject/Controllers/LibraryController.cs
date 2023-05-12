@@ -331,12 +331,14 @@ public class LibraryController: Controller
         else
         {
             User user = _userRepository.GetUser(id);
+            // List of current users games.
             List<UserGameInfo>? userGameList = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+
+            // Simple hashset of game id's to check and see what games a user doesn't own.
+            HashSet<int> userGameIds = new HashSet<int>();
 
             // Setting up dictionary for scoring.
             List<Dictionary<string, int>> genreScores = new List<Dictionary<string, int>>();
-
-            
 
             foreach (var genre in _iGDBGenreRepository.GetGenreList())
             {
@@ -351,7 +353,9 @@ public class LibraryController: Controller
             //  of times they occure in the users library.
             foreach(var game in userGameList)
             {
-                string[] gameGenres = _gameRepository.FindById(game.GameId).Genres.Split(",");
+                var temp = _gameRepository.FindById(game.GameId);
+                userGameIds.Add(temp.AppId);
+                string[] gameGenres = temp.Genres.Split(",");
                 foreach(var genre in gameGenres)
                 {
                     foreach(var dictionary in genreScores)
@@ -369,10 +373,13 @@ public class LibraryController: Controller
             // Gets all of the games from the DB and sets them up to be scored in our dictionary.
             foreach(var game in _gameRepository.GetAll().ToList())
             {
-                recommendationList.Add(new Dictionary<Game, int>
+                if(!userGameIds.Contains(game.AppId))
                 {
-                    {game, 0}
-                });
+                    recommendationList.Add(new Dictionary<Game, int>
+                    {
+                        {game, 0}
+                    });
+                }
             }
 
             foreach(var dictionary in recommendationList)

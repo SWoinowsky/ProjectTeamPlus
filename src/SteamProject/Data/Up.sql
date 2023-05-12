@@ -60,6 +60,7 @@ CREATE TABLE [UserGameInfo]
 CREATE TABLE [GameAchievement]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[PointVal]			INT				NOT NULL
 	,[GameId]			INT				NOT NULL
 	,[ApiName]			NVARCHAR(100)	NOT NULL
 	,[DisplayName]		NVARCHAR(50)	

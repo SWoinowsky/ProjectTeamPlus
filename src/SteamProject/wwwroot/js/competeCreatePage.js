@@ -208,12 +208,17 @@ function addGameSelectorForDuel( data ) {
         getAchievementsForDuel();
     }
 
-    GameDiv.append( gameSelector );
+    if( gameSelector.children != null && gameSelector.children.length > 0 )
+    {
+        GameDiv.append( gameSelector );
 
-    var DuelDiv = document.getElementById("DuelDiv");
-    DuelDiv.append( GameDiv );
+        var DuelDiv = document.getElementById("DuelDiv");
+        DuelDiv.append( GameDiv );
 
-    getAchievementsForDuel();
+        getAchievementsForDuel();
+    } else {
+        createNoGamesWarning();
+    }
 }
 
 function addGameSelectorForFFA( data ) {
@@ -360,16 +365,19 @@ function getAchievementsForDuel() {
     var friendId = friendSelector.children[index].value;
 
     var gameSelector = document.getElementById("gameSelector");
-    var index = gameSelector.selectedIndex;
-    var appId = gameSelector.children[index].value;
+    if( gameSelector.children != null && gameSelector.children.length > 0 )
+    {
+        var index = gameSelector.selectedIndex;
+        var appId = gameSelector.children[index].value;
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
-        success: showDuelAchievements,
-        error: errorOnAjax
-    });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
+            success: showDuelAchievements,
+            error: errorOnAjax
+        });
+    }
 }
 
 function showFFAAchievements( data ) {
@@ -469,4 +477,15 @@ function createEmptyWarning() {
     div.append( suggestion ); 
 }
 
+function createNoGamesWarning() {
+    var div = document.getElementById( "DuelDiv" );
 
+    var warning = document.createElement("b");
+    warning.innerHTML = "WARNING: NO SHARED GAMES FOUND <br>";
+
+    var suggestion = document.createElement("i");
+    suggestion.innerHTML = "Your friend's game library may be private. <br> Please select another friend or try again later.";
+
+    div.append( warning );
+    div.append( suggestion );
+}

@@ -22,7 +22,9 @@ public class SteamController : ControllerBase
     private readonly IFriendRepository _friendRepository;
     private readonly IInboxService _inboxService;
 
-    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService)
+    private readonly ICompetitionRepository _competitionRepository;
+
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService, ICompetitionRepository competitionRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -32,6 +34,7 @@ public class SteamController : ControllerBase
         _emailSender = emailSender;
         _friendRepository = friendRepository;
         _inboxService = inboxService;
+        _competitionRepository = competitionRepository;
     }
 
 
@@ -236,6 +239,21 @@ public class SteamController : ControllerBase
         }
     }
 
+    [HttpPost("DeleteComp")]
+    public IActionResult DeleteComp( int compId )
+    {
+        var compFound = new Competition();
+        compFound = _competitionRepository.GetCompetitionById( compId );
 
+        if( compFound is null )
+        {
+            return BadRequest(new { success = false, message = "Competition not found" });
+        }
+        else
+        {
+            _competitionRepository.Delete( compFound );
+            return Ok( new { success = true } );
+        }
+    }
 
 }

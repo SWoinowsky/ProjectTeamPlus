@@ -89,8 +89,13 @@ public class CompeteController : Controller
     [HttpGet]
     public IActionResult Details( int compId )
     {
+        var authId = _userManager.GetUserId(User);
+        int SinId = _userRepository.GetUser( authId ).Id;
+
         var viewModel = new CompeteDetailsVM();
         var competitionIn = new Competition();
+
+        viewModel.SinId = SinId;
 
         competitionIn = _competitionRepository.GetCompetitionById( compId );
 
@@ -341,12 +346,16 @@ public class CompeteController : Controller
     [HttpPost]
     public IActionResult Create( CompeteCreateVM compCreatedOut )
     {
+        string authid = _userManager.GetUserId(User);
+        var SinId = _userRepository.GetUser( authid ).Id;
+
         var timeString = compCreatedOut.MinDate.ToString();
         var game = new Game();
         game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
 
         var comp = new Competition()
         {
+            CreatorId = SinId,
             GameId = game.Id,
             StartDate = compCreatedOut.CompStartTime,
             EndDate = compCreatedOut.CompEndTime,

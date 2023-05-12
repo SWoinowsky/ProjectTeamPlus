@@ -7,6 +7,8 @@ public partial class Competition
 {
     public int Id { get; set; }
 
+    public int CreatorId { get; set; }
+
     public int GameId { get; set; }
 
     public DateTime StartDate { get; set; }
@@ -17,16 +19,7 @@ public partial class Competition
 
     public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; } = new List<CompetitionPlayer>();
 
+    public virtual User Creator { get; set; } = null!;
+
     public virtual Game Game { get; set; } = null!;
-
-    public bool Equals( Competition compIn )
-    {
-        if( Id == compIn.Id )
-            if( GameId == compIn.GameId )
-                if( StartDate == compIn.StartDate )
-                    if( EndDate == compIn.EndDate )
-                        return true;
-
-        return false;
-    }
 }

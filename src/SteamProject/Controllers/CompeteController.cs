@@ -73,12 +73,18 @@ public class CompeteController : Controller
 
         var viewModel = new CompeteIndexVM();
         viewModel.Competitions = _competitionRepository.GetAllCompetitionsForUser( myEntries );
+        viewModel.CompsComplete = new List<Competition>();
+        viewModel.CompsRunning = new List<Competition>();
 
         if ( viewModel.Competitions != null )
         {
             foreach (var competition in viewModel.Competitions)
             {
                 competition.Game = _gameRepository.GetGameById(competition.GameId);
+                if( DateTime.Compare( competition.EndDate, DateTime.Now ) <= 0 )
+                    viewModel.CompsComplete.Add( competition );
+                else
+                    viewModel.CompsRunning.Add( competition );
             }
         }
         
@@ -164,10 +170,10 @@ public class CompeteController : Controller
                         var userAchOut = new UserAchievement();
                         userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
                         
-                        if( userAchOut.Achievement.DisplayName == "Lucatiel" )
+                        if( userAchOut.Achievement.DisplayName == "Lucatiel" && participant.SteamId == "76561198069530799" )
                         {
                             userAchOut.Achieved = true;
-                            userAchOut.UnlockTime = DateTime.Now;
+                            userAchOut.UnlockTime = new DateTime(2023, 5, 12, 12, 27, 00, DateTimeKind.Local);
                         }
 
                         if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
@@ -193,8 +199,13 @@ public class CompeteController : Controller
                 }
             }
 
+            
+            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
+
+            userList.Clear();
             foreach( var us in userScoreList )
             {
+                userList.Add( us.Key );
                 foreach( var ua in userAchList )
                 {
                     if( us.Key == ua.Value )
@@ -203,8 +214,8 @@ public class CompeteController : Controller
                     }
                 }
             }
-            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
-            
+
+
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
@@ -459,7 +470,7 @@ public class CompeteController : Controller
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
 
-        return View( compCreatedOut );
+        return RedirectToAction("Index");
     }
 
     

@@ -9,6 +9,10 @@ public class CompeteIndexVM
 {
     public List<Competition> Competitions { get; set; }
 
+    public List<Competition> CompsComplete { get; set; }
+    
+    public List<Competition> CompsRunning { get; set; }
+
     public CompeteIndexVM(){}
 
 }

@@ -253,15 +253,29 @@ public class SteamController : ControllerBase
             List<UserGameInfo>? userGameList = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
             List<Game> dbGameList = _gameRepository.GetAll().ToList();
 
-            List<object> genreScores = new List<object>();
-            foreach(var genre in _iGDBGenreRepository.GetGenreList())
+            List<Dictionary<string, int>> genreScores = new List<Dictionary<string, int>>();
+            foreach (var genre in _iGDBGenreRepository.GetGenreList())
             {
-                genreScores.Add(new {Genre = genre, Value = 0});
+                var dictionary = new Dictionary<string, int>
+                {
+                    {genre, 0}
+                };
+                genreScores.Add(dictionary);
             }
 
             foreach(var game in userGameList)
             {
                 string[] gameGenres = _gameRepository.FindById(game.GameId).Genres.Split(",");
+                foreach(var genre in gameGenres)
+                {
+                    foreach(var dictionary in genreScores)
+                    {
+                        if(dictionary.ContainsKey(genre))
+                        {
+                            dictionary[genre] += 1;
+                        }
+                    }
+                }
                 var x = 0;
             }
             

@@ -63,29 +63,84 @@ else
                 <div class="row" style="align-content: center; padding-top: 3%;">
                     @foreach( var player in Model.Players )
                     {
-                        <div class="col-sm-2" style="margin: auto; width: auto;">
-                            <div class="card" >
-                                <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
-                                <div class="card-body">
-                                    <i class="card-title" > @player.SteamName </i>
+                        @if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
+                        &&      player == Model.Scoreboard[0].Key
+                        )
+                        {
+                            <div class="col-sm-2" style="margin: auto; width: auto;">
+                                <div class="card winnerCard" >
+                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                    <div class="card-body">
+                                        <i class="card-title" > @player.SteamName </i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                        else if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
+                        &&      player == Model.Scoreboard[1].Key
+                        &&      Model.Scoreboard.Count() > 2
+                        )
+                        {
+                            <div class="col-sm-2" style="margin: auto; width: auto;">
+                                <div class="card secondCard" >
+                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                    <div class="card-body">
+                                        <i class="card-title" > @player.SteamName </i>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
+                        &&      Model.Scoreboard.Count() > 3
+                        &&      player == Model.Scoreboard[2].Key
+                        )
+                        {
+                            <div class="col-sm-2" style="margin: auto; width: auto;">
+                                <div class="card thirdCard" >
+                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                    <div class="card-body">
+                                        <i class="card-title" > @player.SteamName </i>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-2" style="margin: auto; width: auto;">
+                                <div class="card" >
+                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                    <div class="card-body">
+                                        <i class="card-title" > @player.SteamName </i>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     }
                 </div>
             </div>
 
             @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
-            <div id="CompletionHistory" > 
-                <strong> History </strong>
-                <ol>
-                    @foreach( var completion in Model.Tracking )
-                    {
-                        <li style="padding-bottom: 2%;"> <strong>@completion.Value.SteamName</strong> completed <strong>@completion.Key.Achievement.DisplayName</strong> with timestamp <strong>@completion.Key.UnlockTime!</strong> </li>
-                    }
-                </ol>
-                
+            <div style="display: flex; flex-direction: column;">
+                <div id="CompletionHistory" > 
+                    <strong> Leaderboard </strong>
+                    <ol>
+                        @foreach( var score in Model.Scoreboard )
+                        {
+                            <li style="padding-bottom: 2%;"> <strong> @score.Key.SteamName: </Strong> <i> @score.Value.Score points </i> </li>
+                        }
+                    </ol>
+                </div>
+                <div id="CompletionHistory" > 
+                    <strong> History </strong>
+                    <ol>
+                        @foreach( var completion in Model.Tracking )
+                        {
+                            <li style="padding-bottom: 2%;"> <strong>@completion.Value.SteamName</strong> completed <strong>@completion.Key.Achievement.DisplayName</strong> with timestamp <strong>@completion.Key.UnlockTime!</strong> </li>
+                        }
+                    </ol>
+                </div>
             </div>
+            
         </div>
 
     </div>

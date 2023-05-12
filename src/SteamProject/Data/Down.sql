@@ -7,7 +7,6 @@ ALTER TABLE [UserGameInfo]		            DROP CONSTRAINT [UserGameInfo_FK_User];
 ALTER TABLE [UserGameInfo]		            DROP CONSTRAINT [UserGameInfo_FK_Game];
 ALTER TABLE [Competition]		            DROP CONSTRAINT [Competition_Fk_User];
 ALTER TABLE [Competition]		            DROP CONSTRAINT [Competition_Fk_Game];
-ALTER TABLE [Competition]					DROP CONSTRAINT [Competition_Fk_User];
 ALTER TABLE [CompetitionPlayer]		        DROP CONSTRAINT [CompetitionPlayer_Fk_Competition];
 ALTER TABLE [CompetitionGameAchievement]	DROP CONSTRAINT [CompetitionGameAchievement_Fk_Competition];
 ALTER TABLE [UserBadge]                     DROP CONSTRAINT [UserBadge_Fk_User];

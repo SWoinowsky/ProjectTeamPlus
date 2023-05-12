@@ -7,6 +7,8 @@ public partial class CompetitionPlayer
 {
     public int Id { get; set; }
 
+    public int Score { get; set; }
+
     public int CompetitionId { get; set; }
 
     public string SteamId { get; set; } = null!;

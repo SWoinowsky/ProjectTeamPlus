@@ -295,18 +295,32 @@ public class CompeteController : Controller
             existingCompetition = null;
         }
         
+        //refactor to save these values to the viewmodel to make it easier to pass around
         viewModel.MySteamId = mySteamId;
+        viewModel.MyFriendId = friendSteamId;
         viewModel.CurrentCompetition = existingCompetition;
+        
 
 
         return View( viewModel );
     }
 
-
+    /// <summary>
+    /// Function to create competitions from the profile page by clicking on friends name, currently IN-OP
+    /// Before I worked on this the viewmodel was failing to bind when posted back here, they now bind correctly but this function still needs some work if we choose to use it still
+    /// -Cole
+    /// </summary>
+    /// <param name="competeIn"></param>
+    /// <returns></returns>
     [Authorize]
     [HttpPost]
-    public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
+    public IActionResult Initiate(CompeteInitiateVM competeIn)
     {
+        //This method is broken and will not save compititons in this format anymore, I tried refactoring it some but its gonna need some more work to get going.
+       
+        competeIn.ChosenGame = _gameRepository.GetGameById(competeIn.ChosenGame.Id);
+
+        //Fails on saving competitions to the database here due to some of the values being null
         _competitionRepository.AddOrUpdate( competeIn.CurrentCompetition );
         foreach( var achievement in competeIn.UsersAchievements )
         {
@@ -315,12 +329,12 @@ public class CompeteController : Controller
         }
 
         var compPlayerMe = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MySteamId };
-        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = friendSteamId };
+        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MyFriendId };
 
         _competitionPlayerRepository.AddOrUpdate( compPlayerMe );
         _competitionPlayerRepository.AddOrUpdate( compPlayerThem );
         
-        return RedirectToAction("Initiate", new { friendSteamId = friendSteamId, appId = appId });
+        return RedirectToAction("Initiate", new { SteamId = competeIn.MyFriendId, appId = competeIn.ChosenGame.AppId });
     }
 
 

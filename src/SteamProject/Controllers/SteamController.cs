@@ -243,6 +243,9 @@ public class SteamController : ControllerBase
     {
         string? id = _userManager.GetUserId(User);
 
+        // This is the dictionary that will hold the scores for each game in the db.
+        List<Dictionary<Game, int>> recommendationList = new List<Dictionary<Game, int>>();
+
         if(id is null)
         {
             return BadRequest(new {success = false, message = "User not found"});
@@ -251,9 +254,12 @@ public class SteamController : ControllerBase
         {
             User user = _userRepository.GetUser(id);
             List<UserGameInfo>? userGameList = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
-            List<Game> dbGameList = _gameRepository.GetAll().ToList();
 
+            // Setting up dictionary for scoring.
             List<Dictionary<string, int>> genreScores = new List<Dictionary<string, int>>();
+
+            
+
             foreach (var genre in _iGDBGenreRepository.GetGenreList())
             {
                 var dictionary = new Dictionary<string, int>
@@ -263,6 +269,8 @@ public class SteamController : ControllerBase
                 genreScores.Add(dictionary);
             }
 
+            // Looks through each game a user has and finds it in the game db. Then scores the genres for the number
+            //  of times they occure in the users library.
             foreach(var game in userGameList)
             {
                 string[] gameGenres = _gameRepository.FindById(game.GameId).Genres.Split(",");
@@ -272,17 +280,42 @@ public class SteamController : ControllerBase
                     {
                         if(dictionary.ContainsKey(genre))
                         {
+                            // We found the genre, so we increase it's score and skip to the next genre to check.
                             dictionary[genre] += 1;
                             break;
                         }
                     }
                 }
-                var x = 0;
             }
-            
+
+            // Gets all of the games from the DB and sets them up to be scored in our dictionary.
+            foreach(var game in _gameRepository.GetAll().ToList())
+            {
+                recommendationList.Add(new Dictionary<Game, int>
+                {
+                    {game, 0}
+                });
+            }
+
+            foreach(var dictionary in recommendationList)
+            {
+                string[] gameGenres = dictionary.First().Key.Genres.Split(",");
+                foreach(var genreScore in genreScores)
+                {
+                    foreach(var genre in gameGenres)
+                    {
+                        if(genre == genreScore.First().Key)
+                        {
+                            dictionary[dictionary.First().Key] += genreScore.First().Value;
+                        }
+                    }
+                }
+            }
         }
 
-        return RedirectToAction("Recommendations", "Library");
-    }
+        // Order the recommendationList by the values in descending order
+        var orderedRecommendationList = recommendationList.OrderByDescending(dict => dict.Values.Sum()).ToList();
 
+        return RedirectToAction("Recommendations", "Library", orderedRecommendationList);
+    }
 }

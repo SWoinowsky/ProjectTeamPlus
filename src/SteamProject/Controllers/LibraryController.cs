@@ -316,4 +316,9 @@ public class LibraryController: Controller
         userLibraryVM._userGameInfo = userGamesByGenre;
         return View(userLibraryVM);
     }
+
+    public IActionResult Recommendations()
+    {
+        return View();
+    }
 }

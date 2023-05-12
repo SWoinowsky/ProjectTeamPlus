@@ -249,10 +249,9 @@ public class SteamController : ControllerBase
         {
             User user = _userRepository.GetUser(id);
             List<UserGameInfo>? gamesInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
-            var x = 0;
         }
 
-        return Ok();
+        return RedirectToAction("Recommendations", "Library");
     }
 
 }

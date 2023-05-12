@@ -237,10 +237,4 @@ public class SteamController : ControllerBase
             return Ok(new { success = true });
         }
     }
-
-    [HttpGet("recommend")]
-    public IActionResult UserRecommendations()
-    {
-        return RedirectToAction("Recommendations", "Library");
-    }
 }

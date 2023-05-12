@@ -55,17 +55,6 @@ function showHiddenGamesModal()
     console.log("Modal was shown");
 }
 
-function recommendGames()
-{
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: `/api/Steam/recommend`,
-        success: console.log("Got recommendations"),
-        error: errorOnAjax
-    })
-}
-
 function errorOnAjax() {
     console.log("ERROR on ajax request");
 }

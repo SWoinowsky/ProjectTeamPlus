@@ -393,7 +393,7 @@ public class LibraryController: Controller
 
         // Order the recommendationList by the values in descending order
         var orderedRecommendationList = recommendationList.OrderByDescending(dict => dict.Values.Sum()).ToList();
-        
-        return View();
+
+        return View(orderedRecommendationList);
     }
 }

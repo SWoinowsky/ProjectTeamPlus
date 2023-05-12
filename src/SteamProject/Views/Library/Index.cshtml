@@ -32,7 +32,7 @@ else
                         <button class="btn btn-secondary show-hidden-btn" data-toggle="tooltip" title="Show Hidden Games" onclick="showHiddenGamesModal()">
                             <i fill="CurrentColor" class="bi bi-eye"></i> Show hidden games
                         </button><br>
-                        <a class="btn btn-secondary recommendation-btn" title="Get Game Recommendations" onclick="recommendGames()">Recommend Games</a>
+                        <a class="btn btn-secondary recommendation-btn" title="Get Game Recommendations" onclick="window.location.href = '@Url.Action("Recommendations", "Library")'">Recommend Games</a>
                         <br>
                         <a class="btn btn-secondary refresh-btn" title="Refresh Library" onclick="refreshLibrary()">
                             <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library<br>

@@ -273,6 +273,7 @@ public class SteamController : ControllerBase
                         if(dictionary.ContainsKey(genre))
                         {
                             dictionary[genre] += 1;
+                            break;
                         }
                     }
                 }

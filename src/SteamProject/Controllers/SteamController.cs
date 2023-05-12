@@ -261,7 +261,7 @@ public class SteamController : ControllerBase
 
             foreach(var game in userGameList)
             {
-                var tempGame = _gameRepository.FindById(game.GameId);
+                string[] gameGenres = _gameRepository.FindById(game.GameId).Genres.Split(",");
                 var x = 0;
             }
             

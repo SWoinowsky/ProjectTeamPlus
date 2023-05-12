@@ -236,6 +236,23 @@ public class SteamController : ControllerBase
         }
     }
 
+    [HttpGet("recommend")]
+    public IActionResult UserRecommendations()
+    {
+        string? id = _userManager.GetUserId(User);
 
+        if(id is null)
+        {
+            return BadRequest(new {success = false, message = "User not found"});
+        }
+        else
+        {
+            User user = _userRepository.GetUser(id);
+            List<UserGameInfo>? gamesInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+            var x = 0;
+        }
+
+        return Ok();
+    }
 
 }

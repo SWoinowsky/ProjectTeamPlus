@@ -14,7 +14,6 @@ function setHiddenGame(name, userId)
 
 function setUnhideGame(name, userId)
 {
-    console.log(userId);
     var gameName = document.getElementById(name);
     var gameId = gameName.getAttribute('value');
     console.log("Unhid " + name);
@@ -54,6 +53,17 @@ function showHiddenGamesModal()
     var modal = document.getElementById("hidden-game-table");
     $("#hidden-game-modal").modal("show");
     console.log("Modal was shown");
+}
+
+function recommendGames()
+{
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/Steam/recommend`,
+        success: console.log("Got recommendations"),
+        error: errorOnAjax
+    })
 }
 
 function errorOnAjax() {

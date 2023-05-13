@@ -8,6 +8,8 @@ public partial class GameAchievement
 {
     public int Id { get; set; }
 
+    public int PointVal { get; set; }
+
     public int GameId { get; set; }
 
     public string ApiName { get; set; } = null!;
@@ -20,7 +22,7 @@ public partial class GameAchievement
 
     public bool HiddenFromUsers { get; set; }
 
-    public virtual ICollection<UserAchievement> UserAchievements { get; } = new List<UserAchievement>();
+    public virtual ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
 
     public GameAchievement(){}
 

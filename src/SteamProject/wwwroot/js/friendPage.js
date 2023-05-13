@@ -63,9 +63,26 @@ function ajaxFetchGames() {
 function storeUserAchievements( data ) {
     var clickedGameId = document.getElementById("ClickedGame");
 
-    userAchievements = data.playerstats.achievements;
+    var noAchErr = document.getElementById("error-ach");
+    var noResErr = document.getElementById("error-ser");
+    var spinner = document.getElementById("loading-spinner");
+    var clickedGameId = document.getElementById("ClickedGame");
 
-    processData(clickedGameId.value);
+    if( data == null )
+    {
+        spinner.style.display = "none";
+        noResErr.style.display = "flex";
+    }
+    else if( data.playerstats == null ) {
+        spinner.style.display = "none";
+        noAchErr.style.display = "flex";
+    } else {
+        userAchievements = data.playerstats.achievements;
+        processData(clickedGameId.value);
+    }
+
+
+
 }
 
 function ajaxFetchUserAchievements(id) {
@@ -83,9 +100,24 @@ function ajaxFetchUserAchievements(id) {
 function storeFriendAchievements( data ) {
     var clickedGameId = document.getElementById("ClickedGame");
 
-    friendAchievements = data.playerstats.achievements;
+    var noAchErr = document.getElementById("error-ach");
+    var noResErr = document.getElementById("error-ser");
+    var spinner = document.getElementById("loading-spinner");
+    var clickedGameId = document.getElementById("ClickedGame");
 
-    ajaxFetchUserAchievements(clickedGameId.value);
+    if( data == null )
+    {
+        spinner.style.display = "none";
+        noResErr.style.display = "flex";
+    }
+    else if( data.playerstats == null ) {
+        spinner.style.display = "none";
+        noAchErr.style.display = "flex";
+    } else {
+        friendAchievements = data.playerstats.achievements;
+        ajaxFetchUserAchievements(clickedGameId.value);
+    }
+
 }
 
 function ajaxFetchFriendAchievements(id) {

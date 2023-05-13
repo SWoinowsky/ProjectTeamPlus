@@ -33,6 +33,10 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<GameAchievement> GameAchievements { get; set; }
 
+    public virtual DbSet<Igdbgenre> Igdbgenres { get; set; }
+
+    public virtual DbSet<InboxMessage> InboxMessages { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserAchievement> UserAchievements { get; set; }
@@ -46,18 +50,9 @@ public partial class SteamInfoDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Igdbgenre>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__IGDBGenr__3214EC070BDF96FD");
-
-            entity.ToTable("IGDBGenres");
-
-            entity.Property(e => e.Name).HasMaxLength(100);
-        });
-        
         modelBuilder.Entity<AdminUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__AdminUse__3214EC272984CA86");
+            entity.HasKey(e => e.Id).HasName("PK__AdminUse__3214EC27CFF66330");
 
             entity.ToTable("AdminUser");
 
@@ -71,7 +66,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Badge>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Badge__3214EC07ADA707C8");
+            entity.HasKey(e => e.Id).HasName("PK__Badge__3214EC072CFE6205");
 
             entity.ToTable("Badge");
 
@@ -81,7 +76,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<BlackList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__BlackLis__3214EC073931B655");
+            entity.HasKey(e => e.Id).HasName("PK__BlackLis__3214EC07EA1B8ADD");
 
             entity.ToTable("BlackList");
 
@@ -90,12 +85,17 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC0718930497");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC07AB53C00E");
 
             entity.ToTable("Competition");
 
             entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Creator).WithMany(p => p.Competitions)
+                .HasForeignKey(d => d.CreatorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Competition_Fk_User");
 
             entity.HasOne(d => d.Game).WithMany(p => p.Competitions)
                 .HasForeignKey(d => d.GameId)
@@ -105,19 +105,18 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<CompetitionGameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC0724A4C5B4");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC079EB699BE");
 
             entity.ToTable("CompetitionGameAchievement");
 
             entity.HasOne(d => d.Competition).WithMany(p => p.CompetitionGameAchievements)
                 .HasForeignKey(d => d.CompetitionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("CompetitionGameAchievement_Fk_Competition");
         });
 
         modelBuilder.Entity<CompetitionPlayer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC07637AFC5C");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC0762B36C5D");
 
             entity.ToTable("CompetitionPlayer");
 
@@ -125,13 +124,12 @@ public partial class SteamInfoDbContext : DbContext
 
             entity.HasOne(d => d.Competition).WithMany(p => p.CompetitionPlayers)
                 .HasForeignKey(d => d.CompetitionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("CompetitionPlayer_Fk_Competition");
         });
 
         modelBuilder.Entity<Friend>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC076B5D2186");
+            entity.HasKey(e => e.Id).HasName("PK__Friend__3214EC07EDAB6DB4");
 
             entity.ToTable("Friend");
 
@@ -150,7 +148,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC072565C034");
+            entity.HasKey(e => e.Id).HasName("PK__Game__3214EC077F214820");
 
             entity.ToTable("Game");
 
@@ -163,7 +161,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<GameAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC0762E1D546");
+            entity.HasKey(e => e.Id).HasName("PK__GameAchi__3214EC0702AED1E3");
 
             entity.ToTable("GameAchievement");
 
@@ -173,9 +171,35 @@ public partial class SteamInfoDbContext : DbContext
             entity.Property(e => e.IconHiddenUrl).HasMaxLength(256);
         });
 
+        modelBuilder.Entity<Igdbgenre>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__IGDBGenr__3214EC073BDFE6AD");
+
+            entity.ToTable("IGDBGenres");
+
+            entity.Property(e => e.Name).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<InboxMessage>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__InboxMes__3214EC07D435279E");
+
+            entity.ToTable("InboxMessage");
+
+            entity.Property(e => e.Content).HasMaxLength(128);
+            entity.Property(e => e.Sender).HasMaxLength(50);
+            entity.Property(e => e.Subject).HasMaxLength(50);
+            entity.Property(e => e.TimeStamp).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Recipient).WithMany(p => p.InboxMessages)
+                .HasForeignKey(d => d.RecipientId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("InboxMessage_Fk_User");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC076C0F9E17");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0783CB7B1A");
 
             entity.ToTable("User");
 
@@ -189,7 +213,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC0766B71BB9");
+            entity.HasKey(e => e.Id).HasName("PK__UserAchi__3214EC076B893CBD");
 
             entity.ToTable("UserAchievement");
 
@@ -208,7 +232,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserBadge>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserBadg__3214EC07202CA9B6");
+            entity.HasKey(e => e.Id).HasName("PK__UserBadg__3214EC071C53367C");
 
             entity.ToTable("UserBadge");
 
@@ -225,7 +249,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<UserGameInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC079E032D96");
+            entity.HasKey(e => e.Id).HasName("PK__UserGame__3214EC07E4FF128B");
 
             entity.ToTable("UserGameInfo");
 
@@ -237,23 +261,6 @@ public partial class SteamInfoDbContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.UserGameInfos)
                 .HasForeignKey(d => d.OwnerId)
                 .HasConstraintName("UserGameInfo_FK_User");
-        });
-
-        modelBuilder.Entity<InboxMessage>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__InboxMes__3214EC07BDF64EF2");
-
-            entity.ToTable("InboxMessage");
-
-            entity.Property(e => e.Content).HasMaxLength(128);
-            entity.Property(e => e.Sender).HasMaxLength(50);
-            entity.Property(e => e.Subject).HasMaxLength(50);
-            entity.Property(e => e.TimeStamp).HasColumnType("datetime");
-
-            entity.HasOne(d => d.Recipient).WithMany(p => p.InboxMessages)
-                .HasForeignKey(d => d.RecipientId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("InboxMessage_Fk_User");
         });
 
         OnModelCreatingPartial(modelBuilder);

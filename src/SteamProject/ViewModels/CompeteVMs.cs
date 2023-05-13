@@ -9,12 +9,17 @@ public class CompeteIndexVM
 {
     public List<Competition> Competitions { get; set; }
 
+    public List<Competition> CompsComplete { get; set; }
+    
+    public List<Competition> CompsRunning { get; set; }
+
     public CompeteIndexVM(){}
 
 }
 
 public class CompeteDetailsVM
 {
+    public int SinId { get; set; }
     public Competition CurrentComp { get; set; } = null;
     public Game Game { get; set; } = null;
     public List<CompetitionPlayer> CompPlayers { get; set; } = null;
@@ -22,6 +27,7 @@ public class CompeteDetailsVM
     public List<CompetitionGameAchievement> CompGameAchList { get; set; } = null;
     public List<GameAchievement> GameAchList { get; set; } = null;
     public List<KeyValuePair<UserAchievement, User>> Tracking { get; set; }
+    public List<KeyValuePair<User, CompetitionPlayer>> Scoreboard { get; set; }
 }
 
 

@@ -73,12 +73,18 @@ public class CompeteController : Controller
 
         var viewModel = new CompeteIndexVM();
         viewModel.Competitions = _competitionRepository.GetAllCompetitionsForUser( myEntries );
+        viewModel.CompsComplete = new List<Competition>();
+        viewModel.CompsRunning = new List<Competition>();
 
         if ( viewModel.Competitions != null )
         {
             foreach (var competition in viewModel.Competitions)
             {
                 competition.Game = _gameRepository.GetGameById(competition.GameId);
+                if( DateTime.Compare( competition.EndDate, DateTime.Now ) <= 0 )
+                    viewModel.CompsComplete.Add( competition );
+                else
+                    viewModel.CompsRunning.Add( competition );
             }
         }
         
@@ -89,8 +95,13 @@ public class CompeteController : Controller
     [HttpGet]
     public IActionResult Details( int compId )
     {
+        var authId = _userManager.GetUserId(User);
+        int SinId = _userRepository.GetUser( authId ).Id;
+
         var viewModel = new CompeteDetailsVM();
         var competitionIn = new Competition();
+
+        viewModel.SinId = SinId;
 
         competitionIn = _competitionRepository.GetCompetitionById( compId );
 
@@ -117,15 +128,30 @@ public class CompeteController : Controller
             var compAchievements = new List<CompetitionGameAchievement>();
             compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
 
+            var percentages = new List<GlobalAchievement>();
+            percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
             
             var gameAchievements = new List<GameAchievement>();
             foreach( var ach in compAchievements )
             {
+
                 var achievementFound = new GameAchievement();
                 achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
 
                 if( achievementFound != null )
                     gameAchievements.Add( achievementFound );
+            }
+
+            var pointProcessor = new GapProcessor();
+            foreach( var gameAch in gameAchievements )
+            {
+                foreach( var percent in percentages )
+                {
+                    if( gameAch.ApiName == percent.name )
+                    {
+                        gameAch.PointVal = pointProcessor.HandlePercent( percent.percent );
+                    }
+                }
             }
             
 
@@ -143,6 +169,13 @@ public class CompeteController : Controller
                     {
                         var userAchOut = new UserAchievement();
                         userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
+                        
+                        if( userAchOut.Achievement.DisplayName == "Lucatiel" && participant.SteamId == "76561198069530799" )
+                        {
+                            userAchOut.Achieved = true;
+                            userAchOut.UnlockTime = new DateTime(2023, 5, 12, 12, 27, 00, DateTimeKind.Local);
+                        }
+
                         if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
                             ListIntoDict.Add( userAchOut );
                     }
@@ -155,7 +188,34 @@ public class CompeteController : Controller
 
             var userAchList = new List<KeyValuePair<UserAchievement, User>>();
             userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
+
+            var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
+            foreach( var player in compPlayersList )
+            {
+                foreach( var user in userList )
+                {
+                    if( player.SteamId == user.SteamId )
+                        userScoreList.Add( new (user, player) );
+                }
+            }
+
             
+            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
+
+            userList.Clear();
+            foreach( var us in userScoreList )
+            {
+                userList.Add( us.Key );
+                foreach( var ua in userAchList )
+                {
+                    if( us.Key == ua.Value )
+                    {
+                        us.Value.Score += ua.Key.Achievement.PointVal;
+                    }
+                }
+            }
+
+
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
@@ -163,6 +223,7 @@ public class CompeteController : Controller
             viewModel.CompGameAchList = compAchievements;
             viewModel.GameAchList = gameAchievements;
             viewModel.Tracking = userAchList;
+            viewModel.Scoreboard = userScoreList;
         }
 
         return View( viewModel );
@@ -341,12 +402,16 @@ public class CompeteController : Controller
     [HttpPost]
     public IActionResult Create( CompeteCreateVM compCreatedOut )
     {
+        string authid = _userManager.GetUserId(User);
+        var SinId = _userRepository.GetUser( authid ).Id;
+
         var timeString = compCreatedOut.MinDate.ToString();
         var game = new Game();
         game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
 
         var comp = new Competition()
         {
+            CreatorId = SinId,
             GameId = game.Id,
             StartDate = compCreatedOut.CompStartTime,
             EndDate = compCreatedOut.CompEndTime,
@@ -405,7 +470,7 @@ public class CompeteController : Controller
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
 
-        return View( compCreatedOut );
+        return RedirectToAction("Index");
     }
 
     

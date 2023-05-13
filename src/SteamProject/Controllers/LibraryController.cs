@@ -320,6 +320,7 @@ public class LibraryController: Controller
     public IActionResult Recommendations()
     {
         string? id = _userManager.GetUserId(User);
+        User user = _userRepository.GetUser(id);
 
         // This is the dictionary that will hold the scores for each game in the db.
         List<Dictionary<Game, int>> recommendationList = new List<Dictionary<Game, int>>();
@@ -330,7 +331,6 @@ public class LibraryController: Controller
         }
         else
         {
-            User user = _userRepository.GetUser(id);
             // List of current users games.
             List<UserGameInfo>? userGameList = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
 
@@ -401,6 +401,8 @@ public class LibraryController: Controller
         // Order the recommendationList by the values in descending order
         var orderedRecommendationList = recommendationList.OrderByDescending(dict => dict.Values.Sum()).ToList();
 
-        return View(orderedRecommendationList);
+        RecommendationVM model = new RecommendationVM {scoredGames = orderedRecommendationList, _user = user};
+
+        return View(model);
     }
 }

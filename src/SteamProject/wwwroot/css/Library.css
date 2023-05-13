@@ -53,6 +53,14 @@ label {
     outline: 2px inset black;
 }
 
+.genreRank {
+    top: 6px;
+    right: 6px;
+    position: absolute;
+    font-size: 2rem;
+    background-color: rgba(0,0,0, 0.7)
+}
+
 
 .gameContainer {
     outline: ridge #2f526e;

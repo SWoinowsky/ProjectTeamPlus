@@ -14,7 +14,6 @@ function setHiddenGame(name, userId)
 
 function setUnhideGame(name, userId)
 {
-    console.log(userId);
     var gameName = document.getElementById(name);
     var gameId = gameName.getAttribute('value');
     console.log("Unhid " + name);

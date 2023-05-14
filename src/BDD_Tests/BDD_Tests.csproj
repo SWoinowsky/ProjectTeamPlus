@@ -47,6 +47,12 @@
     <Compile Update="Features\KODO100.feature.cs">
       <DependentUpon>KODO100.feature</DependentUpon>
     </Compile>
+    <Compile Update="Features\KODO263.feature.cs">
+      <Visible>true</Visible>
+      <DependentUpon>KODO263.feature</DependentUpon>
+      <DesignTime>true</DesignTime>
+      <AutoGen>true</AutoGen>
+    </Compile>
     <Compile Update="Features\kodo8.feature.cs">
       <DependentUpon>KODO8.feature</DependentUpon>
     </Compile>
@@ -68,6 +74,10 @@
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
     </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Update="Features\KODO100.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\KODO263.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
     </SpecFlowFeatureFiles>

@@ -58,9 +58,14 @@ public static class HelperMethods
         string newHtml = html.Replace("Please reset your password by <a href='", "").Replace("'>clicking here</a>.", "");
         return newHtml;
     }
-
     public static List<List<T>> SplitListIntoChunks<T>(List<T> items, int chunkSize)
     {
+        // If items is null or chunkSize is less than or equal to 0, return an empty list
+        if (items == null || chunkSize <= 0)
+        {
+            return new List<List<T>>();
+        }
+
         List<List<T>> list = new List<List<T>>();
 
         for (int i = 0; i < items.Count; i += chunkSize)

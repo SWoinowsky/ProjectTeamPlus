@@ -110,6 +110,7 @@ p {
     outline: 3px solid grey;
     outline-style: ridge;
     cursor: pointer;
+    border-radius: 15px;
 }
 
 
@@ -130,7 +131,7 @@ p {
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    transition: all 0.15s;
+    transition: all 0.25s;
     width: 100%;
 }
 

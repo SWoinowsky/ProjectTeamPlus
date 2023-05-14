@@ -31,7 +31,7 @@
         }
     </div>
 
-    @if( Model.CurrentCompetition == null )
+    @if( !Model.CurrentCompetition.CompetitionPlayers.Any() )
     {
         <button id="ModalBtn" style="background-image: linear-gradient(to bottom right, rgb(50,0,0), rgb(175,75,75), rgb(50,0,0)); padding: 1%; padding-top: 2%; padding-bottom: 2%; border: 3px rgb(175,75,75) outset; border-radius: 100%; color: white;">
             Initiate Competition?
@@ -56,8 +56,7 @@
                         <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model.ChosenGame.AppId)" style="width:460px; height:215px; align-self: center;" alt="@string.Format("{0}", @Model.ChosenGame.Name)">
                     </div>
                     <div class="col-md-4" >
-                        <form id="DateSelection" method="post" style="display: grid;">
-                            <input type="hidden" name="CurrentCompetition.GameId" asp-for="ChosenGame.Id">
+                        <form id="DateSelection" method="post" asp-action="Initiate" asp-controller="Compete" style="display: grid;">
                             @for( int i = 0; i < Model.UsersAchievements.Count(); ++i)
                             {
                                 @Html.HiddenFor( m => m.UsersAchievements[i].Achieved )
@@ -72,19 +71,24 @@
                                 @Html.HiddenFor( m => m.FriendsAchievements[i].OwnerId )
                                 @Html.HiddenFor( m => m.FriendsAchievements[i].UnlockTime )
                             }
-                            <input type="hidden" name="MySteamId" asp-for="MySteamId">
-                            
+
+                            @Html.HiddenFor(m => m.ChosenGame.Id)
+                            @Html.HiddenFor(m => m.MySteamId)
+                            @Html.HiddenFor(m => m.MyFriendId)
+
                             <label class="control-label" for="CurrentCompetition.StartDate" style="color: white;">Start Date:</label>
                             <span class="text-danger"></span>
-                            <input id="StartDateInput" type="datetime-local" asp-for="CurrentCompetition.StartDate" name="CurrentCompetition.StartDate" required>
+                            <input id="StartDateInput" type="datetime-local" value="@Model.CurrentCompetition.StartDate.ToString("yyyy-MM-ddTHH:mm")" asp-for="CurrentCompetition.StartDate" name="CurrentCompetition.StartDate" required>
 
                             <label class="control-label" for="CurrentCompetition.EndDate" style="padding-top: 5%; color: white;">End Date:</label>
                             <span class="text-danger"></span>
-                            <input id="EndDateInput" type="datetime-local" asp-for="CurrentCompetition.EndDate" name="CurrentCompetition.EndDate" required>
-                            
+                            <input id="EndDateInput" type="datetime-local" value="@Model.CurrentCompetition.EndDate.ToString("yyyy-MM-ddTHH:mm")" asp-for="CurrentCompetition.EndDate" name="CurrentCompetition.EndDate" required>
+
                             <div style="padding:5%"></div>
+
                             <input type="submit" value="Begin Tracking">
                         </form>
+
                     </div>
                 </div>
             </div>

@@ -15,9 +15,11 @@ public partial class Competition
 
     public DateTime EndDate { get; set; }
 
-    public virtual ICollection<CompetitionGameAchievement> CompetitionGameAchievements { get; } = new List<CompetitionGameAchievement>();
+    public virtual ICollection<CompetitionGameAchievement> CompetitionGameAchievements { get; set; } = new List<CompetitionGameAchievement>();
 
-    public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; } = new List<CompetitionPlayer>();
+    public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; set; } = new List<CompetitionPlayer>();
+
+    public virtual ICollection<CompetitionVote> CompetitionVotes { get; set; } = new List<CompetitionVote>();
 
     public virtual User Creator { get; set; } = null!;
 

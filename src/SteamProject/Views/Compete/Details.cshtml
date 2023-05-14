@@ -14,11 +14,18 @@
 }
 else 
 {
-    
+
     <div class="row" style="width: 100%; padding-top: 5%;">
         <div class="col-sm-6" style="width: 50%;">
             <div class="currentApp" id=@Model.CurrentComp.Game.AppId hidden></div>
-            <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @Model.CurrentComp.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)">
+
+            <div class="image-container">
+                <a class="btn btn-info back-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
+                    <i fill="CurrentColor" class="bi bi-arrow-left">Back to Dashboard</i>
+                </a>
+                <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @Model.CurrentComp.Game.AppId)" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)"/>
+            </div>
+
             <br>
             <div>
                 Competing for these acheivements:

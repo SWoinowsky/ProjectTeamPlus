@@ -1,7 +1,6 @@
-﻿using System;
+﻿using SteamProject.Models.DTO;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -22,10 +21,12 @@ public partial class Game
     public string? IconUrl { get; set; }
 
     public int? LastPlayed { get; set; }
-    
+
     public string? Genres { get; set; }
 
     public virtual ICollection<Competition> Competitions { get; } = new List<Competition>();
+
+    public virtual ICollection<GameVote> GameVotes { get; } = new List<GameVote>();
 
     public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
 

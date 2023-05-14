@@ -24,9 +24,13 @@ public partial class User
 
     public string? Theme { get; set; }
 
+    public virtual ICollection<CompetitionVote> CompetitionVotes { get; set; } = new List<CompetitionVote>();
+
     public virtual ICollection<Competition> Competitions { get; set; } = new List<Competition>();
 
     public virtual ICollection<Friend> Friends { get; set; } = new List<Friend>();
+
+    public virtual ICollection<GameVote> GameVotes { get; set; } = new List<GameVote>();
 
     public virtual ICollection<InboxMessage> InboxMessages { get; set; } = new List<InboxMessage>();
 

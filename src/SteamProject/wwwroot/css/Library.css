@@ -157,7 +157,9 @@ label {
 
 #modal-right {
     height: 368px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: auto;
+    
 }
 
 #ach-row {

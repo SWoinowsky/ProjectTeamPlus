@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SteamProject.Models.DTO;
+using System;
 using System.Collections.Generic;
-using SteamProject.Models.DTO;
 
 namespace SteamProject.Models;
 
@@ -14,10 +14,6 @@ public partial class Friend
 
     public string? SteamName { get; set; }
 
-    public string? Nickname { get; set; } = null!;
-
-    public bool Linked { get; set; }
-
     public int? PersonaState { get; set; }
 
     public string? AvatarUrl { get; set; }
@@ -30,9 +26,12 @@ public partial class Friend
 
     public int? GameId { get; set; }
 
-    public virtual User Root { get; set; } = null!;
+    public string? Nickname { get; set; }
 
-    public void TakePlayerPOCO( Player userPOCOIn )
+    public bool? Linked { get; set; }
+
+    public virtual User Root { get; set; } = null!;
+    public void TakePlayerPOCO(Player userPOCOIn)
     {
         SteamId = userPOCOIn.steamid;
         SteamName = userPOCOIn.personaname;

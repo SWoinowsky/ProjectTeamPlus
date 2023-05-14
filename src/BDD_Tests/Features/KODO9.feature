@@ -1,23 +1,23 @@
 ﻿@Cole
 Feature: AbilityForAUserToLinkSteamAccount
-
+This Bdd Test use to be for this user story:
 As a user, I want to be able to log-in with my Steam identity, so that I can securely access my user information.
 
-This BDD Test assumes the user has not linked their steam account yet and should handle loading the cookie from steam to link accounts.
-It also assumes there is a seed test user to link the steam account to
+
+But now simply verifies that the steamId has been seeded to the Test User that is used for all of these tests
+Mainly as a sanity check due to steam only having 24 hour cookies for logging in
 
 @LoggedIn
 Scenario: I am a test user and I want to link my steam account to my user account
 	Given I am signed in
 	And I click on the profile link
 	And I click on the Steam Account link
-	When I click on the Steam link button
-	And I am redirected to steams login page
-	And I am able to click sign in 
-	And I am redirected back and see my library
-	And I click on the profile link
-	And I click on the Steam Account link
 	Then I should see my SteamId displayed
+	
+Scenario: I am a test user and I want to ensure my steam information has been pulled in correctly
+	Given I am signed in
+	When I click on the library link
+	Then I should see my owned game "Aim Lab"
 	
 
 	

@@ -20,9 +20,9 @@ namespace BDD_Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AbilityForAUserToSeeDashboard")]
+    [NUnit.Framework.DescriptionAttribute("AbilityToVoteForNextCompetition")]
     [NUnit.Framework.CategoryAttribute("Cole")]
-    public partial class AbilityForAUserToSeeDashboardFeature
+    public partial class AbilityToVoteForNextCompetitionFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -30,16 +30,15 @@ namespace BDD_Tests.Features
         private string[] _featureTags = new string[] {
                 "Cole"};
         
-#line 1 "KODO34.feature"
+#line 1 "KODO263.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "AbilityForAUserToSeeDashboard", @"As a user, I want to see a nice dashboard that will operate as the news hub, so that I can manage what games are being tracked and see new's updates for games that I follow.
-
-This one assumes a single user has already created an account and linked it with steam which should be set up in the background", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "AbilityToVoteForNextCompetition", "As a user, I want to vote for the next competition\'s game after a competition end" +
+                    "s, so that I can continuously engage in challenges with my friends.", ProgrammingLanguage.CSharp, new string[] {
                         "Cole"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -79,17 +78,17 @@ This one assumes a single user has already created an account and linked it with
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure my Dashboard page contains Steam name, S" +
-            "teamImg, and Level for my linked account")]
+        [NUnit.Framework.DescriptionAttribute("I am a user and I want to vote on whether to participate in another competition a" +
+            "fter the current one ends")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmATestUserAndIWantToMakeSureMyDashboardPageContainsSteamNameSteamImgAndLevelForMyLinkedAccount()
+        public virtual void IAmAUserAndIWantToVoteOnWhetherToParticipateInAnotherCompetitionAfterTheCurrentOneEnds()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure my Dashboard page contains Steam name, S" +
-                    "teamImg, and Level for my linked account", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 9
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to vote on whether to participate in another competition a" +
+                    "fter the current one ends", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -109,34 +108,34 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 8
+    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 9
+    testRunner.And("a competition I participated in has ended", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
 #line 10
- testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
- testRunner.When("I click on the dashboard link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 12
- testRunner.Then("I end up on the dashboard page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 13
- testRunner.And("I can see my Steam information displayed on the dashboard", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.Then("I should see an option to vote on whether to participate in another competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page displays the recent games" +
-            " carousel")]
+        [NUnit.Framework.DescriptionAttribute("I am a user and I want to nominate a game for the next competition after a majori" +
+            "ty of participants vote to play again")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmATestUserAndIWantToMakeSureDashboardPageDisplaysTheRecentGamesCarousel()
+        public virtual void IAmAUserAndIWantToNominateAGameForTheNextCompetitionAfterAMajorityOfParticipantsVoteToPlayAgain()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page displays the recent games" +
-                    " carousel", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 16
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to nominate a game for the next competition after a majori" +
+                    "ty of participants vote to play again", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 14
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -156,31 +155,35 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 15
+    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 16
+    testRunner.And("a majority of participants have voted to play again in the competition I particip" +
+                        "ated in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
 #line 17
- testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 18
- testRunner.When("I click on the dashboard link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 19
- testRunner.Then("I should see my recent games carousel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+    testRunner.Then("I should see an option to nominate a game for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure dashboard page shows the followed games " +
-            "carousel after I follow a game")]
+        [NUnit.Framework.DescriptionAttribute("I am a user and I want to vote on the nominated games for the next competition af" +
+            "ter a majority of participants vote to play again")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmATestUserAndIWantToMakeSureDashboardPageShowsTheFollowedGamesCarouselAfterIFollowAGame()
+        public virtual void IAmAUserAndIWantToVoteOnTheNominatedGamesForTheNextCompetitionAfterAMajorityOfParticipantsVoteToPlayAgain()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure dashboard page shows the followed games " +
-                    "carousel after I follow a game", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 22
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to vote on the nominated games for the next competition af" +
+                    "ter a majority of participants vote to play again", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -200,26 +203,70 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 22
+    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 23
- testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.And("a majority of participants have voted to play again in the competition I particip" +
+                        "ated in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 24
- testRunner.When("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+    testRunner.And("a game has been nominated for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 25
- testRunner.And("I should see and be able to follow a game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 26
- testRunner.And("I click on the dashboard link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.Then("I should see an option to vote on the nominated games for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 27
- testRunner.Then("I should see my followed games carousel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 28
- testRunner.And("I click on the library link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("I am a user and I want to see the game with the most votes as the focus of the ne" +
+            "xt competition")]
+        [NUnit.Framework.CategoryAttribute("LoggedIn")]
+        public virtual void IAmAUserAndIWantToSeeTheGameWithTheMostVotesAsTheFocusOfTheNextCompetition()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "LoggedIn"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to see the game with the most votes as the focus of the ne" +
+                    "xt competition", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 29
- testRunner.And("I should see and be able to unFollow that same game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 30
+    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 31
+    testRunner.And("participants have nominated and voted on games for the next competition I partici" +
+                        "pated in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 32
+    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 33
+    testRunner.Then("the game with the most votes should be selected as the focus of the next competit" +
+                        "ion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -397,3 +397,21 @@ ul {
     padding-top: 3%;
     font-weight: bold;
 }
+
+.image-container {
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    border-radius: 10px 10px 0 0;
+    z-index: 10;
+    width: 100%;
+    opacity: 0.9;
+    transition: opacity 1s ease;
+}
+
+.gameImage {
+    width: 100%;
+    border-radius: 10px;
+}

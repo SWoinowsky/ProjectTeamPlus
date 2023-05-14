@@ -74,7 +74,7 @@ p {
     max-height: 3.5rem;
     padding: 0;
     margin: 0;
-    transition: box-shadow 0.4s ease;
+    transition: box-shadow 0.3s ease;
 }
 
 
@@ -99,8 +99,22 @@ p {
 }
 
 .threecol {
-    min-width: 25rem;
-    max-width: 25rem;
+    max-width: 26rem;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.userCard:hover {
+    outline: 3px solid grey;
+    outline-style: ridge;
+    cursor: pointer;
+}
+
+
+.news-container {
+    margin-left: 0;
 }
 
 .show-btn {
@@ -114,6 +128,10 @@ p {
     border-radius: 0;
     width: 100% !important;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    transition: all 0.15s;
+    width: 100%;
 }
 
 
@@ -142,9 +160,6 @@ p {
     border: none;
     margin-top: -5px;
 }
-
-
-
 
 
 #toDoButton:focus, .toDoButton:active, toDoButton:hover {
@@ -193,7 +208,6 @@ p {
     border-radius: 20px;
     justify-content: center;
     width: 100%;
-    padding: 5px
 
 }
 
@@ -231,5 +245,63 @@ footer {
 .news-container {
     transition: height 0.5s ease;
     overflow: hidden;
+}
+
+
+.competition-details {
+
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px;
+}
+
+.competition-img-top {
+    width: 100% !important;
+    box-shadow: 0 -4px 0 #326a7d;
+    transition: all 0.25s;
+}
+
+.competition-img-top:hover {
+    outline: 5px solid grey;
+    outline-style: solid;
+    cursor:pointer;
+}
+
+
+canvas {
+    background-color: rgba(35, 41, 52, 0.9);
+    border-radius: 0px 0px 55px 55px;
+    outline-style: solid;
+    outline-width: 3px;
+    outline-color: #326a7d;
+    position: absolute;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 1s ease-in-out;
+    
+}
+
+.competition-card-title {
+    justify-content: center;
+    text-align: center;
+    font-size: 1.70rem;
+    font-family: sans-serif
+}
+
+.competition-details {
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+
+.competition-card-body {
+    padding: 5px;
+    word-spacing: 2px;
+    box-shadow: 0 -5px 0 #326a7d;
 }
 

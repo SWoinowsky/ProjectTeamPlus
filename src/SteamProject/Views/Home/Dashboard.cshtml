@@ -1,3 +1,4 @@
+@using Microsoft.IdentityModel.Tokens
 @model SteamProject.ViewModels.UserDashboardVM
 @{
     ViewData["Title"] = "Dashboard";
@@ -57,7 +58,7 @@ else
                         </ul>
                     </div>
 
-                    @if (Model.BadgeImagesBase64.Any())
+                    @if (Model.User.UserBadges.Any())
                     {
                         <div class="row">
                             <h5>Badges Earned:</h5>
@@ -150,7 +151,7 @@ else
         <h1>Your News</h1>
         <h6>Click the <i fill="CurrentColor" class="bi bi-info-circle-fill"></i> to see the news section for a game.</h6>
         <br/>
-        <div class="container">
+        <div class="w-100">
 
             <h4>Recently Played Games</h4>
 
@@ -230,7 +231,7 @@ else
             <br />
 
             <br />
-            <div class="container">
+            <div class="w-100">
 
                 <h4>Followed Games</h4>
 
@@ -310,18 +311,130 @@ else
     </div>
 
 
-    <div class="container-fluid" style="height: 25%;">
-
-        <h1>Your Race Results</h1>
+    <h1>Your Race Results</h1>
+    <div class="w-100">
         <div class="row">
-            <div class="col-md-4">
-            </div>
+            <h4>Current Competitions</h4>
+            @if (!Model.CurrentCompetitions.IsNullOrEmpty())
+            {
+                <div id="currentCompetitionsCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+                    <div class="carousel-inner">
+                        @for (var i = 0; i < Model.CurrentCompetitions.Count; i++)
+                        {
+                            var competition = Model.CurrentCompetitions[i];
+                            var isActive = i == 0 ? "active" : "";
+                            <div class="carousel-item @isActive">
+                                <div class="competition-userCard">
+                                    <div class="row">
+                                        <h4 class="competition-card-title col">@competition.Game.Name</h4>
+                                        </div>
+
+                                    <div id="countdown" class="countdown" data-start-date="@competition.StartDate.ToString("o")" data-end-date="@competition.EndDate.ToString("o")">
+                                        </div>
+
+                                    <a href="@Url.Action("Details", "Compete", new { compId = competition.Id })">
+                                        <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/library_hero.jpg", competition.Game.AppId)" class="competition-img-top" alt="@competition.Game.Name">
+                                    </a>
+
+
+
+                                    <div class="competition-details row">
+                                        <p class="card-text col">Starts: @competition.StartDate.ToString("g")</p>
+                                        <p class="card-text col">Created by: @competition.Creator.SteamName</p>
+                                        <p class="card-text col">Ends: @competition.EndDate.ToString("g")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    
+                    <button class="carousel-control-prev" type="button" data-bs-target="#currentCompetitionsCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#currentCompetitionsCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <h4>You have not participated in any Current Competitions.</h4>
+            }
         </div>
+
+
     </div>
+    
+    <br />
+        
+    <h4>Previous Competitions</h4>
+        
+    <div class="row">
+        @if (!Model.PreviousCompetitions.IsNullOrEmpty())
+        {
+            <div id="previousCompetitionsCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+                <div class="carousel-inner">
+
+                    @for (var index = 0; index < Model.PreviousCompetitions.Count; index++)
+                    {
+                        var competitions = Model.PreviousCompetitions[index];
+                        var isActive = index == 0 ? "active" : "";
+                        <div class="carousel-item @isActive">
+                            <div class="row row-cols-1 row-cols-md-3 g-1 justify-content-center">
+                                
+                                @for (var i = 0; i < competitions.Count(); i++)
+                                {
+                                    var competition = competitions[i];
+                                    <div class="col-md-4 threecol w-100">
+                                        <div class="card h-100 userCard">
+
+                                            <a href="@Url.Action("Details", "Compete", new { compId = competition.Id })">
+                                                <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", competition.Game.AppId)" class="competition-img-top" alt="@competition.Game.Name">
+                                            </a>
+
+
+                                            <div class="competition-card-body h-100">
+                                                <h4 class="competition-card-title">@competition.Game.Name</h4>
+                                                <p class="card-text">Created by: @competition.Creator.SteamName</p>
+                                                <p class="card-text">Started: @competition.StartDate.ToString("g")</p>
+                                                <p class="card-text">Ended: @competition.EndDate.ToString("g")</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#previousCompetitionsCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#previousCompetitionsCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        }
+        else
+        {
+            <h4>You have not participated in any Previous Competitions.</h4>
+        }
+
+    </div>
+
+    <br />
 }
 @section Scripts
 {
     <script type="text/javascript" src="~/js/followGame.js"></script>
+    <script type="text/javascript" src="~/js/countdown.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="~/js/News/dashboardGameNews.js"></script>

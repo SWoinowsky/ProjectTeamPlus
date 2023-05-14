@@ -59,4 +59,18 @@ public static class HelperMethods
         return newHtml;
     }
 
+    public static List<List<T>> SplitListIntoChunks<T>(List<T> items, int chunkSize)
+    {
+        List<List<T>> list = new List<List<T>>();
+
+        for (int i = 0; i < items.Count; i += chunkSize)
+        {
+            List<T> chunk = items.Skip(i).Take(chunkSize).ToList();
+            list.Add(chunk);
+        }
+
+        return list;
+    }
+
+
 }

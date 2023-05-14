@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\KODO100 - Copy.feature.cs" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\KODO34 - Copy.feature.cs" />
   </ItemGroup>
 
 
@@ -53,6 +54,9 @@
       <DesignTime>true</DesignTime>
       <AutoGen>true</AutoGen>
     </Compile>
+    <Compile Update="Features\KODO137.feature.cs">
+      <DependentUpon>KODO137.feature</DependentUpon>
+    </Compile>
     <Compile Update="Features\kodo8.feature.cs">
       <DependentUpon>KODO8.feature</DependentUpon>
     </Compile>
@@ -75,6 +79,10 @@
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
     </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Update="Features\KODO263.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\KODO137.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
     </SpecFlowFeatureFiles>

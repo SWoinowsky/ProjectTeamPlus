@@ -39,7 +39,8 @@ namespace BDD_Tests.StepDefinitions
 
         [Then(@"I can see the shared games page for ""(.*)""")]
         public void ThenISeeSharedGamesForFriend(string friendName)
-        {   Thread.Sleep(500);
+        {   
+            Thread.Sleep(500);
             var sharedGames = _friendPage.GetSharedGames();
             sharedGames.Should().NotBeNullOrEmpty("No shared games found for friend: " + friendName);
         }

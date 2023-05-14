@@ -10,13 +10,13 @@ Mainly as a sanity check due to steam only having 24 hour cookies for logging in
 @LoggedIn
 Scenario: I am a test user and I want to link my steam account to my user account
 	Given I am signed in
-	And I click on the profile link
+	And I click on the "Profile" link
 	And I click on the Steam Account link
 	Then I should see my SteamId displayed
 	
 Scenario: I am a test user and I want to ensure my steam information has been pulled in correctly
 	Given I am signed in
-	When I click on the library link
+	When I click on the "Library" link
 	Then I should see my owned game "Aim Lab"
 	
 

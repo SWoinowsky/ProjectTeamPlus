@@ -29,15 +29,7 @@ namespace BDD_Tests.StepDefinitions
         }
 
 
-        [When(@"I click on the profile link")]
-        [Given(@"I click on the profile link")]
-        public void WhenIClickOnTheProfileLink()
-        {
-            _homePage.ClickNavBarProfileLink(); // it only works if you tell it twice, code moment
-            Thread.Sleep(1000);
-            _homePage.ClickNavBarProfileLink();
-            Thread.Sleep(1000);
-        }
+
 
         [Then(@"I can see my list of friends")]
         public void ThenICanSeeMyListOfFriends()

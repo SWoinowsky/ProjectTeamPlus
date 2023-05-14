@@ -10,7 +10,7 @@ A short summary of the feature
 @LoggedIn
 Scenario: I am the test user and want to see games I share with Eithné of Brokiloén
 	Given I am signed in
-	When I click on the profile link
-	And I click on Eithne's friend page link
-	Then I can see the shared games page for Eithne
-	And I can see Eithne's username
+	When I click on the "Profile" link
+	And I click on "Eithne's" friend page link
+	Then I can see the shared games page for "Eithne"
+	And I can see "Eithne's" username

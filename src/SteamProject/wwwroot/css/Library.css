@@ -39,9 +39,10 @@ label {
     color: lightgreen !important;
 }
 
-.refresh-btn, .show-hidden-btn, .profile-btn {
+.refresh-btn, .show-hidden-btn, .profile-btn, .recommendation-btn {
     outline: 2px inset black;
     transition: all 1s ease;
+    margin-bottom: 15px;
 }
 
 .hide-btn, .follow-btn, .show-btn, .unhide-btn {
@@ -50,6 +51,14 @@ label {
     opacity: 0.1;
     font-size: 2rem;
     outline: 2px inset black;
+}
+
+.genreRank {
+    top: 6px;
+    right: 6px;
+    position: absolute;
+    font-size: 2rem;
+    background-color: rgba(0,0,0, 0.7)
 }
 
 

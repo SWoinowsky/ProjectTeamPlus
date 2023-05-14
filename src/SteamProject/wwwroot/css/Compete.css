@@ -17,6 +17,30 @@ body {
     border-radius: 8px;
 }
 
+.winnerCard {
+    background-image: linear-gradient(to right, goldenRod, gold, yellow, gold, gold, goldenRod, goldenRod );
+}
+
+.winnerCard > .card-body > i {
+    color: black;
+}
+
+.secondCard {
+    background-image: linear-gradient(to right, grey, silver, whitesmoke, silver, silver, grey, grey );
+}
+
+.secondCard > .card-body > i {
+    color: black;
+}
+
+.thirdCard {
+    background-image: linear-gradient(to right, saddlebrown, darkgoldenrod, goldenrod, darkgoldenrod, darkgoldenrod, saddlebrown);
+}
+
+.thirdCard > .card-body > i {
+    color: white;
+}
+
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
 }

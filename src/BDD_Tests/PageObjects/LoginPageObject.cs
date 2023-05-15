@@ -1,10 +1,5 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BDD_Tests.PageObjects
 {
@@ -28,49 +23,77 @@ namespace BDD_Tests.PageObjects
         }
 
         public IWebElement EmailInput => FindElementSafely(By.Id("Input_Email"));
-        public IWebElement PasswordInput => _webDriver.FindElement(By.Id("Input_Password"));
-        public IWebElement RememberMeCheck => _webDriver.FindElement(By.Id("Input_RememberMe"));
-        public IWebElement SubmitButton => _webDriver.FindElement(By.Id("login-submit"));
+        public IWebElement PasswordInput => FindElementSafely(By.Id("Input_Password"));
+        public IWebElement RememberMeCheck => FindElementSafely(By.Id("Input_RememberMe"));
+        public IWebElement SubmitButton => FindElementSafely(By.Id("login-submit"));
 
         public void EnterEmail(string email)
         {
-            EmailInput.Clear();
-            EmailInput.SendKeys(email);
+            if (EmailInput != null)
+            {
+                EmailInput.Clear();
+                EmailInput.SendKeys(email);
+            }
+            else
+            {
+                throw new NoSuchElementException("Email input field not found");
+            }
         }
 
         public void EnterPassword(string password)
         {
-            PasswordInput.Clear();
-            PasswordInput.SendKeys(password);
+            if (PasswordInput != null)
+            {
+                PasswordInput.Clear();
+                PasswordInput.SendKeys(password);
+            }
+            else
+            {
+                throw new NoSuchElementException("Password input field not found");
+            }
         }
 
         public void SetRememberMe(bool rememberMe)
         {
-            if(rememberMe)
+            if (RememberMeCheck != null)
             {
-                if(!RememberMeCheck.Selected)
+                if (rememberMe)
                 {
-                    RememberMeCheck.Click();
+                    if (!RememberMeCheck.Selected)
+                    {
+                        RememberMeCheck.Click();
+                    }
+                }
+                else
+                {
+                    if (RememberMeCheck.Selected)
+                    {
+                        RememberMeCheck.Click();
+                    }
                 }
             }
             else
             {
-                if(RememberMeCheck.Selected)
-                {
-                    RememberMeCheck.Click();
-                }
+                throw new NoSuchElementException("Remember me check box not found");
             }
         }
 
         public void Login()
         {
-            SubmitButton.Click();
+            if (SubmitButton != null)
+            {
+                SubmitButton.Click();
+            }
+            else
+            {
+                throw new NoSuchElementException("Submit button not found");
+            }
         }
 
         public bool HasLoginErrors()
         {
-           ReadOnlyCollection<IWebElement> elements = _webDriver.FindElements(By.CssSelector(".validation-summary-errors"));
-           return elements.Count() > 0;
+            ReadOnlyCollection<IWebElement> elements = _webDriver.FindElements(By.CssSelector(".validation-summary-errors"));
+            return elements.Count > 0;
         }
     }
 }

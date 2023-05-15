@@ -31,10 +31,10 @@ namespace BDD_Tests.StepDefinitions
         [When(@"I enter ""([^""]*)"" in the search box")]
         public void WhenIEnterInTheSearchBox(string name)
         {
-            Thread.Sleep(500);
+           
             _friendsPage.FriendSearch.Click();
             Thread.Sleep(500);
-            _friendsPage.FriendSearch.SendKeys("Steve Minecraft");
+            _friendsPage.FriendSearch.SendKeys(name);
         }
 
         [Then(@"I should see their friend card on the page")]

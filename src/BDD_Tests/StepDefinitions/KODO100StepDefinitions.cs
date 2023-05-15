@@ -31,25 +31,28 @@ namespace BDD_Tests.StepDefinitions
             Configuration = builder.Build();
         }
 
-        [When(@"I click on Eithne's friend page link")]
-        public void WhenIClickOnEithnesFriendPageLink()
+        [When(@"I click on ""(.*)'s"" friend page link")]
+        public void WhenIClickOnFriendsPageLink(string friendName)
         {
-            _profilePage.EithnePageClick();
+            Thread.Sleep(1000);
+            _profilePage.GoToFriendPage(friendName);
+            Thread.Sleep(1000);
+        }
+
+        [Then(@"I can see the shared games page for ""(.*)""")]
+        public void ThenISeeSharedGamesForFriend(string friendName)
+        {
+            var sharedGames = _friendPage.GetSharedGames();
+            sharedGames.Should().NotBeNullOrEmpty("No shared games found for friend: " + friendName);
         }
 
 
-        [Then(@"I can see the shared games page for Eithne")]
-        public void ThenISeeSharedGamesForEithne()
+        [Then(@"I can see ""(.*)'s"" username")]
+        public void ThenICanSeeFriendUsername(string friendName)
         {
-            var title = _friendPage.GetTitle();
-            title.Should().ContainEquivalentOf("Friend", AtLeast.Once());
+            _friendPage.GetFriendUsername().GetAttribute("innerHTML").Should().ContainEquivalentOf(friendName, AtLeast.Once());
         }
 
-        [Then(@"I can see Eithne's username")]
-        public void ThenICanSeeEithneUsername()
-        {
-            _friendPage.GetFriendUsername().GetAttribute("innerHTML").Should().ContainEquivalentOf("Eithne", AtLeast.Once());
-        }
 
     }
 }

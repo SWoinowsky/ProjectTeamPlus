@@ -34,4 +34,4 @@ DROP TABLE [UserBadge];
 DROP TABLE [Badge];
 DROP TABLE [InboxMessage];
 DROP TABLE [IGDBGenres];
-
+DROP TABLE [Status];

@@ -10,5 +10,5 @@ A short summary of the feature
 @LoggedIn
 Scenario: I am a user and am looking for the list of friends on my profile page.
 	Given I am signed in
-	When I click on the profile link
+	When I click on the "Profile" link
 	Then I can see my list of friends

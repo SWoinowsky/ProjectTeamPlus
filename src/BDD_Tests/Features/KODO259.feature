@@ -10,6 +10,6 @@ A short summary of the feature
 @LoggedIn
 Scenario: I am the test user and want to visit the competition creation page
 	Given I am signed in
-	When I click on the compete link
+	When I click on the "Compete" link
 	And I click on the compete create link
 	Then I land on the compete create page

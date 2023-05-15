@@ -85,6 +85,7 @@ CREATE TABLE [Competition]
 	,[GameId]			INT				NOT NULL
 	,[StartDate]		DATETIME		NOT NULL
 	,[EndDate]			DATETIME		NOT NULL
+	,[StatusId]         INT   DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE [CompetitionPlayer]
@@ -161,6 +162,16 @@ CREATE TABLE [CompetitionVote]
 	,[WantsToPlayAgain]	BIT				NOT NULL
 );
 
+CREATE TABLE [Status]
+(
+    [Id] INT PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL
+);
+
+INSERT INTO [Status]
+VALUES (0, 'Active'), (1, 'Ended'), (2, 'Voting');
+
+ALTER TABLE [Competition]			     ADD CONSTRAINT [Competition_Fk_Status]						FOREIGN KEY ([StatusId]) 		REFERENCES [Status] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [Friend]					 ADD CONSTRAINT [Friend_Fk_User]							FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE	[UserGameInfo]				 ADD CONSTRAINT [UserGameInfo_FK_User]						FOREIGN KEY ([OwnerId])			REFERENCES [User] ([Id])			ON DELETE CASCADE   ON UPDATE NO ACTION;
 ALTER TABLE	[UserGameInfo]				 ADD CONSTRAINT [UserGameInfo_FK_Game]						FOREIGN KEY ([GameId])			REFERENCES [Game] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;

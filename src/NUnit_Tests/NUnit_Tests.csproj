@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ServiceTesting\**" />
+    <EmbeddedResource Remove="ServiceTesting\**" />
+    <None Remove="ServiceTesting\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
@@ -24,10 +30,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SteamProject\SteamProject.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="HelperTesting\" />
-    <Folder Include="ServiceTesting\" />
-  </ItemGroup>
-
+	
+	<ItemGroup>
+		<Folder Include="HelperTesting\" />
+	</ItemGroup>
 </Project>

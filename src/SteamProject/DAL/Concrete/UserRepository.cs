@@ -17,37 +17,22 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public User GetUser(string userId)
     {
-        var currentUser = new User();
-        var users = GetAll().ToList();
-        if (users.Count() > 0)
-        {
-            foreach (var user in users)
-            {
-                if (user.AspNetUserId == userId)
-                {
-                    currentUser = user;
+        var currentUser = GetAll()
+            .Include(u => u.UserBadges)
+            .ThenInclude(ub => ub.Badge)
+            .Include(u => u.UserGameInfos)
+            .Include(u => u.Friends)
+            .Include(u => u.UserAchievements)
+            .FirstOrDefault(u => u.AspNetUserId == userId);
 
-                    //These are meant to make creating new badges easier by eager loading these tables for the user
-                    // Explicitly load UserBadges collection
-                    _ctx.Entry(currentUser).Collection(u => u.UserBadges).Query().Include(ub => ub.Badge).Load();
-                    // Explicitly load UserGameInfos 
-                    _ctx.Entry(currentUser).Collection(u => u.UserGameInfos).Query().Load();
-                    // Explicitly load Friends 
-                    _ctx.Entry(currentUser).Collection(u => u.Friends).Query().Load();
-                    // Explicitly load UserAchievements
-                    _ctx.Entry(currentUser).Collection(u => u.UserAchievements).Query().Load();
-                    
-                    break;
-                }
-            }
-        }
-        else
+        if (currentUser == null)
         {
-            throw new System.ArgumentNullException();
+            throw new ArgumentNullException();
         }
 
         return currentUser;
     }
+
     public void UpdateUserTheme(int userId, string theme)
     {
         var user = _ctx.Users.FirstOrDefault(u => u.Id == userId);

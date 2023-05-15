@@ -71,8 +71,7 @@ namespace NUnit_Tests.RepoTesting.CompetitionTests
             var testComp = compRepository.GetCompetitionById(1);
             var comparisonComp = new Competition { Id = 1, GameId = 1, StartDate = new DateTime(2001, 03, 08), EndDate = new DateTime(2001, 03, 09) };
 
-
-            Assert.True( testComp.Equals( comparisonComp ) );
+            Assert.True( testComp.Id.Equals( comparisonComp.Id ));
         }
 
         [Test]

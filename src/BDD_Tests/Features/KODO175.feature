@@ -1,4 +1,5 @@
-﻿Feature: Ability to assign a nickname to a friend on the Friends page
+﻿@Carlos
+Feature: Ability to assign a nickname to a friend on the Friends page
 
 A user may want to be able to assign nicknames to their friends on the platform for whatever reason
 

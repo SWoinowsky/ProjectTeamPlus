@@ -21,14 +21,12 @@ namespace BDD_Tests.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Ability to assign a nickname to a friend on the Friends page")]
-    [NUnit.Framework.CategoryAttribute("Carlos")]
     public partial class AbilityToAssignANicknameToAFriendOnTheFriendsPageFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = new string[] {
-                "Carlos"};
+        private string[] _featureTags = ((string[])(null));
         
 #line 1 "KODO175.feature"
 #line hidden
@@ -38,8 +36,7 @@ namespace BDD_Tests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Ability to assign a nickname to a friend on the Friends page", "A user may want to be able to assign nicknames to their friends on the platform f" +
-                    "or whatever reason", ProgrammingLanguage.CSharp, new string[] {
-                        "Carlos"});
+                    "or whatever reason", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,13 +77,23 @@ namespace BDD_Tests.Features
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("I am a user with a friend on the Friends page wanting to give them a nickname")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmAUserWithAFriendOnTheFriendsPageWantingToGiveThemANickname()
+        [NUnit.Framework.CategoryAttribute("RevertNickname")]
+        [NUnit.Framework.TestCaseAttribute("Steve", "Minecraft", null)]
+        public virtual void IAmAUserWithAFriendOnTheFriendsPageWantingToGiveThemANickname(string friendName, string alias, string[] exampleTags)
         {
-            string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
+            string[] @__tags = new string[] {
+                    "LoggedIn",
+                    "RevertNickname"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("FriendName", friendName);
+            argumentsOfScenario.Add("Alias", alias);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user with a friend on the Friends page wanting to give them a nickname", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 8
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -106,17 +113,74 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 9
+#line 8
  testRunner.Given("I have a friend on the friends page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+#line 9
+ testRunner.And(string.Format("I click on the name on the friend card \"{0}\"", friendName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
 #line 10
- testRunner.And("I click on the name on the friend card", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When(string.Format("I enter a nickname \"{0}\" for \"{1}\"", alias, friendName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
- testRunner.When("I enter a nickname \"Alias\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then(string.Format("I should see \"{0}\" referenced as \"{1}\"", friendName, alias), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 12
- testRunner.Then("I should see them references as \"Alias\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("I am a user with a friend on the Friends page wanting to remove the nickname I ga" +
+            "ve them")]
+        [NUnit.Framework.CategoryAttribute("LoggedIn")]
+        [NUnit.Framework.CategoryAttribute("SetupAlias")]
+        [NUnit.Framework.TestCaseAttribute("Steve", "76561199093267477", null)]
+        public virtual void IAmAUserWithAFriendOnTheFriendsPageWantingToRemoveTheNicknameIGaveThem(string friendName, string steamId, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "LoggedIn",
+                    "SetupAlias"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("FriendName", friendName);
+            argumentsOfScenario.Add("SteamId", steamId);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user with a friend on the Friends page wanting to remove the nickname I ga" +
+                    "ve them", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 19
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 20
+ testRunner.Given("I have a friend on the friends page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 21
+ testRunner.And(string.Format("\"{0}\" has a set nickname", friendName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 22
+ testRunner.When(string.Format("I click on the revert button for \"{0}\"", steamId), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 23
+ testRunner.Then(string.Format("I should see the name of \"{0}\" return to original", friendName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

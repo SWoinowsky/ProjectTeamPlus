@@ -34,13 +34,13 @@ namespace BDD_Tests.StepDefinitions
             Thread.Sleep(500);
             _friendsPage.FriendSearch.Click();
             Thread.Sleep(500);
-            _friendsPage.FriendSearch.SendKeys("Steve Minecraft");
+            _friendsPage.FriendSearch.SendKeys(name);
         }
 
         [Then(@"I should see their friend card on the page")]
         public void ThenIShouldSeeTheirFriendCardOnThePage()
         {
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             _friendsPage.FriendNamedSteve.Displayed.Should().BeTrue();
         }
     }

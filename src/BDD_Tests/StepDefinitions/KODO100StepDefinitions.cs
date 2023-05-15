@@ -34,13 +34,14 @@ namespace BDD_Tests.StepDefinitions
         [When(@"I click on ""(.*)'s"" friend page link")]
         public void WhenIClickOnFriendsPageLink(string friendName)
         {
+            Thread.Sleep(1000);
             _profilePage.GoToFriendPage(friendName);
+            Thread.Sleep(1000);
         }
 
         [Then(@"I can see the shared games page for ""(.*)""")]
         public void ThenISeeSharedGamesForFriend(string friendName)
-        {   
-            Thread.Sleep(500);
+        {
             var sharedGames = _friendPage.GetSharedGames();
             sharedGames.Should().NotBeNullOrEmpty("No shared games found for friend: " + friendName);
         }

@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const reverts = document.querySelectorAll('.revert')
     reverts.forEach((revert) => {
         revert.addEventListener('click', () => {
-            fetch(`/api/Steam/revertNickname?friendSteamId=${revert.id}`, {
+            let friendId = revert.id
+            friendId = friendId.replace('-revert', ''); 
+            fetch(`/api/Steam/revertNickname?friendSteamId=${friendId}`, {
                 method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
@@ -34,10 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let box = document.createElement('input')
         box.type = 'text'
         box.className = 'name-box'
+        box.id = `${friend}-nickname`
         box.setAttribute('maxlength', '18')
+
+        let friendId = friend
+        friendId = friendId.replace('persona-', ''); // remove the 'name-' prefix
+
         box.addEventListener('keydown', (event) => {
             if (event.key == "Enter") {
-                fetch(`/api/Steam/setNickname?friendSteamId=${friend}&nickname=${box.value}`, {
+                fetch(`/api/Steam/setNickname?friendSteamId=${friendId}&nickname=${box.value}`, {
                     method: 'PATCH',
                     headers: {
                         'Accept': 'application/json',
@@ -60,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const friendNames = document.querySelectorAll('.friend-name')
     friendNames.forEach((name) => {
         name.addEventListener('click', () => {
-            let box = createBox(name.id)
+            let box = createBox(name.nextElementSibling.id)
             name.replaceWith(box)
         })
     })
@@ -75,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     })
+
     const generateGradient = () => {
         let p1 = `${Math.floor(Math.random() * 100)}%`
         let p2 = `${Math.floor(Math.random() * 100)}%`

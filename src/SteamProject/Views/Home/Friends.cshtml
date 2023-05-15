@@ -32,21 +32,21 @@ else {
         }
         <img class="card-img-top friend-card-img" src=@friend.AvatarFullUrl style="height: 138px;width: 138px;margin-top: 2rem;" alt="Title">
         <div class="card-body friend-card-body">
-          @if (friend.Nickname != null)
-          {
-            <div class="nickname-title">
-              <h4 class="card-title friend-name" id=@friend.SteamId style="font-weight: 800;">@friend.Nickname</h4>
-              <i class="bi bi-arrow-counterclockwise revert" id=@friend.SteamId style="font-weight: 600;color:#fff;"></i>
-            </div>
-          }
-          else {
-            <h4 class="card-title friend-name" id=@friend.SteamId style="font-weight: 800;">@friend.SteamName</h4>
-          }
-            <p class="card-text friend-persona" id=@friend.SteamId style="font-weight: 600;"></p>
-            <p class="card-text friend-game" id="@friend.SteamId" style="font-weight: 700;color:#fff;"></p>
-            <div class="friend-card-btns">
+            @if (friend.Nickname != null)
+            {
+                <div class="nickname-title">
+                    <h4 class="card-title friend-name" id='name-@friend.SteamName' style="font-weight: 800;">@friend.Nickname</h4>
+                    <i class="revert bi bi-arrow-counterclockwise" id="@friend.SteamId" style="font-weight: 600;color:#fff;" data-revert="@friend.SteamId"></i>
+                </div>
+            }
+            else {
+                <h4 class="card-title friend-name" id='name-@friend.SteamName' style="font-weight: 800;">@friend.SteamName</h4>
+            }
+            <p class="card-text friend-persona" id='persona-@friend.SteamId' style="font-weight: 600;"></p>
+            <p class="card-text friend-game" id="game-@friend.SteamId" style="font-weight: 700;color:#fff;"></p>
+            <div class="friend-card-btns">   
                 <a href="/friend/@friend.SteamId">
-                <button class="compare-games" title="Compare games with this friend"><i class="bi bi-controller"></i></button>
+                    <button class="compare-games" title="Compare games with this friend"><i class="bi bi-controller"></i></button>
                 </a>
                 <br>
                 <button class="inv-to-team" title="Invite friend to Team"><i class="bi bi-person-add"></i></button>

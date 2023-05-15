@@ -77,14 +77,14 @@ namespace BDD_Tests.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am the test user and want to see games I share with Eithné of Brokiloén")]
+        [NUnit.Framework.DescriptionAttribute("I am the test user and want to see games I share with Hellfirecw")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmTheTestUserAndWantToSeeGamesIShareWithEithneOfBrokiloen()
+        public virtual void IAmTheTestUserAndWantToSeeGamesIShareWithHellfirecw()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am the test user and want to see games I share with Eithné of Brokiloén", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am the test user and want to see games I share with Hellfirecw", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden

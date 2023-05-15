@@ -26,6 +26,7 @@ namespace BDD_Tests.StepDefinitions
             Configuration = builder.Build();
         }
 
+        [Given(@"I click on the ""(.*)"" link")]
         [When(@"I click on the ""(.*)"" link")]
         [Then(@"I click on the ""(.*)"" link")]
         public void WhenIClickOnTheLink(string pageName)

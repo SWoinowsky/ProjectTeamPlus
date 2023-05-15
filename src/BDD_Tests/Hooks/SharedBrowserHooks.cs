@@ -27,6 +27,7 @@ namespace BDD_Tests.Hooks
     public class SharedBrowserHooks
     {
         private static IObjectContainer _objectContainer;
+        private static BrowserDriver _browserDriver;
 
         private IConfigurationRoot Configuration { get; }
 
@@ -41,17 +42,20 @@ namespace BDD_Tests.Hooks
         [BeforeTestRun]
         public static void BeforeTestRun(IObjectContainer container)
         {
-            
-            var browserDriver = new BrowserDriver(); 
-            container.RegisterInstanceAs<BrowserDriver>(browserDriver);
+
+            _browserDriver = new BrowserDriver();
+            container.RegisterInstanceAs<BrowserDriver>(_browserDriver);
         }
 
         [AfterTestRun]
         public static void AfterTestRun()
         {
-            var browserDriver = _objectContainer.Resolve<BrowserDriver>();
-            browserDriver.WebDriver.Close();
+            if (_browserDriver != null)
+            {
+                _browserDriver.Dispose();
+            }
         }
+
 
         [AfterScenario("@RevertNickname")]
         public void TearDown()

@@ -26,7 +26,7 @@ namespace BDD_Tests.PageObjects
 
         public List<string> GetAllFriendSteamIds()
         {
-            Thread.Sleep(500);
+         
             var allFriendElements = _webDriver.FindElements(By.ClassName("friend-persona"));
 
             var allFriendIds = new List<string>();
@@ -56,7 +56,6 @@ namespace BDD_Tests.PageObjects
 
         public IWebElement GetRevertButtonBySteamId(string friendId)
         {
-            Thread.Sleep(500);
             return _webDriver.FindElement(By.CssSelector($"i[data-revert='{friendId}']"));
 
         }
@@ -78,7 +77,7 @@ namespace BDD_Tests.PageObjects
             WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10));
             IWebElement NicknameTextBox = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("name-box")));
             
-            Thread.Sleep(500);
+     
             NicknameTextBox.SendKeys(alias);
             Thread.Sleep(500);
             NicknameTextBox.SendKeys(Keys.Enter);

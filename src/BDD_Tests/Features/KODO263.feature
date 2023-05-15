@@ -1,6 +1,7 @@
 ﻿@Cole
 Feature: AbilityToVoteForNextCompetition
 
+This is me demonstrating BDD Testing, This feature is yet to be built and this test is pretty bad but it will get better
 As a user, I want to vote for the next competition's game after a competition ends, so that I can continuously engage in challenges with my friends.
 
 @LoggedIn

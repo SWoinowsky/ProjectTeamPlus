@@ -44,10 +44,11 @@ namespace BDD_Tests.Drivers
 
             if (_currentWebDriverLazy.IsValueCreated)
             {
-                Current.Quit();
+                WebDriver.Quit();
             }
 
             _isDisposed = true;
         }
+
     }
 }

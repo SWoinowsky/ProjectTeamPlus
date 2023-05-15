@@ -31,7 +31,7 @@ namespace BDD_Tests.StepDefinitions
         [When(@"I enter ""([^""]*)"" in the search box")]
         public void WhenIEnterInTheSearchBox(string name)
         {
-            Thread.Sleep(500);
+           
             _friendsPage.FriendSearch.Click();
             Thread.Sleep(500);
             _friendsPage.FriendSearch.SendKeys(name);
@@ -40,7 +40,7 @@ namespace BDD_Tests.StepDefinitions
         [Then(@"I should see their friend card on the page")]
         public void ThenIShouldSeeTheirFriendCardOnThePage()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             _friendsPage.FriendNamedSteve.Displayed.Should().BeTrue();
         }
     }

@@ -62,6 +62,13 @@ else
                     <button id="compDeleteBtn" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
                 </div>
             }
+            @if (Model.HasCompetitionEnded)
+            {
+                <div id="voteAgainDiv">
+                    <button id="voteAgainBtn" value="@Model.CurrentComp.Id">VOTE TO COMPETE AGAIN</button>
+                </div>
+            }
+
 
             <br>
             <div>

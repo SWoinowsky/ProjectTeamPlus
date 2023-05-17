@@ -186,6 +186,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<SteamProject.Middlewares.ThemeMiddleware>();
+app.UseMiddleware<SteamProject.Middlewares.MessagesMiddleware>();
 
 
 app.MapControllerRoute(

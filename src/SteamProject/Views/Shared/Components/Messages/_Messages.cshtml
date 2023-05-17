@@ -1,0 +1,61 @@
+@{
+    var messengerId = Context.Items["MessengerId"];
+}
+
+<button class="messages-btn">
+    Messages
+</button>
+
+<div class="messengerId" hidden>@messengerId</div>
+<div class="message-container" style="visibility:hidden;">
+    <img src="~/assets/message-alert.png" alt="" class="message-alert">
+    <div class="messages-header">
+        <div class="messages-label">Messages</div>
+        <i id="message-exit" class="bi bi-chevron-down"></i>
+    </div>
+    <div class="messages-body">
+        <div class="message-contacts">
+            <div class="contact-label">CONTACTS</div>
+                <div class="contacts">
+                    <div class="contact" id="69420">
+                        <img class="contact-img" src="~/assets/shortLogo.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="messages-box">
+                <div class="contact-header">
+                    <img class="specific-contact-img" src="~/assets/shortLogo.png" alt="">
+                    <div class="contact-name">
+                        S.I.N
+                    </div>
+                </div>
+                @* foreach *@
+                <div class="right-panel">
+                <div class="messages-for-contact" id="">
+                    <div class="from-message">
+                        <div class="from-message-content">
+                            It looks like you earned the placeholder badge for completing a placeholder achievement, congrats!
+                        </div>
+                        <div class="from-message-time">
+                            sent at 8:30:53
+                        </div>
+                    </div>
+                    <div class="to-message">
+                        <div class="to-message-content">
+                            ay thanks
+                        </div>
+                        <div class="to-message-time">
+                            sent at 8:30:53
+                        </div>
+                    </div>
+                </div>
+                <div class="send-message">
+                    <input type="text" class="message-text-box">
+                    <i id="send-message-btn" class="bi bi-send"></i>
+                </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<script src="~/js/Messages.js"></script>

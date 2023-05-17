@@ -14,11 +14,9 @@ namespace SteamProject.Controllers;
 
 public class InboxController : Controller
 {
-
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly IInboxRepository _inboxRepository;
-
 
     public InboxController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IInboxRepository inboxRepository) 
     {

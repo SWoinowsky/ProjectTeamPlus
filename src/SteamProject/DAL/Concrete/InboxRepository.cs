@@ -7,7 +7,7 @@ public class InboxRepository : Repository<InboxMessage>, IInboxRepository
 {
     public InboxRepository(SteamInfoDbContext ctx) : base(ctx)
     {
-
+        
     }
     
     public List<InboxMessage> GetInboxMessages(int userId)

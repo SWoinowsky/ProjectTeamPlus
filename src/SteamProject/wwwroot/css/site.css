@@ -197,7 +197,7 @@ label.Input_Email {
 
 .vert-nav {
   background-color: #000;
-  height: 430px;
+  height: 410px;
   width: 65px;
   border-radius: 8px;
   border: 1px solid #979797;
@@ -228,7 +228,7 @@ label.Input_Email {
 
 .vert-nav:hover {
   background-color: #000;
-  height: 450px;
+  height: 410px;
   width: 180px;
   border-radius: 65px;
   border: 1px solid #979797;
@@ -577,4 +577,253 @@ p.by a {
 
 .white-preview p.by a {
     color: #000;
+}
+
+.message-alert {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  overflow-y: auto;
+  z-index: 4;
+  overflow-x: visible;
+  position: absolute;
+  left: 0%;
+  top: -30%;
+  display: none;
+}
+
+.messages-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  width: 12.5%;
+  position: fixed;
+  z-index: 3;
+  bottom: 0px;
+  right: 0px;
+  background: #000000;
+  border: 1px solid #FFFFFF;
+  border-radius: 59px;
+  text-align: center;
+  color: #fff;
+}
+
+.message-btn:active {
+  color: #424242;
+}
+
+.message-container {
+  display: flex;
+  height: 69%;
+  width: 30%;
+  position: fixed;
+  z-index: 3;
+  bottom: 0px;
+  right: 10px;
+  background: #fefefe ;
+  border: 1px solid #000;
+  border-top-left-radius: 11px;
+  border-top-right-radius: 11px;
+  text-align: center;
+  color: #fff;
+  transition: ease-in 0.1s;
+  flex-flow: row wrap;
+}
+
+.messages-header {
+  display: flex;
+  width: 100%;
+  height: 10%;
+  justify-content: space-between;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  align-items: center;
+  background-color: #000;
+
+}
+
+.messages-label, #message-exit {
+  color: #fff;
+}
+
+.messages-label {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#message-exit {
+  position: relative;
+  right: 10px;
+  cursor: pointer;
+}
+
+.messages-body {
+  display: flex;
+  height: 100%;
+  flex-flow: row nowrap;
+  position: absolute;
+  top: 10%;
+}
+
+.message-contacts {
+  display: flex;
+  background-color: #fff;
+  flex-flow: column;
+  align-items: center;
+  border-right: 1px solid #979797;
+}
+
+.contact-label {
+  font-size: small;
+  height: max-content;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.contact {
+  width: 55px;
+  height: 55px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.contact-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.right-panel {
+  display: flex;
+  flex-flow: row;
+  overflow: hidden;
+  overflow-anchor: auto;
+
+}
+
+.messages-for-contact {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+  height: 350px;
+}
+
+.contact-header {
+  display: flex;
+  flex-flow: column;
+  height: 11%;
+  justify-content: center;
+  align-items: center;
+  background-color: #F1F1F1;
+}
+
+.specific-contact-img {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.contact-name {
+  font-size: smaller;
+}
+
+.from-message {
+  width: 50%;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  padding-bottom: 5px;
+}
+
+.from-message-content {
+  background-color: #E9E9E9;
+  border: 1px solid #979797;
+  border-radius: 8px;
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+.from-message-time {
+  left: 0px;
+  font-size: 0.8rem;
+  color: #4B4B4B;
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+.to-message {
+  width: 50%;
+  position: relative;
+  margin-left: auto;
+  top: auto;
+  right: 10px;
+}
+
+.to-message-content {
+  background-color: #3477F6;
+  color: #fff;
+  border: 1px solid #979797;
+  border-radius: 8px;
+  text-align: left;
+  padding-left: 0.5rem;
+}
+.to-message-time {
+  right: 0px;
+  font-size: 0.8rem;
+  color: #4B4B4B;
+  text-align: right;
+  padding-right: 0.5rem;
+}
+
+.send-message {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 3.5rem;
+  width: 80%;
+}
+
+.message-text-box {
+  padding-left: 0.5rem;
+  height: 2rem;
+  width: 80%;
+  background-color: #F7F7F7;
+  border: 1px solid #979797;
+  border-radius: 8px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#send-message-btn {
+  position: relative;
+  right: 10px;
+  color: #000;
+  font-size: large;
+  cursor: pointer;
+} 
+
+.right-panel::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: none;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
 }

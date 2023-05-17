@@ -10,6 +10,6 @@ A short summary of the feature
 @LoggedIn
 Scenario: I am a user and need to see that my steam account is connected.
 	Given I am signed in
-	When I click on the profile link
+	When I click on the "Profile" link
 	Then I can see my Steam profile image
 	And I can see my Steam username and level

@@ -14,14 +14,13 @@ namespace SteamProject.ViewModels
     {
         public User User {get; set;}
 
-        public Dictionary<int, string> BadgeImagesBase64 { get; set; }
-
         public List<List<Game>> RecentGames { get; set; }
-
-        public List<string[]> GamesNewsItems { get; set; }
 
         public List<List<Game>> FollowedGames { get; set; }
 
+        public List<Competition> CurrentCompetitions { get; set; }
+
+        public List<List<Competition>> PreviousCompetitions { get; set; }
 
         public UserDashboardVM()
         {

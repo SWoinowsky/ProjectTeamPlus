@@ -63,7 +63,7 @@ CREATE TABLE [GameAchievement]
 	,[PointVal]			INT				NOT NULL
 	,[GameId]			INT				NOT NULL
 	,[ApiName]			NVARCHAR(100)	NOT NULL
-	,[DisplayName]		NVARCHAR(50)	
+	,[DisplayName]		NVARCHAR(256)	
 	,[IconAchievedUrl]	NVARCHAR(256)	
 	,[IconHiddenUrl]	NVARCHAR(256)	
 	,[HiddenFromUsers]	BIT				NOT NULL
@@ -85,6 +85,7 @@ CREATE TABLE [Competition]
 	,[GameId]			INT				NOT NULL
 	,[StartDate]		DATETIME		NOT NULL
 	,[EndDate]			DATETIME		NOT NULL
+	,[StatusId]         INT   DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE [CompetitionPlayer]
@@ -145,7 +146,32 @@ CREATE TABLE [IGDBGenres] (
 	[Name]		NVARCHAR(100) NOT NULL
 );
 
+CREATE TABLE [GameVote]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[GameId]			INT				NOT NULL
+	,[UserId]			INT				NOT NULL
+	,[Vote]				BIT				NOT NULL
+);
 
+CREATE TABLE [CompetitionVote]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[CompetitionId]	INT				NOT NULL
+	,[UserId]			INT				NOT NULL
+	,[WantsToPlayAgain]	BIT				NOT NULL
+);
+
+CREATE TABLE [Status]
+(
+    [Id] INT PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL
+);
+
+INSERT INTO [Status]
+VALUES (0, 'Ended'), (1, 'Active'), (2, 'Voting');
+
+ALTER TABLE [Competition]			     ADD CONSTRAINT [Competition_Fk_Status]						FOREIGN KEY ([StatusId]) 		REFERENCES [Status] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [Friend]					 ADD CONSTRAINT [Friend_Fk_User]							FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE	[UserGameInfo]				 ADD CONSTRAINT [UserGameInfo_FK_User]						FOREIGN KEY ([OwnerId])			REFERENCES [User] ([Id])			ON DELETE CASCADE   ON UPDATE NO ACTION;
 ALTER TABLE	[UserGameInfo]				 ADD CONSTRAINT [UserGameInfo_FK_Game]						FOREIGN KEY ([GameId])			REFERENCES [Game] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -158,3 +184,7 @@ ALTER TABLE [CompetitionGameAchievement] ADD CONSTRAINT [CompetitionGameAchievem
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_User] 						FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [UserBadge] 				 ADD CONSTRAINT [UserBadge_Fk_Badge] 						FOREIGN KEY ([BadgeId]) 		REFERENCES [Badge] ([Id]) 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [InboxMessage]				 ADD CONSTRAINT [InboxMessage_Fk_User]						FOREIGN KEY ([RecipientId])		REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_Competition] 			FOREIGN KEY ([CompetitionId]) 	REFERENCES [Competition] ([Id]) 	ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_User] 					FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_Game] 							FOREIGN KEY ([GameId]) 			REFERENCES [Game] ([Id])			ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_User] 							FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;

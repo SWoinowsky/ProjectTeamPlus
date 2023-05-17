@@ -28,16 +28,21 @@ public class CompeteDetailsVM
     public List<GameAchievement> GameAchList { get; set; } = null;
     public List<KeyValuePair<UserAchievement, User>> Tracking { get; set; }
     public List<KeyValuePair<User, CompetitionPlayer>> Scoreboard { get; set; }
+    public bool HasCompetitionEnded => CurrentComp != null && CurrentComp.Status != null && CurrentComp.Status.Name == "Ended";
+
+    public int CurrentUserId { get; set; }
+
 }
 
 
 public class CompeteInitiateVM
 {
-    public List<UserAchievement> UsersAchievements { get; set; } = null!;
-    public List<UserAchievement> FriendsAchievements { get; set; } = null!;
-    public Competition CurrentCompetition { get; set; } = null!;
-    public Game ChosenGame { get; set; } = null!;
+    public List<UserAchievement> UsersAchievements { get; set; } = new List<UserAchievement>();
+    public List<UserAchievement> FriendsAchievements { get; set; } = new List<UserAchievement>();
+    public Competition CurrentCompetition { get; set; } = new Competition();
+    public Game ChosenGame { get; set; } = new Game();
     public string MySteamId { get; set; }
+    public string MyFriendId { get; set; }
 
     public CompeteInitiateVM(){}
 

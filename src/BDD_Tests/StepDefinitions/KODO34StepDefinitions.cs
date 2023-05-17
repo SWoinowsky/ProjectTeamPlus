@@ -25,18 +25,22 @@ namespace BDD_Tests.StepDefinitions
             IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO30StepDefinitions>();
             Configuration = builder.Build();
         }
-        [When(@"I click on the dashboard link")]
-        public void WhenIClickOnTheDashboardLink()
+
+        [Given(@"I click on the ""(.*)"" link")]
+        [When(@"I click on the ""(.*)"" link")]
+        [Then(@"I click on the ""(.*)"" link")]
+        public void WhenIClickOnTheLink(string pageName)
         {
-            _homePage.GoTo("Dashboard");
+            _homePage.GoTo(pageName);
         }
 
-        [Then(@"I end up on the dashboard page")]
-        public void ThenIEndUpOnTheDashboardPage()
+        [Then(@"I end up on the ""(.*)"" page")]
+        public void ThenIEndUpOnThePage(string pageName)
         {
             var title = _dashboardPage.GetTitle();
-            _dashboardPage.GetTitle().Should().ContainEquivalentOf("Dashboard", AtLeast.Once());
+            _dashboardPage.GetTitle().Should().ContainEquivalentOf(pageName, AtLeast.Once());
         }
+
 
         [Then(@"I can see my Steam information displayed on the dashboard")]
         public void ThenICanSeeMySteamInformationDisplayedOnTheDashboard()
@@ -57,12 +61,6 @@ namespace BDD_Tests.StepDefinitions
             _dashboardPage.FollowedGamesIsVisible().Should().BeFalse();
         }
 
-        [When(@"I click on the library link")]
-        [Then(@"I click on the library link")]
-        public void WhenIClickOnTheLibraryLink()
-        {
-            _homePage.GoTo("Library");
-        }
 
         [When(@"I should see and be able to follow a game")]
         public void WhenIShouldSeeAndBeAbleToFollowAGame()

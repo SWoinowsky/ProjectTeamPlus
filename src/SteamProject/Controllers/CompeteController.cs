@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 using SteamProject.Models;
 using SteamProject.Models.DTO;
 using SteamProject.Services;
@@ -27,21 +28,23 @@ public class CompeteController : Controller
     private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
     private readonly IInboxService _inboxService;
+    private readonly IStatusRepository _statusRepository;
 
     public CompeteController(
         ILogger<FriendController> logger
         ,ISteamService steamService
-        ,IUserRepository userRepository
-        ,IFriendRepository friendRepository
-        ,IGameAchievementRepository gameAchievementRepository
-        ,IUserAchievementRepository userAchievementRepository
-        ,IGameRepository gameRepository
-        ,IUserGameInfoRepository userGameInfoRepository
-        ,ICompetitionRepository competitionRepository
-        ,ICompetitionPlayerRepository competitionPlayerRepository
-        ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
-        ,UserManager<IdentityUser> userManager
-        ,IInboxService inboxService
+        , IUserRepository userRepository
+        , IFriendRepository friendRepository
+        , IGameAchievementRepository gameAchievementRepository
+        , IUserAchievementRepository userAchievementRepository
+        , IGameRepository gameRepository
+        , IUserGameInfoRepository userGameInfoRepository
+        , ICompetitionRepository competitionRepository
+        , ICompetitionPlayerRepository competitionPlayerRepository
+        , ICompetitionGameAchievementRepository competitionGameAchievementRepository
+        , UserManager<IdentityUser> userManager
+        , IInboxService inboxService
+        , IStatusRepository statusRepository
         )
     {
         _logger = logger;
@@ -57,6 +60,7 @@ public class CompeteController : Controller
         _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
         _inboxService = inboxService;
+        _statusRepository = statusRepository;
     }
 
 
@@ -215,6 +219,16 @@ public class CompeteController : Controller
                 }
             }
 
+            if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
+            {
+                var endedStatus = _statusRepository.GetStatusByName("Ended");
+                if (endedStatus != null)
+                {
+                    competitionIn.Status = endedStatus;
+                    _competitionRepository.AddOrUpdate(competitionIn);
+                }
+            }
+
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
@@ -351,18 +365,32 @@ public class CompeteController : Controller
             existingCompetition = null;
         }
         
+        //refactor to save these values to the viewmodel to make it easier to pass around
         viewModel.MySteamId = mySteamId;
+        viewModel.MyFriendId = friendSteamId;
         viewModel.CurrentCompetition = existingCompetition;
+        
 
 
         return View( viewModel );
     }
 
-
+    /// <summary>
+    /// Function to create competitions from the profile page by clicking on friends name, currently IN-OP
+    /// Before I worked on this the viewmodel was failing to bind when posted back here, they now bind correctly but this function still needs some work if we choose to use it still
+    /// -Cole
+    /// </summary>
+    /// <param name="competeIn"></param>
+    /// <returns></returns>
     [Authorize]
     [HttpPost]
-    public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
+    public IActionResult Initiate(CompeteInitiateVM competeIn)
     {
+        //This method is broken and will not save compititons in this format anymore, I tried refactoring it some but its gonna need some more work to get going.
+       
+        competeIn.ChosenGame = _gameRepository.GetGameById(competeIn.ChosenGame.Id);
+
+        //Fails on saving competitions to the database here due to some of the values being null
         _competitionRepository.AddOrUpdate( competeIn.CurrentCompetition );
         foreach( var achievement in competeIn.UsersAchievements )
         {
@@ -371,12 +399,12 @@ public class CompeteController : Controller
         }
 
         var compPlayerMe = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MySteamId };
-        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = friendSteamId };
+        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MyFriendId };
 
         _competitionPlayerRepository.AddOrUpdate( compPlayerMe );
         _competitionPlayerRepository.AddOrUpdate( compPlayerThem );
         
-        return RedirectToAction("Initiate", new { friendSteamId = friendSteamId, appId = appId });
+        return RedirectToAction("Initiate", new { SteamId = competeIn.MyFriendId, appId = competeIn.ChosenGame.AppId });
     }
 
 
@@ -417,6 +445,8 @@ public class CompeteController : Controller
             EndDate = compCreatedOut.CompEndTime,
             Game = game,
         };
+
+        comp.Status = _statusRepository.GetStatusByName("Active");
 
         _competitionRepository.AddOrUpdate( comp );
 

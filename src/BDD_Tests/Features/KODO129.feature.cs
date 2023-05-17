@@ -109,7 +109,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.When("I click on the compete link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click on the \"Compete\" link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 10
  testRunner.Then("I end up on the competitions list page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

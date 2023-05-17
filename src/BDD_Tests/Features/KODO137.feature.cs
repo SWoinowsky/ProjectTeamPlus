@@ -20,26 +20,26 @@ namespace BDD_Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Ability to revert a nickname given to a friend on the Friends page")]
-    [NUnit.Framework.CategoryAttribute("Carlos")]
-    public partial class AbilityToRevertANicknameGivenToAFriendOnTheFriendsPageFeature
+    [NUnit.Framework.DescriptionAttribute("BadgeAwardSystem")]
+    [NUnit.Framework.CategoryAttribute("Cole")]
+    public partial class BadgeAwardSystemFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = new string[] {
-                "Carlos"};
+                "Cole"};
         
-#line 1 "KODO175_2.feature"
+#line 1 "KODO137.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Ability to revert a nickname given to a friend on the Friends page", "A user may want to be able to change their friends nickname back to the original " +
-                    "on the platform for whatever reason", ProgrammingLanguage.CSharp, new string[] {
-                        "Carlos"});
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "BadgeAwardSystem", "As a user, I want to be rewarded for my activities on the platform, So that I can" +
+                    " feel a sense of achievement and have a more enjoyable experience.", ProgrammingLanguage.CSharp, new string[] {
+                        "Cole"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,16 +78,16 @@ namespace BDD_Tests.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a user with a friend on the Friends page wanting to remove the nickname I ga" +
-            "ve them")]
-        [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmAUserWithAFriendOnTheFriendsPageWantingToRemoveTheNicknameIGaveThem()
+        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure my Dashboard page contains the \"Nexus Ne" +
+            "wcomer\" badge after I have linked my Steam account")]
+        [NUnit.Framework.CategoryAttribute("Badge")]
+        public virtual void IAmATestUserAndIWantToMakeSureMyDashboardPageContainsTheNexusNewcomerBadgeAfterIHaveLinkedMySteamAccount()
         {
             string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
+                    "Badge"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user with a friend on the Friends page wanting to remove the nickname I ga" +
-                    "ve them", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure my Dashboard page contains the \"Nexus Ne" +
+                    "wcomer\" badge after I have linked my Steam account", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -109,16 +109,22 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 9
- testRunner.Given("I have a friend on the friends page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 10
- testRunner.And("That friend has a set nickname", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I click on the \"Dashboard\" link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
- testRunner.When("I click on the revert button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("I end up on the \"Dashboard\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 12
- testRunner.Then("I should see their name return to original", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I should see a badge named \"Nexus Newcomer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 13
+ testRunner.When("I click on the badge named \"Nexus Newcomer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 14
+ testRunner.Then("I should see a detailed description of the badge \"Nexus Newcomer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

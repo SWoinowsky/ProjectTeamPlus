@@ -1,0 +1,78 @@
+@model SteamProject.ViewModels.RecommendationVM
+@{
+    ViewData["Title"] = "Recommended games";
+    List<Game> userGames = new List<Game>();
+    foreach(var dictionary in Model.scoredGames)
+    {
+        userGames.Add(dictionary.First().Key);
+    }
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Library.css">
+</head>
+<br>
+@if (Model == null || Model.scoredGames.Count() == 0)
+{
+    <h1>We don't have any games to recommend!</h1>
+    <br>
+    <h2>This may be because you own all of the games we have in our database... go touch grass geez.</h2>
+}
+else
+{
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div>
+                    <br>
+                    <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <h1>Your recommendations:</h1>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            These are the top 9 recommendations we have based on their generes.<br>
+                            - If there's less than 9, then you own almost all of the games we currently have in our database!
+                        </p>
+                        <p>
+                            The highest score for a game was @Model.scoredGames.First().First().Value
+                            <br>
+                            The lowest score was @Model.scoredGames.Last().Last().Value
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p>Looking at the top right corner of the game, you can see the score a game has - the higher the score, the more relevant it is to your library.
+                            <br>Hover over a game to see options such as:</p>
+                        <ul>
+                            <li>View more info <i fill="CurrentColor" class="bi bi-info-circle-fill"></i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-container" id="game-Library">
+        @{
+            var tenRecommendations = Model.scoredGames.Take(9);
+            foreach(var recommendaiton in tenRecommendations)
+            {
+                <div class="flex-item gameContainer" id="@recommendaiton.First().Key" value="@recommendaiton.First().Key.AppId" data-toggle="tooltip" title="@recommendaiton.First().Key" name=@recommendaiton.First().Key.Id style="padding: 2px; position: relative">
+                    <img src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @recommendaiton.First().Key.AppId)" style="height:200px"/><br>
+                    <p class="genreRank" title="Relevance Score">@recommendaiton.First().Value</p>
+                    <a class="btn btn-outline-info show-btn"  title="More Game Info" href='@Url.Action("ShowMoreInfo", "Library", new {appId = recommendaiton.First().Key.AppId})'>
+                        <i fill="CurrentColor" class="bi bi-info-circle-fill"></i>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/libraryPage.js"></script>
+}

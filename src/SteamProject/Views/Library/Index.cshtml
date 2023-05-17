@@ -17,7 +17,7 @@ else
         <div class="row">
             <div class="col-lg-3">
                 <div>
-                    <br>
+                    <br><br>
                     <img class="user-avatar" id="@Model._user.SteamId" src="@Model._user.AvatarUrl" style="padding-bottom: 10px; padding-top: 10px"/>
                 </div>
             </div>
@@ -27,12 +27,14 @@ else
                 </div>
                 <div class="row">
                     <div class="col-lg">
-                        <button class="btn btn-secondary profile-btn"><a href="@Model._user.ProfileUrl" style="color:white; text-decoration:none; ">@Model._user.SteamName's Steam Profile</a></button>
-                        <br><br>
-                        <button class="btn btn-secondary show-hidden-btn" data-toggle="tooltip" title="Show Hidden Games" onclick="showHiddenGamesModal()" style="margin-bottom:5px">
+                        <button class="btn btn-secondary profile-btn"><a href="@Model._user.ProfileUrl" >@Model._user.SteamName's Steam Profile</a></button>
+                        <br>
+                        <button class="btn btn-secondary show-hidden-btn" data-toggle="tooltip" title="Show Hidden Games" onclick="showHiddenGamesModal()">
                             <i fill="CurrentColor" class="bi bi-eye"></i> Show hidden games
-                        </button><br><br>
-                        <a class="btn btn-secondary refresh-btn" title="Refresh Library" style="margin-bottom:5px" onclick="refreshLibrary()">
+                        </button><br>
+                        <a class="btn btn-secondary recommendation-btn" title="Get Game Recommendations" onclick="window.location.href = '@Url.Action("Recommendations", "Library")'">Recommend Games</a>
+                        <br>
+                        <a class="btn btn-secondary refresh-btn" title="Refresh Library" onclick="refreshLibrary()">
                             <i fill="CurrentColor" class="bi bi-arrow-clockwise"></i> Refresh library<br>
                         </a>
                     </div>
@@ -59,7 +61,7 @@ else
             <form asp-action="Sort" method="get">
                 <div class="form-group d-flex justify-content-end align-items-center">
                     <div class="input-group" style="width:auto;">
-                        <label for="genre" class="mr-2 d-inline-block align-middle" style="margin-right: 10px;">Select a Genre to search for: </label>
+                        <label for="genre" class="mr-2 d-inline-block align-middle" style="margin-right: 10px;"><p>Select a Genre to search for: </p></label>
                         <select id="genre" name="genre" asp-items="@(new SelectList(Model._genres))" class="form-control" style="margin-right: 10px; border-radius: 20px"></select>
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-primary">

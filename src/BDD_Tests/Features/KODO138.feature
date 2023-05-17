@@ -7,5 +7,14 @@ A user may want to be able to search for a friend on the friends page if they ha
 @LoggedIn
 Scenario: I am a user with a friend on the Friends page and I want to find them easily
 	Given I have a friend on the friends page
-	When I enter "name" in the search box
+	When I enter "Steve" in the search box
+	Then I should see their friend card on the page
+
+
+@LoggedIn
+@SetupAlias
+@RevertNickname
+Scenario: I am a user with a friend on the Friends page and I want to find them easily with their alias
+	Given I have a friend on the friends page
+	When I enter "Minecraft" in the search box
 	Then I should see their friend card on the page

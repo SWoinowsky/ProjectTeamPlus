@@ -210,6 +210,10 @@ function addGameSelectorForDuel( data ) {
 
     if( gameSelector.children != null && gameSelector.children.length > 0 )
     {
+        warning = document.getElementById( "warningDiv" );
+        if( warning != null ) {
+            warning.remove();
+        }
         GameDiv.append( gameSelector );
 
         var DuelDiv = document.getElementById("DuelDiv");
@@ -478,14 +482,22 @@ function createEmptyWarning() {
 }
 
 function createNoGamesWarning() {
-    var div = document.getElementById( "DuelDiv" );
+    var existingDiv = document.GetElementById( "warningDiv" );
+    if( existingDiv == null ) {
+        var div = document.getElementById( "DuelDiv" );
+        
+        var warningDiv = document.createElement("div");
+        warningDiv.id = "warningDiv";
 
-    var warning = document.createElement("b");
-    warning.innerHTML = "WARNING: NO SHARED GAMES FOUND <br>";
+        var warning = document.createElement("b");
+        warning.innerHTML = "WARNING: NO SHARED GAMES FOUND <br>";
 
-    var suggestion = document.createElement("i");
-    suggestion.innerHTML = "Your friend's game library may be private. <br> Please select another friend or try again later.";
+        var suggestion = document.createElement("i");
+        suggestion.innerHTML = "Your friend's game library may be private. <br> Please select another friend or try again later.";
 
-    div.append( warning );
-    div.append( suggestion );
+        warningDiv.append( warning );
+        warningDiv.append( suggestion );
+
+        div.append( warningDiv );
+    }
 }

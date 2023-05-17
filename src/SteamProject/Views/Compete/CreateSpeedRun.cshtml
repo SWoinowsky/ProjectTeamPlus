@@ -1,0 +1,15 @@
+@model SteamProject.ViewModels.CompeteCreateVM
+@{
+    ViewData["Title"] = "Speed Run Creation";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.4.9/sumoselect.css" integrity="sha512-LaiY5+mk1DRzS0s8h8G4Ol9F7uG8HRP5lZuUjMI6MIBUhkt67K/bi8f6N6jBX1A1uPkFjAP1FU5Mys/zbDDv8A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Compete.css">
+
+</head>
+
+<input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
+<input type="hidden" id="SinId" name="SinId" value="@Model.SinId">

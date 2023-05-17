@@ -33,7 +33,7 @@ namespace BDD_Tests.StepDefinitions
         public void ThenILandOnTheSpeedRunCreatePage()
         {
             var title = _competePage.GetTitle();
-            title.Should().ContainEquivalentOf("Creation", AtLeast.Once());
+            title.Should().ContainEquivalentOf("Speed Run Creation", AtLeast.Once());
         }
     }
 }

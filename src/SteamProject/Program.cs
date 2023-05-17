@@ -92,6 +92,10 @@ builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
 builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
 builder.Services.AddScoped<IInboxRepository, InboxRepository>();
 builder.Services.AddScoped<IIGDBGenresRepository, IGDBGenresRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<ICompetitionVoteRepository, CompetitionVoteRepository>();
+builder.Services.AddScoped<IGameVoteRepository, GameVoteRepository>();
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

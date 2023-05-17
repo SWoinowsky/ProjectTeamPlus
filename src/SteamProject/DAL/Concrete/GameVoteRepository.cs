@@ -1,41 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using SteamProject.Models;
 using SteamProject.DAL.Abstract;
-using SteamProject.Data;
-using SteamProject.ViewModels;
+using SteamProject.Models;
 
 namespace SteamProject.DAL.Concrete
 {
-    public class GameRepository : Repository<Game>, IGameRepository
+    public class GameVoteRepository : Repository<GameVote>, IGameVoteRepository
     {
-        public GameRepository(SteamInfoDbContext ctx) : base(ctx)
+        private readonly SteamInfoDbContext _ctx;
+
+        public GameVoteRepository(SteamInfoDbContext ctx) : base(ctx)
         {
+            _ctx = ctx;
         }
 
-        public Game? GetGameByAppId(int appId)
+        public async Task AddVoteAsync(GameVote vote)
         {
-            return this.GetAll(g => g.AppId == appId).SingleOrDefault();
+            _ctx.GameVotes.Add(vote);
+            await _ctx.SaveChangesAsync();
         }
 
-        public HashSet<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo)
+        public async Task UpdateVoteAsync(GameVote vote)
         {
-            HashSet<Game> uniqueGames = new HashSet<Game>();
-            foreach (var game in userInfo)
-            {
-                Game tempGame = this.GetGameById(game.GameId);
-                if (tempGame != null)
-                {
-                    uniqueGames.Add(tempGame);
-                }
-            }
-            return uniqueGames;
-        }
-
-        public Game GetGameById( int id )
-        {
-            return GetAll().Where( g => g.Id == id ).FirstOrDefault();
+            _ctx.GameVotes.Update(vote);
+            await _ctx.SaveChangesAsync();
         }
     }
 }

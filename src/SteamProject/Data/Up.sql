@@ -169,7 +169,7 @@ CREATE TABLE [Status]
 );
 
 INSERT INTO [Status]
-VALUES (0, 'Active'), (1, 'Ended'), (2, 'Voting');
+VALUES (0, 'Ended'), (1, 'Active'), (2, 'Voting');
 
 ALTER TABLE [Competition]			     ADD CONSTRAINT [Competition_Fk_Status]						FOREIGN KEY ([StatusId]) 		REFERENCES [Status] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [Friend]					 ADD CONSTRAINT [Friend_Fk_User]							FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;

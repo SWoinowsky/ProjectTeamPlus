@@ -31,18 +31,19 @@ namespace SteamProject.Middlewares
                 }
                 else
                 {
-                    //try catch here to catch cases where you down db but still have userId cached
-                    try
+                    User user = userRepository.GetUser(userId);
+
+                   
+                   
+                    if (user != null)
                     {
-                        User user = userRepository.GetUser(userId);
                         theme = user.Theme ?? "light"; // Default to light theme if not set
                     }
-                    catch (ArgumentNullException exception)
+                    else
                     {
-                        Console.WriteLine(exception);
                         theme = "light"; // Default to light theme if not set
                     }
-                   
+
                 }
                 context.Items["Theme"] = theme;
             }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 using SteamProject.Models;
 using SteamProject.Models.DTO;
 using SteamProject.Services;
@@ -27,21 +28,23 @@ public class CompeteController : Controller
     private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
     private readonly IInboxService _inboxService;
+    private readonly IStatusRepository _statusRepository;
 
     public CompeteController(
         ILogger<FriendController> logger
         ,ISteamService steamService
-        ,IUserRepository userRepository
-        ,IFriendRepository friendRepository
-        ,IGameAchievementRepository gameAchievementRepository
-        ,IUserAchievementRepository userAchievementRepository
-        ,IGameRepository gameRepository
-        ,IUserGameInfoRepository userGameInfoRepository
-        ,ICompetitionRepository competitionRepository
-        ,ICompetitionPlayerRepository competitionPlayerRepository
-        ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
-        ,UserManager<IdentityUser> userManager
-        ,IInboxService inboxService
+        , IUserRepository userRepository
+        , IFriendRepository friendRepository
+        , IGameAchievementRepository gameAchievementRepository
+        , IUserAchievementRepository userAchievementRepository
+        , IGameRepository gameRepository
+        , IUserGameInfoRepository userGameInfoRepository
+        , ICompetitionRepository competitionRepository
+        , ICompetitionPlayerRepository competitionPlayerRepository
+        , ICompetitionGameAchievementRepository competitionGameAchievementRepository
+        , UserManager<IdentityUser> userManager
+        , IInboxService inboxService
+        , IStatusRepository statusRepository
         )
     {
         _logger = logger;
@@ -57,6 +60,7 @@ public class CompeteController : Controller
         _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
         _inboxService = inboxService;
+        _statusRepository = statusRepository;
     }
 
 
@@ -431,6 +435,8 @@ public class CompeteController : Controller
             EndDate = compCreatedOut.CompEndTime,
             Game = game,
         };
+
+        comp.Status = _statusRepository.GetStatusByName("Active");
 
         _competitionRepository.AddOrUpdate( comp );
 

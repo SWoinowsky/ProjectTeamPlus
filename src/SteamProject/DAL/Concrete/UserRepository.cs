@@ -25,11 +25,6 @@ public class UserRepository : Repository<User>, IUserRepository
             .Include(u => u.UserAchievements)
             .FirstOrDefault(u => u.AspNetUserId == userId);
 
-        if (currentUser == null)
-        {
-            throw new ArgumentNullException();
-        }
-
         return currentUser;
     }
 

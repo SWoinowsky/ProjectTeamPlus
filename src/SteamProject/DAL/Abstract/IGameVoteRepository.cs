@@ -1,6 +1,6 @@
-using SteamProject.DAL.Abstract;
-using SteamProject.DAL.Concrete;
 using SteamProject.Models;
+
+namespace SteamProject.DAL.Abstract;
 
 public interface IGameVoteRepository : IRepository<GameVote>
 {

@@ -1,6 +1,7 @@
 using SteamProject.DAL.Abstract;
-using SteamProject.DAL.Concrete;
 using SteamProject.Models;
+
+namespace SteamProject.DAL.Concrete;
 
 public class CompetitionVoteRepository : Repository<CompetitionVote>, ICompetitionVoteRepository
 {
@@ -23,4 +24,3 @@ public class CompetitionVoteRepository : Repository<CompetitionVote>, ICompetiti
         await _ctx.SaveChangesAsync();
     }
 }
-

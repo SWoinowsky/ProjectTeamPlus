@@ -63,7 +63,7 @@ CREATE TABLE [GameAchievement]
 	,[PointVal]			INT				NOT NULL
 	,[GameId]			INT				NOT NULL
 	,[ApiName]			NVARCHAR(100)	NOT NULL
-	,[DisplayName]		NVARCHAR(50)	
+	,[DisplayName]		NVARCHAR(256)	
 	,[IconAchievedUrl]	NVARCHAR(256)	
 	,[IconHiddenUrl]	NVARCHAR(256)	
 	,[HiddenFromUsers]	BIT				NOT NULL

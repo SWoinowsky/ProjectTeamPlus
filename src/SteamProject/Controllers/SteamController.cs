@@ -236,11 +236,7 @@ public class SteamController : ControllerBase
         {
             User user = _userRepository.GetUser(id);
 
-            if (user != null)
-            {
-                theme = user.Theme ?? "light"; // Default to light theme if not set
-            }
-            else
+            if (user == null)
             {
                 theme = "light"; // Default to light theme if not set
             }

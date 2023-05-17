@@ -22,7 +22,7 @@ else
 
             <div class="image-container">
                 <a class="btn btn-info back-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
-                    <i fill="CurrentColor" class="bi bi-arrow-left">Back to Dashboard</i>
+                    <i fill="CurrentColor" class="bi bi-arrow-left">Dashboard</i>
                 </a>
                 <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @Model.CurrentComp.Game.AppId)" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)"/>
             </div>

@@ -119,4 +119,21 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(updateGameNews)
             .catch((error) => console.error(error));
     });
+
+    $('#followedGamesCarousel').on('slide.bs.carousel', function (event) {
+        var height = $(event.relatedTarget).height();
+ 
+        $(this).find('.active.carousel-item').parent().animate({
+            height: height
+        }, 150);
+    });
+
+    // Add this code block for recentGamesCarousel...
+    $('#recentGamesCarousel').on('slide.bs.carousel', function (event) {
+        var height = $(event.relatedTarget).height();
+   
+        $(this).find('.active.carousel-item').parent().animate({
+            height: height
+        }, 150);
+    });
 });

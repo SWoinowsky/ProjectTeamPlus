@@ -123,11 +123,9 @@
         Steam Info Network © 2023
         <a class="footer-privacy" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
         Support: steaminfonexus@gmail.com
-        <div>            
-            @if (User.Identity.Name != null)
-            {
-                @await Component.InvokeAsync("ThemeSwitcher")
-            }
+        <div>
+            @await Component.InvokeAsync("ThemeSwitcher")
+            
             <link id="theme-link" rel="stylesheet" href="~/css/@(Context.Items["Theme"] ?? "light")-theme.css" asp-append-version="true" />
         </div>
     </div>

@@ -28,12 +28,19 @@ namespace SteamProject.ViewComponents
             else
             {
                 User user = _userRepository.GetUser(id);
-                theme = user.Theme ?? "light"; // Default to light theme if not set
+
+                if (user != null)
+                {
+                    theme = user.Theme ?? "light"; // Default to light theme if not set
+                }
+                else
+                {
+                    theme = "light"; // Default to light theme if not set
+                }
+
             }
             return View("_ThemeSwitcher", theme);
         }
-
-
 
     }
 }

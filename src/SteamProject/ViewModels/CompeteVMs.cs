@@ -28,6 +28,10 @@ public class CompeteDetailsVM
     public List<GameAchievement> GameAchList { get; set; } = null;
     public List<KeyValuePair<UserAchievement, User>> Tracking { get; set; }
     public List<KeyValuePair<User, CompetitionPlayer>> Scoreboard { get; set; }
+    public bool HasCompetitionEnded => CurrentComp != null && CurrentComp.Status != null && CurrentComp.Status.Name == "Ended";
+
+    public int CurrentUserId { get; set; }
+
 }
 
 

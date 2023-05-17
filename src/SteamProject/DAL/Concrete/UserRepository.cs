@@ -17,18 +17,7 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public User GetUser(string userId)
     {
-        var currentUser = GetAll()
-            .Include(u => u.UserBadges)
-            .ThenInclude(ub => ub.Badge)
-            .Include(u => u.UserGameInfos)
-            .Include(u => u.Friends)
-            .Include(u => u.UserAchievements)
-            .FirstOrDefault(u => u.AspNetUserId == userId);
-
-        if (currentUser == null)
-        {
-            throw new ArgumentNullException();
-        }
+        var currentUser = GetAll().FirstOrDefault(u => u.AspNetUserId == userId);
 
         return currentUser;
     }

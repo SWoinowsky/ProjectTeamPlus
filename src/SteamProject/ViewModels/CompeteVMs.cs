@@ -30,6 +30,8 @@ public class CompeteDetailsVM
     public List<KeyValuePair<User, CompetitionPlayer>> Scoreboard { get; set; }
     public bool HasCompetitionEnded => CurrentComp != null && CurrentComp.Status != null && CurrentComp.Status.Name == "Ended";
 
+    public int CurrentUserId { get; set; }
+
 }
 
 

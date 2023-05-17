@@ -219,6 +219,16 @@ public class CompeteController : Controller
                 }
             }
 
+            if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
+            {
+                var endedStatus = _statusRepository.GetStatusByName("Ended");
+                if (endedStatus != null)
+                {
+                    competitionIn.Status = endedStatus;
+                    _competitionRepository.AddOrUpdate(competitionIn);
+                }
+            }
+
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;

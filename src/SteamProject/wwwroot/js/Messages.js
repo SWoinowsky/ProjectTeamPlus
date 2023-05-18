@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let sendBtn = document.querySelector('#send-message-btn')
     let msgFooter = document.querySelector('.send-message')
     var msgCount;
-    let baseUrl = "http://localhost:5105"
+    let baseUrl = location.origin;
 
     const ncode = (s) => {
         let o = s.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, function(m) {
@@ -138,27 +138,23 @@ document.addEventListener('DOMContentLoaded', () => {
             let msgs = data.messages
             msgs.forEach((msg) => {
                 if (msg.from == id) {
-                    msgContent.innerHTML += 
-                    `
-                    <div class="from-message">
-                        <div class="from-message-content">
-                            ${msg.content}
-                        </div>
-                        <div class="from-message-time">
-                            sent at ${msg.time}
-                        </div>
+                    let msgCnt = document.createElement('div')
+                    msgCnt.className = "from-message-content"
+                    msgCnt.textContent = msg.content
+                    msgContent.innerHTML += `
+                    <div class="from-message"> 
+                        ${msgCnt.outerHTML}
+                        <div class="from-message-time">${msg.time}</div>
                     </div>
                     `
                 } else {
-                    msgContent.innerHTML += 
-                    `
-                    <div class="to-message">
-                        <div class="to-message-content">
-                            ${msg.content}
-                        </div>
-                        <div class="to-message-time">
-                            sent at ${msg.time}
-                        </div>
+                    let msgCnt = document.createElement('div')
+                    msgCnt.className = "to-message-content"
+                    msgCnt.textContent = msg.content
+                    msgContent.innerHTML += `
+                    <div class="to-message"> 
+                        ${msgCnt.outerHTML}
+                        <div class="to-message-time">${msg.time}</div>
                     </div>
                     `
                 }

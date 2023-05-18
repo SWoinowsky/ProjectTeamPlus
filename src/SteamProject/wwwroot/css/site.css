@@ -725,7 +725,8 @@ p.by a {
 .messages-for-contact {
   position: relative;
   width: 100%;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
   height: 340px;
 }
 
@@ -752,6 +753,7 @@ p.by a {
 .from-message {
   width: 50%;
   position: relative;
+  margin-right: auto;
   left: 5px;
   top: 10px;
   padding-bottom: 5px;

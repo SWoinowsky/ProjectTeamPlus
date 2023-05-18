@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using SteamProject.Models;
+using SteamProject.Models.DTO;
 
 namespace SteamProject.Controllers
 {
@@ -15,65 +16,159 @@ namespace SteamProject.Controllers
     [ApiController]
     public class VoteController : ControllerBase
     {
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ICompetitionVoteRepository _competitionVoteRepository;
         private readonly IGameVoteRepository _gameVoteRepository;
+        private readonly IUserRepository _userRepository;
 
-        public VoteController(CompetitionVoteRepository competitionVoteRepository, GameVoteRepository gameVoteRepository  )
+        public VoteController(UserManager<IdentityUser> userManager, ICompetitionVoteRepository competitionVoteRepository, IGameVoteRepository gameVoteRepository, IUserRepository userRepository)
         {
+            _userManager = userManager;
             _competitionVoteRepository = competitionVoteRepository;
             _gameVoteRepository = gameVoteRepository;
+            _userRepository = userRepository;
+            
         }
 
-        [HttpPost("competitionvote")]
-        public async Task<ActionResult> CreateCompetitionVote(CompetitionVote vote)
+        [HttpPost("CompetitionVote/")]
+        public async Task<ActionResult> CreateCompetitionVote([FromBody] CompetitionVotePOCO newVote)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get current user's Id
-            if (vote.UserId != int.Parse(userId))
+            string? userId = _userManager.GetUserId(User); // Get current user's Id
+
+            if (userId is null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
-            await _competitionVoteRepository.AddVoteAsync(vote);
+            User user = _userRepository.GetUser(userId);
+
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            // Check if a vote by this user for this competition already exists
+            var existingVote = _competitionVoteRepository.GetByUserAndCompetition(user.Id, newVote.CompetitionId);
+
+            if (existingVote != null)
+            {
+                return BadRequest("You've already voted for this competition.");
+            }
+
+            var vote = new CompetitionVote()
+            {
+                CompetitionId = newVote.CompetitionId,
+                UserId = user.Id,
+                WantsToPlayAgain = newVote.WantsToPlayAgain,
+            };
+
+            _competitionVoteRepository.AddOrUpdate(vote);
+
             return Ok();
         }
 
-        [HttpPut("competitionvote/{id}")]
-        public async Task<ActionResult> UpdateCompetitionVote(int id, CompetitionVote vote)
+
+
+
+        [HttpPut("CompetitionVote/{id}")]
+        public async Task<ActionResult> UpdateCompetitionVote(int id, [FromBody] CompetitionVotePOCO updatedVote)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get current user's Id
-            if (vote.UserId != int.Parse(userId) || id != vote.Id)
+            string? userId = _userManager.GetUserId(User); // Get current user's Id
+
+            if (userId is null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
-            await _competitionVoteRepository.UpdateVoteAsync(vote);
+            User user = _userRepository.GetUser(userId);
+
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            // Check if the vote exists and the id matches
+            var existingVote = _competitionVoteRepository.FindById(id);
+            if (existingVote == null)
+            {
+                return BadRequest();
+            }
+
+            // Update existing vote fields
+            existingVote.WantsToPlayAgain = updatedVote.WantsToPlayAgain;
+
+            _competitionVoteRepository.AddOrUpdate(existingVote);
+
             return Ok();
         }
 
-        [HttpPost("gamevote")]
-        public async Task<ActionResult> CreateGameVote(GameVote vote)
+        [HttpPost("GameVote")]
+        public async Task<ActionResult> CreateGameVote([FromBody] GameVotePOCO newVote)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get current user's Id
-            if (vote.UserId != int.Parse(userId))
+            string? userId = _userManager.GetUserId(User); // Get current user's Id
+
+            if (userId is null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
-            await _gameVoteRepository.AddVoteAsync(vote);
+            User user = _userRepository.GetUser(userId);
+
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            // Check if a vote by this user for this game already exists
+            var existingVote = _gameVoteRepository.GetByUserAndGame(user.Id, newVote.GameId);
+
+            if (existingVote != null)
+            {
+                return BadRequest("You've already voted for this game.");
+            }
+
+            var vote = new GameVote()
+            {
+                GameId = newVote.GameId,
+                UserId = user.Id,
+            };
+
+            _gameVoteRepository.AddOrUpdate(vote);
+
             return Ok();
         }
 
-        [HttpPut("gamevote/{id}")]
-        public async Task<ActionResult> UpdateGameVote(int id, GameVote vote)
+
+
+        [HttpPut("GameVote/{id}")]
+        public async Task<ActionResult> UpdateGameVote(int id, [FromBody] GameVotePOCO updatedVote)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get current user's Id
-            if (vote.UserId != int.Parse(userId) || id != vote.Id)
+            string? userId = _userManager.GetUserId(User); // Get current user's Id
+
+            if (userId is null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
-            await _gameVoteRepository.UpdateVoteAsync(vote);
+            User user = _userRepository.GetUser(userId);
+
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            // Check if the vote exists and the id matches
+            var existingVote = _gameVoteRepository.FindById(id);
+            if (existingVote == null)
+            {
+                return BadRequest();
+            }
+
+
+            _gameVoteRepository.AddOrUpdate(existingVote);
+
             return Ok();
         }
+
     }
 }

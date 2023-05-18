@@ -5,31 +5,41 @@ $(function () {
         console.log(`DELETING COMPETITION WITH ID ${compId}`)
         Delete(compId);
     }
+});
 
-    // Vote to compete again
-    var voter = document.getElementById("voteAgainBtn");
-    if (voter) { // make sure the button exists
-        voter.onclick = function () {
-            var competitionId = this.value;
-            var userId = // get the user id, this depends on how you store it
+$(document).ready(function () {
+    $("#voteAgainBtn").click(function () {
+        var hasVoted = $(".CurrentVoteId").attr('id') ? true : false;
+        var wantsToPlayAgain = $(".CurrentVoteStatus").attr('data-status') === 'true' ? true : false;
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/VoteController/competitionvote',
-                    data: JSON.stringify({ CompetitionId: competitionId, UserId: userId, WantsToPlayAgain: true }),
-                    contentType: 'application/json',
-                    success: function (data) {
-                        alert('Vote submitted successfully');
-                        // handle successful voting, for example, hide the button
-                        $('#voteAgainBtn').hide();
-                    },
-                    error: function (data) {
-                        alert('Error voting');
-                        // handle error case
-                    }
-                });
-        }
-    }
+        var competitionId = $(".currentCompId").attr('id');
+
+        var voteData = {
+            Id: hasVoted ? $(".CurrentVoteId").attr('id') : null,
+            CompetitionId: competitionId,
+            UserId: $(".currentUserId").attr('id'),
+            WantsToPlayAgain: wantsToPlayAgain ? false : true
+        };
+
+        var voteUrl = hasVoted ? `/api/Vote/CompetitionVote/${voteData.Id}` : '/api/Vote/CompetitionVote/';
+
+        $.ajax({
+            type: hasVoted ? 'PUT' : 'POST',
+            url: voteUrl,
+            data: JSON.stringify(voteData),
+            contentType: 'application/json',
+            success: function (data) {
+                wantsToPlayAgain = !wantsToPlayAgain;
+                $(".CurrentVoteStatus").attr('data-status', wantsToPlayAgain ? 'true' : 'false');
+                $("#voteAgainBtn").html(`<i id="voteIcon" class="${wantsToPlayAgain ? 'bi bi-hand-thumbs-down rotate-icon' : 'bi bi-hand-thumbs-up rotate-icon'}"></i> ${wantsToPlayAgain ? 'REVOKE VOTE' : 'VOTE TO COMPETE AGAIN'}`);
+                $("#voteAgainBtn").toggleClass('vote-again revoke-vote');
+                $("#voteIcon").toggleClass('rotate');
+            },
+            error: function (data) {
+                alert(hasVoted ? 'Error updating vote' : 'Error voting');
+            }
+        });
+    });
 });
 
 function Delete(int) {

@@ -92,8 +92,9 @@ builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
 builder.Services.AddScoped<IInboxRepository, InboxRepository>();
 builder.Services.AddScoped<IIGDBGenresRepository, IGDBGenresRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
-builder.Services.AddScoped<ICompetitionVoteRepository, CompetitionVoteRepository>();
 builder.Services.AddScoped<IGameVoteRepository, GameVoteRepository>();
+builder.Services.AddScoped<ICompetitionVoteRepository, CompetitionVoteRepository>();
+
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -230,6 +231,12 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    "Vote",
+    "api/Vote/{action}/{id?}",
+    defaults: new { controller = "Vote" }
+);
 
 
 app.MapRazorPages();

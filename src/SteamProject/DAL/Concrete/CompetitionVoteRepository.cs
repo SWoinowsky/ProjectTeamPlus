@@ -23,4 +23,11 @@ public class CompetitionVoteRepository : Repository<CompetitionVote>, ICompetiti
         _ctx.CompetitionVotes.Update(vote);
         await _ctx.SaveChangesAsync();
     }
+
+    public CompetitionVote GetByUserAndCompetition(int userId, int competitionId)
+    {
+        return _ctx.CompetitionVotes
+            .FirstOrDefault(cv => cv.UserId == userId && cv.CompetitionId == competitionId);
+    }
+
 }

@@ -439,3 +439,22 @@ ul {
     width: 100%;
     border-radius: 10px;
 }
+
+
+.vote-again {
+    background-color: #008CBA; /* Blue color */
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.5s; /* Smooth transition */
+}
+
+.revoke-vote {
+    background-color: #f44336; /* Red color */
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.5s; /* Smooth transition */
+}

@@ -12,5 +12,8 @@ namespace SteamProject.DAL.Abstract
 
         public Task UpdateVoteAsync(CompetitionVote vote);
 
+        CompetitionVote GetByUserAndCompetition(int userId, int competitionId);
+
+
     }
 }

@@ -19,10 +19,18 @@ else
         <div class="col-sm-6" style="width: 50%;">
             <div class="currentApp" id=@Model.CurrentComp.Game.AppId hidden></div>
             <div class="currentUserId" id=@Model.CurrentUserId hidden></div>
+            <div class="currentCompId" id=@Model.CurrentComp.Id hidden></div>
+
+            @if (Model.Vote != null)
+            {
+                <div class="CurrentVoteId" id=@Model.Vote.Id hidden></div>
+                <div class="CurrentVoteStatus" data-status="@Model.Vote.WantsToPlayAgain"></div>
+            }
+           
 
             <div class="image-container">
                 <a class="btn btn-info back-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
-                    <i fill="CurrentColor" class="bi bi-arrow-left">Dashboard</i>
+                    <i fill="CurrentColor" class="bi bi-arrow-left"> Dashboard</i>
                 </a>
                 <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @Model.CurrentComp.Game.AppId)" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)"/>
             </div>
@@ -65,10 +73,18 @@ else
             }
             @if (Model.HasCompetitionEnded)
             {
-                <div id="voteAgainDiv">
-                    <button id="voteAgainBtn" value="@Model.CurrentComp.Id">VOTE TO COMPETE AGAIN</button>
-                </div>
+                var buttonVoteText = (Model.Vote != null) ? "REVOKE VOTE" : "VOTE TO COMPETE AGAIN";
+                var buttonClass = (Model.Vote != null) ? "btn btn-primary revoke-vote" : "btn btn-primary vote-again";
+                var iconClass = (Model.Vote != null) ? "bi bi-hand-thumbs-down rotate-icon" : "bi bi-hand-thumbs-up rotate-icon";
+
+                <button id="voteAgainBtn" class="@buttonClass">
+                    <i id="voteIcon" class="@iconClass"></i> @buttonVoteText
+                </button>
             }
+
+
+
+
 
 
             <br>

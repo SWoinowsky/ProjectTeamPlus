@@ -238,6 +238,7 @@ public class CompeteController : Controller
             viewModel.GameAchList = gameAchievements;
             viewModel.Tracking = userAchList;
             viewModel.Scoreboard = userScoreList;
+            viewModel.Vote = competitionIn.CompetitionVotes.Where( v => v.UserId == SinId ).FirstOrDefault();
         }
 
         return View( viewModel );

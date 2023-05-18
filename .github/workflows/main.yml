@@ -1,0 +1,48 @@
+name: Build and run unit tests on selected project
+
+# run upon a push to the integration branch 
+on:
+  push:
+    branches: cicd
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '7.0.x'           # set this to the dot net version to use
+  PROJECT_PATH: './src/NUnit_Tests'
+  PROJECT_NAME: 'NUnit_Tests'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Setup .NET Core SDK
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+        
+      # Build the selected project
+      - name: Build project
+        working-directory: ${{ env.PROJECT_PATH }}
+        run: |
+          dotnet restore
+          dotnet build 
+      
+      # Test the selected project
+      - name: Test project
+        working-directory: ${{ env.PROJECT_PATH }}
+        run: dotnet test --no-restore --no-build ${{ env.PROJECT_NAME }}

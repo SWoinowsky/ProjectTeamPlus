@@ -1,48 +1,49 @@
-name: Build and run unit tests on selected project
+name: Build, test and deploy Standups application to Azure
 
-# run upon a push to the integration branch 
 on:
   push:
-    branches: cicd
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches: [ "cicd" ]
+  pull_request:
+    branches: [ "cicd" ]
+  workflow_dispatch: 
 
 env:
-  DOTNET_VERSION: '7.0.x'           # set this to the dot net version to use
-  PROJECT_PATH: './src/NUnit_Tests'
-  PROJECT_NAME: 'NUnit_Tests'
+# path from root of repo to dir containing project folders (usually where the .sln file is)
+  PATH_TO_SOLUTION: './src'
+  MAIN_PROJECT: SteamProject
+  UNIT_TEST_PROJECT: NUnit_Tests
+# JS_UNIT_TEST_PROJECT: Standups_JS_Tests
+  AZURE_WEBAPP_NAME: standups2023
+  AZURE_WEBAPP_PACKAGE_PATH: publish
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 7.0.x
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+defaults:
+  run:
+    working-directory: './src'
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  build_and_test:
+    name: Build and run tests
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      
-      # Setup .NET Core SDK
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }} 
+    - uses: actions/checkout@v3
+  
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-        
-      # Build the selected project
-      - name: Build project
-        working-directory: ${{ env.PROJECT_PATH }}
-        run: |
-          dotnet restore
-          dotnet build 
-      
-      # Test the selected project
-      - name: Test project
-        working-directory: ${{ env.PROJECT_PATH }}
-        run: dotnet test --no-restore --no-build ${{ env.PROJECT_NAME }}
+    - name: Restore all projects in use
+      run: |
+        dotnet restore "${{ env.MAIN_PROJECT }}"
+        dotnet restore "${{ env.UNIT_TEST_PROJECT }}"
+
+    - name: Build main project
+      run: dotnet build "${{ env.MAIN_PROJECT }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Build unit test project
+      run: dotnet build "${{ env.UNIT_TEST_PROJECT }}" --configuration "Debug" --no-restore
+
+    - name: Run all unit tests, but exclude BDD tests
+      run: dotnet test --filter FullyQualifiedName\!~Features --no-restore

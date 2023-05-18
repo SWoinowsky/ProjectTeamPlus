@@ -135,10 +135,11 @@ CREATE TABLE [InboxMessage]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[RecipientId]		INT				NOT NULL
+	,[SenderId]			INT				
 	,[TimeStamp]		DATETIME		
 	,[Sender]			NVARCHAR(50)
 	,[Subject]			NVARCHAR(50)
-	,[Content]			NVARCHAR(128)
+	,[Content]			NVARCHAR(256)
 );
 
 CREATE TABLE [IGDBGenres] (

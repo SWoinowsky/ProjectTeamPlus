@@ -137,8 +137,8 @@ strong { color: #292929; }
 	position:fixed;
 	width:60px;
 	height:60px;
-	bottom:20%;
-	right:5%;
+	bottom:16em;
+	right:16em;
 	background-color:#e34c4c;
 	color:#FFF;
 	border-radius:50px;
@@ -148,17 +148,47 @@ strong { color: #292929; }
     border: 1px solid #e34c4c;
 }
 
-.float:hover {
+.comp-Text{
+    position: fixed;
+    height: 3em;
+    bottom: 14.6em;
+    right: 5em;
+}
+
+.float:hover, .float-speed-run:hover {
     background-color: white;
     color: #e34c4c;
     border: 1px solid #e34c4c;
     transition: 1s;
 }
 
+.float-speed-run {
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:11.5em;
+	right:16em;
+	background-color:#e34c4c;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    transition: 1s;
+    border: 1px solid #e34c4c;
+}
+
+.speed-Text{
+    position: fixed;
+    height: 2em;
+    bottom: 11.3em;
+    right: 4.6em;
+}
+
 .my-float{
 	margin-top:22px;
     margin: auto;
 }
+
 .iron {
     background-image: linear-gradient(210deg, #CED3D1 48%, #9B9E9C 100%, #9B9E9C 100%);
 }

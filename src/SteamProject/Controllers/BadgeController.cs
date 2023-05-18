@@ -76,7 +76,8 @@ namespace SteamProject.Controllers
                             BadgeId = badge.Id,
                         };
 
-                        _inboxService.SendToInbox(user.Id, "S.I.N Badges", "New Badge", $"Looks like you earned the {badge.Name} badge, keep it up and try to collect them all!");
+                        // _inboxService.SendToInbox(user.Id, "S.I.N Badges", "New Badge", $"Looks like you earned the {badge.Name} badge, keep it up and try to collect them all!");
+                        _inboxService.SendMessage(user.Id, 69420, $"Looks like you earned the {badge.Name} badge, keep it up and try to collect them all!");
                         _userBadgeRepository.AddOrUpdate(userBadge);
 
                         awardedBadges.Add(badge.Id);

@@ -243,6 +243,37 @@ public class CompeteController : Controller
         return View( viewModel );
     }
 
+    [Authorize]
+    [HttpGet]
+    public IActionResult Create()
+    {
+        string id = _userManager.GetUserId(User);
+
+        var currentUser = new SteamProject.Models.User();
+        currentUser = _userRepository.GetUser(id);
+
+        var viewModel = new CompeteCreateVM();
+        viewModel.SteamId = currentUser.SteamId;
+        viewModel.SinId = currentUser.Id;
+
+        return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult CreateSpeedRun()
+    {
+        string id = _userManager.GetUserId(User);
+
+        var currentUser = new SteamProject.Models.User();
+        currentUser = _userRepository.GetUser(id);
+
+        var viewModel = new CompeteCreateVM();
+        viewModel.SteamId = currentUser.SteamId;
+        viewModel.SinId = currentUser.Id;
+
+        return View( viewModel );
+    }
 
     [Authorize]
     [HttpGet]
@@ -407,25 +438,6 @@ public class CompeteController : Controller
         return RedirectToAction("Initiate", new { SteamId = competeIn.MyFriendId, appId = competeIn.ChosenGame.AppId });
     }
 
-
-    [Authorize]
-    [HttpGet]
-    public IActionResult Create()
-    {
-        string id = _userManager.GetUserId(User);
-
-        var currentUser = new SteamProject.Models.User();
-        currentUser = _userRepository.GetUser(id);
-
-        var viewModel = new CompeteCreateVM();
-        viewModel.SteamId = currentUser.SteamId;
-        viewModel.SinId = currentUser.Id;
-
-        _inboxService.SendToInbox(currentUser.Id, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
-
-        return View( viewModel );
-    }
-
     [Authorize]
     [HttpPost]
     public IActionResult Create( CompeteCreateVM compCreatedOut )
@@ -499,6 +511,8 @@ public class CompeteController : Controller
             var compAch = new CompetitionGameAchievement() { CompetitionId = comp.Id, GameAchievementId = ach.Id };
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
+
+        _inboxService.SendToInbox(SinId, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
 
         return RedirectToAction("Index");
     }

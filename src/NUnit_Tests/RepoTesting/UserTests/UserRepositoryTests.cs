@@ -133,7 +133,7 @@ namespace NUnit_Tests.RepoTesting
             
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => userRepository.GetUser("f7b530ec-bf89-45e1-8080-cbe3bfd0f08a"));
+            Assert.IsNull(userRepository.GetUser("f7b530ec-bf89-45e1-8080-cbe3bfd0f08a"));
         }
 
     }

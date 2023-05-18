@@ -162,7 +162,7 @@ public class HomeController : Controller
                 friend.Linked = true;
             }
         }
-
+        
         FriendsPageVM vm = new(friends, user.Id, user.SteamId);
         return View(vm);
     }

@@ -30,15 +30,22 @@ public class MessagesController : ControllerBase
     }
 
     [HttpGet("messageCount")]
-    public ActionResult MessageCount(int userId)
+    public ActionResult MessageCount(int messengerId)
     {
-        return Ok(_inboxRepository.GetInboxMessages(userId).Count);
+        return Ok(_inboxRepository.GetInboxMessages(messengerId).Count);
     }
 
-    [HttpGet("messagesTo")]
-    public ActionResult MessagesTo(int userId)
+    // [HttpGet("messagesTo")]
+    // public ActionResult MessagesTo(int messengerId)
+    // {
+    //     List<InboxMessage> userMessages = _inboxRepository.GetMessagesFor(messengerId);
+    //     return Ok(userMessages);
+    // }
+
+    [HttpGet("messagesBetween")]
+    public ActionResult MessagesTo(int fromId, int messengerId)
     {
-        List<InboxMessage> userMessages = _inboxRepository.GetInboxMessages(userId).OrderByDescending(s => s.Id).ToList();
+        List<InboxMessage> userMessages = _inboxRepository.GetMessagesBetween(fromId, messengerId);
         return Ok(userMessages);
     }
 

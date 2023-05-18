@@ -45,6 +45,12 @@ namespace SteamProject.Controllers
             else
             {
                 User user = _userRepository.GetUser(id);
+
+                if (user == null)
+                {
+                    return BadRequest(new { success = false, message = "User not found" });
+                }
+
                 List<int> awardedBadges = new List<int>();
 
                 foreach (var awardCondition in _awardConditions)

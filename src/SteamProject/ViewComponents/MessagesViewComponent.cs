@@ -20,13 +20,14 @@ namespace SteamProject.ViewComponents
         public IViewComponentResult Invoke()
         {
             string? id = _userManager.GetUserId((ClaimsPrincipal)User);
+            string messengerId;
             if (id is null)
             {
                 Console.WriteLine("Id is null");
             }
             else
             {
-                Console.WriteLine("Id is not null");
+                messengerId = _userRepository.GetUser(id).Id.ToString();
             }
             return View("_Messages");
         }

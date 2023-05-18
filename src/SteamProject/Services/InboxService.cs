@@ -26,7 +26,7 @@ namespace SteamProject.Services
         {
             InboxMessage message = new();
             message.RecipientId = toId;
-            message.Sender = fromId.ToString();
+            message.SenderId = fromId;
             message.Content = content;
             message.TimeStamp = DateTime.Now;
             _inboxRepository.AddOrUpdate(message);

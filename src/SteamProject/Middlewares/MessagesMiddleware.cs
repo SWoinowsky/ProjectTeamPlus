@@ -23,14 +23,20 @@ namespace SteamProject.Middlewares
                 var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var userId = userManager.GetUserId(context.User);
+                string messengerId;
                 if (userId is null)
                 {
                     Console.WriteLine("user is null");
+                    context.Items["MessengerId"] = "null";
                 }
                 else
                 {
-                    string messengerId = userRepository.GetUser(userId).Id.ToString();
-                    context.Items["MessengerId"] = messengerId;
+                    User user = userRepository.GetUser(userId);
+                    if (user != null)
+                    {
+                        messengerId = userRepository.GetUser(userId).Id.ToString();
+                        context.Items["MessengerId"] = messengerId;
+                    }
                 }
             }
             await _next(context);

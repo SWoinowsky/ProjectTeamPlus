@@ -264,7 +264,14 @@ public class LibraryController: Controller
         gameVM._appId = appId;
         gameVM._userGame = _userGameInfoRepository.GetAll(g => g.GameId == game.Id).FirstOrDefault();
         
-        gameVM.playTime = Math.Round(Convert.ToDouble(gameVM._userGame.PlayTime)/60, 1);
+        try
+        {
+            gameVM.playTime = Math.Round(Convert.ToDouble(gameVM._userGame.PlayTime)/60, 1);
+        }
+        catch
+        {
+            gameVM.playTime = 0;
+        }
 
         gameVM.cleanRequirements();
         gameVM.cleanDescriptions();

@@ -5,14 +5,12 @@ A user needs to have an option to hide and unhide a game in the library so that 
 Going to smash these two cases together in one go since it would break the code if unhide ran before hide.
 
 @LoggedIn
-@HideGames
 Scenario: Library page contains button on game that allows you to hide them
 	Given I am signed in
 	When I click on the "Library" link
 	Then I should see a button to hide "Vampire Survivors"
 
 @LoggedIn
-@HideGames
 Scenario: User can hide and unhide a game on the library page
 	Given I am signed in
 	When I click on the "Library" link

@@ -35,18 +35,25 @@ public class MessagesController : ControllerBase
         return Ok(_inboxRepository.GetInboxMessages(messengerId).Count);
     }
 
-    // [HttpGet("messagesTo")]
-    // public ActionResult MessagesTo(int messengerId)
-    // {
-    //     List<InboxMessage> userMessages = _inboxRepository.GetMessagesFor(messengerId);
-    //     return Ok(userMessages);
-    // }
-
     [HttpGet("messagesBetween")]
-    public ActionResult MessagesTo(int fromId, int messengerId)
+    public ActionResult MessagesBetween(int fromId, int toId)
     {
-        List<InboxMessage> userMessages = _inboxRepository.GetMessagesBetween(fromId, messengerId);
-        return Ok(userMessages);
+        List<InboxMessage> messagesBetween = _inboxRepository.GetMessagesBetween(fromId, toId);
+        string jString = "{ \"messages\" : [ ";
+        foreach (var message in messagesBetween)
+        {
+            var obj = new JObject
+                {
+                    {"from", message.SenderId},
+                    {"to", message.RecipientId},
+                    {"content", message.Content},
+                    {"time", message.TimeStamp.Value.ToString("hh:mm tt")}
+                };
+                jString += obj.ToString()+",";
+        }
+        jString = jString.Remove(jString.Length - 1);
+        jString += "] }";
+        return Ok(jString.ToString());
     }
 
     [HttpPost("sendMessageTo")]
@@ -63,12 +70,14 @@ public class MessagesController : ControllerBase
         List<Friend> verified = new();
         List<Friend> friends = _friendRepository.GetFriends(messengerId);
         var steamIds = _userRepository.GetAllUsers().Select(u => u.SteamId);
+        var users = _userRepository.GetAllUsers();
         foreach (var friend in friends)
         {
             if (steamIds.Contains(friend.SteamId)) {
+                var correctId = users.Where(s => s.SteamId == friend.SteamId).Select(s => s.Id).First();
                 var obj = new JObject
                 {
-                    {"id", friend.Id},
+                    {"id", correctId},
                     {"avatar", friend.AvatarFullUrl},
                     {"name", friend.SteamName},
                     {"nickname", friend.Nickname}

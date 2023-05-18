@@ -666,6 +666,7 @@ p.by a {
   flex-flow: row nowrap;
   position: absolute;
   top: 10%;
+  width: 100%;
 }
 
 .message-contacts {
@@ -674,6 +675,11 @@ p.by a {
   flex-flow: column;
   align-items: center;
   border-right: 1px solid #979797;
+  width: 20%;
+}
+
+.messages-box {
+  width: 100%;
 }
 
 .contact-label {
@@ -685,12 +691,19 @@ p.by a {
   padding-right: 5px;
 }
 
+.contacts {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
 .contact {
-  width: 55px;
-  height: 55px;
+  width: 80%;
+  height: auto;
   border: 1px solid #000000;
   border-radius: 50%;
   overflow: hidden;
+  margin: 0px;
   margin-bottom: 10px;
   cursor: pointer;
 }
@@ -713,7 +726,7 @@ p.by a {
   position: relative;
   width: 100%;
   overflow: auto;
-  height: 350px;
+  height: 340px;
 }
 
 .contact-header {
@@ -739,22 +752,24 @@ p.by a {
 .from-message {
   width: 50%;
   position: relative;
-  left: 10px;
+  left: 5px;
   top: 10px;
   padding-bottom: 5px;
 }
 
 .from-message-content {
   background-color: #E9E9E9;
-  border: 1px solid #979797;
+  /* border: 1px transparent #979797; */
   border-radius: 8px;
   text-align: left;
-  padding-left: 0.5rem;
+  /* padding-left: 0.5rem; */
+  padding: 0.5rem;
+
 }
 
 .from-message-time {
   left: 0px;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: #4B4B4B;
   text-align: left;
   padding-left: 0.5rem;
@@ -765,20 +780,21 @@ p.by a {
   position: relative;
   margin-left: auto;
   top: auto;
-  right: 10px;
+  right: 5px;
 }
 
 .to-message-content {
   background-color: #3477F6;
   color: #fff;
-  border: 1px solid #979797;
+  /* border: 1px solid #979797; */
   border-radius: 8px;
   text-align: left;
-  padding-left: 0.5rem;
+  /* padding-left: 0.5rem; */
+  padding: 0.5rem;
 }
 .to-message-time {
   right: 0px;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: #4B4B4B;
   text-align: right;
   padding-right: 0.5rem;
@@ -806,11 +822,12 @@ p.by a {
 
 #send-message-btn {
   position: relative;
-  right: 10px;
+  right: 2%;
   color: #000;
-  font-size: large;
+  font-size: inherit;
   cursor: pointer;
-} 
+  align-self: center;
+}
 
 .right-panel::-webkit-scrollbar {
   width: 0px;

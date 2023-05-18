@@ -421,8 +421,6 @@ public class CompeteController : Controller
         viewModel.SteamId = currentUser.SteamId;
         viewModel.SinId = currentUser.Id;
 
-        _inboxService.SendToInbox(currentUser.Id, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
-
         return View( viewModel );
     }
 
@@ -450,6 +448,7 @@ public class CompeteController : Controller
 
         _competitionRepository.AddOrUpdate( comp );
 
+        _inboxService.SendMessage(SinId, 69420, $"You started a new achievement competition for {comp.Game.Name}! Starting on {comp.StartDate.ToLocalTime()} and finishing {comp.EndDate.ToLocalTime()}");
 
         var competitors = new List<CompetitionPlayer>();
         competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.SteamId } );

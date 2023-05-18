@@ -3,7 +3,7 @@ name: Build and run unit tests on selected project
 # run upon a push to the integration branch 
 on:
   push:
-    branches: dev
+    branches: cicd
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

@@ -22,8 +22,9 @@ namespace SteamProject.Controllers
         private readonly IUserRepository _userRepository;
         private readonly ICompetitionRepository _competitionRepository;
         private readonly IStatusRepository _statusRepository;
+        private readonly IGameRepository _gameRepository;
 
-        public VoteController(UserManager<IdentityUser> userManager, ICompetitionVoteRepository competitionVoteRepository, IGameVoteRepository gameVoteRepository, IUserRepository userRepository, ICompetitionRepository competitionRepository, IStatusRepository statusRepository)
+        public VoteController(UserManager<IdentityUser> userManager, ICompetitionVoteRepository competitionVoteRepository, IGameVoteRepository gameVoteRepository, IUserRepository userRepository, ICompetitionRepository competitionRepository, IStatusRepository statusRepository, IGameRepository gameRepository)
         {
             _userManager = userManager;
             _competitionVoteRepository = competitionVoteRepository;
@@ -31,6 +32,7 @@ namespace SteamProject.Controllers
             _userRepository = userRepository;
             _competitionRepository = competitionRepository;
             _statusRepository = statusRepository;
+            _gameRepository = gameRepository;
         }
 
         [HttpPut("CompetitionVote")]
@@ -113,11 +115,31 @@ namespace SteamProject.Controllers
             return Ok(totalUsers);
         }
 
+        [HttpGet]
+        [Route("SharedGames/{competitionId}")]
+        public IActionResult GetSharedGames(int competitionId)
+        {
+            var sharedGames = _competitionRepository.GetSharedGames(competitionId);
+            if (sharedGames == null)
+            {
+                return NotFound();
+            }
+
+            var sharedGamesDto = sharedGames.Select(game => new GameDto
+            {
+                Id = game.Id,
+                Name = game.Name,
+                IconUrl = game.IconUrl
+            });
+
+            return Ok(sharedGamesDto);
+        }
 
 
 
-        [HttpPost("GameVote")]
-        public async Task<ActionResult> CreateGameVote([FromBody] GameVotePOCO newVote)
+
+        [HttpPut("GameVote")]
+        public async Task<ActionResult> AddOrUpdateGameVote([FromBody] GameVotePOCO voteData)
         {
             string? userId = _userManager.GetUserId(User); // Get current user's Id
 
@@ -131,58 +153,40 @@ namespace SteamProject.Controllers
             if (user is null)
             {
                 return BadRequest();
+            }
+
+            // Fetch the game
+            var game = _gameRepository.FindById(voteData.GameId);
+            if (game is null)
+            {
+                return BadRequest("Game not found");
             }
 
             // Check if a vote by this user for this game already exists
-            var existingVote = _gameVoteRepository.GetByUserAndGame(user.Id, newVote.GameId);
+            var existingVote = _gameVoteRepository.GetByUserAndGame(user.Id, voteData.GameId);
 
-            if (existingVote != null)
-            {
-                return BadRequest("You've already voted for this game.");
-            }
-
-            var vote = new GameVote()
-            {
-                GameId = newVote.GameId,
-                UserId = user.Id,
-            };
-
-            _gameVoteRepository.AddOrUpdate(vote);
-
-            return Ok();
-        }
-
-
-
-        [HttpPut("GameVote/{id}")]
-        public async Task<ActionResult> UpdateGameVote(int id, [FromBody] GameVotePOCO updatedVote)
-        {
-            string? userId = _userManager.GetUserId(User); // Get current user's Id
-
-            if (userId is null)
-            {
-                return BadRequest();
-            }
-
-            User user = _userRepository.GetUser(userId);
-
-            if (user is null)
-            {
-                return BadRequest();
-            }
-
-            // Check if the vote exists and the id matches
-            var existingVote = _gameVoteRepository.FindById(id);
             if (existingVote == null)
             {
-                return BadRequest();
-            }
+                // No vote exists, so create a new one
+                // No vote exists, so create a new one
+                existingVote = new GameVote()
+                {
+                    GameId = voteData.GameId,
+                    UserId = user.Id,
+                    Vote = voteData.WantsToPlay // include this line
+                };
 
+            }
 
             _gameVoteRepository.AddOrUpdate(existingVote);
 
-            return Ok();
+            existingVote.User = null;
+            existingVote.Game = null;
+
+            // return the updated vote
+            return Ok(existingVote);
         }
+
 
     }
 }

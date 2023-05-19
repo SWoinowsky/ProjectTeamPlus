@@ -33,6 +33,7 @@ public class CompeteDetailsVM
     public int CurrentUserId { get; set; }
 
     public CompetitionVote Vote { get; set; }
+    public Status Status { get; set; }
 
 }
 

@@ -15,6 +15,7 @@ public interface ICompetitionRepository : IRepository<Competition>
     public List<Competition> GetPreviousCompetitionsBySteamId(string steamId);
     public int GetTotalUsers(int competitionId);
     public bool HasVoteSucceeded(int competitionId);
+    public IEnumerable<Game> GetSharedGames(int competitionId);
 
 
 }

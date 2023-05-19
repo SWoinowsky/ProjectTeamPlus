@@ -16,6 +16,7 @@ using SteamProject.Data;
 using SteamProject.Utilities;
 using System.Reflection;
 using SteamProject.Models.Awards.Abstract;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -124,6 +125,7 @@ builder.Services.AddOpenAIService();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+
 
 var assembly = Assembly.GetExecutingAssembly();
 var awardConditionTypes = assembly.GetTypes()

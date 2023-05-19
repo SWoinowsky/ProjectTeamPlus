@@ -257,10 +257,12 @@ public class CompeteController : Controller
             viewModel.Tracking = userAchList;
             viewModel.Scoreboard = userScoreList;
             viewModel.Vote = competitionIn.CompetitionVotes.Where( v => v.UserId == SinId ).FirstOrDefault();
+            viewModel.Status = competitionIn.Status;
         }
 
         return View( viewModel );
     }
+
 
     [Authorize]
     [HttpGet]

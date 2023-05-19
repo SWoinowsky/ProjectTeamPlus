@@ -22,6 +22,13 @@ public class UserRepository : Repository<User>, IUserRepository
         return currentUser;
     }
 
+    public User GetUserBySteamId(string steamId)
+    {
+        var currentUser = GetAll().FirstOrDefault(u => u.SteamId == steamId);
+
+        return currentUser;
+    }
+
     public void UpdateUserTheme(int userId, string theme)
     {
         var user = _ctx.Users.FirstOrDefault(u => u.Id == userId);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace SteamProject.Models;
 
@@ -17,10 +18,12 @@ public partial class Competition
 
     public int StatusId { get; set; }
 
+
+    [JsonIgnore]
     public virtual ICollection<CompetitionGameAchievement> CompetitionGameAchievements { get; set; } = new List<CompetitionGameAchievement>();
-
+    [JsonIgnore]
     public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; set; } = new List<CompetitionPlayer>();
-
+    [JsonIgnore]
     public virtual ICollection<CompetitionVote> CompetitionVotes { get; set; } = new List<CompetitionVote>();
 
     public virtual User Creator { get; set; } = null!;

@@ -1,4 +1,4 @@
-name: Update the application database
+name: Update the authentication database
 
 on:
   # Trigger this one only manually

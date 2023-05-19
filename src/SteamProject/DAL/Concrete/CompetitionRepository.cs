@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using SteamProject.DAL.Abstract;
 using SteamProject.DAL.Concrete;
 using SteamProject.Models;
@@ -8,10 +9,12 @@ namespace SteamProject.DAL.Concrete;
 public class CompetitionRepository : Repository<Competition>,  ICompetitionRepository
 {
     private readonly ICompetitionPlayerRepository _competitionPlayerRepository;
+    private readonly SteamInfoDbContext _ctx;
 
     public CompetitionRepository(SteamInfoDbContext ctx, ICompetitionPlayerRepository competitionPlayerRepository) : base(ctx)
     {
         _competitionPlayerRepository = competitionPlayerRepository;
+        _ctx = ctx;
     }
 
     public Competition GetCompetitionById(int id)
@@ -77,6 +80,20 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         return GetAllCompetitionsForUser(competitionPlayers)
             .Where(c => c.EndDate < currentDate)
             .ToList();
+    }
+    public int GetTotalUsers(int competitionId)
+    {
+        // Get the competition by its Id
+        var competition = GetCompetitionById(competitionId);
+
+        // If no such competition exists, return 0 (or throw an exception, if that's more appropriate in your case)
+        if (competition == null)
+        {
+            return 0;
+        }
+
+        // Return the count of CompetitionPlayers
+        return competition.CompetitionPlayers.Count;
     }
 
 }

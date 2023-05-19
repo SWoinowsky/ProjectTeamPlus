@@ -7,7 +7,34 @@ $(function () {
     }
 });
 
+function updateVoteCount() {
+    var competitionId = $(".currentCompId").attr('id');
+    $.ajax({
+        type: 'GET',
+        url: `/api/Vote/CompetitionVoteCount/${competitionId}`,
+        success: function (voteData) {
+            $.ajax({
+                type: 'GET',
+                url: `/api/Vote/TotalCompetitionUsers/${competitionId}`,
+                success: function (userData) {
+                    $("#voteCount").text(`Votes: ${voteData}/${userData}`);
+                },
+                error: function (userData) {
+                    alert('Error getting total users count');
+                }
+            });
+        },
+        error: function (voteData) {
+            alert('Error getting vote count');
+        }
+    });
+}
+
+
 $(document).ready(function () {
+    // Fetch the initial vote count when the page loads
+    updateVoteCount();
+
     $("#voteAgainBtn").click(function () {
         var wantsToPlayAgain = $(".CurrentVoteStatus").attr('data-status') === 'true' ? true : false;
         var competitionId = $(".currentCompId").attr('id');
@@ -28,6 +55,9 @@ $(document).ready(function () {
                 $(".CurrentVoteStatus").attr('data-status', wantsToPlayAgain ? 'true' : 'false');
                 $("#voteAgainBtn").html(`<i id="voteIcon" class="${wantsToPlayAgain ? 'bi bi-hand-thumbs-down' : 'bi bi-hand-thumbs-up'}"></i> ${wantsToPlayAgain ? 'REVOKE VOTE' : 'VOTE TO COMPETE AGAIN'}`);
                 $("#voteAgainBtn").toggleClass('vote-again revoke-vote');
+
+                // Update the vote count
+                updateVoteCount();
             },
             error: function (data) {
                 alert('Error updating vote');
@@ -35,6 +65,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 
 

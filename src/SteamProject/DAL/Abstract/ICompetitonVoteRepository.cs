@@ -15,5 +15,6 @@ namespace SteamProject.DAL.Abstract
         CompetitionVote GetByUserAndCompetition(int userId, int competitionId);
 
 
+        int GetVoteCountForCompetition(int competitionId);
     }
 }

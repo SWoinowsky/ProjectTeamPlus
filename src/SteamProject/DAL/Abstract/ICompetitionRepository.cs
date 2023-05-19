@@ -14,4 +14,5 @@ public interface ICompetitionRepository : IRepository<Competition>
     public List<Competition> GetPreviousCompetitionsBySteamId(string steamId);
 
 
+    int GetTotalUsers(int competitionId);
 }

@@ -20,14 +20,17 @@ namespace SteamProject.Controllers
         private readonly ICompetitionVoteRepository _competitionVoteRepository;
         private readonly IGameVoteRepository _gameVoteRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICompetitionRepository _competitionRepository;
+        private readonly IStatusRepository _statusRepository;
 
-        public VoteController(UserManager<IdentityUser> userManager, ICompetitionVoteRepository competitionVoteRepository, IGameVoteRepository gameVoteRepository, IUserRepository userRepository)
+        public VoteController(UserManager<IdentityUser> userManager, ICompetitionVoteRepository competitionVoteRepository, IGameVoteRepository gameVoteRepository, IUserRepository userRepository, ICompetitionRepository competitionRepository, IStatusRepository statusRepository)
         {
             _userManager = userManager;
             _competitionVoteRepository = competitionVoteRepository;
             _gameVoteRepository = gameVoteRepository;
             _userRepository = userRepository;
-            
+            _competitionRepository = competitionRepository;
+            _statusRepository = statusRepository;
         }
 
         [HttpPut("CompetitionVote")]
@@ -47,6 +50,13 @@ namespace SteamProject.Controllers
                 return BadRequest();
             }
 
+            // Fetch the competition
+            var competition = _competitionRepository.FindById(voteData.CompetitionId);
+            if (competition is null)
+            {
+                return BadRequest("Competition not found");
+            }
+
             // Check if a vote by this user for this competition already exists
             var existingVote = _competitionVoteRepository.GetByUserAndCompetition(user.Id, voteData.CompetitionId);
 
@@ -59,6 +69,13 @@ namespace SteamProject.Controllers
                     UserId = user.Id,
                     WantsToPlayAgain = voteData.WantsToPlayAgain,
                 };
+
+                // If this is the first vote for this competition, update the competition status to Voting
+                if (competition.Status == _statusRepository.GetStatusByName("Ended"))
+                {
+                    competition.Status = _statusRepository.GetStatusByName("Voting");
+                    _competitionRepository.AddOrUpdate(competition);
+                }
             }
             else
             {
@@ -74,6 +91,29 @@ namespace SteamProject.Controllers
             // return the updated vote
             return Ok(existingVote);
         }
+
+        [HttpGet("CompetitionVoteCount/{competitionId}")]
+        public async Task<ActionResult> GetCompetitionVoteCount(int competitionId)
+        {
+            var voteCount = _competitionVoteRepository.GetVoteCountForCompetition(competitionId);
+            return Ok(voteCount);
+        }
+
+        [HttpGet("TotalCompetitionUsers/{competitionId}")]
+        public async Task<ActionResult> GetTotalCompetitionUsers(int competitionId)
+        {
+
+            var totalUsers = _competitionRepository.GetTotalUsers(competitionId);
+
+            if (totalUsers == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(totalUsers);
+        }
+
+
 
 
         [HttpPost("GameVote")]

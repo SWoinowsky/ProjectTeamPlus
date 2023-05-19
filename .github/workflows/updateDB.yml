@@ -66,4 +66,3 @@ jobs:
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --server ${{ env.DB_SERVER_NAME }} \
             --name AllowGitHubActions
-            

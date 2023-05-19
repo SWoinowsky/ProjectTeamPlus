@@ -1,0 +1,69 @@
+name: Update the application database
+
+on:
+  # Trigger this one only manually
+  workflow_dispatch:
+
+env:
+    DB_SERVER: 'steaminfoproject.database.windows.net'
+    DB_SERVER_NAME: SteamInfoProject
+    DB_NAME: SteamInfoAuth
+    RESOURCE_GROUP: SteamProject
+    # Need to manually set DB_USERNAME and DB_PASSWORD in the repo secrets settings
+    # also need to generate AZURE_CREDENTIALS and set it in the repo secrets settings, follow https://github.com/azure/login/tree/v1/#configure-a-service-principal-with-a-secret
+    PATH_TO_SCRIPTS: './src/SteamProject/Data'
+    DOWN_SCRIPT: ./IdDown.sql
+    UP_SCRIPT: ./IdUp.sql
+    SEED_SCRIPT: ./Seed.sql
+
+jobs:
+  update-database:
+    name: Drop all tables, then run up and seed scripts
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.PATH_TO_SCRIPTS }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyodbc click
+  
+    - name: Add firewall rule so we can access the db from pyodbc
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          set -eu
+          agentIP=$(curl -s https://api.ipify.org)
+          az sql server firewall-rule create \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --server ${{ env.DB_SERVER_NAME }} \
+            --name AllowGitHubActions \
+            --start-ip-address $agentIP \
+            --end-ip-address $agentIP
+          sleep 30
+
+    - name: Run dbtool to update the database
+      run: |
+        python dbtool.py ${{ env.DB_SERVER }} ${{ env.DB_NAME }} ${{ secrets.DB_USERNAME }} ${{ secrets.DB_PASSWORD }} ${{ env.DOWN_SCRIPT }}
+        python dbtool.py ${{ env.DB_SERVER }} ${{ env.DB_NAME }} ${{ secrets.DB_USERNAME }} ${{ secrets.DB_PASSWORD }} ${{ env.UP_SCRIPT }}
+        # python dbtool.py ${{ env.DB_SERVER }} ${{ env.DB_NAME }} ${{ secrets.DB_USERNAME }} ${{ secrets.DB_PASSWORD }} ${{ env.SEED_SCRIPT }}
+
+    - name: Remove firewall rule
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          set -eu
+          az sql server firewall-rule delete \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --server ${{ env.DB_SERVER_NAME }} \
+            --name AllowGitHubActions
+            

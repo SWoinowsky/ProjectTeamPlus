@@ -1,3 +1,4 @@
+using SteamProject.DAL.Concrete;
 using SteamProject.Models;
 
 namespace SteamProject.DAL.Abstract;
@@ -12,7 +13,8 @@ public interface ICompetitionRepository : IRepository<Competition>
 
     public List<Competition> GetCurrentCompetitionsBySteamId(string steamId);
     public List<Competition> GetPreviousCompetitionsBySteamId(string steamId);
+    public int GetTotalUsers(int competitionId);
+    public bool HasVoteSucceeded(int competitionId);
 
 
-    int GetTotalUsers(int competitionId);
 }

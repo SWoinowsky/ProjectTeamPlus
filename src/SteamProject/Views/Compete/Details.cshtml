@@ -84,6 +84,29 @@ else
                 <div id="voteCount"></div>
             }
 
+            <div class="modal fade" id="gameSelectModal" tabindex="-1" role="dialog" aria-labelledby="gameSelectModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="gameSelectModalLabel">Game Selection</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- This is where the list of shared games will go -->
+                            <div id="sharedGamesList">
+                                <!-- Populate this list dynamically using Javascript -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="voteGameButton">Vote</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 
 

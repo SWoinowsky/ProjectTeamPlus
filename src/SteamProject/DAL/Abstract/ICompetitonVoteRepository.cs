@@ -12,9 +12,11 @@ namespace SteamProject.DAL.Abstract
 
         public Task UpdateVoteAsync(CompetitionVote vote);
 
-        CompetitionVote GetByUserAndCompetition(int userId, int competitionId);
+        public CompetitionVote GetByUserAndCompetition(int userId, int competitionId);
 
 
-        int GetVoteCountForCompetition(int competitionId);
+        public int GetVoteCountForCompetition(int competitionId);
+
+        public int GetPositiveVotesCount(int competitionId);
     }
 }

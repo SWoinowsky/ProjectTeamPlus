@@ -37,4 +37,10 @@ public class CompetitionVoteRepository : Repository<CompetitionVote>, ICompetiti
             .Where(v => v.CompetitionId == competitionId && v.WantsToPlayAgain)
             .Count();
     }
+
+    public int GetPositiveVotesCount(int competitionId)
+    {
+        return GetAll().Where(vote => vote.CompetitionId == competitionId && vote.WantsToPlayAgain).Count();
+    }
+
 }

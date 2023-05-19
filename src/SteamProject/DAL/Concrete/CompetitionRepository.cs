@@ -9,12 +9,14 @@ namespace SteamProject.DAL.Concrete;
 public class CompetitionRepository : Repository<Competition>,  ICompetitionRepository
 {
     private readonly ICompetitionPlayerRepository _competitionPlayerRepository;
+    private readonly ICompetitionVoteRepository _competitionVoteRepository;
     private readonly SteamInfoDbContext _ctx;
 
-    public CompetitionRepository(SteamInfoDbContext ctx, ICompetitionPlayerRepository competitionPlayerRepository) : base(ctx)
+    public CompetitionRepository(SteamInfoDbContext ctx, ICompetitionPlayerRepository competitionPlayerRepository, ICompetitionVoteRepository competitionVoteRepository) : base(ctx)
     {
         _competitionPlayerRepository = competitionPlayerRepository;
         _ctx = ctx;
+        _competitionVoteRepository = competitionVoteRepository;
     }
 
     public Competition GetCompetitionById(int id)
@@ -95,5 +97,15 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         // Return the count of CompetitionPlayers
         return competition.CompetitionPlayers.Count;
     }
+
+    public bool HasVoteSucceeded(int competitionId)
+    {
+        int totalUsers = GetTotalUsers(competitionId);
+        int positiveVotes = _competitionVoteRepository.GetPositiveVotesCount(competitionId);
+
+        return (positiveVotes >= totalUsers / 2.0);
+    }
+
+
 
 }

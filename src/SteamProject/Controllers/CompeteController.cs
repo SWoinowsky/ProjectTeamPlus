@@ -219,15 +219,33 @@ public class CompeteController : Controller
                 }
             }
 
-            if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
+            if (DateTime.UtcNow >= competitionIn.EndDate)
             {
-                var endedStatus = _statusRepository.GetStatusByName("Ended");
-                if (endedStatus != null)
+                // Voting has ended, check if the vote has succeeded
+                bool hasVoteSucceeded = _competitionRepository.HasVoteSucceeded(competitionIn.Id);
+
+                if (hasVoteSucceeded)
                 {
-                    competitionIn.Status = endedStatus;
-                    _competitionRepository.AddOrUpdate(competitionIn);
+                    // If the vote has succeeded, move to game selection stage.
+                    // You might have a status for this, similar to the "Ended" status. Replace "GameSelection" with your actual status name
+                    var gameSelectionStatus = _statusRepository.GetStatusByName("GameSelection");
+                    if (gameSelectionStatus != null)
+                    {
+                        competitionIn.Status = gameSelectionStatus;
+                        _competitionRepository.AddOrUpdate(competitionIn);
+                    }
+                }
+                else if (competitionIn.Status.Name != "Ended")
+                {
+                    var endedStatus = _statusRepository.GetStatusByName("Ended");
+                    if (endedStatus != null)
+                    {
+                        competitionIn.Status = endedStatus;
+                        _competitionRepository.AddOrUpdate(competitionIn);
+                    }
                 }
             }
+
 
 
             viewModel.CurrentComp = competitionIn;

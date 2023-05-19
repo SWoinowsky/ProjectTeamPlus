@@ -21,8 +21,10 @@ public class SteamController : ControllerBase
     private readonly IEmailSender _emailSender;
     private readonly IFriendRepository _friendRepository;
     private readonly IInboxService _inboxService;
+    private readonly IIGDBGenresRepository _iGDBGenreRepository;
+    private readonly ICompetitionRepository _competitionRepository;
 
-    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService)
+    public SteamController(UserManager<IdentityUser> userManager, IUserRepository userRepository, ISteamService steamService, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, IEmailSender emailSender, IFriendRepository friendRepository, IInboxService inboxService, IIGDBGenresRepository iGDBGenresRepository, ICompetitionRepository competitionRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -32,6 +34,8 @@ public class SteamController : ControllerBase
         _emailSender = emailSender;
         _friendRepository = friendRepository;
         _inboxService = inboxService;
+        _iGDBGenreRepository = iGDBGenresRepository;
+        _competitionRepository = competitionRepository;
     }
 
 
@@ -231,11 +235,32 @@ public class SteamController : ControllerBase
         else
         {
             User user = _userRepository.GetUser(id);
+
+            if (user == null)
+            {
+                theme = "light"; // Default to light theme if not set
+            }
+
             _userRepository.UpdateUserTheme(user.Id, theme);
             return Ok(new { success = true });
         }
     }
 
+    [HttpPost("DeleteComp")]
+    public IActionResult DeleteComp( int compId )
+    {
+        var compFound = new Competition();
+        compFound = _competitionRepository.GetCompetitionById( compId );
 
+        if( compFound is null )
+        {
+            return BadRequest(new { success = false, message = "Competition not found" });
+        }
+        else
+        {
+            _competitionRepository.Delete( compFound );
+            return Ok( new { success = true } );
+        }
+    }
 
 }

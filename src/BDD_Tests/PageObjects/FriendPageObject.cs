@@ -17,6 +17,11 @@ namespace BDD_Tests.PageObjects
         public IWebElement NavBarHelloLink => _webDriver.FindElement(By.CssSelector("a[href=\"/Identity/Account/Manage\"]"));
         public IWebElement FriendUserName => _webDriver.FindElement(By.Id("friendUsername"));
 
+        public ReadOnlyCollection<IWebElement> GetSharedGames()
+        {
+            return _webDriver.FindElements(By.ClassName("friendDiv"));
+        }
+
 
         public IWebElement GetFriendUsername()
         {

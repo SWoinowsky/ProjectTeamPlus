@@ -24,16 +24,16 @@ const bool azurePublish = !localDbSource;
 // Add services to the container.
 
 //Local Connection Strings
+//Local Connection Strings
 if (localDbSource == true)
 {
     var connectionString = builder.Configuration.GetConnectionString("AuthenticationConnection") ?? throw new InvalidOperationException("Connection string 'AuthenticationConnection' not found.");
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString));
+        options.UseLazyLoadingProxies().UseSqlServer(connectionString));
 
     var connectionStringTwo = builder.Configuration.GetConnectionString("SteamInfoConnection") ?? throw new InvalidOperationException("Connection string 'SteamInfoConnection' not found.");
     builder.Services.AddDbContext<SteamInfoDbContext>(options =>
-        options.UseSqlServer(connectionStringTwo));
-
+        options.UseLazyLoadingProxies().UseSqlServer(connectionStringTwo));
 }
 
 //Azure Connection Strings
@@ -43,11 +43,11 @@ if (localDbSource == false)
     {
         var connectionString = builder.Configuration.GetConnectionString("SteamInfoAuthConnectionAzure") ?? throw new InvalidOperationException("Connection string 'AuthenticationConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connectionString));
+            options.UseLazyLoadingProxies().UseSqlServer(connectionString));
 
         var connectionStringTwo = builder.Configuration.GetConnectionString("SteamInfoConnectionAzure") ?? throw new InvalidOperationException("Connection string 'SteamInfoConnection' not found.");
         builder.Services.AddDbContext<SteamInfoDbContext>(options =>
-            options.UseSqlServer(connectionStringTwo));
+            options.UseLazyLoadingProxies().UseSqlServer(connectionStringTwo));
     }
     else
     {
@@ -56,18 +56,17 @@ if (localDbSource == false)
             Password = builder.Configuration["SteamInfo:DBPassword"]
         };
         builder.Services.AddDbContext<SteamInfoDbContext>(options =>
-            options.UseSqlServer(stringBuilder.ConnectionString));
-
+            options.UseLazyLoadingProxies().UseSqlServer(stringBuilder.ConnectionString));
 
         var authStringBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("SteamInfoAuthConnectionAzure"))
         {
             Password = builder.Configuration["SteamInfo:DBPassword"]
         };
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(authStringBuilder.ConnectionString));
+            options.UseLazyLoadingProxies().UseSqlServer(authStringBuilder.ConnectionString));
     }
-
 }
+
 
 var SteamApiToken = builder.Configuration["SteamKey"];
 var openAiToken = builder.Configuration["OpenAiKey"];
@@ -92,6 +91,10 @@ builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
 builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
 builder.Services.AddScoped<IInboxRepository, InboxRepository>();
 builder.Services.AddScoped<IIGDBGenresRepository, IGDBGenresRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<ICompetitionVoteRepository, CompetitionVoteRepository>();
+builder.Services.AddScoped<IGameVoteRepository, GameVoteRepository>();
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -145,6 +148,9 @@ using (var scope = app.Services.CreateScope())
         // Set password with the Secret Manager tool, or store in Azure app configuration
         // dotnet user-secrets set SeedUserPW <pw>
 
+        var dbContext = services.GetRequiredService<SteamInfoDbContext>();
+        SeedGameData.Seed(dbContext);
+
         var testUserPw = config["SeedUserPW"];
 
         SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
@@ -186,6 +192,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<SteamProject.Middlewares.ThemeMiddleware>();
+app.UseMiddleware<SteamProject.Middlewares.MessagesMiddleware>();
 
 
 app.MapControllerRoute(
@@ -204,6 +211,12 @@ app.MapControllerRoute(
     "Compete",
     "Compete/Create",
     defaults: new { controller = "Compete", action = "Create" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/CreateSpeedRun",
+    defaults: new { controller = "Compete", action = "CreateSpeedRun" }
 );
 
 app.MapControllerRoute(

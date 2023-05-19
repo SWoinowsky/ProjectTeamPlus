@@ -15,7 +15,6 @@ namespace BDD_Tests.StepDefinitions
         private readonly ScenarioContext _scenarioContext;
         private readonly FriendsPageObject _friendsPage;
         private readonly LoginPageObject _loginPage;
-        
 
         public KODO175StepDefinitions(ScenarioContext context, BrowserDriver browserDriver)
         {
@@ -27,11 +26,9 @@ namespace BDD_Tests.StepDefinitions
             Configuration = builder.Build();
         }
 
-
         [Given(@"I have a friend on the friends page")]
         public void GivenIHaveAFriendOnTheFriendsPage()
         {
-            //_friendsPage.LoadAllCookies();
             Thread.Sleep(500);
             _friendsPage.GoTo("Friends");
             Thread.Sleep(500);
@@ -50,28 +47,45 @@ namespace BDD_Tests.StepDefinitions
             _loginPage.Login();
             Thread.Sleep(500);
             _friendsPage.GoTo("Friends");
-
         }
 
-        [Given(@"I click on the name on the friend card")]
-        public void GivenIClickOnTheNameOnTheFriendCard()
+        [Given(@"I click on the name on the friend card ""(.*)""")]
+        public void GivenIClickOnTheNameOnTheFriendCard(string friendName)
         {
-            Thread.Sleep(500);
-            _friendsPage.ClickName();
+            _friendsPage.ClickName(friendName);
         }
 
-        [When(@"I enter a nickname ""([^""]*)""")]
-        public void WhenIEnterANickname(string alias)
+        [When(@"I enter a nickname ""(.*)"" for ""(.*)""")]
+        public void WhenIEnterANicknameFor(string alias, string friendName)
         {
-            Thread.Sleep(500);
-            _friendsPage.GiveNewName("Minecraft");
+            _friendsPage.GiveNewName(friendName, alias);
+            Thread.Sleep(1000);
         }
 
-        [Then(@"I should see them references as ""([^""]*)""")]
-        public void ThenIShouldSeeThemReferencesAs(string alias)
+        [Then(@"I should see ""(.*)"" referenced as ""(.*)""")]
+        public void ThenIShouldSeeThemReferencesAs(string friendName, string alias)
         {
-            Thread.Sleep(500);
-            _friendsPage.NewName().Should().BeEquivalentTo("Minecraft");
+            _friendsPage.NewName(friendName).Should().BeEquivalentTo(alias);
+        }
+
+
+        [Given(@"""(.*)"" has a set nickname")]
+        public void GivenThatFriendHasASetNickname(string friendName)
+        {
+            _friendsPage.NewName(friendName).Should().NotBeNullOrEmpty();
+        }
+
+        [When(@"I click on the revert button for ""(.*)""")]
+        public void WhenIClickOnTheRevertButton(string friendId)
+        {
+            _friendsPage.Revert(friendId);
+        }
+
+        [Then(@"I should see the name of ""(.*)"" return to original")]
+        public void ThenIShouldSeeTheirNameReturnToOriginal(string friendName)
+        {
+            Thread.Sleep(1000);
+            _friendsPage.NewName(friendName).Should().BeEquivalentTo(friendName);
         }
     }
 }

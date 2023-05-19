@@ -139,6 +139,80 @@ public class HelperTests
     }
 
     [Test]
+    public void SplitListIntoChunks_WithValidItemsAndChunkSize_ReturnsCorrectChunks()
+    {
+        // Arrange
+        var items = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        var chunkSize = 3;
+
+        // Act
+        var result = HelperMethods.SplitListIntoChunks(items, chunkSize);
+
+        // Assert
+        Assert.AreEqual(4, result.Count);
+        Assert.AreEqual(new List<int> { 1, 2, 3 }, result[0]);
+        Assert.AreEqual(new List<int> { 4, 5, 6 }, result[1]);
+        Assert.AreEqual(new List<int> { 7, 8, 9 }, result[2]);
+        Assert.AreEqual(new List<int> { 10 }, result[3]);
+    }
+
+    [Test]
+    public void SplitListIntoChunks_WithEmptyList_ReturnsEmptyList()
+    {
+        // Arrange
+        var items = new List<int>();
+        var chunkSize = 5;
+
+        // Act
+        var result = HelperMethods.SplitListIntoChunks(items, chunkSize);
+
+        // Assert
+        Assert.IsEmpty(result);
+    }
+
+    [Test]
+    public void SplitListIntoChunks_WithNullItems_ReturnsEmptyList()
+    {
+        // Arrange
+        List<int> items = null;
+        var chunkSize = 5;
+
+        // Act
+        var result = HelperMethods.SplitListIntoChunks(items, chunkSize);
+
+        // Assert
+        Assert.IsEmpty(result);
+    }
+
+    [Test]
+    public void SplitListIntoChunks_WithZeroChunkSize_ReturnsEmptyList()
+    {
+        // Arrange
+        var items = new List<int> { 1, 2, 3, 4, 5 };
+        var chunkSize = 0;
+
+        // Act
+        var result = HelperMethods.SplitListIntoChunks(items, chunkSize);
+
+        // Assert
+        Assert.IsEmpty(result);
+    }
+
+    [Test]
+    public void SplitListIntoChunks_WithNegativeChunkSize_ReturnsEmptyList()
+    {
+        // Arrange
+        var items = new List<int> { 1, 2, 3, 4, 5 };
+        var chunkSize = -2;
+
+        // Act
+        var result = HelperMethods.SplitListIntoChunks(items, chunkSize);
+
+        // Assert
+        Assert.IsEmpty(result);
+    }
+
+    [Test]
     public void IsolateEmailURL_ForLocal_ReturnsExpected()
     {
         // Arrange

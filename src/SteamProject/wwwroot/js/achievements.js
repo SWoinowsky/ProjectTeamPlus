@@ -24,24 +24,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchAchievements = (steamid, appid) => {
         fetch(`/api/Steam/achievements?steamid=${steamid}&appId=${appid}`)
-        .then((response) => {
-            if (response.status == 204) {
-                throwError(1)
-            }
-            else {
-                error.style.display = "none"
-                response.json()
-                .then((data) => {
-                    let userAch = data
-                    fetch(`/api/Steam/schema?appId=${appid}`)
-                    .then((response) => response.json())
-                    .then((data) => {
-                    let gameSchema = data
-                    generateAchievements(gameSchema, userAch)
-                    })
-                })
-            }
-        })
+            .then((response) => {
+                if (response.status == 204) {
+                    throwError(1)
+                }
+                else {
+                    error.style.display = "none"
+                    response.json()
+                        .then((data) => {
+                            let userAch = data
+                            fetch(`/api/Steam/schema?appId=${appid}`)
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    let gameSchema = data
+                                    generateAchievements(gameSchema, userAch)
+                                })
+                        })
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching achievements:', error);
+            })
     }
 
     const generateAchievements = (schema, userAch) => {
@@ -60,38 +63,47 @@ document.addEventListener('DOMContentLoaded', () => {
             let achArray = userAch.playerstats.achievements
             let earned = []
             let unearned = []
+
+            const achLookup = achArray.reduce((lookup, ach) => {
+                lookup[ach.apiname] = ach.achieved;
+                return lookup;
+            }, {});
+
             schemaArray.forEach((sch) => {
-            achArray.forEach((ach) => {
-            if (sch.name == ach.apiname && ach.achieved == 1) {
-                count += 1
+                let isEarned = achLookup[sch.name] === 1;
+                if (isEarned) {
+                    count += 1;
+                }
+
                 let achIcon = document.createElement('div')
                 achIcon.className = 'col-md-3 ach-col'
-                achIcon.innerHTML = `<div class="ach-name">${sch.displayName}</div><img class="ach-img" src=${sch.icon}>`
-                // achRow.appendChild(achIcon)
-                earned.push(achIcon)
-            }
-            //<h7>${sch.displayName}</h7>
-            else if (sch.name == ach.apiname && ach.achieved == 0) {
-                let achIcon = document.createElement('div')
-                achIcon.className = 'col-md-3 ach-col'
-                achIcon.innerHTML = `<div class="ach-name">${sch.displayName}</div><img class="ach-img unearned" src=${sch.icon}>`
-                // achRow.appendChild(achIcon)
-                unearned.push(achIcon)
-            }
+                achIcon.innerHTML = `<div class="ach-name">${sch.displayName}</div><img class="ach-img${isEarned ? '' : ' unearned'}" src=${sch.icon}>`
+
+                if (isEarned) {
+                    earned.push(achIcon)
+                } else {
+                    unearned.push(achIcon)
+                }
+            });
+
             earnedRatio.textContent = `${count} / ${achArray.length}`
             let percentage = (count / achArray.length) * 200
+
+            loader.style.display = "none"
+            container.style.display = "flex"
+
             earned.forEach((icon) => {
                 achRow.appendChild(icon)
             })
             unearned.forEach((icon) => {
                 achRow.appendChild(icon)
             })
+
             progress.style.width = `${percentage}px`
-            loader.style.display = "none"
-            container.style.display = "flex"
-        })
-        })}
+        }
     }
+
+
 
     const throwError = (serverError) => {
         loader.style.display = "none"

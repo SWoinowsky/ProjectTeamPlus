@@ -11,7 +11,7 @@ namespace BDD_Tests.PageObjects
             _pageName = "Dashboard";
         }
 
-        private IWebElement FindElementSafely(By by)
+        public IWebElement FindElementSafely(By by)
         {
             try
             {
@@ -40,6 +40,12 @@ namespace BDD_Tests.PageObjects
 
 
         public IWebElement NavBarHelloLink => _webDriver.FindElement(By.CssSelector("a[href=\"/Identity/Account/Manage\"]"));
+
+        public IReadOnlyCollection<IWebElement> Badges =>
+            _webDriver.FindElements(By.ClassName("badge-button-img"));
+
+        public IReadOnlyCollection<IWebElement> BadgeDescriptions =>
+            _webDriver.FindElements(By.ClassName("badge-description"));
 
         public string NavbarWelcomeText()
         {
@@ -70,5 +76,38 @@ namespace BDD_Tests.PageObjects
             IWebElement navbarLogoutButton = _webDriver.FindElement(By.Id("logout-button"));
             navbarLogoutButton.Click();
         }
+
+
+ 
+        public bool IsBadgePresent()
+        {
+            return Badges.Count > 0;
+        }
+
+        public IWebElement GetBadgeByName(string badgeName)
+        {
+            return _webDriver.FindElement(By.XPath($"//img[@alt='{badgeName}']"));
+        }
+
+        public void ClickBadge(IWebElement badge)
+        {
+            badge.Click();
+        }
+
+        public string GetBadgeDescription(IWebElement badgeDescription)
+        {
+            return badgeDescription.Text;
+        }
+
+        public void GoToBadgeDetails(string badgeName)
+        {
+            var badge = GetBadgeByName(badgeName);
+            if (badge != null)
+            {
+                ClickBadge(badge);
+            }
+        }
     }
 }
+
+

@@ -9,6 +9,7 @@ using SteamProject.Helpers;
 using SteamProject.Models.DTO;
 using SteamProject.Services;
 using SteamProject.ViewModels;
+using SteamProject.DAL.Concrete;
 
 namespace SteamProject.Controllers;
 
@@ -17,12 +18,22 @@ public class HomeController : Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly IGameRepository _gameRepository;
-    private readonly ISteamService _steamService;
     private readonly IUserGameInfoRepository _userGameInfoRepository;
+    private readonly ISteamService _steamService;
     private readonly IFriendRepository _friendRepository;
     private readonly IInboxService _inboxService;
+    private readonly ICompetitionRepository _competitionRepository;
 
-    public HomeController(UserManager<IdentityUser> userManager, IUserRepository userRepository, IGameRepository gameRepository, IUserGameInfoRepository userGameInfoRepository, ISteamService steamService, IFriendRepository friendRepository, IInboxService inboxService)
+    public HomeController(
+        UserManager<IdentityUser> userManager,
+        IUserRepository userRepository,
+        IGameRepository gameRepository,
+        IUserGameInfoRepository userGameInfoRepository,
+        ISteamService steamService,
+        IFriendRepository friendRepository,
+        IInboxService inboxService,
+        ICompetitionRepository competitionRepository
+    )
     {
         _userManager = userManager;
         _userRepository = userRepository;
@@ -31,6 +42,7 @@ public class HomeController : Controller
         _userGameInfoRepository = userGameInfoRepository;
         _friendRepository = friendRepository;
         _inboxService = inboxService;
+        _competitionRepository = competitionRepository;
     }
 
     public IActionResult Index()
@@ -50,8 +62,6 @@ public class HomeController : Controller
         else
         {
             UserDashboardVM dashboardVm = new UserDashboardVM();
-            dashboardVm.RecentGames = new List<List<Game>>();
-            dashboardVm.FollowedGames = new List<List<Game>>();
             User user = _userRepository.GetUser(id);
 
             dashboardVm.User = user;
@@ -68,35 +78,20 @@ public class HomeController : Controller
                 HashSet<Game> followedGames =
                     _gameRepository.GetGamesListByUserInfo(currentUserInfo.Where(u => u.Followed).ToList());
 
-                // Add games and followed games to the dashboardVm
-                for (var i = 0; i < games.Count; i += 3)
-                {
-                    List<Game> threeGames = games.Skip(i).Take(3).ToList();
-                    dashboardVm.RecentGames.Add(threeGames);
-                }
+                // Add games and followed games to the dashboardVm using helper function
+                dashboardVm.RecentGames = HelperMethods.SplitListIntoChunks(games, 3);
+                dashboardVm.FollowedGames = HelperMethods.SplitListIntoChunks(followedGames.ToList(), 3);
 
-                for (var i = 0; i < followedGames.Count; i += 3)
-                {
-                    List<Game> threeGames = followedGames.Skip(i).Take(3).ToList();
-                    dashboardVm.FollowedGames.Add(threeGames);
-                }
+                // Get the user's competitions
+                dashboardVm.CurrentCompetitions = _competitionRepository.GetCurrentCompetitionsBySteamId(user.SteamId);
 
-                dashboardVm.BadgeImagesBase64 = new Dictionary<int, string>();
-
-                foreach (var userBadge in user.UserBadges)
-                {
-                    var badgeImageBase64 = Convert.ToBase64String(userBadge.Badge.Image);
-                    dashboardVm.BadgeImagesBase64[userBadge.BadgeId] = badgeImageBase64;
-                }
-                return View(dashboardVm);
+                List<Competition> previousCompetitions = _competitionRepository.GetPreviousCompetitionsBySteamId(user.SteamId);
+                dashboardVm.PreviousCompetitions = HelperMethods.SplitListIntoChunks(previousCompetitions, 3);
             }
 
-
-
-            return View();
+            return View(dashboardVm);
         }
     }
-
 
     public IActionResult ShowMoreNews(int appId)
     {
@@ -167,7 +162,7 @@ public class HomeController : Controller
                 friend.Linked = true;
             }
         }
-
+        
         FriendsPageVM vm = new(friends, user.Id, user.SteamId);
         return View(vm);
     }

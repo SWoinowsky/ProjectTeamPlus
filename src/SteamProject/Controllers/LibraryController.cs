@@ -227,7 +227,7 @@ public class LibraryController: Controller
             {
                 userLibraryVM._games = _gameRepository.GetGamesListByUserInfo(gameInfo);
             }
-            var genres = _iGDBGenreRepository.GetGenreList();
+            var genres = _iGDBGenreRepository.GetGenreList().OrderBy(s => s);
             userLibraryVM._genres = new HashSet<string>();
 
             if(genreList.Count() == 0)
@@ -248,7 +248,6 @@ public class LibraryController: Controller
                     }
                 }
             }
-
             userLibraryVM._user.UserGameInfos = userLibraryVM._user.UserGameInfos.OrderBy(g => g.Game.Name).ToList();
             return View(userLibraryVM);
         }
@@ -265,7 +264,14 @@ public class LibraryController: Controller
         gameVM._appId = appId;
         gameVM._userGame = _userGameInfoRepository.GetAll(g => g.GameId == game.Id).FirstOrDefault();
         
-        gameVM.playTime = Math.Round(Convert.ToDouble(gameVM._userGame.PlayTime)/60, 1);
+        try
+        {
+            gameVM.playTime = Math.Round(Convert.ToDouble(gameVM._userGame.PlayTime)/60, 1);
+        }
+        catch
+        {
+            gameVM.playTime = 0;
+        }
 
         gameVM.cleanRequirements();
         gameVM.cleanDescriptions();
@@ -316,5 +322,94 @@ public class LibraryController: Controller
         }
         userLibraryVM._userGameInfo = userGamesByGenre;
         return View(userLibraryVM);
+    }
+
+    public IActionResult Recommendations()
+    {
+        string? id = _userManager.GetUserId(User);
+        User user = _userRepository.GetUser(id);
+
+        // This is the dictionary that will hold the scores for each game in the db.
+        List<Dictionary<Game, int>> recommendationList = new List<Dictionary<Game, int>>();
+
+        if(id is null)
+        {
+            return BadRequest(new {success = false, message = "User not found"});
+        }
+        else
+        {
+            // List of current users games.
+            List<UserGameInfo>? userGameList = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+
+            // Simple hashset of game id's to check and see what games a user doesn't own.
+            HashSet<int> userGameIds = new HashSet<int>();
+
+            // Setting up dictionary for scoring.
+            List<Dictionary<string, int>> genreScores = new List<Dictionary<string, int>>();
+
+            foreach (var genre in _iGDBGenreRepository.GetGenreList())
+            {
+                var dictionary = new Dictionary<string, int>
+                {
+                    {genre, 0}
+                };
+                genreScores.Add(dictionary);
+            }
+
+            // Looks through each game a user has and finds it in the game db. Then scores the genres for the number
+            //  of times they occure in the users library.
+            foreach(var game in userGameList)
+            {
+                var temp = _gameRepository.FindById(game.GameId);
+                userGameIds.Add(temp.AppId);
+                string[] gameGenres = temp.Genres.Split(",");
+                foreach(var genre in gameGenres)
+                {
+                    foreach(var dictionary in genreScores)
+                    {
+                        if(dictionary.ContainsKey(genre))
+                        {
+                            // We found the genre, so we increase it's score and skip to the next genre to check.
+                            dictionary[genre] += 1;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Gets all of the games from the DB and sets them up to be scored in our dictionary.
+            foreach(var game in _gameRepository.GetAll().ToList())
+            {
+                if(!userGameIds.Contains(game.AppId))
+                {
+                    recommendationList.Add(new Dictionary<Game, int>
+                    {
+                        {game, 0}
+                    });
+                }
+            }
+
+            foreach(var dictionary in recommendationList)
+            {
+                string[] gameGenres = dictionary.First().Key.Genres.Split(",");
+                foreach(var genreScore in genreScores)
+                {
+                    foreach(var genre in gameGenres)
+                    {
+                        if(genre == genreScore.First().Key)
+                        {
+                            dictionary[dictionary.First().Key] += genreScore.First().Value;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Order the recommendationList by the values in descending order
+        var orderedRecommendationList = recommendationList.OrderByDescending(dict => dict.Values.Sum()).ToList();
+
+        RecommendationVM model = new RecommendationVM {scoredGames = orderedRecommendationList, _user = user};
+
+        return View(model);
     }
 }

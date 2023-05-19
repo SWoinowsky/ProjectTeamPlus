@@ -22,5 +22,14 @@ namespace SteamProject.Services
             _inboxRepository.AddOrUpdate(message);
         }
         
+        public void SendMessage(int toId, int fromId, string content)
+        {
+            InboxMessage message = new();
+            message.RecipientId = toId;
+            message.SenderId = fromId;
+            message.Content = content;
+            message.TimeStamp = DateTime.Now;
+            _inboxRepository.AddOrUpdate(message);
+        }
     }
 }

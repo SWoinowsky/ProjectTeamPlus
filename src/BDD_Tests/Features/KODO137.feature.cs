@@ -20,9 +20,9 @@ namespace BDD_Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AbilityForAUserToRemoveSteamAccount")]
+    [NUnit.Framework.DescriptionAttribute("BadgeAwardSystem")]
     [NUnit.Framework.CategoryAttribute("Cole")]
-    public partial class AbilityForAUserToRemoveSteamAccountFeature
+    public partial class BadgeAwardSystemFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -30,21 +30,15 @@ namespace BDD_Tests.Features
         private string[] _featureTags = new string[] {
                 "Cole"};
         
-#line 1 "KODO11.feature"
+#line 1 "KODO137.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "AbilityForAUserToRemoveSteamAccount", @"As a user, I want to be able to remove my Steam id from my SIN account, so that I can attach my account to a 
-different Steam id and see my updated account information on the website. 
-
-This BDD Test assumes the user has already linked their steam account their steam account 
-It also assumes there is a seeded test user to link the steam account to
-
-Once the steamId is removed, it is readded through this test to ensure everything is working for later tests since
-our enviroment needs to have a steamID for a test user to actually do anything with our website.", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "BadgeAwardSystem", "As a user, I want to be rewarded for my activities on the platform, So that I can" +
+                    " feel a sense of achievement and have a more enjoyable experience.", ProgrammingLanguage.CSharp, new string[] {
                         "Cole"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -84,15 +78,17 @@ our enviroment needs to have a steamID for a test user to actually do anything w
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to unlink my steam account from my user account")]
-        [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmATestUserAndIWantToUnlinkMySteamAccountFromMyUserAccount()
+        [NUnit.Framework.DescriptionAttribute("I am a test user and I want to make sure my Dashboard page contains the \"Nexus Ne" +
+            "wcomer\" badge after I have linked my Steam account")]
+        [NUnit.Framework.CategoryAttribute("Badge")]
+        public virtual void IAmATestUserAndIWantToMakeSureMyDashboardPageContainsTheNexusNewcomerBadgeAfterIHaveLinkedMySteamAccount()
         {
             string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
+                    "Badge"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to unlink my steam account from my user account", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 14
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a test user and I want to make sure my Dashboard page contains the \"Nexus Ne" +
+                    "wcomer\" badge after I have linked my Steam account", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -112,32 +108,23 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 15
+#line 9
  testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 16
- testRunner.When("I click on the profile link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 10
+ testRunner.When("I click on the \"Dashboard\" link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 17
- testRunner.And("I click on the Steam Account link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 11
+ testRunner.Then("I end up on the \"Dashboard\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 18
- testRunner.And("I click on the Remove Steam link button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 12
+ testRunner.And("I should see a badge named \"Nexus Newcomer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 19
- testRunner.Then("I should see the button to link a steam account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.When("I click on the badge named \"Nexus Newcomer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 20
- testRunner.And("I click on the Steam link button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 21
- testRunner.And("I should be redirected to steams login page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 22
- testRunner.And("I should be able to click sign in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 23
- testRunner.And("I should be redirected back and see my library", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+ testRunner.Then("I should see a detailed description of the badge \"Nexus Newcomer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -67,7 +67,7 @@ function singleFriendSelect( data ) {
     friendDiv.className = "timeWrapper";
 
     var friendSelectLabel = document.createElement("label");
-    friendSelectLabel.innerHTML = "Friend to Duel:";
+    friendSelectLabel.innerHTML = "<p>Friend to Duel:</p>";
 
     friendDiv.append( friendSelectLabel );
 
@@ -187,7 +187,7 @@ function addGameSelectorForDuel( data ) {
 
 
     var gameLabel = document.createElement('label');
-    gameLabel.innerHTML = "Game to Compete In:";
+    gameLabel.innerHTML = "<p>Game to Compete In:</p>";
 
     GameDiv.append( gameLabel );
 
@@ -208,12 +208,21 @@ function addGameSelectorForDuel( data ) {
         getAchievementsForDuel();
     }
 
-    GameDiv.append( gameSelector );
+    if( gameSelector.children != null && gameSelector.children.length > 0 )
+    {
+        warning = document.getElementById( "warningDiv" );
+        if( warning != null ) {
+            warning.remove();
+        }
+        GameDiv.append( gameSelector );
 
-    var DuelDiv = document.getElementById("DuelDiv");
-    DuelDiv.append( GameDiv );
+        var DuelDiv = document.getElementById("DuelDiv");
+        DuelDiv.append( GameDiv );
 
-    getAchievementsForDuel();
+        getAchievementsForDuel();
+    } else {
+        createNoGamesWarning();
+    }
 }
 
 function addGameSelectorForFFA( data ) {
@@ -234,7 +243,7 @@ function addGameSelectorForFFA( data ) {
 
 
     var gameLabel = document.createElement('label');
-    gameLabel.innerHTML = "Game to Compete In:";
+    gameLabel.innerHTML = "<p>Game to Compete In:</p>";
 
     GameDiv.append( gameLabel );
 
@@ -323,7 +332,7 @@ function showDuelAchievements( data ) {
             achDesc.innerHTML = `${desc}`;
         }
         else {
-            achDesc.innerHTML = `No Description Provided`;
+            achDesc.innerHTML = `<p>No Description Provided</p>`;
         }
 
         achievement.append( achDesc );
@@ -360,16 +369,19 @@ function getAchievementsForDuel() {
     var friendId = friendSelector.children[index].value;
 
     var gameSelector = document.getElementById("gameSelector");
-    var index = gameSelector.selectedIndex;
-    var appId = gameSelector.children[index].value;
+    if( gameSelector.children != null && gameSelector.children.length > 0 )
+    {
+        var index = gameSelector.selectedIndex;
+        var appId = gameSelector.children[index].value;
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
-        success: showDuelAchievements,
-        error: errorOnAjax
-    });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
+            success: showDuelAchievements,
+            error: errorOnAjax
+        });
+    }
 }
 
 function showFFAAchievements( data ) {
@@ -402,7 +414,7 @@ function showFFAAchievements( data ) {
             achDesc.innerHTML = `${desc}`;
         }
         else {
-            achDesc.innerHTML = `No Description Provided`;
+            achDesc.innerHTML = `<p>No Description Provided</p>`;
         }
 
         achievement.append( achDesc );
@@ -460,13 +472,32 @@ function createEmptyWarning() {
     var div = document.getElementById( "AchievementDiv" );
 
     var warning = document.createElement("b");
-    warning.innerHTML = "WARNING: NO ACHIEVEMENTS TO COMPETE OVER <br>";
+    warning.innerHTML = "<p>WARNING: NO ACHIEVEMENTS TO COMPETE OVER <br></p>";
 
     var suggestion = document.createElement("i");
-    suggestion.innerHTML = "Your friend's achievements may be private. <br> Please select another game or friend.";
+    suggestion.innerHTML = "<p>Your friend's achievements may be private, <br>or they may already have all of the achievements for this game. <br> Please select another game or friend.</p>";
     
     div.append( warning );
     div.append( suggestion ); 
 }
 
+function createNoGamesWarning() {
+    var existingDiv = document.GetElementById( "warningDiv" );
+    if( existingDiv == null ) {
+        var div = document.getElementById( "DuelDiv" );
+        
+        var warningDiv = document.createElement("div");
+        warningDiv.id = "warningDiv";
 
+    var warning = document.createElement("b");
+    warning.innerHTML = "<p>WARNING: NO SHARED GAMES FOUND <br></p>";
+
+    var suggestion = document.createElement("i");
+    suggestion.innerHTML = "<p>Your friend's game library may be private.<br> Please select another friend or try again later.</p>";
+
+        warningDiv.append( warning );
+        warningDiv.append( suggestion );
+
+        div.append( warningDiv );
+    }
+}

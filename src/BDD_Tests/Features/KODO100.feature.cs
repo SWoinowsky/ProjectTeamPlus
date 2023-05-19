@@ -77,14 +77,14 @@ namespace BDD_Tests.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am the test user and want to see games I share with Eithné of Brokiloén")]
+        [NUnit.Framework.DescriptionAttribute("I am the test user and want to see games I share with Hellfirecw")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmTheTestUserAndWantToSeeGamesIShareWithEithneOfBrokiloen()
+        public virtual void IAmTheTestUserAndWantToSeeGamesIShareWithHellfirecw()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am the test user and want to see games I share with Eithné of Brokiloén", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am the test user and want to see games I share with Hellfirecw", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -109,16 +109,16 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 13
- testRunner.When("I click on the profile link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click on the \"Profile\" link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 14
- testRunner.And("I click on Eithne\'s friend page link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I click on \"Hellfirecw\'s\" friend page link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 15
- testRunner.Then("I can see the shared games page for Eithne", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I can see the shared games page for \"Hellfirecw\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 16
- testRunner.And("I can see Eithne\'s username", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I can see \"Hellfirecw\'s\" username", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

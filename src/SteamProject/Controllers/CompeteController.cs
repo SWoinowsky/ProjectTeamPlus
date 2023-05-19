@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SteamProject.DAL.Abstract;
+using SteamProject.DAL.Concrete;
 using SteamProject.Models;
 using SteamProject.Models.DTO;
 using SteamProject.Services;
@@ -27,21 +28,23 @@ public class CompeteController : Controller
     private readonly ICompetitionGameAchievementRepository _competitionGameAchievementRepository;
     private readonly ISteamService _steamService;
     private readonly IInboxService _inboxService;
+    private readonly IStatusRepository _statusRepository;
 
     public CompeteController(
         ILogger<FriendController> logger
         ,ISteamService steamService
-        ,IUserRepository userRepository
-        ,IFriendRepository friendRepository
-        ,IGameAchievementRepository gameAchievementRepository
-        ,IUserAchievementRepository userAchievementRepository
-        ,IGameRepository gameRepository
-        ,IUserGameInfoRepository userGameInfoRepository
-        ,ICompetitionRepository competitionRepository
-        ,ICompetitionPlayerRepository competitionPlayerRepository
-        ,ICompetitionGameAchievementRepository competitionGameAchievementRepository
-        ,UserManager<IdentityUser> userManager
-        ,IInboxService inboxService
+        , IUserRepository userRepository
+        , IFriendRepository friendRepository
+        , IGameAchievementRepository gameAchievementRepository
+        , IUserAchievementRepository userAchievementRepository
+        , IGameRepository gameRepository
+        , IUserGameInfoRepository userGameInfoRepository
+        , ICompetitionRepository competitionRepository
+        , ICompetitionPlayerRepository competitionPlayerRepository
+        , ICompetitionGameAchievementRepository competitionGameAchievementRepository
+        , UserManager<IdentityUser> userManager
+        , IInboxService inboxService
+        , IStatusRepository statusRepository
         )
     {
         _logger = logger;
@@ -57,6 +60,7 @@ public class CompeteController : Controller
         _competitionGameAchievementRepository = competitionGameAchievementRepository;
         _userManager = userManager;
         _inboxService = inboxService;
+        _statusRepository = statusRepository;
     }
 
 
@@ -73,12 +77,18 @@ public class CompeteController : Controller
 
         var viewModel = new CompeteIndexVM();
         viewModel.Competitions = _competitionRepository.GetAllCompetitionsForUser( myEntries );
+        viewModel.CompsComplete = new List<Competition>();
+        viewModel.CompsRunning = new List<Competition>();
 
         if ( viewModel.Competitions != null )
         {
             foreach (var competition in viewModel.Competitions)
             {
                 competition.Game = _gameRepository.GetGameById(competition.GameId);
+                if( DateTime.Compare( competition.EndDate, DateTime.Now ) <= 0 )
+                    viewModel.CompsComplete.Add( competition );
+                else
+                    viewModel.CompsRunning.Add( competition );
             }
         }
         
@@ -89,8 +99,13 @@ public class CompeteController : Controller
     [HttpGet]
     public IActionResult Details( int compId )
     {
+        var authId = _userManager.GetUserId(User);
+        int SinId = _userRepository.GetUser( authId ).Id;
+
         var viewModel = new CompeteDetailsVM();
         var competitionIn = new Competition();
+
+        viewModel.SinId = SinId;
 
         competitionIn = _competitionRepository.GetCompetitionById( compId );
 
@@ -117,15 +132,30 @@ public class CompeteController : Controller
             var compAchievements = new List<CompetitionGameAchievement>();
             compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
 
+            var percentages = new List<GlobalAchievement>();
+            percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
             
             var gameAchievements = new List<GameAchievement>();
             foreach( var ach in compAchievements )
             {
+
                 var achievementFound = new GameAchievement();
                 achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
 
                 if( achievementFound != null )
                     gameAchievements.Add( achievementFound );
+            }
+
+            var pointProcessor = new GapProcessor();
+            foreach( var gameAch in gameAchievements )
+            {
+                foreach( var percent in percentages )
+                {
+                    if( gameAch.ApiName == percent.name )
+                    {
+                        gameAch.PointVal = pointProcessor.HandlePercent( percent.percent );
+                    }
+                }
             }
             
 
@@ -143,6 +173,13 @@ public class CompeteController : Controller
                     {
                         var userAchOut = new UserAchievement();
                         userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
+                        
+                        if( userAchOut.Achievement.DisplayName == "Lucatiel" && participant.SteamId == "76561198069530799" )
+                        {
+                            userAchOut.Achieved = true;
+                            userAchOut.UnlockTime = new DateTime(2023, 5, 12, 12, 27, 00, DateTimeKind.Local);
+                        }
+
                         if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
                             ListIntoDict.Add( userAchOut );
                     }
@@ -155,7 +192,44 @@ public class CompeteController : Controller
 
             var userAchList = new List<KeyValuePair<UserAchievement, User>>();
             userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
+
+            var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
+            foreach( var player in compPlayersList )
+            {
+                foreach( var user in userList )
+                {
+                    if( player.SteamId == user.SteamId )
+                        userScoreList.Add( new (user, player) );
+                }
+            }
+
             
+            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
+
+            userList.Clear();
+            foreach( var us in userScoreList )
+            {
+                userList.Add( us.Key );
+                foreach( var ua in userAchList )
+                {
+                    if( us.Key == ua.Value )
+                    {
+                        us.Value.Score += ua.Key.Achievement.PointVal;
+                    }
+                }
+            }
+
+            if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
+            {
+                var endedStatus = _statusRepository.GetStatusByName("Ended");
+                if (endedStatus != null)
+                {
+                    competitionIn.Status = endedStatus;
+                    _competitionRepository.AddOrUpdate(competitionIn);
+                }
+            }
+
+
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
@@ -163,11 +237,43 @@ public class CompeteController : Controller
             viewModel.CompGameAchList = compAchievements;
             viewModel.GameAchList = gameAchievements;
             viewModel.Tracking = userAchList;
+            viewModel.Scoreboard = userScoreList;
         }
 
         return View( viewModel );
     }
 
+    [Authorize]
+    [HttpGet]
+    public IActionResult Create()
+    {
+        string id = _userManager.GetUserId(User);
+
+        var currentUser = new SteamProject.Models.User();
+        currentUser = _userRepository.GetUser(id);
+
+        var viewModel = new CompeteCreateVM();
+        viewModel.SteamId = currentUser.SteamId;
+        viewModel.SinId = currentUser.Id;
+
+        return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult CreateSpeedRun()
+    {
+        string id = _userManager.GetUserId(User);
+
+        var currentUser = new SteamProject.Models.User();
+        currentUser = _userRepository.GetUser(id);
+
+        var viewModel = new CompeteCreateVM();
+        viewModel.SteamId = currentUser.SteamId;
+        viewModel.SinId = currentUser.Id;
+
+        return View( viewModel );
+    }
 
     [Authorize]
     [HttpGet]
@@ -290,18 +396,32 @@ public class CompeteController : Controller
             existingCompetition = null;
         }
         
+        //refactor to save these values to the viewmodel to make it easier to pass around
         viewModel.MySteamId = mySteamId;
+        viewModel.MyFriendId = friendSteamId;
         viewModel.CurrentCompetition = existingCompetition;
+        
 
 
         return View( viewModel );
     }
 
-
+    /// <summary>
+    /// Function to create competitions from the profile page by clicking on friends name, currently IN-OP
+    /// Before I worked on this the viewmodel was failing to bind when posted back here, they now bind correctly but this function still needs some work if we choose to use it still
+    /// -Cole
+    /// </summary>
+    /// <param name="competeIn"></param>
+    /// <returns></returns>
     [Authorize]
     [HttpPost]
-    public IActionResult Initiate( string friendSteamId, int appId, CompeteInitiateVM competeIn)
+    public IActionResult Initiate(CompeteInitiateVM competeIn)
     {
+        //This method is broken and will not save compititons in this format anymore, I tried refactoring it some but its gonna need some more work to get going.
+       
+        competeIn.ChosenGame = _gameRepository.GetGameById(competeIn.ChosenGame.Id);
+
+        //Fails on saving competitions to the database here due to some of the values being null
         _competitionRepository.AddOrUpdate( competeIn.CurrentCompetition );
         foreach( var achievement in competeIn.UsersAchievements )
         {
@@ -310,51 +430,39 @@ public class CompeteController : Controller
         }
 
         var compPlayerMe = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MySteamId };
-        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = friendSteamId };
+        var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MyFriendId };
 
         _competitionPlayerRepository.AddOrUpdate( compPlayerMe );
         _competitionPlayerRepository.AddOrUpdate( compPlayerThem );
         
-        return RedirectToAction("Initiate", new { friendSteamId = friendSteamId, appId = appId });
-    }
-
-
-    [Authorize]
-    [HttpGet]
-    public IActionResult Create()
-    {
-        string id = _userManager.GetUserId(User);
-
-        var currentUser = new SteamProject.Models.User();
-        currentUser = _userRepository.GetUser(id);
-
-        var viewModel = new CompeteCreateVM();
-        viewModel.SteamId = currentUser.SteamId;
-        viewModel.SinId = currentUser.Id;
-
-        _inboxService.SendToInbox(currentUser.Id, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
-
-        return View( viewModel );
+        return RedirectToAction("Initiate", new { SteamId = competeIn.MyFriendId, appId = competeIn.ChosenGame.AppId });
     }
 
     [Authorize]
     [HttpPost]
     public IActionResult Create( CompeteCreateVM compCreatedOut )
     {
+        string authid = _userManager.GetUserId(User);
+        var SinId = _userRepository.GetUser( authid ).Id;
+
         var timeString = compCreatedOut.MinDate.ToString();
         var game = new Game();
         game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
 
         var comp = new Competition()
         {
+            CreatorId = SinId,
             GameId = game.Id,
             StartDate = compCreatedOut.CompStartTime,
             EndDate = compCreatedOut.CompEndTime,
             Game = game,
         };
 
+        comp.Status = _statusRepository.GetStatusByName("Active");
+
         _competitionRepository.AddOrUpdate( comp );
 
+        _inboxService.SendMessage(SinId, 69420, $"You started a new achievement competition for {comp.Game.Name}! Starting on {comp.StartDate.ToLocalTime()} and finishing {comp.EndDate.ToLocalTime()}");
 
         var competitors = new List<CompetitionPlayer>();
         competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.SteamId } );
@@ -405,7 +513,7 @@ public class CompeteController : Controller
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
 
-        return View( compCreatedOut );
+        return RedirectToAction("Index");
     }
 
     

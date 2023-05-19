@@ -32,7 +32,17 @@ namespace SteamProject.Middlewares
                 else
                 {
                     User user = userRepository.GetUser(userId);
-                    theme = user.Theme ?? "light"; // Default to light theme if not set
+
+
+                    if (user != null)
+                    {
+                        theme = user.Theme; // Default to light theme if not set
+                    }
+                    else
+                    {
+                        theme = "light"; // Default to light theme if not set
+                    }
+
                 }
                 context.Items["Theme"] = theme;
             }

@@ -67,7 +67,7 @@ function singleFriendSelect( data ) {
     friendDiv.className = "timeWrapper";
 
     var friendSelectLabel = document.createElement("label");
-    friendSelectLabel.innerHTML = "Friend to Duel:";
+    friendSelectLabel.innerHTML = "<p>Friend to Duel:</p>";
 
     friendDiv.append( friendSelectLabel );
 
@@ -187,7 +187,7 @@ function addGameSelectorForDuel( data ) {
 
 
     var gameLabel = document.createElement('label');
-    gameLabel.innerHTML = "Game to Compete In:";
+    gameLabel.innerHTML = "<p>Game to Compete In:</p>";
 
     GameDiv.append( gameLabel );
 
@@ -243,7 +243,7 @@ function addGameSelectorForFFA( data ) {
 
 
     var gameLabel = document.createElement('label');
-    gameLabel.innerHTML = "Game to Compete In:";
+    gameLabel.innerHTML = "<p>Game to Compete In:</p>";
 
     GameDiv.append( gameLabel );
 
@@ -332,7 +332,7 @@ function showDuelAchievements( data ) {
             achDesc.innerHTML = `${desc}`;
         }
         else {
-            achDesc.innerHTML = `No Description Provided`;
+            achDesc.innerHTML = `<p>No Description Provided</p>`;
         }
 
         achievement.append( achDesc );
@@ -414,7 +414,7 @@ function showFFAAchievements( data ) {
             achDesc.innerHTML = `${desc}`;
         }
         else {
-            achDesc.innerHTML = `No Description Provided`;
+            achDesc.innerHTML = `<p>No Description Provided</p>`;
         }
 
         achievement.append( achDesc );
@@ -472,10 +472,10 @@ function createEmptyWarning() {
     var div = document.getElementById( "AchievementDiv" );
 
     var warning = document.createElement("b");
-    warning.innerHTML = "WARNING: NO ACHIEVEMENTS TO COMPETE OVER <br>";
+    warning.innerHTML = "<p>WARNING: NO ACHIEVEMENTS TO COMPETE OVER <br></p>";
 
     var suggestion = document.createElement("i");
-    suggestion.innerHTML = "Your friend's achievements may be private. <br> Please select another game or friend.";
+    suggestion.innerHTML = "<p>Your friend's achievements may be private, <br>or they may already have all of the achievements for this game. <br> Please select another game or friend.</p>";
     
     div.append( warning );
     div.append( suggestion ); 
@@ -489,11 +489,11 @@ function createNoGamesWarning() {
         var warningDiv = document.createElement("div");
         warningDiv.id = "warningDiv";
 
-        var warning = document.createElement("b");
-        warning.innerHTML = "WARNING: NO SHARED GAMES FOUND <br>";
+    var warning = document.createElement("b");
+    warning.innerHTML = "<p>WARNING: NO SHARED GAMES FOUND <br></p>";
 
-        var suggestion = document.createElement("i");
-        suggestion.innerHTML = "Your friend's game library may be private. <br> Please select another friend or try again later.";
+    var suggestion = document.createElement("i");
+    suggestion.innerHTML = "<p>Your friend's game library may be private.<br> Please select another friend or try again later.</p>";
 
         warningDiv.append( warning );
         warningDiv.append( suggestion );

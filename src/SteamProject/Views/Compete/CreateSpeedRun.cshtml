@@ -1,6 +1,6 @@
 @model SteamProject.ViewModels.CompeteCreateVM
 @{
-    ViewData["Title"] = "Competition Creation";
+    ViewData["Title"] = "Speed Run Creation";
 }
 
 <head>
@@ -15,14 +15,6 @@
 <input type="hidden" id="SinId" name="SinId" value="@Model.SinId">
 
 <div class="formWrapper">
-    <div class="timeWrapper">
-        <label><p>Competition Type: </p></label>
-        <select name="" id="categorySelect">
-            <option value="Duel"> <p>Duel</p> </option>
-            <option value="Free-For-All"> <p>Free-For-All </p></option>
-        </select>
-    </div>
-    
     <form id="createForm" method="post">
         <input type="hidden" name="SteamId" asp-for="SteamId">
         <div class="timeWrapper">

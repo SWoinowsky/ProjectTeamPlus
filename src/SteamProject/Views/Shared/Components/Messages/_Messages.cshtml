@@ -1,0 +1,41 @@
+@{
+    var messengerId = Context.Items["MessengerId"];
+}
+
+<button class="messages-btn">
+    <img src="~/assets/message-alert.png" alt="" class="message-alert" style="display:none;" >
+    Messages
+</button>
+
+<div class="message-container" style="visibility:hidden;">
+    <div class="messages-header">
+        <div class="messengerId" hidden>@messengerId</div>
+        <div class="messages-label">Messages</div>
+        <i id="message-exit" class="bi bi-chevron-down"></i>
+    </div>
+    <div class="messages-body">
+        <div class="message-contacts">
+            <div class="contact-label">CONTACTS</div>
+                <div class="contacts">
+                    <div class="contact" id="69420">
+                        <img class="contact-img" src="~/assets/shortLogo.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="messages-box">
+                <div class="contact-header">
+                </div>
+                <div class="right-panel">
+                <div class="messages-for-contact" id="">
+                    
+                </div>
+                <div class="send-message">
+                    <input type="text" class="message-text-box" maxlength="255">
+                    <i id="send-message-btn" class="bi bi-send"></i>
+                </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<script src="~/js/Messages.js"></script>

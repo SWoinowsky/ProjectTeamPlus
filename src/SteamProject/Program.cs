@@ -148,6 +148,9 @@ using (var scope = app.Services.CreateScope())
         // Set password with the Secret Manager tool, or store in Azure app configuration
         // dotnet user-secrets set SeedUserPW <pw>
 
+        var dbContext = services.GetRequiredService<SteamInfoDbContext>();
+        SeedGameData.Seed(dbContext);
+
         var testUserPw = config["SeedUserPW"];
 
         SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
@@ -189,6 +192,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<SteamProject.Middlewares.ThemeMiddleware>();
+app.UseMiddleware<SteamProject.Middlewares.MessagesMiddleware>();
 
 
 app.MapControllerRoute(
@@ -207,6 +211,12 @@ app.MapControllerRoute(
     "Compete",
     "Compete/Create",
     defaults: new { controller = "Compete", action = "Create" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/CreateSpeedRun",
+    defaults: new { controller = "Compete", action = "CreateSpeedRun" }
 );
 
 app.MapControllerRoute(

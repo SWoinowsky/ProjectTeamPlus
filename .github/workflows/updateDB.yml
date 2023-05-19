@@ -1,0 +1,14 @@
+name: Test Script that only works on main, when manually called
+
+on:
+  # Trigger this one only manually
+  workflow_dispatch:
+
+jobs:
+  testJob:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Run a one-line script
+      run: echo Hello, world!
+            

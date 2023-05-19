@@ -8,20 +8,27 @@ function findForm() {
 };
 
 function showCurrentIndex() {
+   
     categories = ["Duel", "Free-For-All"];
-
     var selector = document.getElementById("categorySelect");
-    var index = selector.selectedIndex;
-    var text = selector.children[index].value;
-    
-    console.log(text);
-    if( text == categories[0] )
+    if(document.title.includes("Speed Run"))
     {
-        showDuel();
+        showSpeedRun();
     }
-    else if( text == categories[1] )
+    else
     {
-        showFFA();
+        var index = selector.selectedIndex;
+        var text = selector.children[index].value;
+        
+        console.log(text);
+        if( text == categories[0] )
+        {
+            showDuel();
+        }
+        else if( text == categories[1] )
+        {
+            showFFA();
+        } 
     }
 }
 
@@ -33,6 +40,18 @@ function checkSelect() {
     }
 }
 
+function showSpeedRun() {
+    var pageForm = findForm();
+    pageForm.innerHTML = "";
+
+    var ffaDiv = document.createElement('div');
+    ffaDiv.className = "DynamicInput";
+    ffaDiv.id = "ffaDiv";
+    // Reusing this funciton though it's not for FFA's, this is the speed run.
+    getFriendsListForFFA();
+
+    pageForm.append( ffaDiv );
+}
 
 function showFFA() {
     var pageForm = findForm();
@@ -50,7 +69,6 @@ function showFFA() {
 function showDuel() {
     var pageForm = findForm();
     pageForm.innerHTML = "";
-
     var DuelDiv = document.createElement('div');
     DuelDiv.className = "DynamicInput";
     DuelDiv.id = "DuelDiv";
@@ -100,7 +118,7 @@ function ManyFriendSelect( data ) {
     friendDiv.className = "timeWrapper";
 
     var friendSelectLabel = document.createElement("label");
-    friendSelectLabel.innerHTML = "Competitors:";
+    friendSelectLabel.innerHTML = "<p>Competitors:</p>";
 
     friendDiv.append( friendSelectLabel );
 
@@ -191,7 +209,6 @@ function addGameSelectorForDuel( data ) {
 
     GameDiv.append( gameLabel );
 
-
     var gameSelector = document.createElement("select");
     gameSelector.id = "gameSelector";
     gameSelector.name = "GameAppId";
@@ -269,8 +286,14 @@ function addGameSelectorForFFA( data ) {
     var ffaDiv = document.getElementById("ffaDiv");
     ffaDiv.append( GameDiv );
 
-    getAchievementsForFFA();
-
+    if(!document.title.includes("Speed Run"))
+    {
+        getAchievementsForFFA();
+    }
+    else
+    {
+        createSpeedRunSubmitButton();
+    }
 }
 
 function getGamesForDuel() {
@@ -468,6 +491,16 @@ function createSubmitButton() {
     div.append( submit );
 }
 
+function createSpeedRunSubmitButton() {
+    var div = document.getElementById( "ffaDiv" );
+    var submit = document.createElement("input");
+    submit.type = "submit";
+    submit.value = "Begin Speed Run Competition";
+    submit.id = "compCreateSubmit";
+
+    div.append( submit );
+}
+
 function createEmptyWarning() {
     var div = document.getElementById( "AchievementDiv" );
 
@@ -482,7 +515,7 @@ function createEmptyWarning() {
 }
 
 function createNoGamesWarning() {
-    var existingDiv = document.GetElementById( "warningDiv" );
+    var existingDiv = document.getElementById( "warningDiv" );
     if( existingDiv == null ) {
         var div = document.getElementById( "DuelDiv" );
         

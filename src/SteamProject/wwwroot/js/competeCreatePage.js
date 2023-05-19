@@ -501,9 +501,10 @@ function createSubmitButton() {
 
 function createSpeedRunSubmitButton() {
     var div = document.getElementById( "ffaDiv" );
+
     var submit = document.createElement("input");
     submit.type = "submit";
-    submit.value = "Begin Speed Run Competition";
+    submit.value = "Begin Speed Run";
     submit.id = "compCreateSubmit";
 
     div.append( submit );

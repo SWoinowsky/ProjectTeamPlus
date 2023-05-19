@@ -235,8 +235,10 @@ function addGameSelectorForDuel( data ) {
 
         var DuelDiv = document.getElementById("DuelDiv");
         DuelDiv.append( GameDiv );
-
-        getAchievementsForDuel();
+        if(!document.title.includes("Speed Run"))
+        {
+            getAchievementsForDuel();
+        }
     } else {
         createNoGamesWarning();
     }
@@ -385,25 +387,28 @@ function showDuelAchievements( data ) {
 }
 
 function getAchievementsForDuel() {
-    var SteamId = document.getElementById("SteamId").value;
-
-    var friendSelector = document.getElementById("friendSelector");
-    var index = friendSelector.selectedIndex;
-    var friendId = friendSelector.children[index].value;
-
-    var gameSelector = document.getElementById("gameSelector");
-    if( gameSelector.children != null && gameSelector.children.length > 0 )
+    if(!document.title.includes("Speed Run"))
     {
-        var index = gameSelector.selectedIndex;
-        var appId = gameSelector.children[index].value;
+        var SteamId = document.getElementById("SteamId").value;
 
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
-            success: showDuelAchievements,
-            error: errorOnAjax
-        });
+        var friendSelector = document.getElementById("friendSelector");
+        var index = friendSelector.selectedIndex;
+        var friendId = friendSelector.children[index].value;
+
+        var gameSelector = document.getElementById("gameSelector");
+        if( gameSelector.children != null && gameSelector.children.length > 0 )
+        {
+            var index = gameSelector.selectedIndex;
+            var appId = gameSelector.children[index].value;
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
+                success: showDuelAchievements,
+                error: errorOnAjax
+            });
+        }
     }
 }
 

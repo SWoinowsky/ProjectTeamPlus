@@ -1,10 +1,10 @@
-name: Build, test and deploy Standups application to Azure
+name: Build application and run tests
 
 on:
   push:
-    branches: [ "cicd" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "cicd" ]
+    branches: [ "dev" ]
   workflow_dispatch: 
 
 env:

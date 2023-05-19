@@ -55,7 +55,7 @@ jobs:
       run: |
         python dbtool.py ${{ env.DB_SERVER }} ${{ env.DB_NAME }} ${{ secrets.DB_USERNAME }} ${{ secrets.DB_PASSWORD }} ${{ env.DOWN_SCRIPT }}
         python dbtool.py ${{ env.DB_SERVER }} ${{ env.DB_NAME }} ${{ secrets.DB_USERNAME }} ${{ secrets.DB_PASSWORD }} ${{ env.UP_SCRIPT }}
-        python dbtool.py ${{ env.DB_SERVER }} ${{ env.DB_NAME }} ${{ secrets.DB_USERNAME }} ${{ secrets.DB_PASSWORD }} ${{ env.SEED_SCRIPT }}
+        # python dbtool.py ${{ env.DB_SERVER }} ${{ env.DB_NAME }} ${{ secrets.DB_USERNAME }} ${{ secrets.DB_PASSWORD }} ${{ env.SEED_SCRIPT }}
 
     - name: Remove firewall rule
       uses: azure/CLI@v1

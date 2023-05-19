@@ -462,6 +462,7 @@ public class CompeteController : Controller
 
         _competitionRepository.AddOrUpdate( comp );
 
+        _inboxService.SendMessage(SinId, 69420, $"You started a new achievement competition for {comp.Game.Name}! Starting on {comp.StartDate.ToLocalTime()} and finishing {comp.EndDate.ToLocalTime()}");
 
         var competitors = new List<CompetitionPlayer>();
         competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.SteamId } );
@@ -511,8 +512,6 @@ public class CompeteController : Controller
             var compAch = new CompetitionGameAchievement() { CompetitionId = comp.Id, GameAchievementId = ach.Id };
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
-
-        _inboxService.SendToInbox(SinId, "S.I.N Competitions", "New Race", "You started a new achievement competition, good luck!");
 
         return RedirectToAction("Index");
     }

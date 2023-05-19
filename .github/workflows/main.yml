@@ -1,0 +1,49 @@
+name: Build application and run tests
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+  workflow_dispatch: 
+
+env:
+# path from root of repo to dir containing project folders (usually where the .sln file is)
+  PATH_TO_SOLUTION: './src'
+  MAIN_PROJECT: SteamProject
+  UNIT_TEST_PROJECT: NUnit_Tests
+# JS_UNIT_TEST_PROJECT: Standups_JS_Tests
+  AZURE_WEBAPP_NAME: standups2023
+  AZURE_WEBAPP_PACKAGE_PATH: publish
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 7.0.x
+
+defaults:
+  run:
+    working-directory: './src'
+
+jobs:
+  build_and_test:
+    name: Build and run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+  
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+
+    - name: Restore all projects in use
+      run: |
+        dotnet restore "${{ env.MAIN_PROJECT }}"
+        dotnet restore "${{ env.UNIT_TEST_PROJECT }}"
+
+    - name: Build main project
+      run: dotnet build "${{ env.MAIN_PROJECT }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Build unit test project
+      run: dotnet build "${{ env.UNIT_TEST_PROJECT }}" --configuration "Debug" --no-restore
+
+    - name: Run all unit tests, but exclude BDD tests
+      run: dotnet test --filter FullyQualifiedName\!~Features --no-restore

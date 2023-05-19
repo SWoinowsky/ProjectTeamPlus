@@ -30,8 +30,8 @@ namespace SteamProject.Controllers
             
         }
 
-        [HttpPost("CompetitionVote/")]
-        public async Task<ActionResult> CreateCompetitionVote([FromBody] CompetitionVotePOCO newVote)
+        [HttpPut("CompetitionVote")]
+        public async Task<ActionResult> AddOrUpdateCompetitionVote([FromBody] CompetitionVotePOCO voteData)
         {
             string? userId = _userManager.GetUserId(User); // Get current user's Id
 
@@ -48,59 +48,33 @@ namespace SteamProject.Controllers
             }
 
             // Check if a vote by this user for this competition already exists
-            var existingVote = _competitionVoteRepository.GetByUserAndCompetition(user.Id, newVote.CompetitionId);
+            var existingVote = _competitionVoteRepository.GetByUserAndCompetition(user.Id, voteData.CompetitionId);
 
-            if (existingVote != null)
-            {
-                return BadRequest("You've already voted for this competition.");
-            }
-
-            var vote = new CompetitionVote()
-            {
-                CompetitionId = newVote.CompetitionId,
-                UserId = user.Id,
-                WantsToPlayAgain = newVote.WantsToPlayAgain,
-            };
-
-            _competitionVoteRepository.AddOrUpdate(vote);
-
-            return Ok();
-        }
-
-
-
-
-        [HttpPut("CompetitionVote/{id}")]
-        public async Task<ActionResult> UpdateCompetitionVote(int id, [FromBody] CompetitionVotePOCO updatedVote)
-        {
-            string? userId = _userManager.GetUserId(User); // Get current user's Id
-
-            if (userId is null)
-            {
-                return BadRequest();
-            }
-
-            User user = _userRepository.GetUser(userId);
-
-            if (user is null)
-            {
-                return BadRequest();
-            }
-
-            // Check if the vote exists and the id matches
-            var existingVote = _competitionVoteRepository.FindById(id);
             if (existingVote == null)
             {
-                return BadRequest();
+                // No vote exists, so create a new one
+                existingVote = new CompetitionVote()
+                {
+                    CompetitionId = voteData.CompetitionId,
+                    UserId = user.Id,
+                    WantsToPlayAgain = voteData.WantsToPlayAgain,
+                };
             }
-
-            // Update existing vote fields
-            existingVote.WantsToPlayAgain = updatedVote.WantsToPlayAgain;
+            else
+            {
+                // A vote exists, so update it
+                existingVote.WantsToPlayAgain = voteData.WantsToPlayAgain;
+            }
 
             _competitionVoteRepository.AddOrUpdate(existingVote);
 
-            return Ok();
+            existingVote.User = null;
+            existingVote.Competition = null;
+
+            // return the updated vote
+            return Ok(existingVote);
         }
+
 
         [HttpPost("GameVote")]
         public async Task<ActionResult> CreateGameVote([FromBody] GameVotePOCO newVote)

@@ -73,14 +73,15 @@ else
             }
             @if (Model.HasCompetitionEnded)
             {
-                var buttonVoteText = (Model.Vote != null) ? "REVOKE VOTE" : "VOTE TO COMPETE AGAIN";
-                var buttonClass = (Model.Vote != null) ? "btn btn-primary revoke-vote" : "btn btn-primary vote-again";
-                var iconClass = (Model.Vote != null) ? "bi bi-hand-thumbs-down rotate-icon" : "bi bi-hand-thumbs-up rotate-icon";
+                var buttonVoteText = (Model.Vote != null && Model.Vote.WantsToPlayAgain) ? "REVOKE VOTE" : "VOTE TO COMPETE AGAIN";
+                var buttonClass = (Model.Vote != null && Model.Vote.WantsToPlayAgain) ? "btn btn-primary revoke-vote" : "btn btn-primary vote-again";
+                var iconClass = (Model.Vote != null && Model.Vote.WantsToPlayAgain) ? "bi bi-hand-thumbs-down rotate-icon" : "bi bi-hand-thumbs-up rotate-icon";
 
                 <button id="voteAgainBtn" class="@buttonClass">
                     <i id="voteIcon" class="@iconClass"></i> @buttonVoteText
                 </button>
             }
+
 
 
 

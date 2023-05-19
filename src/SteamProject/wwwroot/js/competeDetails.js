@@ -30,36 +30,43 @@ function updateVoteCount() {
     });
 }
 
+$('#gameSelectModal').on('show.bs.modal', function (e) {
+    updateSharedGamesList();
+})
+
+
+// Fetch shared games for the competition
 function updateSharedGamesList() {
     var competitionId = $(".currentCompId").attr('id');
+    var userId = $(".currentUserId").attr('id');
     $.ajax({
         type: 'GET',
-        url: `/api/Vote/SharedGames/${competitionId}`,
-        success: function (sharedGames) {
-            // Clear the sharedGamesList div
+        url: `/api/Vote/GameVotes/${competitionId}`,
+        success: function (games) {
             $('#sharedGamesList').empty();
 
-            // Append a new card for each shared game
-            sharedGames.forEach(function (game) {
-                var gameCard = `
+            games.forEach(function (game) {
+                var gameVoteStatus = game.currentUserVote ? 'true' : 'false';
+
+                $('#sharedGamesList').append(`
                     <div class="col-sm-4">
-                        <div class="card">
-                            <img src="${game.IconUrl}" class="card-img-top" alt="${game.Name}">
+                        <div class="card" id="${game.id}" data-vote-status="${gameVoteStatus}">
+                            <img src="https://steamcdn-a.akamaihd.net/steam/apps/${game.appId}/header.jpg" class="card-img-top" alt="${game.name}">
                             <div class="card-body">
-                                <h5 class="card-title">${game.Name}</h5>
-                                <p class="card-text">Click the image to vote for this game.</p>
+                                <h5 class="card-title">${game.name}</h5>
+                                <p class="card-text vote-count">Votes: ${game.voteCount}</p>
                             </div>
                         </div>
-                    </div>`;
+                    </div>`);
 
-                $('#sharedGamesList').append(gameCard);
 
-                // Add click event for each game card image to vote for this game
-                $(`.card-img-top[src="${game.IconUrl}"]`).click(function () {
+                $(`#${game.id}`).click(function () {
+                    var currentVoteStatus = $(this).data('vote-status');
+                    console.log(`currentVoteStatus: ${currentVoteStatus}`);
                     var voteData = {
-                        GameId: game.Id,
-                        UserId: $(".currentUserId").attr('id'),
-                        WantsToPlay: true // set this to true as user wants to play this game when they click on it
+                        GameId: game.id,
+                        UserId: userId,
+                        WantsToPlay: !currentVoteStatus
                     };
 
                     $.ajax({
@@ -68,21 +75,27 @@ function updateSharedGamesList() {
                         data: JSON.stringify(voteData),
                         contentType: 'application/json',
                         success: function (data) {
-                            alert('Game vote updated successfully');
+                            var updatedVoteStatus = data.wantsToPlay ? 'true' : 'false';
+                            $(`#${game.id}`).data('vote-status', updatedVoteStatus);
+                            updateSharedGamesList(); // update the shared games list after voting
+                            updateVoteCount(); // update the vote count after voting
+                            //alert('Game vote updated successfully');
                         },
                         error: function (data) {
                             alert('Error updating game vote');
                         }
                     });
+
+
                 });
             });
         },
-
         error: function () {
             alert('Error getting shared games');
         }
     });
 }
+
 
 
 $(document).ready(function () {

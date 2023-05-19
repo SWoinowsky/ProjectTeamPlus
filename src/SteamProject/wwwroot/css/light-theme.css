@@ -3,6 +3,10 @@ body {
     background-color: #fff;
 }
 
+.footer-lower {
+    margin-top: 45px;
+    color: white;
+}
 
 p, ul, li {
     color: black;

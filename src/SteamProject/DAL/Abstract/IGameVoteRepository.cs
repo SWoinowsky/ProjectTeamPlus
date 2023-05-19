@@ -10,5 +10,6 @@ public interface IGameVoteRepository : IRepository<GameVote>
     public Task UpdateVoteAsync(GameVote vote);
 
     public GameVote GetByUserAndGame(int userId, int gameId);
+    int GetVoteCountForGame(int gameId);
 
 }

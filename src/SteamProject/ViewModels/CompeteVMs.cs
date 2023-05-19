@@ -37,7 +37,6 @@ public class CompeteDetailsVM
 
 }
 
-
 public class CompeteInitiateVM
 {
     public List<UserAchievement> UsersAchievements { get; set; } = new List<UserAchievement>();
@@ -59,6 +58,7 @@ public class CompeteInitiateVM
 
 public class CompeteCreateVM
 {
+    public int CompetitionId { get; set; }
     public string SteamId { get; set; }
     public int SinId { get; set; }
 

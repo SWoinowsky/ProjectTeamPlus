@@ -8,13 +8,13 @@
 </head>
 
 
-@if( Model is null )
+@if( Model is null || Model.Status is null)
 {
     <p> Failed to pull information from the database. If you're positive the selected competition exists, please try again momentarily. </p>
 }
-else
-{<body data-comp-status="@(Model.Status.Name ?? "Ended")"> 
-    <div class="row" style="width: 100%; padding-top: 5%;">
+else 
+{<body data-comp-status="@((Model.Status?.Name) ?? "Ended")">
+ <div class="row" style="width: 100%; padding-top: 5%;">
         <div class="col-sm-6" style="width: 50%;">
             <div class="currentApp" id=@Model.CurrentComp.Game.AppId hidden></div>
             <div class="currentUserId" id=@Model.CurrentUserId hidden></div>
@@ -94,14 +94,18 @@ else
                         </div>
                         <div class="modal-body">
                             <!-- This is where the list of shared games will go -->
-                            <div id="sharedGamesList">
+                            <div id="sharedGamesList" class="row">
                                 <!-- Populate this list dynamically using Javascript -->
                             </div>
                         </div>
-
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="gameSelectModal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
 
 
 

@@ -263,6 +263,120 @@ public class CompeteController : Controller
         return View( viewModel );
     }
 
+    [Authorize]
+    [HttpPost]
+    public IActionResult SelectGame(CompeteCreateVM competeSelectGameVM)
+    {
+        // Verify model
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Retrieve the current competition
+        var competition = _competitionRepository.GetCompetitionById(competeSelectGameVM.CompetitionId);
+
+        // Verify the competition exists
+        if (competition == null)
+        {
+            return NotFound("Competition not found.");
+        }
+
+        // Ensure competition is in the correct state to select a game
+        if (competition.Status.Name != "GameSelection")
+        {
+            return BadRequest("Competition is not in the game selection state.");
+        }
+
+        // Retrieve the selected game
+        var game = _gameRepository.GetGameByAppId(competeSelectGameVM.GameAppId);
+
+        // Verify the game exists
+        if (game == null)
+        {
+            return NotFound("Game not found.");
+        }
+
+        // Update the competition with the selected game
+        competition.GameId = game.Id;
+        competition.Game = game;
+        competition.Status = _statusRepository.GetStatusByName("GameSelected"); // Change status to indicate game has been selected
+        _competitionRepository.AddOrUpdate(competition);
+
+        // Inform players about game selection
+        _inboxService.SendMessage(competition.CreatorId, 69420, $"Game {competition.Game.Name} has been selected for competition!");
+
+        // Redirect to next step in competition setup
+        return RedirectToAction("SetupCompetition", new { compId = competition.Id });
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult SetupCompetition(int compId)
+    {
+        // Retrieve the competition
+        var competition = _competitionRepository.GetCompetitionById(compId);
+
+        // Verify the competition exists
+        if (competition == null)
+        {
+            return NotFound("Competition not found.");
+        }
+
+        // Ensure competition is in the correct state to set up
+        if (competition.Status.Name != "GameSelected")
+        {
+            return BadRequest("Competition is not in the correct state for setup.");
+        }
+
+        // Create the view model
+        var competeSetupCompetitionVM = new CompeteCreateVM
+        {
+            CompetitionId = compId,
+            CompStartTime = DateTime.Now,
+            CompEndTime = DateTime.Now.AddDays(7), // example end date 1 week from now
+        };
+
+        return View(competeSetupCompetitionVM);
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult SetupCompetition(CompeteCreateVM competeSetupCompetitionVM)
+    {
+        // Verify model
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Retrieve the competition
+        var competition = _competitionRepository.GetCompetitionById(competeSetupCompetitionVM.CompetitionId);
+
+        // Verify the competition exists
+        if (competition == null)
+        {
+            return NotFound("Competition not found.");
+        }
+
+        // Ensure competition is in the correct state to set up
+        if (competition.Status.Name != "GameSelected")
+        {
+            return BadRequest("Competition is not in the correct state for setup.");
+        }
+
+        // Update the competition with the setup details
+        competition.StartDate = competeSetupCompetitionVM.CompStartTime;
+        competition.EndDate = competeSetupCompetitionVM.CompEndTime;
+        competition.Status = _statusRepository.GetStatusByName("SetupComplete"); // Change status to indicate setup has been completed
+        _competitionRepository.AddOrUpdate(competition);
+
+        // Redirect to next step in competition setup
+        return RedirectToAction("CompetitionDetails", new { compId = competition.Id });
+    }
+
+
+
 
     [Authorize]
     [HttpGet]
@@ -292,6 +406,7 @@ public class CompeteController : Controller
         var viewModel = new CompeteCreateVM();
         viewModel.SteamId = currentUser.SteamId;
         viewModel.SinId = currentUser.Id;
+
 
         return View( viewModel );
     }
@@ -482,6 +597,7 @@ public class CompeteController : Controller
         comp.Status = _statusRepository.GetStatusByName("Active");
 
         _competitionRepository.AddOrUpdate( comp );
+
 
         _inboxService.SendMessage(SinId, 69420, $"You started a new achievement competition for {comp.Game.Name}! Starting on {comp.StartDate.ToLocalTime()} and finishing {comp.EndDate.ToLocalTime()}");
 

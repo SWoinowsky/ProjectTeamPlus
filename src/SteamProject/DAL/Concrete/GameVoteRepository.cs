@@ -29,6 +29,11 @@ namespace SteamProject.DAL.Concrete
             return _ctx.GameVotes
                 .FirstOrDefault(gv => gv.UserId == userId && gv.GameId == gameId);
         }
+        public int GetVoteCountForGame(int gameId)
+        {
+            return _ctx.GameVotes.Count(gv => gv.GameId == gameId && gv.Vote == true);
+        }
+
 
     }
 }

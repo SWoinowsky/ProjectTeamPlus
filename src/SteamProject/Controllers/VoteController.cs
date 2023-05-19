@@ -129,8 +129,8 @@ namespace SteamProject.Controllers
             {
                 Id = game.Id,
                 Name = game.Name,
-                IconUrl = game.IconUrl
-            });
+                AppId = game.AppId
+            }).ToList();
 
             return Ok(sharedGamesDto);
         }
@@ -167,7 +167,7 @@ namespace SteamProject.Controllers
 
             if (existingVote == null)
             {
-                // No vote exists, so create a new one
+
                 // No vote exists, so create a new one
                 existingVote = new GameVote()
                 {
@@ -177,6 +177,11 @@ namespace SteamProject.Controllers
                 };
 
             }
+            else
+            {
+                // A vote exists, so update it
+                existingVote.Vote = voteData.WantsToPlay;
+            }
 
             _gameVoteRepository.AddOrUpdate(existingVote);
 
@@ -185,6 +190,38 @@ namespace SteamProject.Controllers
 
             // return the updated vote
             return Ok(existingVote);
+        }
+
+        [HttpGet]
+        [Route("GameVotes/{competitionId}")]
+        public IActionResult GetGameVotes(int competitionId)
+        {
+            string? userId = _userManager.GetUserId(User); // Get current user's Id
+
+            if (userId is null)
+            {
+                return BadRequest();
+            }
+
+            var sharedGames = _competitionRepository.GetSharedGames(competitionId);
+
+            if (sharedGames == null)
+            {
+                return NotFound();
+            }
+
+            User user = _userRepository.GetUser(userId);
+
+            var sharedGamesDto = sharedGames.Select(game => new GameVoteDto
+            {
+                Id = game.Id,
+                Name = game.Name,
+                AppId = game.AppId,
+                VoteCount = _gameVoteRepository.GetVoteCountForGame(game.Id),
+                CurrentUserVote = _gameVoteRepository.GetByUserAndGame(user.Id, game.Id)?.Vote ?? false
+            }).ToList();
+
+            return Ok(sharedGamesDto);
         }
 
 

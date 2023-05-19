@@ -472,17 +472,20 @@ function showFFAAchievements( data ) {
 }
 
 function getAchievementsForFFA() {
-    var gameSelector = document.getElementById("gameSelector");
-    var index = gameSelector.selectedIndex;
-    var appId = gameSelector.children[index].value;
+    if(!document.title.includes("Speed Run"))
+    {
+        var gameSelector = document.getElementById("gameSelector");
+        var index = gameSelector.selectedIndex;
+        var appId = gameSelector.children[index].value;
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: `/api/Steam/schema?appId=${appId}`,
-        success: showFFAAchievements,
-        error: errorOnAjax
-    });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: `/api/Steam/schema?appId=${appId}`,
+            success: showFFAAchievements,
+            error: errorOnAjax
+        });
+    }
 }
 
 function createSubmitButton() {

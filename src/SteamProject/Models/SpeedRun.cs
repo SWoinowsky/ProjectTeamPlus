@@ -12,4 +12,10 @@ public partial class SpeedRun
     public string? VideoId { get; set; }
 
     public int PlayerId { get; set; }
+
+    public string RunTime { get; set; } = null!;
+
+    public bool GlitchStatus { get; set; }
+
+    public virtual Competition Competition { get; set; } = null!;
 }

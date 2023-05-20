@@ -104,6 +104,14 @@ CREATE TABLE [CompetitionGameAchievement]
 	[GameAchievementId]	INT				NOT NULL
 );
 
+CREATE TABLE [SpeedRun]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[CompetitionId]	INT				NOT NULL
+	,[VideoId]			NVARCHAR(75)	
+	,[PlayerId]			INT				NOT NULL
+);
+
 CREATE TABLE [BlackList]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY

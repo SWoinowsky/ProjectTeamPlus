@@ -32,6 +32,17 @@ $(function () {
     }
 });
 
+function showRunSubmissionModal(compId)
+{
+    var modal = document.getElementById("run-submission");
+    $("#run-submission").modal("show");
+}
+
+function closeModal()
+{
+    window.location.reload()
+}
+
 function Delete(int) {
     $.ajax({
         type: "POST",

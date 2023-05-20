@@ -72,4 +72,6 @@ public class CompeteCreateVM
     public DateTime CompStartTime { get; set; }
     public DateTime CompEndTime { get; set; }
 
+    public string Goal { get; set; }
+
 }

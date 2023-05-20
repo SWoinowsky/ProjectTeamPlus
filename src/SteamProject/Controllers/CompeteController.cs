@@ -596,6 +596,7 @@ public class CompeteController : Controller
         var timeString = compCreatedOut.MinDate.ToString();
         var game = new Game();
         game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
+        string goal = compCreatedOut.Goal;
 
         var comp = new Competition()
         {
@@ -604,6 +605,7 @@ public class CompeteController : Controller
             StartDate = compCreatedOut.CompStartTime,
             EndDate = compCreatedOut.CompEndTime,
             Game = game,
+            Goal = goal
         };
 
         comp.Status = _statusRepository.GetStatusByName("Active");

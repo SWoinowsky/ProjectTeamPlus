@@ -99,24 +99,28 @@ public class CompeteController : Controller
     }
 
     [Authorize]
-    [HttpGet]
-    public IActionResult Details( int compId )
+    public IActionResult Details(int compId)
     {
         var authId = _userManager.GetUserId(User);
-        int SinId = _userRepository.GetUser( authId ).Id;
+        int SinId = _userRepository.GetUser(authId).Id;
+        var currentUser = _userRepository.GetUser(authId);
 
         var viewModel = new CompeteDetailsVM();
         var competitionIn = new Competition();
 
+
+
         viewModel.SinId = SinId;
 
-        competitionIn = _competitionRepository.GetCompetitionById( compId );
+        competitionIn = _competitionRepository.GetCompetitionById(compId);
 
-        if( competitionIn != null )
+
+        if (competitionIn != null)
         {
             var compPlayersList = new List<CompetitionPlayer>();
             compPlayersList = _competitionPlayerRepository.GetAllForCompetition(compId);
 
+            var compAchievements = new List<CompetitionGameAchievement>();
 
             if (DateTime.UtcNow >= competitionIn.EndDate)
             {
@@ -137,6 +141,11 @@ public class CompeteController : Controller
                         competitionIn.StatusId = 1; // set to the default status ID
 
                         _competitionRepository.AddOrUpdate(competitionIn);
+
+                        // Fetch the new game's achievements
+                        _gameAchievementRepository.EnsureGameAchievements(competitionIn.Game.AppId, currentUser.SteamId, currentUser.Id);
+                        compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.GameId);
+
                     }
                     else
                     {
@@ -145,6 +154,9 @@ public class CompeteController : Controller
                         {
                             competitionIn.Status = gameSelectionStatus;
                             _competitionRepository.AddOrUpdate(competitionIn);
+
+                            // Clear achievements for GameSelection status or fetch default achievements if there are any
+                            compAchievements = new List<CompetitionGameAchievement>();
                         }
                     }
                 }
@@ -158,12 +170,18 @@ public class CompeteController : Controller
                     }
                 }
             }
+            else
+            {
+                // Competition has not ended, fetch current game's achievements
+                compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+            }
 
             var gameAssociated = new Game();
             gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
 
+         
 
-            
+
 
             // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
             var idList = new List<string>();
@@ -174,9 +192,10 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
+            _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
+            _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId, gameAssociated.Id);
 
-            var compAchievements = new List<CompetitionGameAchievement>();
-            compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
+            compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId( compId ,gameAssociated.Id);
 
             var percentages = new List<GlobalAchievement>();
             percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;

@@ -1,4 +1,5 @@
 $(function () {
+    console.log("deleting");
     var deleter = document.getElementById("compDeleteBtn");
     var compId = deleter.value;
     deleter.onclick = function () {

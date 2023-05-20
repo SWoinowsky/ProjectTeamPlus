@@ -129,7 +129,6 @@ else
                 </div>
                 <div class="modal-body">
                     <form asp-action="SubmitRun" method="post">
-                        
                         <div class="mb-3">
                             <label class="form-label"><p>Was the run glitched or not:</p></label>
                             <div class="form-check">
@@ -143,12 +142,12 @@ else
                         </div>
                         <div class="mb-3">
                             <label for="time" class="form-label"><p>Run Timer (HHH:MM:SS:mmm)</p></label>
-                            <input type="text" id="time" class="form-control" pattern="[0-9]{3}:[0-9]{2}:[0-9]{2}:[0-9]{3}" required>
+                            <input name ="time" type="text" id="time" class="form-control" pattern="[0-9]{3}:[0-9]{2}:[0-9]{2}:[0-9]{3}" required>
                             <small class="form-text text-muted">Please enter time in the format HH:MM:SS:mmm (e.g., 001:23:45:000).</small>
                         </div>
                         <div class="mb-3">
                             <label for="youtubeLink" class="form-label"><p><strong class="form-text text-muted">OPTIONAL:</strong>YouTube Link</p></label>
-                            <input type="text" id="youtubeLink" class="form-control" pattern="^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=.+">
+                            <input name="youtubeLink" type="text" id="youtubeLink" class="form-control" pattern="^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=.+">
                             <small class="form-text text-muted">Please enter a valid YouTube link.</small>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

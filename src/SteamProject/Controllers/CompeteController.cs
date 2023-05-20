@@ -634,4 +634,13 @@ public class CompeteController : Controller
         
         return RedirectToAction("Index");
     }
+
+    [HttpPost]
+    public IActionResult SubmitRun(string glitch, string time, string youtubeLink)
+    {
+        var a = glitch;
+        var b = time;
+        var c = youtubeLink;
+        return null;
+    }
 }

@@ -185,7 +185,6 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         competition.StatusId = 1;
 
         // Reset CompetitionGameAchievements, CompetitionPlayers, and CompetitionVotes
-        competition.CompetitionGameAchievements = new List<CompetitionGameAchievement>();
         competition.CompetitionVotes = new List<CompetitionVote>();
 
         // Reassign the existing players to the new competition

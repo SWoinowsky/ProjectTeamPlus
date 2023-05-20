@@ -12,4 +12,6 @@ public interface IGameVoteRepository : IRepository<GameVote>
     public GameVote GetByUserAndGame(int userId, int gameId, int voteDataCompetitionId);
     int GetVoteCountForGame(int gameId, int competitionId);
 
+    bool HasGameVoteSucceeded(int competitionInId);
+    int GetGameIdWithMostVotes(int compId);
 }

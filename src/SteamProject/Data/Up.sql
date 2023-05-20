@@ -113,6 +113,7 @@ CREATE TABLE [SpeedRun]
 	,[RunTime] 			NVARCHAR(13)	NOT NULL
 	,[GlitchStatus]		BIT				NOT NULL
 	,[ValidationStatus]	BIT				NOT NULL
+	,[Condition]		NVARCHAR(50)	NOT NULL
 );
 
 CREATE TABLE [BlackList]

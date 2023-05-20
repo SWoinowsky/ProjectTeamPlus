@@ -80,9 +80,6 @@ function storeUserAchievements( data ) {
         userAchievements = data.playerstats.achievements;
         processData(clickedGameId.value);
     }
-
-
-
 }
 
 function ajaxFetchUserAchievements(id) {

@@ -237,11 +237,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Compete", action = "SubmitRun" }
 );
 
-// app.MapControllerRoute(
-//     "Compete",
-//     "Compete/{friendSteamId?}/{appId?}",
-//     defaults: new { controller = "Compete", action = "Initiate" }
-// );
+app.MapControllerRoute(
+    "Compete",
+    "Compete/{friendSteamId?}/{appId?}",
+    defaults: new { controller = "Compete", action = "Initiate" }
+);
 
 app.MapControllerRoute(
     "Friend",

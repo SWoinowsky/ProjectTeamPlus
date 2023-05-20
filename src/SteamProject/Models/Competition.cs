@@ -17,6 +17,8 @@ public partial class Competition
 
     public int StatusId { get; set; }
 
+    public string? Goal { get; set; }
+
     public virtual ICollection<CompetitionGameAchievement> CompetitionGameAchievements { get; set; } = new List<CompetitionGameAchievement>();
 
     public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; set; } = new List<CompetitionPlayer>();
@@ -27,7 +29,7 @@ public partial class Competition
 
     public virtual Game Game { get; set; } = null!;
 
-    public virtual ICollection<SpeedRun> SpeedRuns { get; set; } = new List<SpeedRun>();
+    public virtual ICollection<SpeedRun> SpeedRuns { get; } = new List<SpeedRun>();
 
     public virtual Status Status { get; set; } = null!;
 }

@@ -19,7 +19,5 @@ public partial class SpeedRun
 
     public bool ValidationStatus { get; set; }
 
-    public string Condition { get; set; } = null!;
-
     public virtual Competition Competition { get; set; } = null!;
 }

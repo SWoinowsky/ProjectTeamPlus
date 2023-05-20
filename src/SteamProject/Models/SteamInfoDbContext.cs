@@ -93,11 +93,12 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC0759C3A4E2");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC070C14EDBF");
 
             entity.ToTable("Competition");
 
             entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.Goal).HasMaxLength(50);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Creator).WithMany(p => p.Competitions)
@@ -242,11 +243,10 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<SpeedRun>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC07E2B2A408");
+            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC07344C299E");
 
             entity.ToTable("SpeedRun");
 
-            entity.Property(e => e.Condition).HasMaxLength(50);
             entity.Property(e => e.RunTime).HasMaxLength(13);
             entity.Property(e => e.VideoId).HasMaxLength(75);
 

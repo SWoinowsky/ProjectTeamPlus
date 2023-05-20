@@ -473,8 +473,6 @@ public class CompeteController : Controller
         viewModel.MyFriendId = friendSteamId;
         viewModel.CurrentCompetition = existingCompetition;
         
-
-
         return View( viewModel );
     }
 
@@ -636,11 +634,12 @@ public class CompeteController : Controller
     }
 
     [HttpPost]
-    public IActionResult SubmitRun(string glitch, string time, string youtubeLink)
+    public IActionResult SubmitRun(string glitch, string time, string goal, string youtubeLink)
     {
         var a = glitch;
         var b = time;
-        var c = youtubeLink;
+        var c = goal;
+        var d = youtubeLink;
         return null;
     }
 }

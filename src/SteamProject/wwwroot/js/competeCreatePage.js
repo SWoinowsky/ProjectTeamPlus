@@ -294,6 +294,7 @@ function addGameSelectorForFFA( data ) {
     }
     else
     {
+        createSpeedRunGoalEntry();
         createSpeedRunSubmitButton();
     }
 }
@@ -499,8 +500,44 @@ function createSubmitButton() {
     div.append( submit );
 }
 
+function createSpeedRunGoalEntry() {
+    var div = document.getElementById( "ffaDiv" );
+
+    var goal = document.createElement("goal");
+    goal.classList.add("mb-3");
+
+    var labelElement = document.createElement("label");
+    labelElement.classList.add("form-label");
+
+    var labelTextElement = document.createElement("p");
+    var labelText = document.createTextNode("What do you want the goal of the race to be?");
+    labelTextElement.appendChild(labelText);
+
+    labelElement.appendChild(labelTextElement);
+    
+    var inputElement = document.createElement("input");
+    inputElement.name = "goal";
+    inputElement.type = "text";
+    inputElement.id = "goal";
+    inputElement.classList.add("form-control");
+    inputElement.maxLength = 50;
+    inputElement.style.width = "500px";
+
+    var smallElement = document.createElement("small");
+    smallElement.classList.add("form-text", "text-muted");
+    var smallText = document.createTextNode("Examples: Full Game;Chapter 1; Stage A01 - Max 50 characters");
+    smallElement.appendChild(smallText);
+
+    div.appendChild(labelElement);
+    div.appendChild(inputElement);
+    div.appendChild(smallElement);
+}
+
 function createSpeedRunSubmitButton() {
     var div = document.getElementById( "ffaDiv" );
+
+    // var dynamicInputDiv = document.getElementById("DynamicInput");
+    // dynamicInputDiv.appendChild(div);
 
     var submit = document.createElement("input");
     submit.type = "submit";

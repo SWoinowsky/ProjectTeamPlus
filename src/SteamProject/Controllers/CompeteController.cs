@@ -131,6 +131,10 @@ public class CompeteController : Controller
 
             var compAchievements = new List<CompetitionGameAchievement>();
             compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
+            if(compAchievements == null)
+            {
+                return RedirectToAction("SpeedRunDetails", new {compId = compId});
+            }
 
             var percentages = new List<GlobalAchievement>();
             percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
@@ -240,6 +244,56 @@ public class CompeteController : Controller
             viewModel.Scoreboard = userScoreList;
         }
 
+        return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult SpeedRunDetails( int compId )
+    {
+        var authId = _userManager.GetUserId(User);
+        int SinId = _userRepository.GetUser( authId ).Id;
+
+        var viewModel = new CompeteDetailsVM();
+        var competitionIn = new Competition();
+
+        viewModel.SinId = SinId;
+
+        competitionIn = _competitionRepository.GetCompetitionById( compId );
+
+        if( competitionIn != null )
+        {
+            var gameAssociated = new Game();
+            gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
+
+
+            var compPlayersList = new List<CompetitionPlayer>();
+            compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
+
+
+            // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
+            var idList = new List<string>();
+            foreach( var cPlayer in compPlayersList )
+            {
+                idList.Add( cPlayer.SteamId );
+            }
+            var userList = new List<User>();
+            userList = _steamService.GetManyUsers( idList );
+
+            if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
+            {
+                var endedStatus = _statusRepository.GetStatusByName("Ended");
+                if (endedStatus != null)
+                {
+                    competitionIn.Status = endedStatus;
+                    _competitionRepository.AddOrUpdate(competitionIn);
+                } 
+            }
+            viewModel.CurrentComp = competitionIn;
+            viewModel.Game = gameAssociated;
+            viewModel.CompPlayers = compPlayersList;
+            viewModel.Players = userList;
+        }
         return View( viewModel );
     }
 
@@ -516,5 +570,50 @@ public class CompeteController : Controller
         return RedirectToAction("Index");
     }
 
-    
+    [Authorize]
+    [HttpPost]
+    public IActionResult CreateSpeedRun( CompeteCreateVM compCreatedOut )
+    {
+        string authid = _userManager.GetUserId(User);
+        var SinId = _userRepository.GetUser( authid ).Id;
+
+        var timeString = compCreatedOut.MinDate.ToString();
+        var game = new Game();
+        game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
+
+        var comp = new Competition()
+        {
+            CreatorId = SinId,
+            GameId = game.Id,
+            StartDate = compCreatedOut.CompStartTime,
+            EndDate = compCreatedOut.CompEndTime,
+            Game = game,
+        };
+
+        comp.Status = _statusRepository.GetStatusByName("Active");
+
+        _competitionRepository.AddOrUpdate( comp );
+
+        _inboxService.SendMessage(SinId, 69420, $"You started a new speed run competition for {comp.Game.Name}! Starting on {comp.StartDate.ToLocalTime()} and finishing {comp.EndDate.ToLocalTime()}");
+
+        var competitors = new List<CompetitionPlayer>();
+        competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.SteamId } );
+        
+        if( compCreatedOut.OpponentId != null )
+            competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.OpponentId } );
+        
+        if( compCreatedOut.OpponentIds != null )
+            foreach( string id in compCreatedOut.OpponentIds )
+            {
+                competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = id, Competition = comp } );
+            }
+
+        foreach( CompetitionPlayer opp in competitors )
+        {
+            _competitionPlayerRepository.AddOrUpdate( opp );
+        }
+
+        
+        return RedirectToAction("Index");
+    }
 }

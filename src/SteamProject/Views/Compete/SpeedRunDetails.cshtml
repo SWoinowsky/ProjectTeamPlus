@@ -1,12 +1,11 @@
 @model SteamProject.ViewModels.CompeteDetailsVM
 @{
-    ViewData["Title"] = "Achievement Battle";
+    ViewData["Title"] = "Speed Run";
 }
 
 <head>
     <link rel="stylesheet" href="~/css/Compete.css">
 </head>
-
 
 @if( Model is null )
 {
@@ -28,30 +27,6 @@ else
             </div>
 
             <br>
-            <div>
-                Competing for these acheivements:
-
-                <div class="row" style="align-items: center; padding-bottom: 3%;">
-                    @foreach ( var achievement in Model.GameAchList )
-                    {
-                        <div class="col-md-2" style="width: 160px; margin: auto;">
-
-                            <br>
-
-                            <div class="achievementDiv">
-                                <div class="card achievementCard" style="word-wrap: normal; display:flex;">
-                                    <img class="flare" src="~/assets/flare.png" style="display:none;" alt="">
-                                    <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 90%; height: 90%; align-self: center; margin-top:5px;">
-                                    <div class="card-body">
-                                        <p class="card-title" style="color: white;">@achievement.DisplayName</p>
-                                        <p class="ach-value"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
         </div>
         <div class="col-sm-6" style="width: 50%;">
             <h1> Competition in @Model.CurrentComp.Game.Name </h1>
@@ -69,8 +44,6 @@ else
                     <button id="voteAgainBtn" value="@Model.CurrentComp.Id">VOTE TO COMPETE AGAIN</button>
                 </div>
             }
-
-
             <br>
             <div>
                 <i> Competitors: </i>
@@ -78,9 +51,7 @@ else
                 <div class="row" style="align-content: center; padding-top: 3%;">
                     @foreach( var player in Model.Players )
                     {
-                        @if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
-                        &&      player == Model.Scoreboard[0].Key
-                        )
+                        @if(DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0)
                         {
                             <div class="col-sm-2" style="margin: auto; width: auto;">
                                 <div class="card winnerCard" >
@@ -90,12 +61,9 @@ else
                                     </div>
                                 </div>
                             </div>
-                            
                         }
                         else if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
-                        &&      player == Model.Scoreboard[1].Key
-                        &&      Model.Scoreboard.Count() > 2
-                        )
+                        &&      Model.Scoreboard.Count() > 2)
                         {
                             <div class="col-sm-2" style="margin: auto; width: auto;">
                                 <div class="card secondCard" >
@@ -107,9 +75,7 @@ else
                             </div>
                         }
                         else if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
-                        &&      Model.Scoreboard.Count() > 3
-                        &&      player == Model.Scoreboard[2].Key
-                        )
+                        &&      Model.Scoreboard.Count() > 3)
                         {
                             <div class="col-sm-2" style="margin: auto; width: auto;">
                                 <div class="card thirdCard" >
@@ -134,40 +100,19 @@ else
                     }
                 </div>
             </div>
-
             @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
             <div style="display: flex; flex-direction: column;">
                 <div id="CompletionHistory" > 
                     <strong> Leaderboard </strong>
                     <ol>
-                        @foreach( var score in Model.Scoreboard )
-                        {
-                            <li style="padding-bottom: 2%;"> <strong> @score.Key.SteamName: </Strong> <i> @score.Value.Score points </i> </li>
-                        }
                     </ol>
                 </div>
                 <div id="CompletionHistory" > 
                     <strong> History </strong>
                     <ol>
-                        @foreach( var completion in Model.Tracking )
-                        {
-                            <li style="padding-bottom: 2%;"> <strong>@completion.Value.SteamName</strong> completed <strong>@completion.Key.Achievement.DisplayName</strong> with timestamp <strong>@completion.Key.UnlockTime!</strong> </li>
-                        }
                     </ol>
                 </div>
             </div>
-            
         </div>
-
     </div>
-
-
-    
-}
-
-
-@section Scripts
-{
-    <script type="text/javascript" src="~/js/achValues.js"></script>
-    <script type="text/javascript" src="~/js/competeDetails.js"></script>
 }

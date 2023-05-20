@@ -227,6 +227,12 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "Compete",
+    "Compete/SpeedRunDetails/{compId?}",
+    defaults: new { controller = "Compete", action = "SpeedRunDetails" }
+);
+
+app.MapControllerRoute(
+    "Compete",
     "Compete/{friendSteamId?}/{appId?}",
     defaults: new { controller = "Compete", action = "Initiate" }
 );

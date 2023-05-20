@@ -232,8 +232,8 @@ app.MapControllerRoute(
 );
 
 app.MapControllerRoute(
-    name: "Compete",
-    pattern: "Compete/SubmitRun/{glitch}/{time}/{youtubeLink?}",
+    "Compete",
+    "Compete/SubmitRun/{glitch}/{time}/{youtubeLink?}",
     defaults: new { controller = "Compete", action = "SubmitRun" }
 );
 

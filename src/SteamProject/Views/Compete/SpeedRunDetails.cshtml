@@ -48,6 +48,7 @@ else
         </div>
         <div class="col-sm-6" style="width: 50%;">
             <h1> Competition in @Model.CurrentComp.Game.Name </h1>
+            <h1>Goal: @Model.CurrentComp.Goal</h1>
             <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
 
             @if( Model.SinId == Model.CurrentComp.CreatorId )
@@ -65,7 +66,6 @@ else
             <br>
             <div>
                 <i> <p>Competitors: </p></i>
-                
                 <div class="row" style="align-content: center; padding-top: 3%;">
                     @foreach( var player in Model.Players )
                     {

@@ -22,11 +22,12 @@ public partial class Competition
     public virtual ICollection<CompetitionPlayer> CompetitionPlayers { get; set; } = new List<CompetitionPlayer>();
 
     public virtual ICollection<CompetitionVote> CompetitionVotes { get; set; } = new List<CompetitionVote>();
-    public virtual ICollection<SpeedRun> SpeedRuns { get; set; } = new List<SpeedRun>();
 
     public virtual User Creator { get; set; } = null!;
 
     public virtual Game Game { get; set; } = null!;
+
+    public virtual ICollection<SpeedRun> SpeedRuns { get; set; } = new List<SpeedRun>();
 
     public virtual Status Status { get; set; } = null!;
 }

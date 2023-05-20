@@ -17,5 +17,7 @@ public partial class SpeedRun
 
     public bool GlitchStatus { get; set; }
 
+    public bool ValidationStatus { get; set; }
+
     public virtual Competition Competition { get; set; } = null!;
 }

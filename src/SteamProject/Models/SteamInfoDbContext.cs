@@ -41,6 +41,8 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<InboxMessage> InboxMessages { get; set; }
 
+    public virtual DbSet<SpeedRun> SpeedRuns { get; set; }
+
     public virtual DbSet<Status> Statuses { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -238,10 +240,9 @@ public partial class SteamInfoDbContext : DbContext
                 .HasConstraintName("InboxMessage_Fk_User");
         });
 
-        
         modelBuilder.Entity<SpeedRun>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC07B3EADF49");
+            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC076DB21934");
 
             entity.ToTable("SpeedRun");
 

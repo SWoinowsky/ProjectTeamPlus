@@ -27,7 +27,10 @@ else
 
             <br>
             <div id="runSubmissionBtnDiv">
-                <button id="submitSpeedRunBtn" onclick="showRunSubmissionModal(@Model.CurrentComp.Id)">Submit a run.</button>
+                @if(DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) > 0)
+                {
+                    <button id="submitSpeedRunBtn" onclick="showRunSubmissionModal(@Model.CurrentComp.Id)">Submit a run <i class="bi bi-chevron-bar-right"></i><i class="bi bi-box-arrow-in-down"></i></button>
+                }
             </div>
             @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
             <div style="display: flex; flex-direction: column;">

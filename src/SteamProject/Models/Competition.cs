@@ -30,5 +30,7 @@ public partial class Competition
 
     public virtual Game Game { get; set; } = null!;
 
+    public virtual ICollection<GameVote> GameVotes { get; } = new List<GameVote>();
+
     public virtual Status Status { get; set; } = null!;
 }

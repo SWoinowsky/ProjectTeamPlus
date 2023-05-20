@@ -9,6 +9,9 @@ footer {
     height: 65px !important;
 }
 
+.vote-count {
+    color: black !important;
+}
 
 .footer-content {
     margin-top: 50px;

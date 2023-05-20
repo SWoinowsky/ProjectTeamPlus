@@ -17,6 +17,8 @@ ALTER TABLE [GameVote]                      DROP CONSTRAINT [GameVote_Fk_Game];
 ALTER TABLE [GameVote]                      DROP CONSTRAINT [GameVote_Fk_User];
 ALTER TABLE [CompetitionVote]               DROP CONSTRAINT [CompetitionVote_Fk_Competition];
 ALTER TABLE [CompetitionVote]               DROP CONSTRAINT [CompetitionVote_Fk_User];
+ALTER TABLE [GameVote]                      DROP CONSTRAINT [GameVote_Fk_Competition];
+
 
 DROP TABLE [CompetitionVote];
 DROP TABLE [GameVote];

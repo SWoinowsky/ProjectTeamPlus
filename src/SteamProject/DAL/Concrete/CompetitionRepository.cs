@@ -107,7 +107,7 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         int totalUsers = GetTotalUsers(competitionId);
         int positiveVotes = _competitionVoteRepository.GetPositiveVotesCount(competitionId);
 
-        return (positiveVotes >= totalUsers / 2.0);
+        return (positiveVotes > totalUsers / 2.0);
     }
 
     public IEnumerable<Game> GetSharedGames(int competitionId)
@@ -128,22 +128,29 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         List<List<Game>> allPlayerGames = new List<List<Game>>();
         foreach (var player in players)
         {
-            // Get the user for the current player
-            var user = _userRepository.GetUserBySteamId(player.SteamId);
-
-            // If no such user exists, throw an exception
-            if (user == null)
+            if (player.SteamId != null)
             {
-                throw new Exception($"User with SteamId {player.SteamId} not found");
+                // Get the user for the current player
+                var user = _userRepository.GetUserBySteamId(player.SteamId);
+
+
+                // If no such user exists, throw an exception
+                if (user == null)
+                {
+                    allPlayerGames.Add(new List<Game>());
+                }
+                else
+                {
+                    // Fetch the games for the user
+                    var userGamesInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
+
+                    // Convert the UserGameInfo list to a Game list
+                    var playerGames = userGamesInfo.Select(ugi => ugi.Game).ToList();
+
+                    allPlayerGames.Add(playerGames);
+                }
             }
-
-            // Fetch the games for the user
-            var userGamesInfo = _userGameInfoRepository.GetAllUserGameInfo(user.Id);
-
-            // Convert the UserGameInfo list to a Game list
-            var playerGames = userGamesInfo.Select(ugi => ugi.Game).ToList();
-
-            allPlayerGames.Add(playerGames);
+            
         }
 
         // Find the intersection of all game lists
@@ -153,6 +160,48 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
 
         return sharedGames;
     }
+    public Competition UpdateGameForCompetition(int competitionId, int newGameId)
+    {
+        // Get the competition by its Id
+        var competition = GetCompetitionById(competitionId);
+
+        // If no such competition exists, throw an exception
+        if (competition == null)
+        {
+            throw new Exception($"Competition with ID {competitionId} not found");
+        }
+
+        // Calculate the original competition duration
+        TimeSpan originalDuration = competition.EndDate - competition.StartDate;
+
+        // Update the game Id
+        competition.GameId = newGameId;
+
+        // Reset the start and end dates
+        competition.StartDate = DateTime.Now;
+        competition.EndDate = competition.StartDate + originalDuration;
+
+        // Reset the status (assuming '1' is the "active" status - you will need to adjust this as necessary)
+        competition.StatusId = 1;
+
+        // Reset CompetitionGameAchievements, CompetitionPlayers, and CompetitionVotes
+        competition.CompetitionGameAchievements = new List<CompetitionGameAchievement>();
+        competition.CompetitionVotes = new List<CompetitionVote>();
+
+        // Reassign the existing players to the new competition
+        var currentPlayers = competition.CompetitionPlayers;
+        competition.CompetitionPlayers = new List<CompetitionPlayer>();
+        foreach (var player in currentPlayers)
+        {
+            competition.CompetitionPlayers.Add(player);
+        }
+
+        // Save changes
+        _ctx.SaveChanges();
+
+        return competition;
+    }
+
 
 
 

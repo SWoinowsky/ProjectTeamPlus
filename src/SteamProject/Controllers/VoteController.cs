@@ -114,22 +114,39 @@ namespace SteamProject.Controllers
 
             return Ok(totalUsers);
         }
-
+        [Authorize]
         [HttpGet]
         [Route("SharedGames/{competitionId}")]
         public IActionResult GetSharedGames(int competitionId)
         {
+            string? userId = _userManager.GetUserId(User); // Get current user's Id
+
+            if (userId is null)
+            {
+                return BadRequest();
+            }
+
+            User user = _userRepository.GetUser(userId);
+
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
             var sharedGames = _competitionRepository.GetSharedGames(competitionId);
             if (sharedGames == null)
             {
                 return NotFound();
             }
 
-            var sharedGamesDto = sharedGames.Select(game => new GameDto
+            var sharedGamesDto = sharedGames.Select(game => new GameVoteDto
             {
                 Id = game.Id,
                 Name = game.Name,
-                AppId = game.AppId
+                AppId = game.AppId,
+                CurrentUserVote = _gameVoteRepository.GetByUserAndGame(user.Id, game.Id, competitionId)?.Vote,
+                VoteCount = _gameVoteRepository.GetVoteCountForGame(game.Id, competitionId),
+
             }).ToList();
 
             return Ok(sharedGamesDto);
@@ -163,19 +180,18 @@ namespace SteamProject.Controllers
             }
 
             // Check if a vote by this user for this game already exists
-            var existingVote = _gameVoteRepository.GetByUserAndGame(user.Id, voteData.GameId);
+            var existingVote = _gameVoteRepository.GetByUserAndGame(user.Id, voteData.GameId, voteData.CompetitionId);
 
             if (existingVote == null)
             {
-
                 // No vote exists, so create a new one
                 existingVote = new GameVote()
                 {
                     GameId = voteData.GameId,
                     UserId = user.Id,
-                    Vote = voteData.WantsToPlay // include this line
+                    Vote = voteData.WantsToPlay, 
+                    CompetitionId = voteData.CompetitionId
                 };
-
             }
             else
             {
@@ -185,16 +201,48 @@ namespace SteamProject.Controllers
 
             _gameVoteRepository.AddOrUpdate(existingVote);
 
+
+
+
+            // Get the competition Id associated with this game.
+            // You will need to implement this logic based on your data model.
+            var competition = _competitionRepository.GetCompetitionById(existingVote.CompetitionId);
+
+            if (competition == null)
+            {
+                return BadRequest("Competition not found for this game");
+            }
+
+            // Get the vote count for the game
+            var voteCount = _gameVoteRepository.GetVoteCountForGame(game.Id, existingVote.CompetitionId);
+
+            // Get the total users in the competition
+            var totalUsers = _competitionRepository.GetTotalUsers(competition.Id);
+
+            // If the vote count reaches a majority, update the competition with the new game
+            if (voteCount > totalUsers / 2)
+            {
+                var updatedCompetition = _competitionRepository.UpdateGameForCompetition(competition.Id, game.Id);
+
+                if (updatedCompetition == null)
+                {
+                    return BadRequest("Error updating competition");
+                }
+
+
+            }
+
             existingVote.User = null;
             existingVote.Game = null;
+            existingVote.Competition = null;
 
             // return the updated vote
             return Ok(existingVote);
         }
 
-        [HttpGet]
-        [Route("GameVotes/{competitionId}")]
-        public IActionResult GetGameVotes(int competitionId)
+
+        [HttpGet("GameVotes/{gameId}/{competitionId}")]
+        public IActionResult GameVotes(int gameId, int competitionId)
         {
             string? userId = _userManager.GetUserId(User); // Get current user's Id
 
@@ -203,25 +251,27 @@ namespace SteamProject.Controllers
                 return BadRequest();
             }
 
-            var sharedGames = _competitionRepository.GetSharedGames(competitionId);
+            // Fetch the specific game based on gameId
+            var game = _gameRepository.GetGameById(gameId);
 
-            if (sharedGames == null)
+            if (game == null)
             {
                 return NotFound();
             }
 
             User user = _userRepository.GetUser(userId);
 
-            var sharedGamesDto = sharedGames.Select(game => new GameVoteDto
+            // If the game exists, map it to GameVoteDto
+            var gameVoteDto = new GameVoteDto
             {
                 Id = game.Id,
                 Name = game.Name,
                 AppId = game.AppId,
-                VoteCount = _gameVoteRepository.GetVoteCountForGame(game.Id),
-                CurrentUserVote = _gameVoteRepository.GetByUserAndGame(user.Id, game.Id)?.Vote ?? false
-            }).ToList();
+                VoteCount = _gameVoteRepository.GetVoteCountForGame(game.Id, competitionId),
+                CurrentUserVote = _gameVoteRepository.GetByUserAndGame(user.Id, game.Id, competitionId)?.Vote ?? false
+            };
 
-            return Ok(sharedGamesDto);
+            return Ok(gameVoteDto);
         }
 
 

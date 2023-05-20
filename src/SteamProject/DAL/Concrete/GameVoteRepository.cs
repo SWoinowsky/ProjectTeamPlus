@@ -24,16 +24,15 @@ namespace SteamProject.DAL.Concrete
             await _ctx.SaveChangesAsync();
         }
 
-        public GameVote GetByUserAndGame(int userId, int gameId)
+        public GameVote GetByUserAndGame(int userId, int gameId, int competitionId)
         {
             return _ctx.GameVotes
-                .FirstOrDefault(gv => gv.UserId == userId && gv.GameId == gameId);
+                .FirstOrDefault(gv => gv.UserId == userId && gv.GameId == gameId && gv.CompetitionId == competitionId);
         }
-        public int GetVoteCountForGame(int gameId)
+        public int GetVoteCountForGame(int gameId, int competitionId)
         {
-            return _ctx.GameVotes.Count(gv => gv.GameId == gameId && gv.Vote == true);
+            return _ctx.GameVotes.Count(gv => gv.GameId == gameId && gv.CompetitionId == competitionId && gv.Vote == true);
         }
-
 
     }
 }

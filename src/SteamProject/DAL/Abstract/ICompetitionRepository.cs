@@ -17,5 +17,7 @@ public interface ICompetitionRepository : IRepository<Competition>
     public bool HasVoteSucceeded(int competitionId);
     public IEnumerable<Game> GetSharedGames(int competitionId);
 
+    public Competition UpdateGameForCompetition(int competitionId, int newGameId);
+
 
 }

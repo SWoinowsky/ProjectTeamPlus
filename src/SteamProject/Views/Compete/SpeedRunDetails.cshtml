@@ -129,6 +129,8 @@ else
                 </div>
                 <div class="modal-body">
                     <form asp-action="SubmitRun" method="post">
+                        <input type="hidden" id="PlayerId" name="PlayerId" value="@Model.CurrentUserId">
+                        <input type="hidden" id="CompId" name="CompId" value="@Model.CurrentComp.Id">
                         <div class="mb-3">
                             <label class="form-label"><p>Was the run glitched or not?</p></label>
                             <div class="form-check">

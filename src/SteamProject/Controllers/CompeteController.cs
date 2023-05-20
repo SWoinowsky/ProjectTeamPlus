@@ -29,6 +29,7 @@ public class CompeteController : Controller
     private readonly ISteamService _steamService;
     private readonly IInboxService _inboxService;
     private readonly IStatusRepository _statusRepository;
+    private readonly ISpeedRunRepository _speedRunRepository;
 
     public CompeteController(
         ILogger<FriendController> logger
@@ -45,6 +46,7 @@ public class CompeteController : Controller
         , UserManager<IdentityUser> userManager
         , IInboxService inboxService
         , IStatusRepository statusRepository
+        , ISpeedRunRepository speedRunRepository
         )
     {
         _logger = logger;
@@ -61,6 +63,7 @@ public class CompeteController : Controller
         _userManager = userManager;
         _inboxService = inboxService;
         _statusRepository = statusRepository;
+        _speedRunRepository = speedRunRepository;
     }
 
 
@@ -307,10 +310,16 @@ public class CompeteController : Controller
                     _competitionRepository.AddOrUpdate(competitionIn);
                 } 
             }
+            string id = _userManager.GetUserId(User);
+
+            var currentUser = new SteamProject.Models.User();
+            currentUser = _userRepository.GetUser(id);
+
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
+            viewModel.CurrentUserId = currentUser.Id;
         }
         return View( viewModel );
     }
@@ -636,12 +645,18 @@ public class CompeteController : Controller
     }
 
     [HttpPost]
-    public IActionResult SubmitRun(string glitch, string time, string goal, string youtubeLink)
+    public IActionResult SubmitRun(string glitch, string time, string youtubeLink, string playerId, string compId)
     {
-        var a = glitch;
-        var b = time;
-        var c = goal;
-        var d = youtubeLink;
+        var run = new SpeedRun ()
+        {
+            GlitchStatus = (glitch == "glitched") ? true : false,
+            RunTime = time,
+            VideoId = string.IsNullOrEmpty(youtubeLink) ? string.Empty :
+                youtubeLink.Substring(youtubeLink.IndexOf("?v=") + 3,
+                (youtubeLink.IndexOf("&") == -1) ? youtubeLink.Length : youtubeLink.IndexOf("&") - (youtubeLink.IndexOf("?v=") + 3)),
+            CompetitionId = Int32.Parse(compId)
+        };
+
         return null;
     }
 }

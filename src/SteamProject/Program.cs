@@ -233,7 +233,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "Compete",
-    "Compete/SubmitRun/{glitch}/{time}/{goal}/{youtubeLink?}",
+    "Compete/SubmitRun/{glitch}/{time}/{youtubeLink?}/{playerId}/{compId}",
     defaults: new { controller = "Compete", action = "SubmitRun" }
 );
 

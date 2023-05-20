@@ -29,7 +29,7 @@ else
 
             <br>
             <div>
-                Competing for these acheivements:
+                <p>Competing for these acheivements:</p>
 
                 <div class="row" style="align-items: center; padding-bottom: 3%;">
                     @foreach ( var achievement in Model.GameAchList )
@@ -73,7 +73,7 @@ else
 
             <br>
             <div>
-                <i> Competitors: </i>
+                <i> <p>Competitors:</p></i>
                 
                 <div class="row" style="align-content: center; padding-top: 3%;">
                     @foreach( var player in Model.Players )
@@ -138,7 +138,7 @@ else
             @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
             <div style="display: flex; flex-direction: column;">
                 <div id="CompletionHistory" > 
-                    <strong> Leaderboard </strong>
+                    <strong> <p>Leaderboard</p></strong>
                     <ol>
                         @foreach( var score in Model.Scoreboard )
                         {
@@ -147,7 +147,7 @@ else
                     </ol>
                 </div>
                 <div id="CompletionHistory" > 
-                    <strong> History </strong>
+                    <strong> <p>History</p> </strong>
                     <ol>
                         @foreach( var completion in Model.Tracking )
                         {

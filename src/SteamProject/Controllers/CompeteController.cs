@@ -280,6 +280,19 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
+            var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
+            foreach( var player in compPlayersList )
+            {
+                foreach( var user in userList )
+                {
+                    if( player.SteamId == user.SteamId )
+                        userScoreList.Add( new (user, player) );
+                }
+            }
+
+            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
+            userList.Clear();
+
             if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
             {
                 var endedStatus = _statusRepository.GetStatusByName("Ended");

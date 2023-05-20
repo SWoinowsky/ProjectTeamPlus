@@ -27,6 +27,22 @@ else
             </div>
 
             <br>
+            <div id="runSubmissionBtnDiv">
+                <button id="submitSpeedRunBtn" value=@Model.CurrentComp.Id>Submit a run.</button>
+            </div>
+            @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
+            <div style="display: flex; flex-direction: column;">
+                <div id="CompletionHistory" > 
+                    <strong> <p>Leaderboard</p> </strong>
+                    <ol>
+                    </ol>
+                </div>
+                <div id="CompletionHistory" > 
+                    <strong> <p>History</p> </strong>
+                    <ol>
+                    </ol>
+                </div>
+            </div>
         </div>
         <div class="col-sm-6" style="width: 50%;">
             <h1> Competition in @Model.CurrentComp.Game.Name </h1>
@@ -46,7 +62,7 @@ else
             }
             <br>
             <div>
-                <i> Competitors: </i>
+                <i> <p>Competitors: </p></i>
                 
                 <div class="row" style="align-content: center; padding-top: 3%;">
                     @foreach( var player in Model.Players )
@@ -98,19 +114,6 @@ else
                             </div>
                         }
                     }
-                </div>
-            </div>
-            @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
-            <div style="display: flex; flex-direction: column;">
-                <div id="CompletionHistory" > 
-                    <strong> Leaderboard </strong>
-                    <ol>
-                    </ol>
-                </div>
-                <div id="CompletionHistory" > 
-                    <strong> History </strong>
-                    <ol>
-                    </ol>
                 </div>
             </div>
         </div>

@@ -163,6 +163,7 @@ $(document).ready(function () {
                     var updatedVoteStatus = data.vote ? 'true' : 'false';
                     $(`#${gameId}`).data('vote-status', updatedVoteStatus);
                     updateSharedGamesList(updatedVoteStatus); // update the shared games list after voting
+
                     getGameVotes(gameId, competitionId); // update the vote count after voting
 
                     //alert('Game vote updated successfully, Please reload the page.');

@@ -1,4 +1,4 @@
-name: Update the application database
+name: Update the authentication database
 
 on:
   # Trigger this one only manually
@@ -7,13 +7,13 @@ on:
 env:
     DB_SERVER: 'steaminfoproject.database.windows.net'
     DB_SERVER_NAME: SteamInfoProject
-    DB_NAME: SteamInfo
+    DB_NAME: SteamInfoAuth
     RESOURCE_GROUP: SteamProject
     # Need to manually set DB_USERNAME and DB_PASSWORD in the repo secrets settings
     # also need to generate AZURE_CREDENTIALS and set it in the repo secrets settings, follow https://github.com/azure/login/tree/v1/#configure-a-service-principal-with-a-secret
     PATH_TO_SCRIPTS: './src/SteamProject/Data'
-    DOWN_SCRIPT: ./Down.sql
-    UP_SCRIPT: ./Up.sql
+    DOWN_SCRIPT: ./IdDown.sql
+    UP_SCRIPT: ./IdUp.sql
     SEED_SCRIPT: ./Seed.sql
 
 jobs:
@@ -66,3 +66,4 @@ jobs:
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --server ${{ env.DB_SERVER_NAME }} \
             --name AllowGitHubActions
+            

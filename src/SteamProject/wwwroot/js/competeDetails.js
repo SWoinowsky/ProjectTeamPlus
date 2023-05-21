@@ -7,6 +7,12 @@ $(function () {
     }
 });
 
+$(document).ready(function () {
+    $("#selectGameButton").click(function () {
+        $("#gameSelectModal").modal("show");
+    });
+});
+
 
 
 $(document).ready(function () {
@@ -92,7 +98,7 @@ $(document).ready(function () {
 
                     $('#sharedGamesList').append(`
                 <div class="col-sm-4">
-                    <div class="card" id="${game.id}" data-vote-status="${gameVoteStatus}">
+                    <div class="card sharedCard" id="${game.id}" data-vote-status="${gameVoteStatus}">
                         <img src="https://steamcdn-a.akamaihd.net/steam/apps/${game.appId}/header.jpg" class="card-img-top" alt="${game.name}">
                         <div class="card-body">
                             <h5 class="card-title">${game.name}</h5>
@@ -154,6 +160,8 @@ $(document).ready(function () {
                     $(`#${gameId}`).data('vote-status', updatedVoteStatus);
                     updateSharedGamesList(updatedVoteStatus); // update the shared games list after voting
                     getGameVotes(gameId, competitionId); // update the vote count after voting
+                    // Reload the page
+                    location.reload();
                     //alert('Game vote updated successfully');
                 },
                 error: function (data) {

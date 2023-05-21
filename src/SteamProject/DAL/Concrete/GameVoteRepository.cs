@@ -51,7 +51,7 @@ namespace SteamProject.DAL.Concrete
                 .Count(gv => gv.CompetitionId == competitionId && gv.GameId == gameIdWithMostVotes && gv.Vote == true);
 
             // A game vote is successful if the winning game has more than 50% of the total participants
-            return votesForWinningGame > totalParticipants / 2;
+            return votesForWinningGame >= totalParticipants / 2;
         }
 
         public int GetGameIdWithMostVotes(int competitionId)

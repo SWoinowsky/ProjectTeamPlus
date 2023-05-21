@@ -17,6 +17,44 @@ body {
     border-radius: 8px;
 }
 
+.sharedCard {
+    height: 12rem;
+    border-radius: 5px;
+}
+#gameSelectModal {
+    text-align: center;
+    justify-content: center;
+}
+
+.light {
+    color: white;
+}
+
+.modal-content {
+    text-align: center;
+    justify-content: center;
+}
+
+.modal-footer {
+    justify-content: center;
+}
+
+.modal-header {
+    justify-content: center;
+    text-align: center;
+}
+
+.sharedCard:hover {
+    cursor: pointer
+}
+
+.card-img-top {
+    border-radius: 5px
+}
+
+.modal-dialog {
+    width: 100%;
+}
 .winnerCard {
     background-image: linear-gradient(to right, goldenRod, gold, yellow, gold, gold, goldenRod, goldenRod );
 }

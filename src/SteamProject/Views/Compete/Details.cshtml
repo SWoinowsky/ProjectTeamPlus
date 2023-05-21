@@ -35,30 +35,38 @@ else
             </div>
 
             <br>
-            <div>
-                Competing for these acheivements:
+            @if (Model.GameAchList.Any())
+            {
+                <div>
+                    Competing for these acheivements:
 
-                <div class="row" style="align-items: center; padding-bottom: 3%;">
-                    @foreach ( var achievement in Model.GameAchList )
-                    {
-                        <div class="col-md-2" style="width: 160px; margin: auto;">
+                    <div class="row" style="align-items: center; padding-bottom: 3%;">
+                        @foreach ( var achievement in Model.GameAchList )
+                        {
+                            <div class="col-md-2" style="width: 160px; margin: auto;">
 
-                            <br>
+                                <br>
 
-                            <div class="achievementDiv">
-                                <div class="card achievementCard" style="word-wrap: normal; display:flex;">
-                                    <img class="flare" src="~/assets/flare.png" style="display:none;" alt="">
-                                    <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 90%; height: 90%; align-self: center; margin-top:5px;">
-                                    <div class="card-body">
-                                        <p class="card-title" style="color: white;">@achievement.DisplayName</p>
-                                        <p class="ach-value"></p>
+                                <div class="achievementDiv">
+                                    <div class="card achievementCard" style="word-wrap: normal; display:flex;">
+                                        <img class="flare" src="~/assets/flare.png" style="display:none;" alt="">
+                                        <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 90%; height: 90%; align-self: center; margin-top:5px;">
+                                        <div class="card-body">
+                                            <p class="card-title" style="color: white;">@achievement.DisplayName</p>
+                                            <p class="ach-value"></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <p>Competition has ended</p>
+            }
+           
         </div>
         <div class="col-sm-6" style="width: 50%;">
             <h1> Competition in @Model.CurrentComp.Game.Name </h1>
@@ -82,15 +90,16 @@ else
 
                 <div id="voteCount"></div>
             }
+            @if (Model.Status.Name == "GameSelection")
+            {
+                <button type="button" class="btn btn-primary" id="selectGameButton">Select Game</button>
+            }
 
             <div class="modal fade" id="gameSelectModal" tabindex="-1" role="dialog" aria-labelledby="gameSelectModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="gameSelectModalLabel">Game Selection</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <h5 class="modal-title light" id="gameSelectModalLabe">Shared Game Selection</h5>
                         </div>
                         <div class="modal-body">
                             <!-- This is where the list of shared games will go -->
@@ -98,8 +107,11 @@ else
                                 <!-- Populate this list dynamically using Javascript -->
                             </div>
                         </div>
+                 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="gameSelectModal">Close</button>
+                            <div class="row">
+                                <p class="light">Click on game to vote for it</p>
+                            </div>
                         </div>
                     </div>
                 </div>

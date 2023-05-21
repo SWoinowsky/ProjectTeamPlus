@@ -102,12 +102,14 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         return competition.CompetitionPlayers.Count;
     }
 
+    
     public bool HasVoteSucceeded(int competitionId)
     {
         int totalUsers = GetTotalUsers(competitionId);
         int positiveVotes = _competitionVoteRepository.GetPositiveVotesCount(competitionId);
 
-        return (positiveVotes > totalUsers / 2.0);
+        // If the number of positive votes is greater than or equal to half the number of users, return true
+        return (positiveVotes >= totalUsers / 2.0);
     }
 
     public IEnumerable<Game> GetSharedGames(int competitionId)

@@ -52,11 +52,16 @@ public class CompetitionGameAchievementRepository : Repository<CompetitionGameAc
         // Check if there are already achievements for this game in this competition
         var existingAchievements = _ctx.CompetitionGameAchievements.Where(cga => cga.CompetitionId == competitionId && cga.GameAchievementId == gameId);
 
-        // If there are, no need to add more
+        // If there are already achievements, clear out the old ones
         if (existingAchievements.Any())
         {
-            return;
+            foreach (var achievement in existingAchievements)
+            {
+                _ctx.CompetitionGameAchievements.Remove(achievement);
+            }
+            _ctx.SaveChanges();
         }
+
 
         // Fetch the game's achievements
         var gameAchievements = _gameAchievementRepository.GetAchievementsFromGameId(gameId);

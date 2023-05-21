@@ -124,7 +124,7 @@ public class CompeteController : Controller
 
             if (DateTime.UtcNow >= competitionIn.EndDate)
             {
-                // Voting has ended, check if the vote has succeeded
+                // Competition has ended, check if the vote has succeeded
                 bool hasVoteSucceeded = _competitionRepository.HasVoteSucceeded(competitionIn.Id);
 
                 if (hasVoteSucceeded)
@@ -136,7 +136,14 @@ public class CompeteController : Controller
 
                         // Update the existing competition with the new game and updated dates
                         competitionIn.GameId = newGameId;
-                        competitionIn.StartDate = competitionIn.EndDate;
+
+                        // Calculate the original competition duration
+                        var competitionDuration = competitionIn.EndDate - competitionIn.StartDate;
+
+                        // Set the end date to the start date + the original competition duration
+                        competitionIn.EndDate = competitionIn.StartDate + competitionDuration;
+
+                        //the end date needs to be set to the start date + the number of days the competition was active
                         competitionIn.EndDate = competitionIn.EndDate.AddDays((competitionIn.EndDate - competitionIn.StartDate).TotalDays);
                         competitionIn.StatusId = 1; // set to the default status ID
 
@@ -144,8 +151,8 @@ public class CompeteController : Controller
 
                         // Fetch the new game's achievements
                         _gameAchievementRepository.EnsureGameAchievements(competitionIn.Game.AppId, currentUser.SteamId, currentUser.Id);
-                        compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.GameId);
-
+                        _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId, competitionIn.GameId);
+                        compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
                     }
                     else
                     {
@@ -193,9 +200,6 @@ public class CompeteController : Controller
             userList = _steamService.GetManyUsers( idList );
 
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
-            _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId, gameAssociated.Id);
-
-            compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId( compId ,gameAssociated.Id);
 
             var percentages = new List<GlobalAchievement>();
             percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
@@ -593,8 +597,9 @@ public class CompeteController : Controller
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
 
-        return RedirectToAction("Index");
+        return RedirectToRoute("Compete", new { controller = "Compete", action = "Details", compId = comp.Id });
+
     }
 
-    
+
 }

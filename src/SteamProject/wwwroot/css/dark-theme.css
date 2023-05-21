@@ -13,6 +13,14 @@ footer {
     color: white !important;
 }
 
+#voteCount {
+    color: white;
+}
+
+i {
+    color: white;
+}
+
 .footer-content {
     margin-top: 50px;
     color : white;

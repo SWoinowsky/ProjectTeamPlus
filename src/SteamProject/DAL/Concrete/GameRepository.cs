@@ -16,8 +16,9 @@ namespace SteamProject.DAL.Concrete
 
         public Game? GetGameByAppId(int appId)
         {
-            return this.GetAll(g => g.AppId == appId).Single();
+            return GetAll(g => g.AppId == appId).SingleOrDefault();
         }
+
 
         public HashSet<Game> GetGamesListByUserInfo(List<UserGameInfo> userInfo)
         {

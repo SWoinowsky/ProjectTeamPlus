@@ -145,7 +145,7 @@ public class CompeteController : Controller
 
                         //the end date needs to be set to the start date + the number of days the competition was active
                         competitionIn.EndDate = competitionIn.EndDate.AddDays((competitionIn.EndDate - competitionIn.StartDate).TotalDays);
-                        competitionIn.StatusId = 1; // set to the default status ID
+                        competitionIn.StatusId = 1; // set to the default status ID which is active
 
                         _competitionRepository.AddOrUpdate(competitionIn);
 

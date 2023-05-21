@@ -48,6 +48,8 @@ $(document).ready(function () {
 
                 // Update the vote count
                 updateVoteCount();
+
+                alert('Game vote updated successfully, Please reload the page.');
             },
             error: function (data) {
                 alert('Error updating vote');
@@ -93,32 +95,34 @@ $(document).ready(function () {
             success: function (games) {
                 $('#sharedGamesList').empty();
 
-                games.forEach(function (game) {
-                    var gameVoteStatus = game.currentUserVote;
+                if (games.length === 0) {
+                    $('#sharedGamesList').append('<p class="no-games-found light">No shared games found between SIN users. Ensure the user is on the platform and has shared games with you.</p>');
+                } else {
+                    games.forEach(function (game) {
+                        var gameVoteStatus = game.currentUserVote;
 
-                    $('#sharedGamesList').append(`
-                <div class="col-sm-4">
-                    <div class="card sharedCard" id="${game.id}" data-vote-status="${gameVoteStatus}">
-                        <img src="https://steamcdn-a.akamaihd.net/steam/apps/${game.appId}/header.jpg" class="card-img-top" alt="${game.name}">
-                        <div class="card-body">
-                            <h5 class="card-title">${game.name}</h5>
-                            <p class="card-text vote-count" id="vote-${game.id}">Votes: </p>
+                        $('#sharedGamesList').append(`
+                    <div class="col-sm-4">
+                        <div class="card sharedCard" id="${game.id}" data-vote-status="${gameVoteStatus}">
+                            <img src="https://steamcdn-a.akamaihd.net/steam/apps/${game.appId}/header.jpg" class="card-img-top" alt="${game.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${game.name}</h5>
+                                <p class="card-text vote-count" id="vote-${game.id}">Votes: </p>
+                            </div>
                         </div>
-                    </div>
-                </div>`);
+                    </div>`);
 
-                    attachGameClickHandler(game.id, userId, competitionId, gameVoteStatus);
+                        attachGameClickHandler(game.id, userId, competitionId, gameVoteStatus);
 
-                    // Now fetch the votes for this game
-                    getGameVotes(game.id, competitionId);
-                });
+                        // Now fetch the votes for this game
+                        getGameVotes(game.id, competitionId);
+                    });
+                }
             },
             error: function () {
                 alert('Error getting shared games');
             }
         });
-
-
     }
 
 
@@ -160,9 +164,8 @@ $(document).ready(function () {
                     $(`#${gameId}`).data('vote-status', updatedVoteStatus);
                     updateSharedGamesList(updatedVoteStatus); // update the shared games list after voting
                     getGameVotes(gameId, competitionId); // update the vote count after voting
-                    // Reload the page
-                    location.reload();
-                    //alert('Game vote updated successfully');
+
+                    alert('Game vote updated successfully, Please reload the page.');
                 },
                 error: function (data) {
                     alert('Error updating game vote');

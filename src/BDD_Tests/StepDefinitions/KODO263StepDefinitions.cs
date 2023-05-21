@@ -7,6 +7,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using BDD_Tests.Shared;
 using SpecFlow.Actions.Selenium;
+using BrowserDriver = BDD_Tests.Drivers.BrowserDriver;
 
 namespace BDD_Tests.StepDefinitions
 {
@@ -20,6 +21,7 @@ namespace BDD_Tests.StepDefinitions
         private readonly ScenarioContext _scenarioContext;
         private readonly CompeteCreatePageObject _competeCreatePage;
         private readonly CompetitionDetailsPageObject _competitionDetailsPage;
+        private readonly BrowserDriver _browserDriver; // Add this line
 
         private int _competitionId;
 
@@ -29,10 +31,12 @@ namespace BDD_Tests.StepDefinitions
             _competitionDetailsPage = new CompetitionDetailsPageObject(browserDriver.Current);
 
             _scenarioContext = context;
+            _browserDriver = browserDriver; // Assign the browserDriver parameter to the _browserDriver field
 
-            IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO129StepDefinitions>();
+            IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<KODO263StepDefinitions>();
             Configuration = builder.Build();
         }
+
 
         [Given(@"a competition I participated in has ended")]
         public void GivenACompetitionIParticipatedInHasEnded()
@@ -63,8 +67,9 @@ namespace BDD_Tests.StepDefinitions
             // Use the UrlFor method with the competition ID.
             string competitionDetailsUrl = Common.UrlFor("CompetitionDetails", competitionId);
 
-            _browser.Navigate().GoToUrl(competitionDetailsUrl);
+            _browserDriver.Current.Navigate().GoToUrl(competitionDetailsUrl);
         }
+
 
 
         [Then("I should see an option to vote on whether to participate in another competition")]

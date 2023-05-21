@@ -7,8 +7,11 @@ namespace BDD_Tests.PageObjects
 {
     public class CompeteCreatePageObject : PageObject
     {
+        private readonly IWebDriver _browser; // Add this line
+
         public CompeteCreatePageObject(IWebDriver webDriver) : base(webDriver)
         {
+            _browser = webDriver; // Assign the webDriver to the _browser variable
             _pageName = "CompeteCreate";
         }
 

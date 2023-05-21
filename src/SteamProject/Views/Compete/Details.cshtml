@@ -72,10 +72,10 @@ else
             <h1> Competition in @Model.CurrentComp.Game.Name </h1>
             <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
 
-            @if( Model.SinId == Model.CurrentComp.CreatorId )
+            @if (Model.SinId == Model.CurrentComp.CreatorId)
             {
                 <div id="compDeleteBtnDiv">
-                    <button id="compDeleteBtn" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
+                    <button id="compDeleteBtn" class="btn btn-danger" value="@Model.CurrentComp.Id">DELETE THIS COMPETITION</button>
                 </div>
             }
             @if (Model.HasCompetitionEnded)
@@ -94,6 +94,7 @@ else
             {
                 <button type="button" class="btn btn-primary" id="selectGameButton">Select Game</button>
             }
+
 
             <div class="modal fade" id="gameSelectModal" tabindex="-1" role="dialog" aria-labelledby="gameSelectModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

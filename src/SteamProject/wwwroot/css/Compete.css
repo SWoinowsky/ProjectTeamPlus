@@ -11,6 +11,66 @@ body {
     display: flex;
 }
 
+.btn {
+    width: 200px; /* Adjust the width as needed */
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary button color */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9; /* Button color on hover */
+    border-color: #0062cc;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Danger button color */
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Button color on hover */
+    border-color: #bd2130;
+}
+
+.vote-again {
+    background-color: #28a745; /* Vote again button color */
+    border-color: #28a745;
+}
+
+.vote-again:hover {
+    background-color: #218838; /* Button color on hover */
+    border-color: #1e7e34;
+}
+
+.revoke-vote {
+    background-color: #dc3545; /* Revoke vote button color */
+    border-color: #dc3545;
+}
+
+.revoke-vote:hover {
+    background-color: #c82333; /* Button color on hover */
+    border-color: #bd2130;
+}
+
+.rotate-icon {
+    animation: rotate 1s infinite linear; /* Animation for rotating the icon */
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 .card {
     box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.50);
     transition: 0.3s;

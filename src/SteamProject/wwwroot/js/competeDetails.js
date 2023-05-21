@@ -165,7 +165,7 @@ $(document).ready(function () {
                     updateSharedGamesList(updatedVoteStatus); // update the shared games list after voting
                     getGameVotes(gameId, competitionId); // update the vote count after voting
 
-                    alert('Game vote updated successfully, Please reload the page.');
+                    //alert('Game vote updated successfully, Please reload the page.');
                 },
                 error: function (data) {
                     alert('Error updating game vote');

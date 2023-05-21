@@ -9,8 +9,8 @@ footer {
     height: 65px !important;
 }
 
-#vote-count {
-    color: white !important;
+.vote-count {
+    color: black !important;
 }
 
 #voteCount {

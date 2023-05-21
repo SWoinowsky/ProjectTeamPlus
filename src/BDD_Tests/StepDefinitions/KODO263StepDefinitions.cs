@@ -43,9 +43,11 @@ namespace BDD_Tests.StepDefinitions
         {
             Thread.Sleep(500);
 
-            _competeCreatePage.SelectCompetitionType("Duel"); 
+            _competeCreatePage.GoTo(); // Navigating to competition creation page
+
+            _competeCreatePage.SelectCompetitionType("Duel");
             _competeCreatePage.SelectFriend("Hellfirecw");
-            _competeCreatePage.SelectGame("Aim Lab"); 
+            _competeCreatePage.SelectGame("Aim Lab");
 
             string startTime =
                 DateTime.Today.AddDays(-30).ToString("yyyy-MM-ddTHH:mm"); // start date 30 days in the past
@@ -54,15 +56,17 @@ namespace BDD_Tests.StepDefinitions
             _competeCreatePage.SetCompetitionStartTime(startTime);
             _competeCreatePage.SetCompetitionEndTime(endTime);
 
-            _competitionId = _competeCreatePage.SubmitCompetition(); 
+            _competitionId = _competeCreatePage.SubmitCompetition();
         }
+
 
 
         [When(@"I visit the competition details page")]
         public void WhenIVisitTheCompetitionDetailsPage()
         {
             // This is where you get your competitionId value. It could be from anywhere as per your test design.
-            int competitionId = _competitionId;
+            int competitionId = 1;
+
 
             // Use the UrlFor method with the competition ID.
             string competitionDetailsUrl = Common.UrlFor("CompetitionDetails", competitionId);

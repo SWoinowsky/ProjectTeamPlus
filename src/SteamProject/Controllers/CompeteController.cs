@@ -310,16 +310,35 @@ public class CompeteController : Controller
                     _competitionRepository.AddOrUpdate(competitionIn);
                 } 
             }
+
             string id = _userManager.GetUserId(User);
 
             var currentUser = new SteamProject.Models.User();
             currentUser = _userRepository.GetUser(id);
+
+            var compRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+            List<SpeedRun> fastestRuns = new List<SpeedRun>();
+            List<SpeedRun> slowestRuns = new List<SpeedRun>();
+
+            foreach(var run in compRuns)
+            {
+                if(run.Fastest)
+                {
+                    fastestRuns.Add(run);
+                }
+                else
+                {
+                    slowestRuns.Add(run);
+                }
+            }
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
             viewModel.CurrentUserId = currentUser.Id;
+            viewModel.FastestRuns = fastestRuns;
+            viewModel.SlowestRuns = slowestRuns;
         }
         return View( viewModel );
     }

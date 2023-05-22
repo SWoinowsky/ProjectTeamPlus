@@ -33,7 +33,9 @@ namespace BDD_Tests.StepDefinitions
         [When(@"I click on the compete create link")]
         public void WhenIClickOnTheCompeteCreateLink()
         {
+            Thread.Sleep(1000);
             _competePage.ClickCompeteCreateLink();
+            Thread.Sleep(1000);
         }
 
 

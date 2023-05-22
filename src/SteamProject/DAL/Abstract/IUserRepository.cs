@@ -19,5 +19,7 @@ namespace SteamProject.DAL.Abstract
         IEnumerable<User> GetAllUsers();
 
         void UpdateUserTheme(int userId, string theme);
+
+        public User GetUserBySteamId(string steamId);
     }
 }

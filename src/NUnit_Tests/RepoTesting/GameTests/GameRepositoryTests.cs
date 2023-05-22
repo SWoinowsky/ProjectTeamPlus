@@ -41,8 +41,8 @@ namespace NUnit_Tests.RepoTesting
                 new User {Id= 1, SteamName = "TestUser1", SteamId = "76561198280399190", AspNetUserId = "f7b530ec-bf89-45e1-8080-cbe3bfd0f08a" },
                 new User {Id= 2, SteamName = "TestUser2", SteamId = "76561198078883932", AspNetUserId = "f7b530ec-bf89-45e1-8080-cbe3bfd0f08g"},
                 new User {Id= 3, SteamName = "TestUser3", SteamId = "76561198368539189", AspNetUserId = "f7b530ec-bf89-45e1-8080-cbe3bfd0f08h"}
-
             };
+
             _friends = new List<Friend>
             {
                 new Friend {Id = 1, RootId = 1, SteamId = "76561198078883932"},
@@ -64,13 +64,11 @@ namespace NUnit_Tests.RepoTesting
                 new UserGameInfo { Id = 3, Followed = true, GameId = 3, Hidden = true, OwnerId = 2, Game = _games[2]},
             };
 
-
             _users.ForEach(p =>
             {
                 p.Friends = _friends.Where(i => i.Id == p.Id).ToList();
-                p.UserGameInfos = _userGameInfo.Where(i => i.Id == p.Id).ToList();
+                p.UserGameInfos = _userGameInfo.Where(i => i.OwnerId == p.Id).ToList();
             });
-
 
             // Finally, mock the context and dbsets
             _mockContext = new Mock<SteamInfoDbContext>();

@@ -109,7 +109,6 @@ p {
 .userCard:hover {
     outline: 3px solid grey;
     outline-style: ridge;
-    cursor: pointer;
     border-radius: 15px;
 }
 
@@ -264,17 +263,19 @@ footer {
 }
 
 .competition-img-top:hover {
-    outline: 5px solid grey;
+    outline: 4px solid grey;
     outline-style: solid;
     cursor:pointer;
 }
+
+
 
 
 canvas {
     background-color: rgba(35, 41, 52, 0.9);
     border-radius: 0px 0px 55px 55px;
     outline-style: solid;
-    outline-width: 3px;
+    outline-width: 4px;
     outline-color: #326a7d;
     position: absolute;
     justify-content: center;
@@ -286,6 +287,7 @@ canvas {
     transition: all 1s ease-in-out;
     
 }
+
 
 .competition-card-title {
     justify-content: center;

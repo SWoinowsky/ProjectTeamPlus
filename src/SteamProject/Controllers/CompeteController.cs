@@ -654,9 +654,33 @@ public class CompeteController : Controller
             VideoId = string.IsNullOrEmpty(youtubeLink) ? string.Empty :
                 youtubeLink.Substring(youtubeLink.IndexOf("?v=") + 3,
                 (youtubeLink.IndexOf("&") == -1) ? youtubeLink.Length : youtubeLink.IndexOf("&") - (youtubeLink.IndexOf("?v=") + 3)),
-            CompetitionId = Int32.Parse(compId)
+            CompetitionId = Int32.Parse(compId),
         };
+        var runsForCurrentComp = _speedRunRepository.GetAllSpeedRunsForComp(Int32.Parse(compId));
+        if(runsForCurrentComp.Count() == 0)
+        {
+            run.Fastest = true;
+            _speedRunRepository.AddOrUpdate(run);
+        }
+        else
+        {
+            var NewRunTime = _speedRunRepository.ConvertRunToTimeSpan(run.RunTime);
+            foreach(var comp in runsForCurrentComp)
+            {
+                var CompRunTime = _speedRunRepository.ConvertRunToTimeSpan(comp.RunTime);
+                if(comp.Fastest == true && run.PlayerId == comp.PlayerId)
+                {
+                    if(NewRunTime < CompRunTime || NewRunTime == CompRunTime)
+                    {
+                        run.Fastest = true;
+                        comp.Fastest = false;
+                        _speedRunRepository.AddOrUpdate(run);
+                        return RedirectToAction("SpeedRunDetails", new RouteValueDictionary {{"compId", compId}});
+                    }
+                }
+            }
+        }
 
-        return null;
+        return RedirectToAction("SpeedRunDetails", new RouteValueDictionary {{"compId", compId}});
     }
 }

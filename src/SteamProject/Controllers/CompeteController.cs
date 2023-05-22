@@ -283,24 +283,6 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
-            var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
-            foreach( var player in compPlayersList )
-            {
-                foreach( var user in userList )
-                {
-                    if( player.SteamId == user.SteamId )
-                        userScoreList.Add( new (user, player) );
-                }
-            }
-
-            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
-            userList.Clear();
-
-            foreach( var us in userScoreList )
-            {
-                userList.Add( us.Key );
-            }
-
             if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
             {
                 var endedStatus = _statusRepository.GetStatusByName("Ended");
@@ -323,6 +305,9 @@ public class CompeteController : Controller
                 List<SpeedRun> fastestRuns = new List<SpeedRun>();
                 List<SpeedRun> slowestRuns = new List<SpeedRun>();
 
+                Dictionary<User, SpeedRun> fastestRunByPlayer = new Dictionary<User, SpeedRun>();
+                List<KeyValuePair<User, SpeedRun>> slowestRunsAllPlayers = new List<KeyValuePair<User, SpeedRun>>();
+
                 foreach(var run in compRuns)
                 {
                     if(run.Fastest)
@@ -336,9 +321,33 @@ public class CompeteController : Controller
                 }
 
                 fastestRuns = fastestRuns.OrderBy(run => TimeSpan.Parse(run.RunTime)).ToList();
-                slowestRuns = fastestRuns.OrderBy(run => TimeSpan.Parse(run.RunTime)).ToList();
-                viewModel.FastestRuns = fastestRuns;
-                viewModel.SlowestRuns = slowestRuns;
+                slowestRuns = slowestRuns.OrderBy(run => TimeSpan.Parse(run.RunTime)).ToList();
+                foreach(var run in fastestRuns)
+                {
+                    foreach(var player in compPlayersList)
+                    {
+                        if(player.Id == run.PlayerId)
+                        {
+                            var user = userList.Where(u => u.SteamId == player.SteamId).Single();
+                            fastestRunByPlayer.Add(user, run);
+                            break;
+                        }
+                    }
+                }
+                foreach(var run in slowestRuns)
+                {
+                    foreach(var player in compPlayersList)
+                    {
+                        if(player.Id == run.PlayerId)
+                        {
+                            var user = userList.Where(u => u.SteamId == player.SteamId).Single();
+                            slowestRunsAllPlayers.Add(new KeyValuePair<User, SpeedRun>(user, run));
+                            break;
+                        }
+                    }
+                }
+                viewModel.FastestRuns = fastestRunByPlayer;
+                viewModel.SlowestRuns = slowestRunsAllPlayers;
             }
 
             viewModel.CurrentComp = competitionIn;

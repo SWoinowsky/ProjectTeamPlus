@@ -40,7 +40,7 @@ else
                         @{
                             foreach(var run in @Model.FastestRuns)
                             {
-                                <li style="padding-bottom: 2%;"><string>@run.RunTime</string> <i></i></li>
+                                <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> <i>@run.Value.RunTime</i></li>
                             }
                         }
                     </ol>
@@ -51,7 +51,7 @@ else
                         @{
                             foreach(var run in @Model.SlowestRuns)
                             {
-                                <li style="padding-bottom: 2%;"><string>@run.RunTime</string> <i></i></li>
+                                <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> <i>@run.Value.RunTime</i></li>
                             }
                         }
                     </ol>

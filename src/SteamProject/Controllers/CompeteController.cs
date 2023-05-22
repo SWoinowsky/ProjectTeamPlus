@@ -198,14 +198,42 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
+            var speedRunCheck = false;
             foreach(var run in _speedRunRepository.GetAll())
             {
                 if(run.CompetitionId == compId)
                 {
-                    return RedirectToAction("SpeedRunDetails", new {compId = compId});
+                    speedRunCheck = true;
                 }
             }
-            if(compAchievements == null && competitionIn.Goal != null || compAchievements.Count() < 1 && competitionIn.Goal != null)
+            
+            if(speedRunCheck != true)
+            {
+                try{
+                    if(competitionIn.Goal == null)
+                    {
+                        speedRunCheck = false;
+                    }
+                    else if(competitionIn.Goal != null)
+                    {
+                        speedRunCheck = true;
+                    }
+                    else if(compAchievements == null)
+                    {
+                        speedRunCheck = true;
+                    }
+                    else if(compAchievements.Count() < 1)
+                    {
+                        speedRunCheck = true;
+                    }
+                }
+                catch
+                {
+                    speedRunCheck   = false;
+                }
+            }
+
+            if(speedRunCheck)
             {
                 return RedirectToAction("SpeedRunDetails", new {compId = compId});
             }

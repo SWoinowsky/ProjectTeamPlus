@@ -111,6 +111,7 @@ CREATE TABLE [SpeedRun]
 	,[CompetitionId]	INT				NOT NULL
 	,[VideoId]			NVARCHAR(75)	
 	,[PlayerId]			INT				NOT NULL
+	,[SteamId]			NVARCHAR(50)	NOT NULL
 	,[RunTime] 			NVARCHAR(13)	NOT NULL
 	,[GlitchStatus]		BIT				NOT NULL
 	,[ValidationStatus]	BIT				NOT NULL

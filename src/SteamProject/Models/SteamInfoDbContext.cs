@@ -243,11 +243,12 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<SpeedRun>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC071FC6A8C0");
+            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC07A35C40ED");
 
             entity.ToTable("SpeedRun");
 
             entity.Property(e => e.RunTime).HasMaxLength(13);
+            entity.Property(e => e.SteamId).HasMaxLength(50);
             entity.Property(e => e.VideoId).HasMaxLength(75);
 
             entity.HasOne(d => d.Competition).WithMany(p => p.SpeedRuns)

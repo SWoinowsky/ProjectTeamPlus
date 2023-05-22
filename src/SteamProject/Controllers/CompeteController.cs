@@ -327,7 +327,7 @@ public class CompeteController : Controller
                 {
                     foreach(var player in compPlayersList)
                     {
-                        if(player.Id == run.PlayerId)
+                        if(player.SteamId == run.SteamId)
                         {
                             var user = userList.Where(u => u.SteamId == player.SteamId).Single();
                             fastestRunByPlayer.Add(user, run);
@@ -339,7 +339,7 @@ public class CompeteController : Controller
                 {
                     foreach(var player in compPlayersList)
                     {
-                        if(player.Id == run.PlayerId)
+                        if(player.SteamId == run.SteamId)
                         {
                             var user = userList.Where(u => u.SteamId == player.SteamId).Single();
                             slowestRunsAllPlayers.Add(new KeyValuePair<User, SpeedRun>(user, run));
@@ -359,6 +359,7 @@ public class CompeteController : Controller
             {
                 if(player.SteamId == currentUser.SteamId)
                 {
+                    viewModel.SteamId = currentUser.SteamId;
                     viewModel.CurrentUserId = player.Id;
                     break;
                 }
@@ -688,7 +689,7 @@ public class CompeteController : Controller
     }
 
     [HttpPost]
-    public IActionResult SubmitRun(string glitch, string time, string youtubeLink, string playerId, string compId)
+    public IActionResult SubmitRun(string glitch, string time, string youtubeLink, string playerId, string steamId, string compId)
     {
         var playerRunsExist = false;
         var run = new SpeedRun ()
@@ -699,7 +700,8 @@ public class CompeteController : Controller
                 youtubeLink.Substring(youtubeLink.IndexOf("?v=") + 3,
                 (youtubeLink.IndexOf("&") == -1) ? youtubeLink.Length : youtubeLink.IndexOf("&") - (youtubeLink.IndexOf("?v=") + 3)),
             CompetitionId = Int32.Parse(compId),
-            PlayerId = Int32.Parse(playerId)
+            PlayerId = Int32.Parse(playerId),
+            SteamId = steamId
         };
         var runsForCurrentComp = _speedRunRepository.GetAllSpeedRunsForComp(Int32.Parse(compId));
         foreach(var comp in runsForCurrentComp)

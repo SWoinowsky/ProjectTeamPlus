@@ -35,6 +35,7 @@ public class CompeteDetailsVM
     public bool HasCompetitionEnded => CurrentComp != null && CurrentComp.Status != null && CurrentComp.Status.Name == "Ended";
 
     public int CurrentUserId { get; set; }
+    public string SteamId {get; set;}
 
 }
 

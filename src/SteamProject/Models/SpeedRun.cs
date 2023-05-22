@@ -13,6 +13,8 @@ public partial class SpeedRun
 
     public int PlayerId { get; set; }
 
+    public string SteamId { get; set; }
+
     public string RunTime { get; set; } = null!;
 
     public bool GlitchStatus { get; set; }

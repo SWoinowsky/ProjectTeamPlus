@@ -105,40 +105,52 @@ else
                 <div class="row" style="align-content: center; padding-top: 3%;">
                     @foreach( var player in Model.Players )
                     {
-                        @if(DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0)
+                        if(Model.FastestRuns != null && Model.FastestRuns.Count() > 0)
                         {
-                            <div class="col-sm-2" style="margin: auto; width: auto;">
-                                <div class="card winnerCard" >
-                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
-                                    <div class="card-body">
-                                        <i class="card-title" > @player.SteamName </i>
+                            if(player == Model.FastestRuns.ElementAtOrDefault(0).Key)
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card winnerCard" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
-                        else if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
-                        &&      Model.Scoreboard.Count() > 2)
-                        {
-                            <div class="col-sm-2" style="margin: auto; width: auto;">
-                                <div class="card secondCard" >
-                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
-                                    <div class="card-body">
-                                        <i class="card-title" > @player.SteamName </i>
+                            }
+                            else if(player == Model.FastestRuns.ElementAtOrDefault(1).Key)
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card secondCard" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
-                        else if(    DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) <= 0
-                        &&      Model.Scoreboard.Count() > 3)
-                        {
-                            <div class="col-sm-2" style="margin: auto; width: auto;">
-                                <div class="card thirdCard" >
-                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
-                                    <div class="card-body">
-                                        <i class="card-title" > @player.SteamName </i>
+                            }
+                            else if(player == Model.FastestRuns.ElementAtOrDefault(2).Key)
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card thirdCard" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         }
                         else
                         {
@@ -167,6 +179,7 @@ else
                     <form asp-action="SubmitRun" method="post">
                         <input type="hidden" id="PlayerId" name="PlayerId" value="@Model.CurrentUserId">
                         <input type="hidden" id="CompId" name="CompId" value="@Model.CurrentComp.Id">
+                        <input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
                         <div class="mb-3">
                             <label class="form-label"><p>Was the run glitched or not?</p></label>
                             <div class="form-check">

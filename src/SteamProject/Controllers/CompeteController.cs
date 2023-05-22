@@ -205,6 +205,10 @@ public class CompeteController : Controller
                     return RedirectToAction("SpeedRunDetails", new {compId = compId});
                 }
             }
+            if(compAchievements == null && competitionIn.Goal != null || compAchievements.Count() < 1 && competitionIn.Goal != null)
+            {
+                return RedirectToAction("SpeedRunDetails", new {compId = compId});
+            }
 
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
 

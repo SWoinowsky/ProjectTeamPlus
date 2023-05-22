@@ -29,7 +29,7 @@ else
             <div id="runSubmissionBtnDiv">
                 @if(DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) > 0)
                 {
-                    <button id="submitSpeedRunBtn" onclick="showRunSubmissionModal(@Model.CurrentComp.Id)">Submit a run <i class="bi bi-chevron-bar-right"></i><i class="bi bi-box-arrow-in-down"></i></button>
+                    <button id="submitSpeedRunBtn" class="btn btn-primary vote-again" onclick="showRunSubmissionModal(@Model.CurrentComp.Id)">Submit a run <i class="bi bi-chevron-bar-right"></i><i class="bi bi-box-arrow-in-down"></i></button>
                 }
             </div>
             @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
@@ -90,13 +90,7 @@ else
             @if( Model.SinId == Model.CurrentComp.CreatorId )
             {
                 <div id="compDeleteBtnDiv">
-                    <button id="compDeleteBtn" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
-                </div>
-            }
-            @if (Model.HasCompetitionEnded)
-            {
-                <div id="voteAgainDiv">
-                    <button id="voteAgainBtn" value="@Model.CurrentComp.Id">VOTE TO COMPETE AGAIN</button>
+                    <button id="compDeleteBtn" class="btn btn-danger" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
                 </div>
             }
             <br>

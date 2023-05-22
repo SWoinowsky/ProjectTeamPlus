@@ -38,9 +38,21 @@ else
                     <strong> <p>Leaderboard</p> </strong>
                     <ol>
                         @{
-                            foreach(var run in @Model.FastestRuns)
+                            if(@Model.FastestRuns != null)
                             {
-                                <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> <i>@run.Value.RunTime</i></li>
+                                foreach(var run in @Model.FastestRuns)
+                                {
+                                    <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> <i>@run.Value.RunTime</i>
+                                        @if(run.Value.ValidationStatus)
+                                        {
+                                            <p>Validated</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="color:red">Not Validated</p>
+                                        }
+                                    </li>
+                                }
                             }
                         }
                     </ol>
@@ -49,9 +61,21 @@ else
                     <strong> <p>History</p> </strong>
                     <ol>
                         @{
-                            foreach(var run in @Model.SlowestRuns)
+                            if(@Model.SlowestRuns != null)
                             {
-                                <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> <i>@run.Value.RunTime</i></li>
+                                foreach(var run in @Model.SlowestRuns)
+                                {
+                                    <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> @run.Value.RunTime 
+                                        @if(run.Value.ValidationStatus)
+                                        {
+                                            <p>Validated</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="color:red">Not Validated</p>
+                                        }
+                                    </li>
+                                }
                             }
                         }
                     </ol>

@@ -255,6 +255,7 @@ public class CompeteController : Controller
     public IActionResult SpeedRunDetails( int compId )
     {
         var authId = _userManager.GetUserId(User);
+        var temp = _userRepository.GetUser( authId);
         int SinId = _userRepository.GetUser( authId ).Id;
 
         var viewModel = new CompeteDetailsVM();
@@ -354,8 +355,14 @@ public class CompeteController : Controller
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
-            viewModel.CurrentUserId = currentUser.Id;
-            
+            foreach(var player in _competitionPlayerRepository.GetAll())
+            {
+                if(player.SteamId == currentUser.SteamId)
+                {
+                    viewModel.CurrentUserId = player.Id;
+                    break;
+                }
+            }
         }
         return View( viewModel );
     }

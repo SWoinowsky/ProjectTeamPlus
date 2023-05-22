@@ -28,9 +28,14 @@ public class CompeteDetailsVM
     public List<GameAchievement> GameAchList { get; set; } = null;
     public List<KeyValuePair<UserAchievement, User>> Tracking { get; set; }
     public List<KeyValuePair<User, CompetitionPlayer>> Scoreboard { get; set; }
+    // Since the FastestRuns are only going to hold one run per person, then means I can use a Dict.
+    // The SlowestRuns will hold many from a single person, so it has to be a List<KVP> instead.
+    public Dictionary<User, SpeedRun> FastestRuns {get; set;}
+    public List<KeyValuePair<User, SpeedRun>> SlowestRuns {get; set;}
     public bool HasCompetitionEnded => CurrentComp != null && CurrentComp.Status != null && CurrentComp.Status.Name == "Ended";
 
     public int CurrentUserId { get; set; }
+    public string SteamId {get; set;}
 
     public CompetitionVote Vote { get; set; }
     public Status Status { get; set; }
@@ -74,5 +79,7 @@ public class CompeteCreateVM
     
     public DateTime CompStartTime { get; set; }
     public DateTime CompEndTime { get; set; }
+
+    public string Goal { get; set; }
 
 }

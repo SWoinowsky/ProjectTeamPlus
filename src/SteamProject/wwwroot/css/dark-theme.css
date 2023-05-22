@@ -17,9 +17,9 @@ footer {
     color: white;
 }
 
-i {
+/* i {
     color: white;
-}
+} */
 
 .footer-content {
     margin-top: 50px;
@@ -175,4 +175,8 @@ th, tr, td {
 
 .minor2 {
     color: white!important;
+}
+
+strong {
+    color: white;
 }

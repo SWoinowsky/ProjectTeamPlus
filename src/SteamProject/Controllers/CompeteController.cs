@@ -29,6 +29,7 @@ public class CompeteController : Controller
     private readonly ISteamService _steamService;
     private readonly IInboxService _inboxService;
     private readonly IStatusRepository _statusRepository;
+    private readonly ISpeedRunRepository _speedRunRepository;
     private readonly IGameVoteRepository _gameVoteRepository;
 
     public CompeteController(
@@ -46,6 +47,7 @@ public class CompeteController : Controller
         , UserManager<IdentityUser> userManager
         , IInboxService inboxService
         , IStatusRepository statusRepository
+        , ISpeedRunRepository speedRunRepository
         , IGameVoteRepository gameVoteRepository
         )
     {
@@ -63,6 +65,7 @@ public class CompeteController : Controller
         _userManager = userManager;
         _inboxService = inboxService;
         _statusRepository = statusRepository;
+        _speedRunRepository = speedRunRepository;
         _gameVoteRepository = gameVoteRepository;
     }
 
@@ -186,10 +189,6 @@ public class CompeteController : Controller
             var gameAssociated = new Game();
             gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
 
-         
-
-
-
             // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
             var idList = new List<string>();
             foreach( var cPlayer in compPlayersList )
@@ -198,6 +197,14 @@ public class CompeteController : Controller
             }
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
+
+            foreach(var run in _speedRunRepository.GetAll())
+            {
+                if(run.CompetitionId == compId)
+                {
+                    return RedirectToAction("SpeedRunDetails", new {compId = compId});
+                }
+            }
 
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
 
@@ -358,6 +365,124 @@ public class CompeteController : Controller
 
     [Authorize]
     [HttpGet]
+    public IActionResult SpeedRunDetails( int compId )
+    {
+        var authId = _userManager.GetUserId(User);
+        var temp = _userRepository.GetUser( authId);
+        int SinId = _userRepository.GetUser( authId ).Id;
+
+        var viewModel = new CompeteDetailsVM();
+        var competitionIn = new Competition();
+
+        viewModel.SinId = SinId;
+
+        competitionIn = _competitionRepository.GetCompetitionById( compId );
+
+        if( competitionIn != null )
+        {
+            var gameAssociated = new Game();
+            gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
+
+
+            var compPlayersList = new List<CompetitionPlayer>();
+            compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
+
+
+            // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
+            var idList = new List<string>();
+            foreach( var cPlayer in compPlayersList )
+            {
+                idList.Add( cPlayer.SteamId );
+            }
+            var userList = new List<User>();
+            userList = _steamService.GetManyUsers( idList );
+
+            if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
+            {
+                var endedStatus = _statusRepository.GetStatusByName("Ended");
+                if (endedStatus != null)
+                {
+                    competitionIn.Status = endedStatus;
+                    _competitionRepository.AddOrUpdate(competitionIn);
+                } 
+            }
+
+            string id = _userManager.GetUserId(User);
+
+            var currentUser = new SteamProject.Models.User();
+            currentUser = _userRepository.GetUser(id);
+
+            var compRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+            
+            if(compRuns.Count() > 0)
+            {
+                List<SpeedRun> fastestRuns = new List<SpeedRun>();
+                List<SpeedRun> slowestRuns = new List<SpeedRun>();
+
+                Dictionary<User, SpeedRun> fastestRunByPlayer = new Dictionary<User, SpeedRun>();
+                List<KeyValuePair<User, SpeedRun>> slowestRunsAllPlayers = new List<KeyValuePair<User, SpeedRun>>();
+
+                foreach(var run in compRuns)
+                {
+                    if(run.Fastest)
+                    {
+                        fastestRuns.Add(run);
+                    }
+                    else
+                    {
+                        slowestRuns.Add(run);
+                    }
+                }
+
+                fastestRuns = fastestRuns.OrderBy(run => TimeSpan.Parse(run.RunTime)).ToList();
+                slowestRuns = slowestRuns.OrderBy(run => TimeSpan.Parse(run.RunTime)).ToList();
+                foreach(var run in fastestRuns)
+                {
+                    foreach(var player in compPlayersList)
+                    {
+                        if(player.SteamId == run.SteamId)
+                        {
+                            var user = userList.Where(u => u.SteamId == player.SteamId).Single();
+                            fastestRunByPlayer.Add(user, run);
+                            break;
+                        }
+                    }
+                }
+                foreach(var run in slowestRuns)
+                {
+                    foreach(var player in compPlayersList)
+                    {
+                        if(player.SteamId == run.SteamId)
+                        {
+                            var user = userList.Where(u => u.SteamId == player.SteamId).Single();
+                            slowestRunsAllPlayers.Add(new KeyValuePair<User, SpeedRun>(user, run));
+                            break;
+                        }
+                    }
+                }
+                viewModel.FastestRuns = fastestRunByPlayer;
+                viewModel.SlowestRuns = slowestRunsAllPlayers;
+            }
+
+            viewModel.CurrentComp = competitionIn;
+            viewModel.Game = gameAssociated;
+            viewModel.CompPlayers = compPlayersList;
+            viewModel.Players = userList;
+            foreach(var player in _competitionPlayerRepository.GetAll())
+            {
+                if(player.SteamId == currentUser.SteamId)
+                {
+                    viewModel.SteamId = currentUser.SteamId;
+                    viewModel.CurrentUserId = player.Id;
+                    break;
+                }
+            }
+        }
+        return View( viewModel );
+    }
+
+    [Authorize]
+    [HttpGet]
     public IActionResult Create()
     {
         string id = _userManager.GetUserId(User);
@@ -515,8 +640,6 @@ public class CompeteController : Controller
         viewModel.MyFriendId = friendSteamId;
         viewModel.CurrentCompetition = existingCompetition;
         
-
-
         return View( viewModel );
     }
 
@@ -632,5 +755,105 @@ public class CompeteController : Controller
 
     }
 
+    [Authorize]
+    [HttpPost]
+    public IActionResult CreateSpeedRun( CompeteCreateVM compCreatedOut )
+    {
+        string authid = _userManager.GetUserId(User);
+        var SinId = _userRepository.GetUser( authid ).Id;
 
+        var timeString = compCreatedOut.MinDate.ToString();
+        var game = new Game();
+        game = _gameRepository.GetGameByAppId( compCreatedOut.GameAppId );
+        string goal = compCreatedOut.Goal;
+
+        var comp = new Competition()
+        {
+            CreatorId = SinId,
+            GameId = game.Id,
+            StartDate = compCreatedOut.CompStartTime,
+            EndDate = compCreatedOut.CompEndTime,
+            Game = game,
+            Goal = goal
+        };
+
+        comp.Status = _statusRepository.GetStatusByName("Active");
+
+        _competitionRepository.AddOrUpdate( comp );
+
+        _inboxService.SendMessage(SinId, 69420, $"You started a new speed run competition for {comp.Game.Name}! Starting on {comp.StartDate.ToLocalTime()} and finishing {comp.EndDate.ToLocalTime()}");
+
+        var competitors = new List<CompetitionPlayer>();
+        competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.SteamId } );
+        
+        if( compCreatedOut.OpponentId != null )
+            competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = compCreatedOut.OpponentId } );
+        
+        if( compCreatedOut.OpponentIds != null )
+            foreach( string id in compCreatedOut.OpponentIds )
+            {
+                competitors.Add( new CompetitionPlayer() { CompetitionId = comp.Id, SteamId = id, Competition = comp } );
+            }
+
+        foreach( CompetitionPlayer opp in competitors )
+        {
+            _competitionPlayerRepository.AddOrUpdate( opp );
+        }
+
+        
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public IActionResult SubmitRun(string glitch, string time, string youtubeLink, string playerId, string steamId, string compId)
+    {
+        var playerRunsExist = false;
+        var run = new SpeedRun ()
+        {
+            GlitchStatus = (glitch == "glitched") ? true : false,
+            RunTime = time,
+            VideoId = string.IsNullOrEmpty(youtubeLink) ? string.Empty :
+                youtubeLink.Substring(youtubeLink.IndexOf("?v=") + 3,
+                (youtubeLink.IndexOf("&") == -1) ? youtubeLink.Length : youtubeLink.IndexOf("&") - (youtubeLink.IndexOf("?v=") + 3)),
+            CompetitionId = Int32.Parse(compId),
+            PlayerId = Int32.Parse(playerId),
+            SteamId = steamId
+        };
+        var runsForCurrentComp = _speedRunRepository.GetAllSpeedRunsForComp(Int32.Parse(compId));
+        foreach(var comp in runsForCurrentComp)
+        {
+            if(comp.PlayerId == Int32.Parse(playerId))
+            {
+                playerRunsExist = true;
+            }
+        }
+        if(runsForCurrentComp.Count() == 0 || playerRunsExist == false)
+        {
+            run.Fastest = true;
+            _speedRunRepository.AddOrUpdate(run);
+        }
+        else
+        {
+            var NewRunTime = TimeSpan.Parse(run.RunTime);
+            foreach(var comp in runsForCurrentComp)
+            {
+                var CompRunTime = TimeSpan.Parse(comp.RunTime);
+                if(comp.Fastest == true && run.PlayerId == comp.PlayerId)
+                {
+                    if(NewRunTime < CompRunTime || NewRunTime == CompRunTime)
+                    {
+                        run.Fastest = true;
+                        comp.Fastest = false;
+                        _speedRunRepository.AddOrUpdate(run);
+                        return RedirectToAction("SpeedRunDetails", new RouteValueDictionary {{"compId", compId}});
+                    }
+                    break;
+                }
+            }
+            run.Fastest = false;
+            _speedRunRepository.AddOrUpdate(run);
+        }
+
+        return RedirectToAction("SpeedRunDetails", new RouteValueDictionary {{"compId", compId}});
+    }
 }

@@ -18,6 +18,8 @@ public partial class Competition
 
     public int StatusId { get; set; }
 
+    public string? Goal { get; set; }
+
 
     [JsonIgnore]
     public virtual ICollection<CompetitionGameAchievement> CompetitionGameAchievements { get; set; } = new List<CompetitionGameAchievement>();
@@ -30,6 +32,7 @@ public partial class Competition
 
     public virtual Game Game { get; set; } = null!;
 
+    public virtual ICollection<SpeedRun> SpeedRuns { get; } = new List<SpeedRun>();
     public virtual ICollection<GameVote> GameVotes { get; } = new List<GameVote>();
 
     public virtual Status Status { get; set; } = null!;

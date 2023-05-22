@@ -15,7 +15,7 @@
 <input type="hidden" id="SinId" name="SinId" value="@Model.SinId">
 
 <div class="formWrapper">
-    <form id="createForm" method="post">
+    <form id="createForm" asp-action="CreateSpeedRun" method="post">
         <input type="hidden" name="SteamId" asp-for="SteamId">
         <div class="timeWrapper">
             <label for="compStartTime"><p>Begin Time:</p></label>
@@ -29,7 +29,6 @@
         <div id="formInternals">
             
         </div>
-        @* <input type="submit"> *@
     </form>
 </div>
 

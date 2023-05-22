@@ -41,6 +41,8 @@ public partial class SteamInfoDbContext : DbContext
 
     public virtual DbSet<InboxMessage> InboxMessages { get; set; }
 
+    public virtual DbSet<SpeedRun> SpeedRuns { get; set; }
+
     public virtual DbSet<Status> Statuses { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -91,11 +93,12 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC07E86999C6");
+            entity.HasKey(e => e.Id).HasName("PK__Competit__3214EC070C14EDBF");
 
             entity.ToTable("Competition");
 
             entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.Goal).HasMaxLength(50);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Creator).WithMany(p => p.Competitions)
@@ -240,6 +243,21 @@ public partial class SteamInfoDbContext : DbContext
                 .HasForeignKey(d => d.RecipientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("InboxMessage_Fk_User");
+        });
+
+        modelBuilder.Entity<SpeedRun>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC07A35C40ED");
+
+            entity.ToTable("SpeedRun");
+
+            entity.Property(e => e.RunTime).HasMaxLength(13);
+            entity.Property(e => e.SteamId).HasMaxLength(50);
+            entity.Property(e => e.VideoId).HasMaxLength(75);
+
+            entity.HasOne(d => d.Competition).WithMany(p => p.SpeedRuns)
+                .HasForeignKey(d => d.CompetitionId)
+                .HasConstraintName("Competition_Fk_Id");
         });
 
         modelBuilder.Entity<Status>(entity =>

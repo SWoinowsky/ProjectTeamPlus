@@ -198,9 +198,12 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
-            if(compAchievements == null)
+            foreach(var run in _speedRunRepository.GetAll())
             {
-                return RedirectToAction("SpeedRunDetails", new {compId = compId});
+                if(run.CompetitionId == compId)
+                {
+                    return RedirectToAction("SpeedRunDetails", new {compId = compId});
+                }
             }
 
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);

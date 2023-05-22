@@ -677,8 +677,11 @@ public class CompeteController : Controller
                         _speedRunRepository.AddOrUpdate(run);
                         return RedirectToAction("SpeedRunDetails", new RouteValueDictionary {{"compId", compId}});
                     }
+                    break;
                 }
             }
+            run.Fastest = false;
+            _speedRunRepository.AddOrUpdate(run);
         }
 
         return RedirectToAction("SpeedRunDetails", new RouteValueDictionary {{"compId", compId}});

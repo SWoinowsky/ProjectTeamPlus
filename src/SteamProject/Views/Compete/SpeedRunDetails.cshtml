@@ -37,11 +37,23 @@ else
                 <div id="CompletionHistory" > 
                     <strong> <p>Leaderboard</p> </strong>
                     <ol>
+                        @{
+                            foreach(var run in @Model.FastestRuns)
+                            {
+                                <li style="padding-bottom: 2%;"><string>@run.RunTime</string> <i></i></li>
+                            }
+                        }
                     </ol>
                 </div>
                 <div id="CompletionHistory" > 
                     <strong> <p>History</p> </strong>
                     <ol>
+                        @{
+                            foreach(var run in @Model.SlowestRuns)
+                            {
+                                <li style="padding-bottom: 2%;"><string>@run.RunTime</string> <i></i></li>
+                            }
+                        }
                     </ol>
                 </div>
             </div>

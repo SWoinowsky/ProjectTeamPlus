@@ -647,6 +647,7 @@ public class CompeteController : Controller
     [HttpPost]
     public IActionResult SubmitRun(string glitch, string time, string youtubeLink, string playerId, string compId)
     {
+        var playerRunsExist = false;
         var run = new SpeedRun ()
         {
             GlitchStatus = (glitch == "glitched") ? true : false,
@@ -655,9 +656,17 @@ public class CompeteController : Controller
                 youtubeLink.Substring(youtubeLink.IndexOf("?v=") + 3,
                 (youtubeLink.IndexOf("&") == -1) ? youtubeLink.Length : youtubeLink.IndexOf("&") - (youtubeLink.IndexOf("?v=") + 3)),
             CompetitionId = Int32.Parse(compId),
+            PlayerId = Int32.Parse(playerId)
         };
         var runsForCurrentComp = _speedRunRepository.GetAllSpeedRunsForComp(Int32.Parse(compId));
-        if(runsForCurrentComp.Count() == 0)
+        foreach(var comp in runsForCurrentComp)
+        {
+            if(comp.PlayerId == Int32.Parse(playerId))
+            {
+                playerRunsExist = true;
+            }
+        }
+        if(runsForCurrentComp.Count() == 0 || playerRunsExist == false)
         {
             run.Fastest = true;
             _speedRunRepository.AddOrUpdate(run);

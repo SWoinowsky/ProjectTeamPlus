@@ -80,9 +80,6 @@ function storeUserAchievements( data ) {
         userAchievements = data.playerstats.achievements;
         processData(clickedGameId.value);
     }
-
-
-
 }
 
 function ajaxFetchUserAchievements(id) {
@@ -191,7 +188,7 @@ function modalActivations() {
             var appId = this.id;
 
             competeButton.onclick = function() {
-                location.href = `/compete/${FriendSteamId}/${appId}`;
+                location.href = `/compete/create`;
             }
 
             spinner.style.display = "flex";

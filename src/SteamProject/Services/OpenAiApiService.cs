@@ -23,8 +23,8 @@ namespace SteamProject.Services
                 {
                     ChatMessage.FromSystem(
                         "You are a helpful assistant meant to summarize mostly video game news and patch notes in english in a max of two sentences," +
-                        "if for some reason the news doesn't make any sense or there is no news for this specific game, " +
-                        "explain that it didn't make sense something creative to impress a user like telling a joke"),
+                        "tell a joke if it doesnt make sense or is to small and try to use emojis" +
+                        ""),
                     ChatMessage.FromUser(text),
                 },
                 Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo

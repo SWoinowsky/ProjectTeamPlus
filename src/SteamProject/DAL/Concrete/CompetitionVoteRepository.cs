@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SteamProject.DAL.Abstract;
 using SteamProject.Models;
 
@@ -23,4 +24,23 @@ public class CompetitionVoteRepository : Repository<CompetitionVote>, ICompetiti
         _ctx.CompetitionVotes.Update(vote);
         await _ctx.SaveChangesAsync();
     }
+
+    public CompetitionVote GetByUserAndCompetition(int userId, int competitionId)
+    {
+        return _ctx.CompetitionVotes
+            .FirstOrDefault(cv => cv.UserId == userId && cv.CompetitionId == competitionId);
+    }
+
+    public int GetVoteCountForCompetition(int competitionId)
+    {
+        return _ctx.CompetitionVotes
+            .Where(v => v.CompetitionId == competitionId && v.WantsToPlayAgain)
+            .Count();
+    }
+
+    public int GetPositiveVotesCount(int competitionId)
+    {
+        return GetAll().Where(vote => vote.CompetitionId == competitionId && vote.WantsToPlayAgain).Count();
+    }
+
 }

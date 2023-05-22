@@ -159,30 +159,30 @@ this.ScenarioInitialize(scenarioInfo);
     testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 17
-    testRunner.And("a majority of participants have voted to play again in the competition I particip" +
-                        "ated in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.And("half of the participants have voted to play again in the competition I participat" +
+                        "ed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 18
     testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
-    testRunner.Then("I should see an option to nominate a game for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+    testRunner.Then("I should see an option to vote on a game for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a user and I want to vote on the nominated games for the next competition af" +
-            "ter a majority of participants vote to play again")]
+        [NUnit.Framework.DescriptionAttribute("I am a user and I want to see the game with the most votes as the focus of the ne" +
+            "xt competition")]
         [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmAUserAndIWantToVoteOnTheNominatedGamesForTheNextCompetitionAfterAMajorityOfParticipantsVoteToPlayAgain()
+        public virtual void IAmAUserAndIWantToSeeTheGameWithTheMostVotesAsTheFocusOfTheNextCompetition()
         {
             string[] tagsOfScenario = new string[] {
                     "LoggedIn"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to vote on the nominated games for the next competition af" +
-                    "ter a majority of participants vote to play again", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to see the game with the most votes as the focus of the ne" +
+                    "xt competition", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 22
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -207,64 +207,12 @@ this.ScenarioInitialize(scenarioInfo);
     testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 24
-    testRunner.And("a majority of participants have voted to play again in the competition I particip" +
-                        "ated in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.And("participants have voted on a game for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 25
-    testRunner.And("a game has been nominated for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 26
-    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 27
-    testRunner.Then("I should see an option to vote on the nominated games for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a user and I want to see the game with the most votes as the focus of the ne" +
-            "xt competition")]
-        [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmAUserAndIWantToSeeTheGameWithTheMostVotesAsTheFocusOfTheNextCompetition()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to see the game with the most votes as the focus of the ne" +
-                    "xt competition", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 30
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 31
-    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 32
-    testRunner.And("participants have nominated and voted on games for the next competition I partici" +
-                        "pated in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 33
-    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 34
     testRunner.Then("the game with the most votes should be selected as the focus of the next competit" +
                         "ion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

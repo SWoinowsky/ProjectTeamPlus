@@ -11,31 +11,35 @@ public class CompetitionGameAchievementRepositoryTests
 {
     private Mock<SteamInfoDbContext> _mockContext;
     private Mock<DbSet<CompetitionGameAchievement>> _mockCompetitionGameAchievementDbSet;
+    private Mock<IGameAchievementRepository> _mockGameAchievementRepository; // Add this line
 
-    private List<CompetitionGameAchievement> _competitionGameAchievements; 
+    private List<CompetitionGameAchievement> _competitionGameAchievements;
 
     [SetUp]
     public void Setup()
     {
         _competitionGameAchievements = new List<CompetitionGameAchievement>
-        {
-            new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 1 },
-            new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 2 },
-            new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 3 },
-            new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 4 },
-            new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 5 },
-
-            new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 1 },
-            new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 2 },
-            new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 3 },
-            new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 4 },
-            new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 5 },
-        };
+            {
+                new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 1 },
+                new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 2 },
+                new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 3 },
+                new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 4 },
+                new CompetitionGameAchievement { CompetitionId = 1, GameAchievementId = 5 },
+                new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 1 },
+                new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 2 },
+                new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 3 },
+                new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 4 },
+                new CompetitionGameAchievement { CompetitionId = 2, GameAchievementId = 5 },
+            };
 
         _mockContext = new Mock<SteamInfoDbContext>();
         _mockCompetitionGameAchievementDbSet = MockHelpers.GetMockDbSet(_competitionGameAchievements.AsQueryable());
         _mockContext.Setup(ctx => ctx.CompetitionGameAchievements).Returns(_mockCompetitionGameAchievementDbSet.Object);
         _mockContext.Setup(ctx => ctx.Set<CompetitionGameAchievement>()).Returns(_mockCompetitionGameAchievementDbSet.Object);
+
+        _mockGameAchievementRepository = new Mock<IGameAchievementRepository>(); // Initialize the mock
+
+        ICompetitionGameAchievementRepository compGameAchRepository = new CompetitionGameAchievementRepository(_mockContext.Object, _mockGameAchievementRepository.Object);
     }
 
     [Test]
@@ -44,7 +48,7 @@ public class CompetitionGameAchievementRepositoryTests
         _mockContext = new Mock<SteamInfoDbContext>();
         _mockCompetitionGameAchievementDbSet = MockHelpers.GetMockDbSet(_competitionGameAchievements.AsQueryable());
         _mockContext.Setup(ctx => ctx.Set<CompetitionGameAchievement>()).Returns(_mockCompetitionGameAchievementDbSet.Object);
-        ICompetitionGameAchievementRepository compGameAchRepository = new CompetitionGameAchievementRepository(_mockContext.Object);
+        ICompetitionGameAchievementRepository compGameAchRepository = new CompetitionGameAchievementRepository(_mockContext.Object, _mockGameAchievementRepository.Object);
 
         var compGameAchList = new List<CompetitionGameAchievement>();
         compGameAchList = compGameAchRepository.GetByCompetitionId( 0 );
@@ -58,7 +62,7 @@ public class CompetitionGameAchievementRepositoryTests
         _mockContext = new Mock<SteamInfoDbContext>();
         _mockCompetitionGameAchievementDbSet = MockHelpers.GetMockDbSet(_competitionGameAchievements.AsQueryable());
         _mockContext.Setup(ctx => ctx.Set<CompetitionGameAchievement>()).Returns(_mockCompetitionGameAchievementDbSet.Object);
-        ICompetitionGameAchievementRepository compGameAchRepository = new CompetitionGameAchievementRepository(_mockContext.Object);
+        ICompetitionGameAchievementRepository compGameAchRepository = new CompetitionGameAchievementRepository(_mockContext.Object, _mockGameAchievementRepository.Object);
 
         var compGameAchList = new List<CompetitionGameAchievement>();
         compGameAchList = compGameAchRepository.GetByCompetitionId( 1 );

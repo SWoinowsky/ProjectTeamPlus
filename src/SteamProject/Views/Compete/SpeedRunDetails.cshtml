@@ -1,0 +1,219 @@
+@model SteamProject.ViewModels.CompeteDetailsVM
+@{
+    ViewData["Title"] = "Speed Run";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Compete.css">
+</head>
+
+@if( Model is null )
+{
+    <p> Failed to pull information from the database. If you're positive the selected competition exists, please try again momentarily. </p>
+}
+else 
+{
+    <div class="row" style="width: 100%; padding-top: 5%;">
+        <div class="col-sm-6" style="width: 50%;">
+            <div class="currentApp" id=@Model.CurrentComp.Game.AppId hidden></div>
+            <div class="currentUserId" id=@Model.CurrentUserId hidden></div>
+
+            <div class="image-container">
+                <a class="btn btn-info back-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
+                    <i fill="CurrentColor" class="bi bi-arrow-left">Back to Dashboard</i>
+                </a>
+                <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @Model.CurrentComp.Game.AppId)" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)"/>
+            </div>
+
+            <br>
+            <div id="runSubmissionBtnDiv">
+                @if(DateTime.Compare( Model.CurrentComp.EndDate, DateTime.Now ) > 0)
+                {
+                    <button id="submitSpeedRunBtn" onclick="showRunSubmissionModal(@Model.CurrentComp.Id)">Submit a run <i class="bi bi-chevron-bar-right"></i><i class="bi bi-box-arrow-in-down"></i></button>
+                }
+            </div>
+            @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
+            <div style="display: flex; flex-direction: column;">
+                <div id="CompletionHistory" > 
+                    <strong> <p>Leaderboard</p> </strong>
+                    <ol>
+                        @{
+                            if(@Model.FastestRuns != null)
+                            {
+                                foreach(var run in @Model.FastestRuns)
+                                {
+                                    <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> <i>@run.Value.RunTime</i>
+                                        @if(run.Value.ValidationStatus)
+                                        {
+                                            <p>Validated</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="color:red">Not Validated</p>
+                                        }
+                                    </li>
+                                }
+                            }
+                        }
+                    </ol>
+                </div>
+                <div id="CompletionHistory" > 
+                    <strong> <p>History</p> </strong>
+                    <ol>
+                        @{
+                            if(@Model.SlowestRuns != null)
+                            {
+                                foreach(var run in @Model.SlowestRuns)
+                                {
+                                    <li style="padding-bottom: 2%;"><strong>@run.Key.SteamName</strong> @run.Value.RunTime 
+                                        @if(run.Value.ValidationStatus)
+                                        {
+                                            <p>Validated</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="color:red">Not Validated</p>
+                                        }
+                                    </li>
+                                }
+                            }
+                        }
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" style="width: 50%;">
+            <h1> Competition in @Model.CurrentComp.Game.Name </h1>
+            <h2 style="color: #e39d10">Goal: @Model.CurrentComp.Goal</h2>
+            <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
+
+            @if( Model.SinId == Model.CurrentComp.CreatorId )
+            {
+                <div id="compDeleteBtnDiv">
+                    <button id="compDeleteBtn" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
+                </div>
+            }
+            @if (Model.HasCompetitionEnded)
+            {
+                <div id="voteAgainDiv">
+                    <button id="voteAgainBtn" value="@Model.CurrentComp.Id">VOTE TO COMPETE AGAIN</button>
+                </div>
+            }
+            <br>
+            <div>
+                <i> <p>Competitors: </p></i>
+                <div class="row" style="align-content: center; padding-top: 3%;">
+                    @foreach( var player in Model.Players )
+                    {
+                        if(Model.FastestRuns != null && Model.FastestRuns.Count() > 0)
+                        {
+                            if(player == Model.FastestRuns.ElementAtOrDefault(0).Key)
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card winnerCard" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else if(player == Model.FastestRuns.ElementAtOrDefault(1).Key)
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card secondCard" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else if(player == Model.FastestRuns.ElementAtOrDefault(2).Key)
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card thirdCard" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-2" style="margin: auto; width: auto;">
+                                    <div class="card" >
+                                        <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                        <div class="card-body">
+                                            <i class="card-title" > @player.SteamName </i>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-sm-2" style="margin: auto; width: auto;">
+                                <div class="card" >
+                                    <img class="card-img-top" src="@player.AvatarUrl" style="height:215px;" alt="@player.SteamName">
+                                    <div class="card-body">
+                                        <i class="card-title" > @player.SteamName </i>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="run-submission" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Submit A New Run</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="SubmitRun" method="post">
+                        <input type="hidden" id="PlayerId" name="PlayerId" value="@Model.CurrentUserId">
+                        <input type="hidden" id="CompId" name="CompId" value="@Model.CurrentComp.Id">
+                        <input type="hidden" id="SteamId" name="SteamId" value="@Model.SteamId">
+                        <div class="mb-3">
+                            <label class="form-label"><p>Was the run glitched or not?</p></label>
+                            <div class="form-check">
+                                <input type="radio" id="glitched" name="glitch" class="form-check-input" value="glitched">
+                                <label for="glitched" class="form-check-label"><p>Glitched</p></label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="glitchless" name="glitch" class="form-check-input" value="glitchless" checked>
+                                <label for="glitchless" class="form-check-label"><p>Glitchless</p></label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="time" class="form-label"><p>Run Timer (HH:MM:SS:mmm)</p></label>
+                            <input name ="time" type="text" id="time" class="form-control" pattern="[0-9]{1,3}:[0-9]{2}:[0-9]{2}.[0-9]{3}" required>
+                            <small class="form-text text-muted">Please enter time in the format HHH:MM:SS:mmm (e.g., 001:23:45.000).<br>   This can have 1 digit for hours</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="youtubeLink" class="form-label"><p><strong class="form-text text-muted">OPTIONAL:</strong>YouTube Link</p></label>
+                            <input name="youtubeLink" type="text" id="youtubeLink" class="form-control" pattern="^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=.+">
+                            <small class="form-text text-muted">Please enter a valid YouTube link.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/achValues.js"></script>
+    <script type="text/javascript" src="~/js/competeDetails.js"></script>
+}

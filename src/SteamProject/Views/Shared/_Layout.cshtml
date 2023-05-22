@@ -122,13 +122,12 @@
 
 <footer>
     <div class="footer-content">
-        Steam Info Network © 2023
-        <a class="footer-privacy" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
-        Support: steaminfonexus@gmail.com
         <div>
             @await Component.InvokeAsync("ThemeSwitcher");
             <link id="theme-link" rel="stylesheet" href="~/css/@(Context.Items["Theme"] ?? "light")-theme.css" asp-append-version="true" />
         </div>
+        <p class="footer-lower">Steam Info Network © 2023</p>
+        <p class="footer-lower">Support: steaminfonexus@gmail.com</p>
     </div>
 </footer>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

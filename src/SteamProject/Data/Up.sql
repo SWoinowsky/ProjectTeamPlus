@@ -86,6 +86,7 @@ CREATE TABLE [Competition]
 	,[StartDate]		DATETIME		NOT NULL
 	,[EndDate]			DATETIME		NOT NULL
 	,[StatusId]         INT   DEFAULT 0 NOT NULL
+	,[Goal]				NVARCHAR(50)
 );
 
 CREATE TABLE [CompetitionPlayer]
@@ -102,6 +103,19 @@ CREATE TABLE [CompetitionGameAchievement]
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
 	,[CompetitionId]	INT				NOT NULL,
 	[GameAchievementId]	INT				NOT NULL
+);
+
+CREATE TABLE [SpeedRun]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[CompetitionId]	INT				NOT NULL
+	,[VideoId]			NVARCHAR(75)	
+	,[PlayerId]			INT				NOT NULL
+	,[SteamId]			NVARCHAR(50)	NOT NULL
+	,[RunTime] 			NVARCHAR(13)	NOT NULL
+	,[GlitchStatus]		BIT				NOT NULL
+	,[ValidationStatus]	BIT				NOT NULL
+	,[Fastest]			BIT				NOT NULL
 );
 
 CREATE TABLE [BlackList]
@@ -150,6 +164,7 @@ CREATE TABLE [IGDBGenres] (
 CREATE TABLE [GameVote]
 (
 	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[CompetitionId]	INT				NOT NULL
 	,[GameId]			INT				NOT NULL
 	,[UserId]			INT				NOT NULL
 	,[Vote]				BIT				NOT NULL
@@ -170,7 +185,7 @@ CREATE TABLE [Status]
 );
 
 INSERT INTO [Status]
-VALUES (0, 'Ended'), (1, 'Active'), (2, 'Voting');
+VALUES (0, 'Ended'), (1, 'Active'), (2, 'Voting'), (3, 'GameSelection'), (4, 'GameSelected');
 
 ALTER TABLE [Competition]			     ADD CONSTRAINT [Competition_Fk_Status]						FOREIGN KEY ([StatusId]) 		REFERENCES [Status] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE [Friend]					 ADD CONSTRAINT [Friend_Fk_User]							FOREIGN KEY ([RootId])			REFERENCES [User] ([Id])			ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -189,3 +204,5 @@ ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_Competition
 ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_User] 					FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_Game] 							FOREIGN KEY ([GameId]) 			REFERENCES [Game] ([Id])			ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_User] 							FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [SpeedRun]					 ADD CONSTRAINT [Competition_Fk_Id]							FOREIGN KEY ([CompetitionId]) 	REFERENCES [Competition] ([Id]) 	ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_Competition] 					FOREIGN KEY ([CompetitionId]) 	REFERENCES [Competition] ([Id]) 	ON DELETE CASCADE ON UPDATE NO ACTION;

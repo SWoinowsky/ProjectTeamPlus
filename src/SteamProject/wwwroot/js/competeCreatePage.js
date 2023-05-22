@@ -8,20 +8,27 @@ function findForm() {
 };
 
 function showCurrentIndex() {
+   
     categories = ["Duel", "Free-For-All"];
-
     var selector = document.getElementById("categorySelect");
-    var index = selector.selectedIndex;
-    var text = selector.children[index].value;
-    
-    console.log(text);
-    if( text == categories[0] )
+    if(document.title.includes("Speed Run"))
     {
-        showDuel();
+        showSpeedRun();
     }
-    else if( text == categories[1] )
+    else
     {
-        showFFA();
+        var index = selector.selectedIndex;
+        var text = selector.children[index].value;
+        
+        console.log(text);
+        if( text == categories[0] )
+        {
+            showDuel();
+        }
+        else if( text == categories[1] )
+        {
+            showFFA();
+        } 
     }
 }
 
@@ -33,6 +40,18 @@ function checkSelect() {
     }
 }
 
+function showSpeedRun() {
+    var pageForm = findForm();
+    pageForm.innerHTML = "";
+
+    var ffaDiv = document.createElement('div');
+    ffaDiv.className = "DynamicInput";
+    ffaDiv.id = "ffaDiv";
+    // Reusing this funciton though it's not for FFA's, this is the speed run.
+    getFriendsListForFFA();
+
+    pageForm.append( ffaDiv );
+}
 
 function showFFA() {
     var pageForm = findForm();
@@ -50,7 +69,6 @@ function showFFA() {
 function showDuel() {
     var pageForm = findForm();
     pageForm.innerHTML = "";
-
     var DuelDiv = document.createElement('div');
     DuelDiv.className = "DynamicInput";
     DuelDiv.id = "DuelDiv";
@@ -100,7 +118,7 @@ function ManyFriendSelect( data ) {
     friendDiv.className = "timeWrapper";
 
     var friendSelectLabel = document.createElement("label");
-    friendSelectLabel.innerHTML = "Competitors:";
+    friendSelectLabel.innerHTML = "<p>Competitors:</p>";
 
     friendDiv.append( friendSelectLabel );
 
@@ -191,7 +209,6 @@ function addGameSelectorForDuel( data ) {
 
     GameDiv.append( gameLabel );
 
-
     var gameSelector = document.createElement("select");
     gameSelector.id = "gameSelector";
     gameSelector.name = "GameAppId";
@@ -218,8 +235,10 @@ function addGameSelectorForDuel( data ) {
 
         var DuelDiv = document.getElementById("DuelDiv");
         DuelDiv.append( GameDiv );
-
-        getAchievementsForDuel();
+        if(!document.title.includes("Speed Run"))
+        {
+            getAchievementsForDuel();
+        }
     } else {
         createNoGamesWarning();
     }
@@ -269,8 +288,15 @@ function addGameSelectorForFFA( data ) {
     var ffaDiv = document.getElementById("ffaDiv");
     ffaDiv.append( GameDiv );
 
-    getAchievementsForFFA();
-
+    if(!document.title.includes("Speed Run"))
+    {
+        getAchievementsForFFA();
+    }
+    else
+    {
+        createSpeedRunGoalEntry();
+        createSpeedRunSubmitButton();
+    }
 }
 
 function getGamesForDuel() {
@@ -362,25 +388,28 @@ function showDuelAchievements( data ) {
 }
 
 function getAchievementsForDuel() {
-    var SteamId = document.getElementById("SteamId").value;
-
-    var friendSelector = document.getElementById("friendSelector");
-    var index = friendSelector.selectedIndex;
-    var friendId = friendSelector.children[index].value;
-
-    var gameSelector = document.getElementById("gameSelector");
-    if( gameSelector.children != null && gameSelector.children.length > 0 )
+    if(!document.title.includes("Speed Run"))
     {
-        var index = gameSelector.selectedIndex;
-        var appId = gameSelector.children[index].value;
+        var SteamId = document.getElementById("SteamId").value;
 
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
-            success: showDuelAchievements,
-            error: errorOnAjax
-        });
+        var friendSelector = document.getElementById("friendSelector");
+        var index = friendSelector.selectedIndex;
+        var friendId = friendSelector.children[index].value;
+
+        var gameSelector = document.getElementById("gameSelector");
+        if( gameSelector.children != null && gameSelector.children.length > 0 )
+        {
+            var index = gameSelector.selectedIndex;
+            var appId = gameSelector.children[index].value;
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: `/api/Steam/sharedMissingAchievements?userSteamId=${SteamId}&friendSteamId=${friendId}&appId=${appId}`,
+                success: showDuelAchievements,
+                error: errorOnAjax
+            });
+        }
     }
 }
 
@@ -444,17 +473,20 @@ function showFFAAchievements( data ) {
 }
 
 function getAchievementsForFFA() {
-    var gameSelector = document.getElementById("gameSelector");
-    var index = gameSelector.selectedIndex;
-    var appId = gameSelector.children[index].value;
+    if(!document.title.includes("Speed Run"))
+    {
+        var gameSelector = document.getElementById("gameSelector");
+        var index = gameSelector.selectedIndex;
+        var appId = gameSelector.children[index].value;
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: `/api/Steam/schema?appId=${appId}`,
-        success: showFFAAchievements,
-        error: errorOnAjax
-    });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: `/api/Steam/schema?appId=${appId}`,
+            success: showFFAAchievements,
+            error: errorOnAjax
+        });
+    }
 }
 
 function createSubmitButton() {
@@ -463,6 +495,54 @@ function createSubmitButton() {
     var submit = document.createElement("input");
     submit.type = "submit";
     submit.value = "Begin Competition";
+    submit.id = "compCreateSubmit";
+
+    div.append( submit );
+}
+
+function createSpeedRunGoalEntry() {
+    var div = document.getElementById("ffaDiv");
+
+    var goal = document.createElement("div"); 
+    goal.classList.add("mb-3");
+    
+    var labelElement = document.createElement("label");
+    labelElement.classList.add("form-label");
+    
+    var labelTextElement = document.createElement("p");
+    var labelText = document.createTextNode("What do you want the goal of the race to be?");
+    labelTextElement.appendChild(labelText);
+    
+    labelElement.appendChild(labelTextElement);
+    
+    var inputElement = document.createElement("input");
+    inputElement.name = "goal";
+    inputElement.type = "text";
+    inputElement.id = "goal";
+    inputElement.classList.add("form-control");
+    inputElement.maxLength = 50;
+    inputElement.style.width = "500px";
+    
+    var smallElement = document.createElement("small");
+    smallElement.classList.add("form-text", "text-muted");
+    var smallText = document.createTextNode("Examples: Full Game;Chapter 1; Stage A01 - Max 50 characters");
+    smallElement.appendChild(smallText);
+    
+    div.appendChild(labelElement);
+    div.appendChild(inputElement);
+    div.appendChild(smallElement);
+    
+}
+
+function createSpeedRunSubmitButton() {
+    var div = document.getElementById( "ffaDiv" );
+
+    // var dynamicInputDiv = document.getElementById("DynamicInput");
+    // dynamicInputDiv.appendChild(div);
+
+    var submit = document.createElement("input");
+    submit.type = "submit";
+    submit.value = "Begin Speed Run";
     submit.id = "compCreateSubmit";
 
     div.append( submit );
@@ -482,7 +562,7 @@ function createEmptyWarning() {
 }
 
 function createNoGamesWarning() {
-    var existingDiv = document.GetElementById( "warningDiv" );
+    var existingDiv = document.getElementById( "warningDiv" );
     if( existingDiv == null ) {
         var div = document.getElementById( "DuelDiv" );
         

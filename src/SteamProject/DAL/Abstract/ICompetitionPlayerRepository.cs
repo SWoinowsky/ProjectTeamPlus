@@ -8,4 +8,6 @@ public interface ICompetitionPlayerRepository : IRepository<CompetitionPlayer>
 
     public List<CompetitionPlayer> GetAllForCompetition( int id );
 
+    public List<Game> GetGamesForPlayer(CompetitionPlayer player);
+
 }

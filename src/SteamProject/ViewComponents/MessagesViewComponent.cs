@@ -28,7 +28,15 @@ namespace SteamProject.ViewComponents
             }
             else
             {
-                messengerId = _userRepository.GetUser(id).Id.ToString();
+
+                var user = _userRepository.GetUser(id);
+                if (user != null)
+                {
+                    messengerId = user.Id.ToString();
+                }
+                messengerId = "null";
+
+
             }
             return View("_Messages", messengerId);
         }

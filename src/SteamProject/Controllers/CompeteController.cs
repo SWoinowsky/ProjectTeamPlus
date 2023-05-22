@@ -29,6 +29,7 @@ public class CompeteController : Controller
     private readonly ISteamService _steamService;
     private readonly IInboxService _inboxService;
     private readonly IStatusRepository _statusRepository;
+    private readonly IGameVoteRepository _gameVoteRepository;
 
     public CompeteController(
         ILogger<FriendController> logger
@@ -45,6 +46,7 @@ public class CompeteController : Controller
         , UserManager<IdentityUser> userManager
         , IInboxService inboxService
         , IStatusRepository statusRepository
+        , IGameVoteRepository gameVoteRepository
         )
     {
         _logger = logger;
@@ -61,6 +63,7 @@ public class CompeteController : Controller
         _userManager = userManager;
         _inboxService = inboxService;
         _statusRepository = statusRepository;
+        _gameVoteRepository = gameVoteRepository;
     }
 
 
@@ -96,27 +99,95 @@ public class CompeteController : Controller
     }
 
     [Authorize]
-    [HttpGet]
-    public IActionResult Details( int compId )
+    public IActionResult Details(int compId)
     {
         var authId = _userManager.GetUserId(User);
-        int SinId = _userRepository.GetUser( authId ).Id;
+        int SinId = _userRepository.GetUser(authId).Id;
+        var currentUser = _userRepository.GetUser(authId);
 
         var viewModel = new CompeteDetailsVM();
         var competitionIn = new Competition();
 
+
+
         viewModel.SinId = SinId;
 
-        competitionIn = _competitionRepository.GetCompetitionById( compId );
+        competitionIn = _competitionRepository.GetCompetitionById(compId);
 
-        if( competitionIn != null )
+
+        if (competitionIn != null)
         {
+            var compPlayersList = new List<CompetitionPlayer>();
+            compPlayersList = _competitionPlayerRepository.GetAllForCompetition(compId);
+
+            var compAchievements = new List<CompetitionGameAchievement>();
+
+            if (DateTime.UtcNow >= competitionIn.EndDate)
+            {
+                // Competition has ended, check if the vote has succeeded
+                bool hasVoteSucceeded = _competitionRepository.HasVoteSucceeded(competitionIn.Id);
+
+                if (hasVoteSucceeded)
+                {
+                    bool hasGameVoteSucceeded = _gameVoteRepository.HasGameVoteSucceeded(compId);
+                    if (hasGameVoteSucceeded)
+                    {
+                        var newGameId = _gameVoteRepository.GetGameIdWithMostVotes(compId);
+
+                        // Update the existing competition with the new game and updated dates
+                        competitionIn.GameId = newGameId;
+
+                        // Calculate the original competition duration
+                        var competitionDuration = competitionIn.EndDate - competitionIn.StartDate;
+
+                        // Set the end date to the start date + the original competition duration
+                        competitionIn.EndDate = competitionIn.StartDate + competitionDuration;
+
+                        //the end date needs to be set to the start date + the number of days the competition was active
+                        competitionIn.EndDate = competitionIn.EndDate.AddDays((competitionIn.EndDate - competitionIn.StartDate).TotalDays);
+                        competitionIn.StatusId = 1; // set to the default status ID which is active
+
+                        _competitionRepository.AddOrUpdate(competitionIn);
+
+                        // Fetch the new game's achievements
+                        _gameAchievementRepository.EnsureGameAchievements(competitionIn.Game.AppId, currentUser.SteamId, currentUser.Id);
+                        _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId, competitionIn.GameId);
+                        compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+                    }
+                    else
+                    {
+                        var gameSelectionStatus = _statusRepository.GetStatusByName("GameSelection");
+                        if (gameSelectionStatus != null)
+                        {
+                            competitionIn.Status = gameSelectionStatus;
+                            _competitionRepository.AddOrUpdate(competitionIn);
+
+                            // Clear achievements for GameSelection status or fetch default achievements if there are any
+                            compAchievements = new List<CompetitionGameAchievement>();
+                        }
+                    }
+                }
+                else if (competitionIn.Status.Name != "Ended")
+                {
+                    var endedStatus = _statusRepository.GetStatusByName("Ended");
+                    if (endedStatus != null)
+                    {
+                        competitionIn.Status = endedStatus;
+                        _competitionRepository.AddOrUpdate(competitionIn);
+                    }
+                }
+            }
+            else
+            {
+                // Competition has not ended, fetch current game's achievements
+                compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+            }
+
             var gameAssociated = new Game();
             gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
 
+         
 
-            var compPlayersList = new List<CompetitionPlayer>();
-            compPlayersList = _competitionPlayerRepository.GetAllForCompetition( compId );
 
 
             // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
@@ -128,9 +199,7 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
-
-            var compAchievements = new List<CompetitionGameAchievement>();
-            compAchievements = _competitionGameAchievementRepository.GetByCompetitionId( compId );
+            _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
 
             var percentages = new List<GlobalAchievement>();
             percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
@@ -219,15 +288,8 @@ public class CompeteController : Controller
                 }
             }
 
-            if (DateTime.UtcNow >= competitionIn.EndDate && competitionIn.Status.Name != "Ended")
-            {
-                var endedStatus = _statusRepository.GetStatusByName("Ended");
-                if (endedStatus != null)
-                {
-                    competitionIn.Status = endedStatus;
-                    _competitionRepository.AddOrUpdate(competitionIn);
-                }
-            }
+
+            
 
 
             viewModel.CurrentComp = competitionIn;
@@ -238,10 +300,61 @@ public class CompeteController : Controller
             viewModel.GameAchList = gameAchievements;
             viewModel.Tracking = userAchList;
             viewModel.Scoreboard = userScoreList;
+            viewModel.Vote = competitionIn.CompetitionVotes.Where( v => v.UserId == SinId ).FirstOrDefault();
+            viewModel.Status = competitionIn.Status;
         }
 
         return View( viewModel );
     }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult SelectGame(int compId, int gameId)
+    {
+        var competition = _competitionRepository.GetCompetitionById(compId);
+        var game = _gameRepository.GetGameByAppId(gameId);
+        if (competition == null || game == null)
+        {
+            return NotFound();
+        }
+
+        if (competition.Status.Name != "GameSelection")
+        {
+            return BadRequest("Competition is not in the game selection state.");
+        }
+
+        competition.GameId = game.Id;
+        competition.Game = game;
+        competition.Status = _statusRepository.GetStatusByName("GameSelected");
+        _competitionRepository.AddOrUpdate(competition);
+        _inboxService.SendMessage(competition.CreatorId, 69420, $"Game {competition.Game.Name} has been selected for competition!");
+
+        return RedirectToAction("SetupCompetition", new { compId = competition.Id });
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult SetupCompetition(int compId, DateTime startTime, DateTime endTime)
+    {
+        var competition = _competitionRepository.GetCompetitionById(compId);
+        if (competition == null)
+        {
+            return NotFound();
+        }
+
+        if (competition.Status.Name != "GameSelected")
+        {
+            return BadRequest("Competition is not in the correct state for setup.");
+        }
+
+        competition.StartDate = startTime;
+        competition.EndDate = endTime;
+        competition.Status = _statusRepository.GetStatusByName("Active");
+        _competitionRepository.AddOrUpdate(competition);
+
+        return RedirectToAction("Details", new { compId = competition.Id });
+    }
+
 
     [Authorize]
     [HttpGet]
@@ -271,6 +384,7 @@ public class CompeteController : Controller
         var viewModel = new CompeteCreateVM();
         viewModel.SteamId = currentUser.SteamId;
         viewModel.SinId = currentUser.Id;
+
 
         return View( viewModel );
     }
@@ -418,12 +532,12 @@ public class CompeteController : Controller
     public IActionResult Initiate(CompeteInitiateVM competeIn)
     {
         //This method is broken and will not save compititons in this format anymore, I tried refactoring it some but its gonna need some more work to get going.
-       
+
         competeIn.ChosenGame = _gameRepository.GetGameById(competeIn.ChosenGame.Id);
 
         //Fails on saving competitions to the database here due to some of the values being null
-        _competitionRepository.AddOrUpdate( competeIn.CurrentCompetition );
-        foreach( var achievement in competeIn.UsersAchievements )
+        _competitionRepository.AddOrUpdate(competeIn.CurrentCompetition);
+        foreach (var achievement in competeIn.UsersAchievements)
         {
             var objectOut = new CompetitionGameAchievement { CompetitionId = competeIn.CurrentCompetition.Id, GameAchievementId = achievement.AchievementId };
             _competitionGameAchievementRepository.AddOrUpdate(objectOut);
@@ -432,9 +546,9 @@ public class CompeteController : Controller
         var compPlayerMe = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MySteamId };
         var compPlayerThem = new CompetitionPlayer { CompetitionId = competeIn.CurrentCompetition.Id, SteamId = competeIn.MyFriendId };
 
-        _competitionPlayerRepository.AddOrUpdate( compPlayerMe );
-        _competitionPlayerRepository.AddOrUpdate( compPlayerThem );
-        
+        _competitionPlayerRepository.AddOrUpdate(compPlayerMe);
+        _competitionPlayerRepository.AddOrUpdate(compPlayerThem);
+
         return RedirectToAction("Initiate", new { SteamId = competeIn.MyFriendId, appId = competeIn.ChosenGame.AppId });
     }
 
@@ -461,6 +575,7 @@ public class CompeteController : Controller
         comp.Status = _statusRepository.GetStatusByName("Active");
 
         _competitionRepository.AddOrUpdate( comp );
+
 
         _inboxService.SendMessage(SinId, 69420, $"You started a new achievement competition for {comp.Game.Name}! Starting on {comp.StartDate.ToLocalTime()} and finishing {comp.EndDate.ToLocalTime()}");
 
@@ -513,8 +628,9 @@ public class CompeteController : Controller
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
 
-        return RedirectToAction("Index");
+        return RedirectToRoute("Compete", new { controller = "Compete", action = "Details", compId = comp.Id });
+
     }
 
-    
+
 }

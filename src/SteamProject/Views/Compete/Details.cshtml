@@ -8,67 +8,122 @@
 </head>
 
 
-@if( Model is null )
+@if( Model is null || Model.Status is null)
 {
     <p> Failed to pull information from the database. If you're positive the selected competition exists, please try again momentarily. </p>
 }
 else 
-{
-
-    <div class="row" style="width: 100%; padding-top: 5%;">
+{<body data-comp-status="@((Model.Status?.Name) ?? "Ended")">
+ <div class="row" style="width: 100%; padding-top: 5%;">
         <div class="col-sm-6" style="width: 50%;">
             <div class="currentApp" id=@Model.CurrentComp.Game.AppId hidden></div>
             <div class="currentUserId" id=@Model.CurrentUserId hidden></div>
+            <div class="currentCompId" id=@Model.CurrentComp.Id hidden></div>
+
+            @if (Model.Vote != null)
+            {
+                <div class="CurrentVoteId" id=@Model.Vote.Id hidden></div>
+                <div class="CurrentVoteStatus" data-status="@Model.Vote.WantsToPlayAgain"></div>
+            }
+           
 
             <div class="image-container">
                 <a class="btn btn-info back-btn" title="Back to Dashboard" href='@Url.Action("Dashboard", "Home")'>
-                    <i fill="CurrentColor" class="bi bi-arrow-left">Back to Dashboard</i>
+                    <i fill="CurrentColor" class="bi bi-arrow-left"> Dashboard</i>
                 </a>
                 <img class="gameImage" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/capsule_616x353.jpg", @Model.CurrentComp.Game.AppId)" alt="@string.Format("{0}", @Model.CurrentComp.Game.Name)"/>
             </div>
 
             <br>
-            <div>
-                Competing for these acheivements:
+            @if (Model.GameAchList.Any())
+            {
+                <div>
+                    Competing for these acheivements:
 
-                <div class="row" style="align-items: center; padding-bottom: 3%;">
-                    @foreach ( var achievement in Model.GameAchList )
-                    {
-                        <div class="col-md-2" style="width: 160px; margin: auto;">
+                    <div class="row" style="align-items: center; padding-bottom: 3%;">
+                        @foreach ( var achievement in Model.GameAchList )
+                        {
+                            <div class="col-md-2" style="width: 160px; margin: auto;">
 
-                            <br>
+                                <br>
 
-                            <div class="achievementDiv">
-                                <div class="card achievementCard" style="word-wrap: normal; display:flex;">
-                                    <img class="flare" src="~/assets/flare.png" style="display:none;" alt="">
-                                    <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 90%; height: 90%; align-self: center; margin-top:5px;">
-                                    <div class="card-body">
-                                        <p class="card-title" style="color: white;">@achievement.DisplayName</p>
-                                        <p class="ach-value"></p>
+                                <div class="achievementDiv">
+                                    <div class="card achievementCard" style="word-wrap: normal; display:flex;">
+                                        <img class="flare" src="~/assets/flare.png" style="display:none;" alt="">
+                                        <img class="card-img-top" src="@achievement.IconAchievedUrl" style="width: 90%; height: 90%; align-self: center; margin-top:5px;">
+                                        <div class="card-body">
+                                            <p class="card-title" style="color: white;">@achievement.DisplayName</p>
+                                            <p class="ach-value"></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <p>Competition has ended</p>
+            }
+           
         </div>
         <div class="col-sm-6" style="width: 50%;">
             <h1> Competition in @Model.CurrentComp.Game.Name </h1>
             <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
 
-            @if( Model.SinId == Model.CurrentComp.CreatorId )
+            @if (Model.SinId == Model.CurrentComp.CreatorId)
             {
                 <div id="compDeleteBtnDiv">
-                    <button id="compDeleteBtn" value=@Model.CurrentComp.Id> DELETE THIS COMPETITION </button>
+                    <button id="compDeleteBtn" class="btn btn-danger" value="@Model.CurrentComp.Id">DELETE THIS COMPETITION</button>
                 </div>
             }
             @if (Model.HasCompetitionEnded)
             {
-                <div id="voteAgainDiv">
-                    <button id="voteAgainBtn" value="@Model.CurrentComp.Id">VOTE TO COMPETE AGAIN</button>
-                </div>
+                var buttonVoteText = (Model.Vote != null && Model.Vote.WantsToPlayAgain) ? "REVOKE VOTE" : "VOTE TO COMPETE AGAIN";
+                var buttonClass = (Model.Vote != null && Model.Vote.WantsToPlayAgain) ? "btn btn-primary revoke-vote" : "btn btn-primary vote-again";
+                var iconClass = (Model.Vote != null && Model.Vote.WantsToPlayAgain) ? "bi bi-hand-thumbs-down rotate-icon" : "bi bi-hand-thumbs-up rotate-icon";
+
+                <button id="voteAgainBtn" class="@buttonClass">
+                    <i id="voteIcon" class="@iconClass"></i> @buttonVoteText
+                </button>
+
+                <div id="voteCount"></div>
             }
+            @if (Model.Status.Name == "GameSelection")
+            {
+                <button type="button" class="btn btn-primary" id="selectGameButton">Select Game</button>
+            }
+
+
+            <div class="modal fade" id="gameSelectModal" tabindex="-1" role="dialog" aria-labelledby="gameSelectModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title light" id="gameSelectModalLabe">Shared Game Selection</h5>
+                        </div>
+                        <div class="modal-body">
+                            <!-- This is where the list of shared games will go -->
+                            <div id="sharedGamesList" class="row">
+                                <!-- Populate this list dynamically using Javascript -->
+                            </div>
+                        </div>
+                 
+                        <div class="modal-footer">
+                            <div class="row">
+                                <p class="light">Click on a game to vote for it</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
 
 
             <br>
@@ -160,8 +215,8 @@ else
         </div>
 
     </div>
-
-
+ </body>
+   
     
 }
 

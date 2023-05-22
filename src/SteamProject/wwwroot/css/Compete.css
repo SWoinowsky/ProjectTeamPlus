@@ -11,12 +11,112 @@ body {
     display: flex;
 }
 
+
+
+.btn {
+    width: 200px; /* Adjust the width as needed */
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary button color */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9; /* Button color on hover */
+    border-color: #0062cc;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Danger button color */
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Button color on hover */
+    border-color: #bd2130;
+}
+
+.vote-again {
+    background-color: #28a745; /* Vote again button color */
+    border-color: #28a745;
+}
+
+.vote-again:hover {
+    background-color: #218838; /* Button color on hover */
+    border-color: #1e7e34;
+}
+
+.revoke-vote {
+    background-color: #dc3545; /* Revoke vote button color */
+    border-color: #dc3545;
+}
+
+.revoke-vote:hover {
+    background-color: #c82333; /* Button color on hover */
+    border-color: #bd2130;
+}
+
+.rotate-icon {
+    animation: rotate 1s infinite linear; /* Animation for rotating the icon */
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 .card {
     box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.50);
     transition: 0.3s;
     border-radius: 8px;
 }
 
+.sharedCard {
+    height: 12rem;
+    border-radius: 5px;
+}
+#gameSelectModal {
+    text-align: center;
+    justify-content: center;
+}
+
+.light {
+    color: white;
+}
+
+.modal-content {
+    text-align: center;
+    justify-content: center;
+}
+
+.modal-footer {
+    justify-content: center;
+}
+
+.modal-header {
+    justify-content: center;
+    text-align: center;
+}
+
+.sharedCard:hover {
+    cursor: pointer
+}
+
+.card-img-top {
+    border-radius: 5px
+}
+
+.modal-dialog {
+    width: 100%;
+}
 .winnerCard {
     background-image: linear-gradient(to right, goldenRod, gold, yellow, gold, gold, goldenRod, goldenRod );
 }
@@ -459,7 +559,7 @@ ul {
 .back-btn {
     position: absolute;
     border-radius: 10px 10px 0 0;
-    z-index: 10;
+    z-index: 0;
     width: 100%;
     opacity: 0.9;
     transition: opacity 1s ease;
@@ -468,4 +568,23 @@ ul {
 .gameImage {
     width: 100%;
     border-radius: 10px;
+}
+
+
+.vote-again {
+    background-color: #008CBA; /* Blue color */
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.5s; /* Smooth transition */
+}
+
+.revoke-vote {
+    background-color: #f44336; /* Red color */
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.5s; /* Smooth transition */
 }

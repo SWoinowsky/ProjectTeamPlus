@@ -32,8 +32,10 @@ public class CompeteDetailsVM
 
     public int CurrentUserId { get; set; }
 
-}
+    public CompetitionVote Vote { get; set; }
+    public Status Status { get; set; }
 
+}
 
 public class CompeteInitiateVM
 {
@@ -56,6 +58,7 @@ public class CompeteInitiateVM
 
 public class CompeteCreateVM
 {
+    public int CompetitionId { get; set; }
     public string SteamId { get; set; }
     public int SinId { get; set; }
 

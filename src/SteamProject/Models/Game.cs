@@ -24,11 +24,11 @@ public partial class Game
 
     public string? Genres { get; set; }
 
-    public virtual ICollection<Competition> Competitions { get; } = new List<Competition>();
+    public virtual ICollection<Competition> Competitions { get; set; } = new List<Competition>();
 
-    public virtual ICollection<GameVote> GameVotes { get; } = new List<GameVote>();
+    public virtual ICollection<GameVote> GameVotes { get; set; } = new List<GameVote>();
 
-    public virtual ICollection<UserGameInfo> UserGameInfos { get; } = new List<UserGameInfo>();
+    public virtual ICollection<UserGameInfo> UserGameInfos { get; set; } = new List<UserGameInfo>();
 
     public Game TakeLibraryInfoPOCO(Games game, int userId)
     {

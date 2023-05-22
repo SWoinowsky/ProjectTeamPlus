@@ -243,7 +243,7 @@ public partial class SteamInfoDbContext : DbContext
 
         modelBuilder.Entity<SpeedRun>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC07344C299E");
+            entity.HasKey(e => e.Id).HasName("PK__SpeedRun__3214EC071FC6A8C0");
 
             entity.ToTable("SpeedRun");
 

@@ -189,10 +189,6 @@ public class CompeteController : Controller
             var gameAssociated = new Game();
             gameAssociated = _gameRepository.GetGameById( competitionIn.GameId );
 
-         
-
-
-
             // List of steamids of competition's associated steam users. Feeds into GetManyUsers function.
             var idList = new List<string>();
             foreach( var cPlayer in compPlayersList )
@@ -201,6 +197,11 @@ public class CompeteController : Controller
             }
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
+
+            if(compAchievements == null)
+            {
+                return RedirectToAction("SpeedRunDetails", new {compId = compId});
+            }
 
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
 

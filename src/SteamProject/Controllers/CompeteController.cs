@@ -317,19 +317,28 @@ public class CompeteController : Controller
             currentUser = _userRepository.GetUser(id);
 
             var compRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
-            List<SpeedRun> fastestRuns = new List<SpeedRun>();
-            List<SpeedRun> slowestRuns = new List<SpeedRun>();
-
-            foreach(var run in compRuns)
+            
+            if(compRuns.Count() > 0)
             {
-                if(run.Fastest)
+                List<SpeedRun> fastestRuns = new List<SpeedRun>();
+                List<SpeedRun> slowestRuns = new List<SpeedRun>();
+
+                foreach(var run in compRuns)
                 {
-                    fastestRuns.Add(run);
+                    if(run.Fastest)
+                    {
+                        fastestRuns.Add(run);
+                    }
+                    else
+                    {
+                        slowestRuns.Add(run);
+                    }
                 }
-                else
-                {
-                    slowestRuns.Add(run);
-                }
+
+                fastestRuns = fastestRuns.OrderBy(run => TimeSpan.Parse(run.RunTime)).ToList();
+                slowestRuns = fastestRuns.OrderBy(run => TimeSpan.Parse(run.RunTime)).ToList();
+                viewModel.FastestRuns = fastestRuns;
+                viewModel.SlowestRuns = slowestRuns;
             }
 
             viewModel.CurrentComp = competitionIn;
@@ -337,8 +346,7 @@ public class CompeteController : Controller
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
             viewModel.CurrentUserId = currentUser.Id;
-            viewModel.FastestRuns = fastestRuns;
-            viewModel.SlowestRuns = slowestRuns;
+            
         }
         return View( viewModel );
     }
@@ -692,10 +700,10 @@ public class CompeteController : Controller
         }
         else
         {
-            var NewRunTime = _speedRunRepository.ConvertRunToTimeSpan(run.RunTime);
+            var NewRunTime = TimeSpan.Parse(run.RunTime);
             foreach(var comp in runsForCurrentComp)
             {
-                var CompRunTime = _speedRunRepository.ConvertRunToTimeSpan(comp.RunTime);
+                var CompRunTime = TimeSpan.Parse(comp.RunTime);
                 if(comp.Fastest == true && run.PlayerId == comp.PlayerId)
                 {
                     if(NewRunTime < CompRunTime || NewRunTime == CompRunTime)

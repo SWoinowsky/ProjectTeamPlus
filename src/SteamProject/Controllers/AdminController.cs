@@ -267,4 +267,14 @@ public class AdminController: Controller
         }
         return View(runsByUser);
     }
+
+    public IActionResult Validate()
+    {
+        return RedirectToAction("ValidateRuns");
+    }
+
+        public IActionResult Reject()
+    {
+        return RedirectToAction("ValidateRuns");
+    }
 }

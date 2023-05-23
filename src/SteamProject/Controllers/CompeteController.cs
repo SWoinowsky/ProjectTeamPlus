@@ -184,6 +184,14 @@ public class CompeteController : Controller
             {
                 // Competition has not ended, fetch current game's achievements
                 compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+
+                if (compAchievements == null && competitionIn.Goal != null)
+                {
+                    _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
+                        competitionIn.GameId);
+                    compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+                }
+
             }
 
             var gameAssociated = new Game();
@@ -242,7 +250,9 @@ public class CompeteController : Controller
 
             var percentages = new List<GlobalAchievement>();
             percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
-            
+
+
+
             var gameAchievements = new List<GameAchievement>();
             foreach( var ach in compAchievements )
             {

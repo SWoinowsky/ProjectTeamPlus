@@ -48,7 +48,8 @@ $(document).ready(function () {
 
                 // Update the vote count
                 updateVoteCount();
-                alert('Game vote updated successfully, Please reload the page.');
+
+                //alert('Game vote updated successfully, Please reload the page.');
             },
             error: function (data) {
                 alert('Error updating vote');

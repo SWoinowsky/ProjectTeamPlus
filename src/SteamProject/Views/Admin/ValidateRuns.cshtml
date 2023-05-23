@@ -51,7 +51,7 @@
                                         @Html.DisplayFor(modelItem => dict.Key.SteamName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => dict.Value.VideoId)
+                                        <a href="https://www.youtube.com/watch?v=@Html.DisplayFor(modelItem => dict.Value.VideoId)" target="_blank">@Html.DisplayFor(modelItem => dict.Value.VideoId)</a>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => dict.Value.RunTime)

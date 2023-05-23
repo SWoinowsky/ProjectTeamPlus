@@ -42,16 +42,26 @@ public class GameAchievementRepository : Repository<GameAchievement>,  IGameAchi
         var gameAchievements = GetAchievementsFromGameId(gameIdFound);
         if (gameAchievements.Count() == 0)
         {
-            var rawAchievements = _steamService.GetSchema(appId).game.availableGameStats.achievements.ToList<SchemaAchievement>();
+            var schema = _steamService.GetSchema(appId);
 
-            foreach (var rawAch in rawAchievements)
+            if (schema?.game?.availableGameStats?.achievements != null)
             {
-                var addMe = new GameAchievement(rawAch);
-                addMe.GameId = gameIdFound;
-                gameAchievements.Add(addMe);
-                AddOrUpdate(addMe);
+                var rawAchievements = schema.game.availableGameStats.achievements.ToList<SchemaAchievement>();
+
+                foreach (var rawAch in rawAchievements)
+                {
+                    var addMe = new GameAchievement(rawAch);
+                    addMe.GameId = gameIdFound;
+                    gameAchievements.Add(addMe);
+                    AddOrUpdate(addMe);
+                }
+            }
+            else
+            {
+                //Game has no achievements
             }
         }
+
     }
 
 }

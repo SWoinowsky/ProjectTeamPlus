@@ -283,17 +283,47 @@ public class AdminController: Controller
         return RedirectToAction("ValidateRuns");
     }
 
-    public IActionResult Reject(int runId, int compId)
+    public IActionResult Reject(int runId, int compId, string steamId)
     {
+        var fastestRunToDelete = false;
         var competitionRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+
         foreach(var run in competitionRuns)
         {
             if(run.Id == runId)
             {
+                if(run.Fastest)
+                    fastestRunToDelete = true;
                 _speedRunRepository.Delete(run);
                 break;
             }
         }
+
+        if(fastestRunToDelete)
+        {
+            competitionRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+            var fastestRun = competitionRuns.FirstOrDefault(run => run.SteamId == steamId);
+            if (fastestRun != null)
+            {
+                TimeSpan fastestTime = TimeSpan.Parse(fastestRun.RunTime);
+                
+                foreach (var run in competitionRuns)
+                {
+                    if (run.SteamId == steamId)
+                    {
+                        TimeSpan currentTime = TimeSpan.Parse(run.RunTime);
+                        if (currentTime < fastestTime)
+                        {
+                            fastestTime = currentTime;
+                            fastestRun = run;
+                        }
+                    }
+                }
+            }
+            fastestRun.Fastest = true;
+            _speedRunRepository.AddOrUpdate(fastestRun);
+        }
+
         return RedirectToAction("ValidateRuns");
     }
 }

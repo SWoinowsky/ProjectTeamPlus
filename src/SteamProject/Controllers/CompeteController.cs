@@ -327,10 +327,6 @@ public class CompeteController : Controller
                 }
             }
 
-
-            
-
-
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
@@ -882,6 +878,7 @@ public class CompeteController : Controller
                     break;
                 }
             }
+
             run.Fastest = false;
             _speedRunRepository.AddOrUpdate(run);
         }

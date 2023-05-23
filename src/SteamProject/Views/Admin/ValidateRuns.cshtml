@@ -61,7 +61,7 @@
                                     </td>
                                     <td>
                                         <a asp-action="Validate" asp-route-runId="@dict.Value.Id" asp-route-compId="@dict.Value.CompetitionId">Accept </a>
-                                        <a asp-action="Reject" asp-route-runId="@dict.Value.Id" asp-route-compId="@dict.Value.CompetitionId">Reject</a>
+                                        <a asp-action="Reject" asp-route-runId="@dict.Value.Id" asp-route-compId="@dict.Value.CompetitionId" asp-route-steamId="@dict.Key.SteamId">Reject</a>
                                     </td>
                                 </tr>
                             }

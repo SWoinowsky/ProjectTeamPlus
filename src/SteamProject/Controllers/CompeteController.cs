@@ -492,6 +492,52 @@ public class CompeteController : Controller
                 viewModel.SlowestRuns = slowestRunsAllPlayers;
             }
 
+            List<SpeedRun> topThreeRuns = new List<SpeedRun>();
+            foreach(var dict in viewModel.FastestRuns.Take(3))
+            {
+                topThreeRuns.Add(dict.Value);
+            }
+
+            User firstPlace = new User();
+            User secondPlace = new User();
+            User thirdPlace = new User();
+            var tempUserList = new List<User>(userList);
+
+            foreach(var user in tempUserList)
+            {
+                if(topThreeRuns.Count() > 0)
+                {
+                    if(user.SteamId == topThreeRuns[0].SteamId)
+                    {
+                        firstPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+                if(topThreeRuns.Count() > 1)
+                {
+                    if(user.SteamId == topThreeRuns[1].SteamId)
+                    {
+                        secondPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+                if(topThreeRuns.Count() > 2)
+                {
+                    if(user.SteamId == topThreeRuns[3].SteamId)
+                    {
+                        thirdPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+            }
+
+            if(thirdPlace.SteamId != null)
+                userList.Insert(0, thirdPlace);
+            if(secondPlace.SteamId != null)
+                userList.Insert(0, secondPlace);
+            if(firstPlace.SteamId != null)
+                userList.Insert(0, firstPlace);
+
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;

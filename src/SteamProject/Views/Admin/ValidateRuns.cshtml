@@ -1,0 +1,74 @@
+@model List<KeyValuePair<User, SpeedRun>>
+@{
+    ViewData["Title"] = "Admin - Validate Speed Runs";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Identity.css" asp-append-version="true">
+</head>
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1>All of the submitted speed runs</h1>
+        <h2>Validate or Delete Runs</h2>
+        <hr>
+        <div class="row">
+            @Html.Partial("AdminNavigation")
+            @if(Model.Count == 0)
+            {
+                <div class="col">
+                    <h1>There's no runs to review!</h1>
+                </div>
+            }
+            else
+            {
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Steam Name
+                                </th>
+                                <th>
+                                    Video Link
+                                </th>
+                                <th>
+                                    Run Time
+                                </th>
+                                <th>
+                                    Competition Id
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var dict in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => dict.Key.SteamName)
+                                    </td>
+                                    <td>
+                                        <a href="https://www.youtube.com/watch?v=@Html.DisplayFor(modelItem => dict.Value.VideoId)" target="_blank">@Html.DisplayFor(modelItem => dict.Value.VideoId)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => dict.Value.RunTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => dict.Value.CompetitionId)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Validate" asp-route-runId="@dict.Value.Id" asp-route-compId="@dict.Value.CompetitionId">Accept </a>
+                                        <a asp-action="Reject" asp-route-runId="@dict.Value.Id" asp-route-compId="@dict.Value.CompetitionId" asp-route-steamId="@dict.Key.SteamId">Reject</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </main>
+</div>

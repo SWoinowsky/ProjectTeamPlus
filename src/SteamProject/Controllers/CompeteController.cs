@@ -206,14 +206,42 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
+            var speedRunCheck = false;
             foreach(var run in _speedRunRepository.GetAll())
             {
                 if(run.CompetitionId == compId)
                 {
-                    return RedirectToAction("SpeedRunDetails", new {compId = compId});
+                    speedRunCheck = true;
                 }
             }
-            if(compAchievements == null && competitionIn.Goal != null || compAchievements.Count() < 1 && competitionIn.Goal != null)
+            
+            if(speedRunCheck != true)
+            {
+                try{
+                    if(competitionIn.Goal == null)
+                    {
+                        speedRunCheck = false;
+                    }
+                    else if(competitionIn.Goal != null)
+                    {
+                        speedRunCheck = true;
+                    }
+                    else if(compAchievements == null)
+                    {
+                        speedRunCheck = true;
+                    }
+                    else if(compAchievements.Count() < 1)
+                    {
+                        speedRunCheck = true;
+                    }
+                }
+                catch
+                {
+                    speedRunCheck   = false;
+                }
+            }
+
+            if(speedRunCheck)
             {
                 return RedirectToAction("SpeedRunDetails", new {compId = compId});
             }
@@ -308,10 +336,6 @@ public class CompeteController : Controller
                     }
                 }
             }
-
-
-            
-
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
@@ -477,6 +501,52 @@ public class CompeteController : Controller
                 viewModel.FastestRuns = fastestRunByPlayer;
                 viewModel.SlowestRuns = slowestRunsAllPlayers;
             }
+
+            List<SpeedRun> topThreeRuns = new List<SpeedRun>();
+            foreach(var dict in viewModel.FastestRuns.Take(3))
+            {
+                topThreeRuns.Add(dict.Value);
+            }
+
+            User firstPlace = new User();
+            User secondPlace = new User();
+            User thirdPlace = new User();
+            var tempUserList = new List<User>(userList);
+
+            foreach(var user in tempUserList)
+            {
+                if(topThreeRuns.Count() > 0)
+                {
+                    if(user.SteamId == topThreeRuns[0].SteamId)
+                    {
+                        firstPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+                if(topThreeRuns.Count() > 1)
+                {
+                    if(user.SteamId == topThreeRuns[1].SteamId)
+                    {
+                        secondPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+                if(topThreeRuns.Count() > 2)
+                {
+                    if(user.SteamId == topThreeRuns[3].SteamId)
+                    {
+                        thirdPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+            }
+
+            if(thirdPlace.SteamId != null)
+                userList.Insert(0, thirdPlace);
+            if(secondPlace.SteamId != null)
+                userList.Insert(0, secondPlace);
+            if(firstPlace.SteamId != null)
+                userList.Insert(0, firstPlace);
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
@@ -864,6 +934,7 @@ public class CompeteController : Controller
                     break;
                 }
             }
+
             run.Fastest = false;
             _speedRunRepository.AddOrUpdate(run);
         }

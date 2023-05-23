@@ -128,6 +128,7 @@ function ManyFriendSelect( data ) {
     groupSelect["dataLiveSearch"] = "true";
     groupSelect.className = "selectBox";
     groupSelect.name = "OpponentIds";
+    groupSelect.setAttribute("required", "");
     $.each( data, function ( index, item ) {
         var option = document.createElement("option");
         option.value = `${item.steamId}`;
@@ -522,6 +523,7 @@ function createSpeedRunGoalEntry() {
     inputElement.classList.add("form-control");
     inputElement.maxLength = 50;
     inputElement.style.width = "500px";
+    inputElement.setAttribute("required", "");
     
     var smallElement = document.createElement("small");
     smallElement.classList.add("form-text", "text-muted");
@@ -536,9 +538,6 @@ function createSpeedRunGoalEntry() {
 
 function createSpeedRunSubmitButton() {
     var div = document.getElementById( "ffaDiv" );
-
-    // var dynamicInputDiv = document.getElementById("DynamicInput");
-    // dynamicInputDiv.appendChild(div);
 
     var submit = document.createElement("input");
     submit.type = "submit";

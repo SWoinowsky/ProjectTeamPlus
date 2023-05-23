@@ -17,8 +17,9 @@ public class CompetitionPlayerRepositoryTests
 {
     private Mock<SteamInfoDbContext> _mockContext;
     private Mock<DbSet<CompetitionPlayer>> _mockCompetitionPlayerDbSet;
+    private Mock<ICompetitionVoteRepository> _mockCompetitionVoteRepository;
 
-    private List<CompetitionPlayer> _competitionPlayers; 
+    private List<CompetitionPlayer> _competitionPlayers;
 
     [SetUp]
     public void Setup()
@@ -39,6 +40,10 @@ public class CompetitionPlayerRepositoryTests
         _mockCompetitionPlayerDbSet = MockHelpers.GetMockDbSet(_competitionPlayers.AsQueryable());
         _mockContext.Setup(ctx => ctx.CompetitionPlayers).Returns(_mockCompetitionPlayerDbSet.Object);
         _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
+
+        _mockCompetitionVoteRepository = new Mock<ICompetitionVoteRepository>(); // Initialize the mock
+
+        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object, _mockCompetitionVoteRepository.Object);
     }
 
     [Test]
@@ -47,7 +52,7 @@ public class CompetitionPlayerRepositoryTests
         _mockContext = new Mock<SteamInfoDbContext>();
         _mockCompetitionPlayerDbSet = MockHelpers.GetMockDbSet(_competitionPlayers.AsQueryable());
         _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
-        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
+        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object, _mockCompetitionVoteRepository.Object);
 
         var listFound = compPlayRepository.GetCompetitionIdsBySteamId("0");
         
@@ -60,7 +65,7 @@ public class CompetitionPlayerRepositoryTests
         _mockContext = new Mock<SteamInfoDbContext>();
         _mockCompetitionPlayerDbSet = MockHelpers.GetMockDbSet(_competitionPlayers.AsQueryable());
         _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
-        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
+        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object, _mockCompetitionVoteRepository.Object);
 
         var foundList = compPlayRepository.GetCompetitionIdsBySteamId("1");
         var compareList = new List<CompetitionPlayer>
@@ -79,7 +84,7 @@ public class CompetitionPlayerRepositoryTests
         _mockContext = new Mock<SteamInfoDbContext>();
         _mockCompetitionPlayerDbSet = MockHelpers.GetMockDbSet(_competitionPlayers.AsQueryable());
         _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
-        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
+        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object, _mockCompetitionVoteRepository.Object);
 
         var foundList = new List<CompetitionPlayer>();
         foundList = compPlayRepository.GetAllForCompetition( 666 );
@@ -93,7 +98,7 @@ public class CompetitionPlayerRepositoryTests
         _mockContext = new Mock<SteamInfoDbContext>();
         _mockCompetitionPlayerDbSet = MockHelpers.GetMockDbSet(_competitionPlayers.AsQueryable());
         _mockContext.Setup(ctx => ctx.Set<CompetitionPlayer>()).Returns(_mockCompetitionPlayerDbSet.Object);
-        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object);
+        ICompetitionPlayerRepository compPlayRepository = new CompetitionPlayerRepository(_mockContext.Object, _mockCompetitionVoteRepository.Object);
 
         var foundList = new List<CompetitionPlayer>();
         foundList = compPlayRepository.GetAllForCompetition( 10 );

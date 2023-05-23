@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const storedNewsTimestamp = localStorage.getItem(storedNewsTimestampKey);
         const now = new Date().getTime();
 
-        const expirationTime = 60 * 60 * 1000;
+        const expirationTime = 60 * 60 * 6000; // 6 hours in milliseconds
 
         const isExpired = !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
 

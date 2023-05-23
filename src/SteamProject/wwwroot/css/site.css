@@ -12,6 +12,13 @@ html {
   font-family: 'Poppins', sans-serif;
 }
 
+.footer-lower {
+    margin-top: 45px;
+}
+
+.switch {
+    bottom: -45px
+}
 
 /* width */
 ::-webkit-scrollbar {

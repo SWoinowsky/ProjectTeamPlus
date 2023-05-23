@@ -30,10 +30,12 @@ namespace BDD_Tests.Hooks
         private static BrowserDriver _browserDriver;
 
         private IConfigurationRoot Configuration { get; }
+        private readonly ScenarioContext _scenarioContext;
 
-        public SharedBrowserHooks(ScenarioContext context, IObjectContainer objectContainer)
+        public SharedBrowserHooks(ScenarioContext scenarioContext, IObjectContainer objectContainer)
         {
             _objectContainer = objectContainer;
+            _scenarioContext = scenarioContext;
 
             IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<SharedBrowserHooks>();
             Configuration = builder.Build();
@@ -123,8 +125,6 @@ namespace BDD_Tests.Hooks
             // Navigate back to the Login page
             webDriver.Navigate().GoToUrl($"{baseUrl}/Identity/Account/Login");
         }
-
-
 
 
 

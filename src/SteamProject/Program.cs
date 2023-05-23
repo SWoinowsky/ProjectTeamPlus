@@ -16,6 +16,7 @@ using SteamProject.Data;
 using SteamProject.Utilities;
 using System.Reflection;
 using SteamProject.Models.Awards.Abstract;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,9 +93,11 @@ builder.Services.AddScoped<IUserBadgeRepository, UserBadgeRepository>();
 builder.Services.AddScoped<IInboxRepository, InboxRepository>();
 builder.Services.AddScoped<IIGDBGenresRepository, IGDBGenresRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
-builder.Services.AddScoped<ICompetitionVoteRepository, CompetitionVoteRepository>();
 builder.Services.AddScoped<IGameVoteRepository, GameVoteRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<ISpeedRunRepository, SpeedRunRepository>();
+builder.Services.AddScoped<ICompetitionVoteRepository, CompetitionVoteRepository>();
+
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -124,6 +127,7 @@ builder.Services.AddOpenAIService();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+
 
 var assembly = Assembly.GetExecutingAssembly();
 var awardConditionTypes = assembly.GetTypes()
@@ -228,7 +232,19 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "Compete",
-    "Compete/{friendSteamId?}/{appId?}",
+    "Compete/SpeedRunDetails/{compId?}",
+    defaults: new { controller = "Compete", action = "SpeedRunDetails" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/SubmitRun/{glitch}/{time}/{youtubeLink?}/{playerId}/{steamId}/{compId}",
+    defaults: new { controller = "Compete", action = "SubmitRun" }
+);
+
+app.MapControllerRoute(
+    "Compete",
+    "Compete/Initiate/{friendSteamId?}/{appId?}",
     defaults: new { controller = "Compete", action = "Initiate" }
 );
 
@@ -241,6 +257,12 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    "Vote",
+    "api/Vote/{action}/{id?}",
+    defaults: new { controller = "Vote" }
+);
 
 
 app.MapRazorPages();

@@ -25,7 +25,7 @@ function saveGameNewsToLocalStorage(appId, summarizedNews, timestamp) {
 // Function to check if the stored game news is expired or not
 function isGameNewsExpired(storedNewsTimestamp) {
     const now = new Date().getTime();
-    const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
+    const expirationTime = 60 * 60 * 6; // 6 hours in milliseconds
     return !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
 }
 
@@ -118,5 +118,22 @@ document.addEventListener("DOMContentLoaded", function () {
         getRecentGameNews(appId, "followed")
             .then(updateGameNews)
             .catch((error) => console.error(error));
+    });
+
+    $('#followedGamesCarousel').on('slide.bs.carousel', function (event) {
+        var height = $(event.relatedTarget).height();
+ 
+        $(this).find('.active.carousel-item').parent().animate({
+            height: height
+        }, 150);
+    });
+
+    // Add this code block for recentGamesCarousel...
+    $('#recentGamesCarousel').on('slide.bs.carousel', function (event) {
+        var height = $(event.relatedTarget).height();
+   
+        $(this).find('.active.carousel-item').parent().animate({
+            height: height
+        }, 150);
     });
 });

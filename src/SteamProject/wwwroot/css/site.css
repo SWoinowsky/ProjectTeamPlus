@@ -8,6 +8,10 @@ html {
   }
 }
 
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
 
 /* width */
 ::-webkit-scrollbar {
@@ -306,10 +310,6 @@ footer {
   margin-left: 2rem;
   display: flex;
   justify-content: space-around;
-}
-
-div {
-  color: #000;
 }
 
 .land-section {
@@ -748,6 +748,7 @@ p.by a {
 
 .contact-name {
   font-size: smaller;
+  color: #000;
 }
 
 .from-message {
@@ -766,7 +767,7 @@ p.by a {
   text-align: left;
   /* padding-left: 0.5rem; */
   padding: 0.5rem;
-
+  color: #000;
 }
 
 .from-message-time {

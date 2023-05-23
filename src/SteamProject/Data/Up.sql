@@ -15,6 +15,7 @@ CREATE TABLE [User]
 	,[PersonaState]		INT
 	,[PlayerLevel]		INT
 	,[Theme] 			NVARCHAR(10)    
+	,[TeamMember]		INT
 );
 
 CREATE TABLE [Friend]
@@ -169,6 +170,16 @@ CREATE TABLE [Status]
     [Name] NVARCHAR(50) NOT NULL
 );
 
+CREATE TABLE [Team]
+(
+	[Id]				INT				NOT NULL IDENTITY(1,1) PRIMARY KEY
+	,[Name] 			NVARCHAR(50) 	NOT NULL
+	,[Captain] 			INT 			NOT NULL
+	,[Motto] 			NVARCHAR(100) 	NOT NULL
+	,[ImageURL] 		NVARCHAR(256) 	NOT NULL
+	,[CombinedScore] 	INT
+);
+
 INSERT INTO [Status]
 VALUES (0, 'Ended'), (1, 'Active'), (2, 'Voting');
 
@@ -189,3 +200,4 @@ ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_Competition
 ALTER TABLE [CompetitionVote] 			 ADD CONSTRAINT [CompetitionVote_Fk_User] 					FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_Game] 							FOREIGN KEY ([GameId]) 			REFERENCES [Game] ([Id])			ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE [GameVote] 					 ADD CONSTRAINT [GameVote_Fk_User] 							FOREIGN KEY ([UserId]) 			REFERENCES [User] ([Id]) 			ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE [Team]				 		 ADD CONSTRAINT [Captain_Fk_User]							FOREIGN KEY ([Captain])			REFERENCES [User] ([Id])			ON DELETE CASCADE ON UPDATE NO ACTION;

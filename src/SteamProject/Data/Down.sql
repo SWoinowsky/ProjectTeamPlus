@@ -16,6 +16,8 @@ ALTER TABLE [GameVote]                      DROP CONSTRAINT [GameVote_Fk_Game];
 ALTER TABLE [GameVote]                      DROP CONSTRAINT [GameVote_Fk_User];
 ALTER TABLE [CompetitionVote]               DROP CONSTRAINT [CompetitionVote_Fk_Competition];
 ALTER TABLE [CompetitionVote]               DROP CONSTRAINT [CompetitionVote_Fk_User];
+ALTER TABLE [Team]                          DROP CONSTRAINT [Captain_Fk_User];
+
 
 DROP TABLE [CompetitionVote];
 DROP TABLE [GameVote];
@@ -35,3 +37,4 @@ DROP TABLE [Badge];
 DROP TABLE [InboxMessage];
 DROP TABLE [IGDBGenres];
 DROP TABLE [Status];
+DROP TABLE [Team];

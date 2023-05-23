@@ -94,7 +94,7 @@
                 </a>
             </div>
             <div class="nav-litem">
-                <a asp-controller="Home" asp-action="Index">
+                <a asp-controller="Teams" asp-action="Index">
                     <img class="litem-img" src="~/assets/people.png" alt="">
                     <div class="litem-label">Teams</div>
                 </a>
@@ -112,7 +112,7 @@
 
 @if (User.Identity.Name != null)
 {
-    @await Component.InvokeAsync("Messages");
+    @await Component.InvokeAsync("Messages")
 }
 <div class="container">
     <main role="main" class="pb-3">
@@ -126,7 +126,7 @@
         <a class="footer-privacy" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
         Support: steaminfonexus@gmail.com
         <div>
-            @await Component.InvokeAsync("ThemeSwitcher");
+            @await Component.InvokeAsync("ThemeSwitcher")
             <link id="theme-link" rel="stylesheet" href="~/css/@(Context.Items["Theme"] ?? "light")-theme.css" asp-append-version="true" />
         </div>
     </div>

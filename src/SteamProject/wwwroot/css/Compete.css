@@ -194,7 +194,12 @@ strong { color: #292929; }
 }
 .iron-flare {
     filter: saturate(0%);
-    display: none;
+    height: 20px;
+    width: 20px;
+    overflow-x: visible;
+    position: absolute;
+    left: 87%;
+    top: -1%;
 }
 
 .gold {

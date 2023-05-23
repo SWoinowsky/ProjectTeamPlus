@@ -270,8 +270,8 @@ public class AdminController: Controller
 
     public IActionResult Validate(int runId, int compId)
     {
-        var competition = _speedRunRepository.GetAllSpeedRunsForComp(compId);
-        foreach(var run in competition)
+        var competitionRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+        foreach(var run in competitionRuns)
         {
             if(run.Id == runId)
             {
@@ -285,8 +285,15 @@ public class AdminController: Controller
 
     public IActionResult Reject(int runId, int compId)
     {
-        var run = _speedRunRepository.GetAllSpeedRunsForComp(compId).SingleOrDefault();
-        run.ValidationStatus = true;
+        var competitionRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+        foreach(var run in competitionRuns)
+        {
+            if(run.Id == runId)
+            {
+                _speedRunRepository.Delete(run);
+                break;
+            }
+        }
         return RedirectToAction("ValidateRuns");
     }
 }

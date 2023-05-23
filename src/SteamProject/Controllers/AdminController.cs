@@ -29,9 +29,10 @@ public class AdminController: Controller
     private readonly ISteamService _steamService;
     private readonly IGameRepository _gameRepository;
     private readonly IIGDBGenresRepository _iGDBGenreRepository;
+    private readonly ISpeedRunRepository _speedRunRepository;
 
 
-    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService, IIGDBGenresRepository iGDBGenresRepository)
+    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService, IIGDBGenresRepository iGDBGenresRepository, ISpeedRunRepository speedRunRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -42,6 +43,7 @@ public class AdminController: Controller
         _userGameInfoRepository = userGameInfoRepository;
         _gameRepository = gameRepository;
         _iGDBGenreRepository = iGDBGenresRepository;
+        _speedRunRepository = speedRunRepository;
     }
 
     public IActionResult Index()
@@ -245,5 +247,10 @@ public class AdminController: Controller
     public IActionResult ViewBannedIds()
     {
         return View(_blackListRepository.GetBlackList());
+    }
+
+    public IActionResult ValidateRuns()
+    {
+        return View();
     }
 }

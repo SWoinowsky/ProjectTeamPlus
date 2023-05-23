@@ -60,8 +60,8 @@
                                         @Html.DisplayFor(modelItem => dict.Value.CompetitionId)
                                     </td>
                                     <td>
-                                        <a asp-action="Validate" asp-route-id="@dict.Value.Id">Accept </a>
-                                        <a asp-action="Reject" asp-route-id="@dict.Value.Id">Reject</a>
+                                        <a asp-action="Validate" asp-route-runId="@dict.Value.Id" asp-route-compId="@dict.Value.CompetitionId">Accept </a>
+                                        <a asp-action="Reject" asp-route-runId="@dict.Value.Id" asp-route-compId="@dict.Value.CompetitionId">Reject</a>
                                     </td>
                                 </tr>
                             }

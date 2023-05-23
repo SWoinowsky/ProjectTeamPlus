@@ -268,13 +268,17 @@ public class AdminController: Controller
         return View(runsByUser);
     }
 
-    public IActionResult Validate()
+    public IActionResult Validate(int runId, int compId)
     {
+        var run = _speedRunRepository.GetAllSpeedRunsForComp(compId).SingleOrDefault();
+        run.ValidationStatus = true;
         return RedirectToAction("ValidateRuns");
     }
 
-        public IActionResult Reject()
+    public IActionResult Reject(int runId, int compId)
     {
+        var run = _speedRunRepository.GetAllSpeedRunsForComp(compId).SingleOrDefault();
+        run.ValidationStatus = true;
         return RedirectToAction("ValidateRuns");
     }
 }

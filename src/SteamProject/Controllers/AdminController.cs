@@ -251,6 +251,20 @@ public class AdminController: Controller
 
     public IActionResult ValidateRuns()
     {
-        return View();
+        List<KeyValuePair<User, SpeedRun>> runsByUser = new List<KeyValuePair<User, SpeedRun>>();
+
+        var runs = _speedRunRepository.GetAll().ToList();
+
+        if(runs.Count() == 0)
+            return View(runsByUser);
+        foreach(var run in runs)
+        {
+            if(!run.ValidationStatus)
+            {
+                var user = _userRepository.GetUserBySteamId(run.SteamId);
+                runsByUser.Add(new KeyValuePair<User, SpeedRun>(user, run));
+            }
+        }
+        return View(runsByUser);
     }
 }

@@ -14,7 +14,9 @@
             @Html.Partial("AdminNavigation")
             @if(Model.Count == 0)
             {
-                <h1>There's no runs to review!</h1>
+                <div class="col">
+                    <h1>There's no runs to review!</h1>
+                </div>
             }
             else
             {
@@ -34,6 +36,11 @@
                                 <th>
                                     Competition Id
                                 </th>
+                                <th>
+                                    Actions
+                                </th>
+                                <th>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +58,10 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => dict.Value.CompetitionId)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Validate" asp-route-id="@dict.Value.Id">Accept </a>
+                                        <a asp-action="Reject" asp-route-id="@dict.Value.Id">Reject</a>
                                     </td>
                                 </tr>
                             }

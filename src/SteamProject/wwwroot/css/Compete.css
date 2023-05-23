@@ -92,19 +92,14 @@ body {
     color: white;
 }
 
-.modal-content {
-    text-align: center;
+/* .modal-footer {
     justify-content: center;
-}
+} */
 
-.modal-footer {
-    justify-content: center;
-}
-
-.modal-header {
+/* .modal-header {
     justify-content: center;
     text-align: center;
-}
+} */
 
 .sharedCard:hover {
     cursor: pointer

@@ -30,15 +30,12 @@ namespace BDD_Tests.Hooks
         private static BrowserDriver _browserDriver;
 
         private IConfigurationRoot Configuration { get; }
-        private CompeteCreatePageObject _competeCreatePage;
         private readonly ScenarioContext _scenarioContext;
 
         public SharedBrowserHooks(ScenarioContext scenarioContext, IObjectContainer objectContainer)
         {
             _objectContainer = objectContainer;
             _scenarioContext = scenarioContext;
-
-            _competeCreatePage = _objectContainer.Resolve<CompeteCreatePageObject>();
 
             IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<SharedBrowserHooks>();
             Configuration = builder.Build();
@@ -128,29 +125,6 @@ namespace BDD_Tests.Hooks
             // Navigate back to the Login page
             webDriver.Navigate().GoToUrl($"{baseUrl}/Identity/Account/Login");
         }
-
-        [BeforeScenario("@SetupPastCompetition")]
-        public void SetupPastCompetition()
-        {
-            Thread.Sleep(500);
-
-            _competeCreatePage.GoTo(); // Navigating to competition creation page
-
-            _competeCreatePage.SelectCompetitionType("Duel");
-            _competeCreatePage.SelectFriend("Hellfirecw");
-            _competeCreatePage.SelectGame("Aim Lab");
-
-            string startTime = DateTime.Today.AddDays(-30).ToString("yyyy-MM-ddTHH:mm"); // start date 30 days in the past
-            string endTime = DateTime.Today.AddDays(-1).ToString("yyyy-MM-ddTHH:mm"); // end date 1 day in the past
-
-            _competeCreatePage.SetCompetitionStartTime(startTime);
-            _competeCreatePage.SetCompetitionEndTime(endTime);
-
-            int competitionId = _competeCreatePage.SubmitCompetition();
-
-            _scenarioContext["CompetitionId"] = competitionId;
-        }
-
 
 
 

@@ -185,7 +185,7 @@ public class CompeteController : Controller
                 // Competition has not ended, fetch current game's achievements
                 compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
 
-                if (compAchievements == null)
+                if (compAchievements == null && competitionIn.Goal != null)
                 {
                     _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
                         competitionIn.GameId);

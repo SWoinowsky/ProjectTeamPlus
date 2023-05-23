@@ -84,7 +84,7 @@ else
         </div>
         <div class="col-sm-6" style="width: 50%;">
             <h1> Competition in @Model.CurrentComp.Game.Name </h1>
-            <h2 style="color: #e39d10">Goal: @Model.CurrentComp.Goal</h2>
+            <h2 style="color: #e39d10" id="GoalPresent">Goal: @Model.CurrentComp.Goal</h2>
             <p> From @Model.CurrentComp.StartDate - @Model.CurrentComp.EndDate </p>
 
             @if( Model.SinId == Model.CurrentComp.CreatorId )
@@ -198,9 +198,6 @@ else
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
-                </div>
             </div>
         </div>
     </div>
@@ -208,6 +205,5 @@ else
 
 @section Scripts
 {
-    <script type="text/javascript" src="~/js/achValues.js"></script>
     <script type="text/javascript" src="~/js/competeDetails.js"></script>
 }

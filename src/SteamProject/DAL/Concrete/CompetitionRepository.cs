@@ -109,7 +109,7 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         int positiveVotes = _competitionVoteRepository.GetPositiveVotesCount(competitionId);
 
         // If the number of positive votes is greater than or equal to half the number of users, return true
-        return (positiveVotes >= totalUsers / 2.0);
+        return (positiveVotes > totalUsers / 2.0);
     }
 
     public IEnumerable<Game> GetSharedGames(int competitionId)
@@ -183,7 +183,7 @@ public class CompetitionRepository : Repository<Competition>,  ICompetitionRepos
         competition.StartDate = DateTime.Now;
         competition.EndDate = competition.StartDate + originalDuration;
 
-        // Reset the status (assuming '1' is the "active" status - you will need to adjust this as necessary)
+        // Reset the status
         competition.StatusId = 1;
 
         // Reset CompetitionGameAchievements, CompetitionPlayers, and CompetitionVotes

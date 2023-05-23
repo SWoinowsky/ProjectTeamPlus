@@ -25,7 +25,7 @@ function saveGameNewsToLocalStorage(appId, summarizedNews, timestamp) {
 // Function to check if the stored game news is expired or not
 function isGameNewsExpired(storedNewsTimestamp) {
     const now = new Date().getTime();
-    const expirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
+    const expirationTime = 60 * 60 * 6; // 6 hours in milliseconds
     return !storedNewsTimestamp || now - storedNewsTimestamp > expirationTime;
 }
 

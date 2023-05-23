@@ -270,8 +270,16 @@ public class AdminController: Controller
 
     public IActionResult Validate(int runId, int compId)
     {
-        var run = _speedRunRepository.GetAllSpeedRunsForComp(compId).SingleOrDefault();
-        run.ValidationStatus = true;
+        var competition = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+        foreach(var run in competition)
+        {
+            if(run.Id == runId)
+            {
+                run.ValidationStatus = true;
+                _speedRunRepository.AddOrUpdate(run);
+                break;
+            }
+        }
         return RedirectToAction("ValidateRuns");
     }
 

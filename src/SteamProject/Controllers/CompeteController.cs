@@ -493,9 +493,12 @@ public class CompeteController : Controller
             }
 
             List<SpeedRun> topThreeRuns = new List<SpeedRun>();
-            foreach(var dict in viewModel.FastestRuns.Take(3))
+            if(viewModel.FastestRuns != null)
             {
-                topThreeRuns.Add(dict.Value);
+                foreach(var dict in viewModel.FastestRuns.Take(3))
+                {
+                    topThreeRuns.Add(dict.Value);
+                }
             }
 
             User firstPlace = new User();

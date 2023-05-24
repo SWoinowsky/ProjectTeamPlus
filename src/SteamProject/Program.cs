@@ -94,6 +94,7 @@ builder.Services.AddScoped<IInboxRepository, InboxRepository>();
 builder.Services.AddScoped<IIGDBGenresRepository, IGDBGenresRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IGameVoteRepository, GameVoteRepository>();
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<ISpeedRunRepository, SpeedRunRepository>();
 builder.Services.AddScoped<ICompetitionVoteRepository, CompetitionVoteRepository>();
 

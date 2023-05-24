@@ -47,12 +47,22 @@ namespace SteamProject.DAL.Concrete
                 .Select(grp => grp.Key)
                 .FirstOrDefault();
 
+            // Check if the game has any achievements
+            bool gameHasAchievements = _ctx.GameAchievements.Any(ga => ga.GameId == gameIdWithMostVotes);
+
+            // If the game has no achievements, return false
+            if (!gameHasAchievements)
+            {
+                return false;
+            }
+
             int votesForWinningGame = _ctx.GameVotes
                 .Count(gv => gv.CompetitionId == competitionId && gv.GameId == gameIdWithMostVotes && gv.Vote == true);
 
             // A game vote is successful if the winning game has more than 50% of the total participants
-            return votesForWinningGame >= totalParticipants / 2;
+            return votesForWinningGame > totalParticipants / 2;
         }
+
 
         public int GetGameIdWithMostVotes(int competitionId)
         {

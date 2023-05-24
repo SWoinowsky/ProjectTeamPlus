@@ -62,6 +62,7 @@ public class LibraryController: Controller
             {
                 var steamUser = _steamService.GetSteamUser(user.SteamId);
                 user.SteamName = steamUser.SteamName;
+                user.ProfileUrl = steamUser.ProfileUrl;
                 user.AvatarUrl = steamUser.AvatarUrl;
                 var SteamLevel = _steamService.GetUserLevel(user.SteamId);
 

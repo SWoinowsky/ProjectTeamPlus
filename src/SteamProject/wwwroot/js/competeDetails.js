@@ -49,7 +49,7 @@ $(document).ready(function () {
                 // Update the vote count
                 updateVoteCount();
 
-                alert('Game vote updated successfully, Please reload the page.');
+                //alert('Game vote updated successfully, Please reload the page.');
             },
             error: function (data) {
                 alert('Error updating vote');
@@ -58,26 +58,30 @@ $(document).ready(function () {
     });
 
     function updateVoteCount() {
-        var competitionId = $(".currentCompId").attr('id');
-        $.ajax({
-            type: 'GET',
-            url: `/api/Vote/CompetitionVoteCount/${competitionId}`,
-            success: function (voteData) {
-                $.ajax({
-                    type: 'GET',
-                    url: `/api/Vote/TotalCompetitionUsers/${competitionId}`,
-                    success: function (userData) {
-                        $("#voteCount").text(`Votes: ${voteData}/${userData}`);
-                    },
-                    error: function (userData) {
-                        alert('Error getting total users count');
-                    }
-                });
-            },
-            error: function (voteData) {
-                alert('Error getting vote count');
-            }
-        });
+        var goalExists = document.getElementById("GoalPresent");
+        if(goalExists == null)
+        {
+            var competitionId = $(".currentCompId").attr('id');
+            $.ajax({
+                type: 'GET',
+                url: `/api/Vote/CompetitionVoteCount/${competitionId}`,
+                success: function (voteData) {
+                    $.ajax({
+                        type: 'GET',
+                        url: `/api/Vote/TotalCompetitionUsers/${competitionId}`,
+                        success: function (userData) {
+                            $("#voteCount").text(`Votes: ${voteData}/${userData}`);
+                        },
+                        error: function (userData) {
+                            alert('Error getting total users count');
+                        }
+                    });
+                },
+                error: function (voteData) {
+                    alert('Error getting vote count');
+                } 
+            }); 
+        }
     }
 
     $('#gameSelectModal').on('show.bs.modal', function (e) {

@@ -118,12 +118,13 @@ public class CompeteController : Controller
         competitionIn = _competitionRepository.GetCompetitionById(compId);
 
 
+        var compAchievements = new List<CompetitionGameAchievement>();
+
         if (competitionIn != null)
         {
             var compPlayersList = new List<CompetitionPlayer>();
             compPlayersList = _competitionPlayerRepository.GetAllForCompetition(compId);
 
-            var compAchievements = new List<CompetitionGameAchievement>();
 
             if (DateTime.UtcNow >= competitionIn.EndDate)
             {
@@ -184,6 +185,14 @@ public class CompeteController : Controller
             {
                 // Competition has not ended, fetch current game's achievements
                 compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+
+                if (compAchievements == null && competitionIn.Goal == null)
+                {
+                    _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
+                        competitionIn.GameId);
+                    compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+                }
+
             }
 
             var gameAssociated = new Game();
@@ -198,115 +207,158 @@ public class CompeteController : Controller
             var userList = new List<User>();
             userList = _steamService.GetManyUsers( idList );
 
+            var speedRunCheck = false;
             foreach(var run in _speedRunRepository.GetAll())
             {
                 if(run.CompetitionId == compId)
                 {
-                    return RedirectToAction("SpeedRunDetails", new {compId = compId});
+                    speedRunCheck = true;
+                }
+            }
+            
+            if(speedRunCheck != true)
+            {
+                try{
+                    if(competitionIn.Goal == null)
+                    {
+                        speedRunCheck = false;
+                    }
+                    else if(competitionIn.Goal != null)
+                    {
+                        speedRunCheck = true;
+                    }
+                    else if(compAchievements == null)
+                    {
+                        speedRunCheck = true;
+                    }
+                    else if(compAchievements.Count() < 1)
+                    {
+                        speedRunCheck = true;
+                    }
+                }
+                catch
+                {
+                    speedRunCheck   = false;
                 }
             }
 
+            if(speedRunCheck)
+            {
+                return RedirectToAction("SpeedRunDetails", new {compId = compId});
+            }
+
+            if (compAchievements == null && competitionIn.Goal == null)
+            {
+                _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
+                    competitionIn.GameId);
+                compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+            }
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
 
-            var percentages = new List<GlobalAchievement>();
-            percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
-            
-            var gameAchievements = new List<GameAchievement>();
-            foreach( var ach in compAchievements )
+            if (compAchievements != null)
             {
+                var percentages = new List<GlobalAchievement>();
+                percentages = _steamService.GetGAP(competitionIn.Game.AppId).achievementpercentages.achievements;
 
-                var achievementFound = new GameAchievement();
-                achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
 
-                if( achievementFound != null )
-                    gameAchievements.Add( achievementFound );
-            }
 
-            var pointProcessor = new GapProcessor();
-            foreach( var gameAch in gameAchievements )
-            {
-                foreach( var percent in percentages )
+                var gameAchievements = new List<GameAchievement>();
+                foreach (var ach in compAchievements)
                 {
-                    if( gameAch.ApiName == percent.name )
+
+                    var achievementFound = new GameAchievement();
+                    achievementFound = _gameAchievementRepository.GetAll().Where(gAch => gAch.Id == ach.GameAchievementId).FirstOrDefault();
+
+                    if (achievementFound != null)
+                        gameAchievements.Add(achievementFound);
+                }
+
+                var pointProcessor = new GapProcessor();
+                foreach (var gameAch in gameAchievements)
+                {
+                    foreach (var percent in percentages)
                     {
-                        gameAch.PointVal = pointProcessor.HandlePercent( percent.percent );
+                        if (gameAch.ApiName == percent.name)
+                        {
+                            gameAch.PointVal = pointProcessor.HandlePercent(percent.percent);
+                        }
                     }
                 }
-            }
-            
 
-            // Participant achievement grabbing
-            var userAchDict = new Dictionary<UserAchievement, User>();
-            foreach( var participant in userList )
-            {
-                var ListIntoDict = new List<UserAchievement>();
 
-                var userResponse = new AchievementRoot();
-                userResponse = _steamService.GetAchievements( participant.SteamId, gameAssociated.AppId );
+                // Participant achievement grabbing
+                var userAchDict = new Dictionary<UserAchievement, User>();
+                foreach (var participant in userList)
+                {
+                    var ListIntoDict = new List<UserAchievement>();
 
-                if( userResponse != null )
-                    foreach( var ach in gameAchievements )
-                    {
-                        var userAchOut = new UserAchievement();
-                        userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
-                        
-                        if( userAchOut.Achievement.DisplayName == "Lucatiel" && participant.SteamId == "76561198069530799" )
+                    var userResponse = new AchievementRoot();
+                    userResponse = _steamService.GetAchievements(participant.SteamId, gameAssociated.AppId);
+
+                    if (userResponse != null)
+                        foreach (var ach in gameAchievements)
                         {
-                            userAchOut.Achieved = true;
-                            userAchOut.UnlockTime = new DateTime(2023, 5, 12, 12, 27, 00, DateTimeKind.Local);
+                            var userAchOut = new UserAchievement();
+                            userAchOut = userAchOut.GetUserAchievementFromAPICall(ach, userResponse.playerstats.achievements);
+
+                            if (userAchOut.Achievement.DisplayName == "Lucatiel" && participant.SteamId == "76561198069530799")
+                            {
+                                userAchOut.Achieved = true;
+                                userAchOut.UnlockTime = new DateTime(2023, 5, 12, 12, 27, 00, DateTimeKind.Local);
+                            }
+
+                            if (userAchOut != null && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow(competitionIn))
+                                ListIntoDict.Add(userAchOut);
                         }
 
-                        if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
-                            ListIntoDict.Add( userAchOut );
-                    }
-
-                foreach( var achievement in ListIntoDict )
-                {
-                    userAchDict.Add( achievement, participant );
-                }
-            }
-
-            var userAchList = new List<KeyValuePair<UserAchievement, User>>();
-            userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
-
-            var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
-            foreach( var player in compPlayersList )
-            {
-                foreach( var user in userList )
-                {
-                    if( player.SteamId == user.SteamId )
-                        userScoreList.Add( new (user, player) );
-                }
-            }
-
-            
-            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
-
-            userList.Clear();
-            foreach( var us in userScoreList )
-            {
-                userList.Add( us.Key );
-                foreach( var ua in userAchList )
-                {
-                    if( us.Key == ua.Value )
+                    foreach (var achievement in ListIntoDict)
                     {
-                        us.Value.Score += ua.Key.Achievement.PointVal;
+                        userAchDict.Add(achievement, participant);
                     }
                 }
+
+                var userAchList = new List<KeyValuePair<UserAchievement, User>>();
+                userAchList = userAchDict.OrderByDescending(p => p.Key.UnlockTime).ToList<KeyValuePair<UserAchievement, User>>();
+
+                var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
+                foreach (var player in compPlayersList)
+                {
+                    foreach (var user in userList)
+                    {
+                        if (player.SteamId == user.SteamId)
+                            userScoreList.Add(new(user, player));
+                    }
+                }
+
+
+                userScoreList = userScoreList.OrderByDescending(i => i.Value.Score).ThenBy(i => i.Key.SteamName).ToList<KeyValuePair<User, CompetitionPlayer>>();
+
+                userList.Clear();
+                foreach (var us in userScoreList)
+                {
+                    userList.Add(us.Key);
+                    foreach (var ua in userAchList)
+                    {
+                        if (us.Key == ua.Value)
+                        {
+                            us.Value.Score += ua.Key.Achievement.PointVal;
+                        }
+                    }
+                }
+
+                viewModel.GameAchList = gameAchievements;
+                viewModel.Tracking = userAchList;
+                viewModel.Scoreboard = userScoreList;
             }
 
-
             
-
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
             viewModel.CompGameAchList = compAchievements;
-            viewModel.GameAchList = gameAchievements;
-            viewModel.Tracking = userAchList;
-            viewModel.Scoreboard = userScoreList;
+
             viewModel.Vote = competitionIn.CompetitionVotes.Where( v => v.UserId == SinId ).FirstOrDefault();
             viewModel.Status = competitionIn.Status;
         }
@@ -463,6 +515,57 @@ public class CompeteController : Controller
                 viewModel.FastestRuns = fastestRunByPlayer;
                 viewModel.SlowestRuns = slowestRunsAllPlayers;
             }
+
+            List<SpeedRun> topThreeRuns = new List<SpeedRun>();
+
+            if (viewModel.FastestRuns != null)
+            {
+                foreach (var dict in viewModel.FastestRuns.Take(3))
+                {
+                    topThreeRuns.Add(dict.Value);
+                }
+            }
+           
+
+            User firstPlace = new User();
+            User secondPlace = new User();
+            User thirdPlace = new User();
+            var tempUserList = new List<User>(userList);
+
+            foreach(var user in tempUserList)
+            {
+                if(topThreeRuns.Count() > 0)
+                {
+                    if(user.SteamId == topThreeRuns[0].SteamId)
+                    {
+                        firstPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+                if(topThreeRuns.Count() > 1)
+                {
+                    if(user.SteamId == topThreeRuns[1].SteamId)
+                    {
+                        secondPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+                if(topThreeRuns.Count() > 2)
+                {
+                    if(user.SteamId == topThreeRuns[3].SteamId)
+                    {
+                        thirdPlace = user;
+                        userList.Remove(user);
+                    }
+                }
+            }
+
+            if(thirdPlace.SteamId != null)
+                userList.Insert(0, thirdPlace);
+            if(secondPlace.SteamId != null)
+                userList.Insert(0, secondPlace);
+            if(firstPlace.SteamId != null)
+                userList.Insert(0, firstPlace);
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
@@ -850,6 +953,7 @@ public class CompeteController : Controller
                     break;
                 }
             }
+
             run.Fastest = false;
             _speedRunRepository.AddOrUpdate(run);
         }

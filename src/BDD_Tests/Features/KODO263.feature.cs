@@ -38,7 +38,11 @@ namespace BDD_Tests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "AbilityToVoteForNextCompetition", @"This is me demonstrating BDD Testing, This feature is yet to be built and this test is pretty bad but it will get better
-As a user, I want to vote for the next competition's game after a competition ends, so that I can continuously engage in challenges with my friends.", ProgrammingLanguage.CSharp, new string[] {
+As a user, I want to vote for the next competition's game after a competition ends, so that I can continuously engage in challenges with my friends.
+
+I was unable to finish up the full testing of this feature as I ran out of time but i was fairly close to finishing it up. I will continue to work on it and finish it up in the future.
+
+""""""", ProgrammingLanguage.CSharp, new string[] {
                         "Cole"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -75,149 +79,6 @@ As a user, I want to vote for the next competition's game after a competition en
         public virtual void ScenarioCleanup()
         {
             testRunner.CollectScenarioErrors();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a user and I want to vote on whether to participate in another competition a" +
-            "fter the current one ends")]
-        [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmAUserAndIWantToVoteOnWhetherToParticipateInAnotherCompetitionAfterTheCurrentOneEnds()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to vote on whether to participate in another competition a" +
-                    "fter the current one ends", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 8
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 9
-    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 10
-    testRunner.And("a competition I participated in has ended", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 11
-    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 12
-    testRunner.Then("I should see an option to vote on whether to participate in another competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a user and I want to nominate a game for the next competition after a majori" +
-            "ty of participants vote to play again")]
-        [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmAUserAndIWantToNominateAGameForTheNextCompetitionAfterAMajorityOfParticipantsVoteToPlayAgain()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to nominate a game for the next competition after a majori" +
-                    "ty of participants vote to play again", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 15
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 16
-    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 17
-    testRunner.And("half of the participants have voted to play again in the competition I participat" +
-                        "ed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 18
-    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 19
-    testRunner.Then("I should see an option to vote on a game for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I am a user and I want to see the game with the most votes as the focus of the ne" +
-            "xt competition")]
-        [NUnit.Framework.CategoryAttribute("LoggedIn")]
-        public virtual void IAmAUserAndIWantToSeeTheGameWithTheMostVotesAsTheFocusOfTheNextCompetition()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "LoggedIn"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I am a user and I want to see the game with the most votes as the focus of the ne" +
-                    "xt competition", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 22
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 23
-    testRunner.Given("I am signed in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 24
-    testRunner.And("participants have voted on a game for the next competition", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 25
-    testRunner.When("I visit the competition details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 26
-    testRunner.Then("the game with the most votes should be selected as the focus of the next competit" +
-                        "ion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
         }
     }
 }

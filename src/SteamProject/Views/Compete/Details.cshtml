@@ -35,8 +35,11 @@ else
             </div>
 
             <br>
-            <div>
-                <p>Competing for these acheivements:</p>
+            
+            @if (Model.GameAchList != null && Model.GameAchList.Any())
+            {
+                <div>
+                    <p>Competing for these acheivements:</p>
 
                     <div class="row" style="align-items: center; padding-bottom: 3%;">
                         @foreach ( var achievement in Model.GameAchList )
@@ -60,9 +63,20 @@ else
                     </div>
                 </div>
             }
-            else
+            else if(Model.Status.Name == "GameSelection" )
+            {
+                <p>Waiting for game selection</p>
+            }
+            else if( Model.Status.Name == "Ended")
             {
                 <p>Competition has ended</p>
+            }
+            else if(Model.CurrentComp.SpeedRuns.Any()){
+                <p>SpeedRun is in progress</p>
+            }
+            else
+            {
+                <p>Failed to load achievements, Ensure the game actually has achievements to earn</p>
             }
            
         </div>
@@ -187,28 +201,33 @@ else
                     }
                 </div>
             </div>
-
-            @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
-            <div style="display: flex; flex-direction: column;">
-                <div id="CompletionHistory" > 
-                    <strong> <p>Leaderboard</p></strong>
-                    <ol>
-                        @foreach( var score in Model.Scoreboard )
-                        {
-                            <li style="padding-bottom: 2%;"> <strong> @score.Key.SteamName: </Strong> <i> @score.Value.Score points </i> </li>
-                        }
-                    </ol>
+            
+            
+            @if (Model.Scoreboard != null)
+            {
+                @* List from mattc0m https://codepen.io/mattc0m/pen/rNdMjKX *@
+                <div style="display: flex; flex-direction: column;">
+                    <div id="CompletionHistory" > 
+                        <strong> <p>Leaderboard</p></strong>
+                        <ol>
+                            @foreach( var score in Model.Scoreboard )
+                            {
+                                <li style="padding-bottom: 2%;"> <strong> @score.Key.SteamName: </Strong> <i> @score.Value.Score points </i> </li>
+                            }
+                        </ol>
+                    </div>
+                    <div id="CompletionHistory" > 
+                        <strong> <p>History</p> </strong>
+                        <ol>
+                            @foreach( var completion in Model.Tracking )
+                            {
+                                <li style="padding-bottom: 2%;"> <strong>@completion.Value.SteamName</strong> completed <strong>@completion.Key.Achievement.DisplayName</strong> with timestamp <strong>@completion.Key.UnlockTime!</strong> </li>
+                            }
+                        </ol>
+                    </div>
                 </div>
-                <div id="CompletionHistory" > 
-                    <strong> <p>History</p> </strong>
-                    <ol>
-                        @foreach( var completion in Model.Tracking )
-                        {
-                            <li style="padding-bottom: 2%;"> <strong>@completion.Value.SteamName</strong> completed <strong>@completion.Key.Achievement.DisplayName</strong> with timestamp <strong>@completion.Key.UnlockTime!</strong> </li>
-                        }
-                    </ol>
-                </div>
-            </div>
+            }
+           
             
         </div>
 

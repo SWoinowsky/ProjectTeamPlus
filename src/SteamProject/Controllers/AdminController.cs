@@ -29,9 +29,10 @@ public class AdminController: Controller
     private readonly ISteamService _steamService;
     private readonly IGameRepository _gameRepository;
     private readonly IIGDBGenresRepository _iGDBGenreRepository;
+    private readonly ISpeedRunRepository _speedRunRepository;
 
 
-    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService, IIGDBGenresRepository iGDBGenresRepository)
+    public AdminController(SignInManager<IdentityUser> signInManager, IGameRepository gameRepository, UserManager<IdentityUser> userManager, IUserRepository userRepository, IBlackListRepository blackListRepository, IUserGameInfoRepository userGameInfoRepository, IFriendRepository friendRepository, ISteamService steamService, IIGDBGenresRepository iGDBGenresRepository, ISpeedRunRepository speedRunRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -42,6 +43,7 @@ public class AdminController: Controller
         _userGameInfoRepository = userGameInfoRepository;
         _gameRepository = gameRepository;
         _iGDBGenreRepository = iGDBGenresRepository;
+        _speedRunRepository = speedRunRepository;
     }
 
     public IActionResult Index()
@@ -245,5 +247,83 @@ public class AdminController: Controller
     public IActionResult ViewBannedIds()
     {
         return View(_blackListRepository.GetBlackList());
+    }
+
+    public IActionResult ValidateRuns()
+    {
+        List<KeyValuePair<User, SpeedRun>> runsByUser = new List<KeyValuePair<User, SpeedRun>>();
+
+        var runs = _speedRunRepository.GetAll().ToList();
+
+        if(runs.Count() == 0)
+            return View(runsByUser);
+        foreach(var run in runs)
+        {
+            if(!run.ValidationStatus)
+            {
+                var user = _userRepository.GetUserBySteamId(run.SteamId);
+                runsByUser.Add(new KeyValuePair<User, SpeedRun>(user, run));
+            }
+        }
+        return View(runsByUser);
+    }
+
+    public IActionResult Validate(int runId, int compId)
+    {
+        var competitionRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+        foreach(var run in competitionRuns)
+        {
+            if(run.Id == runId)
+            {
+                run.ValidationStatus = true;
+                _speedRunRepository.AddOrUpdate(run);
+                break;
+            }
+        }
+        return RedirectToAction("ValidateRuns");
+    }
+
+    public IActionResult Reject(int runId, int compId, string steamId)
+    {
+        var fastestRunToDelete = false;
+        var competitionRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+
+        foreach(var run in competitionRuns)
+        {
+            if(run.Id == runId)
+            {
+                if(run.Fastest)
+                    fastestRunToDelete = true;
+                _speedRunRepository.Delete(run);
+                break;
+            }
+        }
+
+        if(fastestRunToDelete)
+        {
+            competitionRuns = _speedRunRepository.GetAllSpeedRunsForComp(compId);
+            var fastestRun = competitionRuns.FirstOrDefault(run => run.SteamId == steamId);
+            if (fastestRun != null)
+            {
+                TimeSpan fastestTime = TimeSpan.Parse(fastestRun.RunTime);
+                
+                foreach (var run in competitionRuns)
+                {
+                    if (run.SteamId == steamId)
+                    {
+                        TimeSpan currentTime = TimeSpan.Parse(run.RunTime);
+                        if (currentTime < fastestTime)
+                        {
+                            fastestTime = currentTime;
+                            fastestRun = run;
+                        }
+                    }
+                }
+            }
+            fastestRun.Fastest = true;
+            _speedRunRepository.AddOrUpdate(fastestRun);
+        }
+
+        return RedirectToAction("ValidateRuns");
     }
 }

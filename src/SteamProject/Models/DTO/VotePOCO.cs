@@ -11,7 +11,6 @@ public class GameVotePOCO
     public int GameId { get; set; }
     public bool WantsToPlay { get; set; }
     public int CompetitionId { get; set; }
-    public DateTime? CompetitionEndDate { get; set; }
 }
 
 

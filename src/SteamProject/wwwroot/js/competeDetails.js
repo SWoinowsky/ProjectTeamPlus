@@ -151,14 +151,12 @@ $(document).ready(function () {
     function attachGameClickHandler(gameId, userId, competitionId, currentVoteStatus) {
         $(`#${gameId}`).click(function () {
             console.log(`currentVoteStatus: ${currentVoteStatus}`);
-            var endDate = document.getElementById('competitionEndDate').value;
 
             var voteData = {
                 GameId: gameId,
                 UserId: userId,
                 WantsToPlay: !currentVoteStatus,
                 CompetitionId: competitionId,
-                CompetitionEndDate: endDate
             };
 
 

@@ -51,7 +51,7 @@
 .friend-card-btns {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 200px;
 }

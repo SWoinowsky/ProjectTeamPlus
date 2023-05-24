@@ -107,11 +107,10 @@ else
                 <button type="button" class="btn btn-primary" id="selectGameButton">Select Game</button>
             }
 
-
             <div class="modal fade" id="gameSelectModal" tabindex="-1" role="dialog" aria-labelledby="gameSelectModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                    <div class="modal-content" id="sharedModalContent">
+                        <div class="modal-header" id="sharedModalContent">
                             <h5 class="modal-title light" id="gameSelectModalLabe">Shared Game Selection</h5>
                         </div>
                         <div class="modal-body">
@@ -120,8 +119,7 @@ else
                                 <!-- Populate this list dynamically using Javascript -->
                             </div>
                         </div>
-                 
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="sharedModalFooter">
                             <div class="row">
                                 <p class="light">Click on a game to vote for it</p>
                             </div>
@@ -129,6 +127,8 @@ else
                     </div>
                 </div>
             </div>
+
+
 
 
 

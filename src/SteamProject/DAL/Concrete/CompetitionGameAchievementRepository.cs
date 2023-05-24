@@ -87,5 +87,13 @@ public class CompetitionGameAchievementRepository : Repository<CompetitionGameAc
         _ctx.SaveChanges();
     }
 
+    public void ClearCompetitionGameAchievements(int competitionId)
+    {
+        var achievements = _ctx.CompetitionGameAchievements.Where(cga => cga.CompetitionId == competitionId);
+        _ctx.CompetitionGameAchievements.RemoveRange(achievements);
+        _ctx.SaveChanges();
+    }
+
+
 
 }

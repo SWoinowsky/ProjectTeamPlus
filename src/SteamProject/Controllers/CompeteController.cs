@@ -31,6 +31,7 @@ public class CompeteController : Controller
     private readonly IStatusRepository _statusRepository;
     private readonly ISpeedRunRepository _speedRunRepository;
     private readonly IGameVoteRepository _gameVoteRepository;
+    private readonly ICompetitionVoteRepository _competitionVoteRepository;
 
     public CompeteController(
         ILogger<FriendController> logger
@@ -49,6 +50,7 @@ public class CompeteController : Controller
         , IStatusRepository statusRepository
         , ISpeedRunRepository speedRunRepository
         , IGameVoteRepository gameVoteRepository
+        , ICompetitionVoteRepository competitionVoteRepository
         )
     {
         _logger = logger;
@@ -67,6 +69,7 @@ public class CompeteController : Controller
         _statusRepository = statusRepository;
         _speedRunRepository = speedRunRepository;
         _gameVoteRepository = gameVoteRepository;
+        _competitionVoteRepository = competitionVoteRepository;
     }
 
 
@@ -157,6 +160,10 @@ public class CompeteController : Controller
                         _gameAchievementRepository.EnsureGameAchievements(competitionIn.Game.AppId, currentUser.SteamId, currentUser.Id);
                         _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId, competitionIn.GameId);
                         compAchievements = _competitionGameAchievementRepository.GetByCompetitionId(compId);
+
+                        // Clear out old votes
+                        _gameVoteRepository.ClearVotes(compId);
+                        _competitionVoteRepository.ClearVotes(compId);
                     }
                     else
                     {
@@ -167,7 +174,7 @@ public class CompeteController : Controller
                             _competitionRepository.AddOrUpdate(competitionIn);
 
                             // Clear achievements for GameSelection status or fetch default achievements if there are any
-                            compAchievements = new List<CompetitionGameAchievement>();
+                            _competitionGameAchievementRepository.ClearCompetitionGameAchievements(compId);
                         }
                     }
                 }

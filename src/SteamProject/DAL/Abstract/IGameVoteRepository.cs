@@ -14,4 +14,6 @@ public interface IGameVoteRepository : IRepository<GameVote>
 
     bool HasGameVoteSucceeded(int competitionInId);
     int GetGameIdWithMostVotes(int compId);
+
+    public void ClearVotes(int competitionId);
 }

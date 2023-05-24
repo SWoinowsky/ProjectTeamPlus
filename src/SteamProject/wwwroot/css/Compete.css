@@ -14,7 +14,7 @@ body {
 
 
 .btn {
-    width: 200px; /* Adjust the width as needed */
+    width: 200px;
     margin-bottom: 10px;
 }
 
@@ -73,6 +73,8 @@ body {
 }
 
 
+
+
 .card {
     box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.50);
     transition: 0.3s;
@@ -80,12 +82,14 @@ body {
 }
 
 .sharedCard {
-    height: 12rem;
+    height: 13rem;
     border-radius: 5px;
 }
+
 #gameSelectModal {
     text-align: center;
     justify-content: center;
+    width: 100%;
 }
 
 .light {
@@ -100,6 +104,13 @@ body {
     justify-content: center;
     text-align: center;
 } */
+
+#sharedModalContent {
+    justify-content: center;
+    width: 50rem;
+    left: -25%;
+
+}
 
 .sharedCard:hover {
     cursor: pointer

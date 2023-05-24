@@ -11,8 +11,6 @@ body {
     display: flex;
 }
 
-
-
 .btn {
     width: 200px; /* Adjust the width as needed */
     margin-bottom: 10px;
@@ -71,7 +69,6 @@ body {
         transform: rotate(360deg);
     }
 }
-
 
 .card {
     box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.50);
@@ -229,11 +226,8 @@ body {
 strong { color: #292929; }
 
 .float {
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:16em;
-	right:16em;
+    width: 60px;
+    height: 60px;
 	background-color:#e34c4c;
 	color:#FFF;
 	border-radius:50px;
@@ -243,40 +237,11 @@ strong { color: #292929; }
     border: 1px solid #e34c4c;
 }
 
-.comp-Text{
-    position: fixed;
-    height: 3em;
-    bottom: 14.6em;
-    right: 5em;
-}
-
-.float:hover, .float-speed-run:hover {
+.float:hover {
     background-color: white;
     color: #e34c4c;
     border: 1px solid #e34c4c;
     transition: 1s;
-}
-
-.float-speed-run {
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:11.5em;
-	right:16em;
-	background-color:#e34c4c;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-	box-shadow: 2px 2px 3px #999;
-    transition: 1s;
-    border: 1px solid #e34c4c;
-}
-
-.speed-Text{
-    position: fixed;
-    height: 2em;
-    bottom: 11.3em;
-    right: 4.6em;
 }
 
 .my-float{

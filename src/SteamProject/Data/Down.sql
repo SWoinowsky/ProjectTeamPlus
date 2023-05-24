@@ -40,8 +40,5 @@ DROP TABLE [Badge];
 DROP TABLE [InboxMessage];
 DROP TABLE [IGDBGenres];
 DROP TABLE [Status];
-<<<<<<< HEAD
 DROP TABLE [Team];
-=======
 DROP TABLE [SpeedRun];
->>>>>>> upstream/dev

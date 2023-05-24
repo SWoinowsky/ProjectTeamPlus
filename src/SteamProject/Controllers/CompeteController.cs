@@ -156,7 +156,7 @@ public class CompeteController : Controller
                         // Fetch the new game's achievements
                         _gameAchievementRepository.EnsureGameAchievements(competitionIn.Game.AppId, currentUser.SteamId, currentUser.Id);
                         _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId, competitionIn.GameId);
-                        compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+                        compAchievements = _competitionGameAchievementRepository.GetByCompetitionId(compId);
                     }
                     else
                     {
@@ -190,7 +190,7 @@ public class CompeteController : Controller
                 {
                     _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
                         competitionIn.GameId);
-                    compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+                    compAchievements = _competitionGameAchievementRepository.GetByCompetitionId(compId);
                 }
 
             }
@@ -251,7 +251,7 @@ public class CompeteController : Controller
             {
                 _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
                     competitionIn.GameId);
-                compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+                compAchievements = _competitionGameAchievementRepository.GetByCompetitionId(compId);
             }
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
 

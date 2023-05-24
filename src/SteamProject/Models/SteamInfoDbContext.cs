@@ -336,6 +336,19 @@ public partial class SteamInfoDbContext : DbContext
                 .HasConstraintName("UserGameInfo_FK_User");
         });
 
+        modelBuilder.Entity<Team>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Team__3214EC0742FBA68E");
+
+            entity.ToTable("Team");
+
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(256)
+                .HasColumnName("ImageURL");
+            entity.Property(e => e.Motto).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
 

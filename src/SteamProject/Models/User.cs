@@ -24,6 +24,8 @@ public partial class User
 
     public string? Theme { get; set; }
 
+    public int? TeamMember { get; set; }
+
     public virtual ICollection<CompetitionVote> CompetitionVotes { get; set; } = new List<CompetitionVote>();
 
     public virtual ICollection<Competition> Competitions { get; set; } = new List<Competition>();

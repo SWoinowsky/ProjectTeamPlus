@@ -15,20 +15,47 @@
 
 
 <div style="align-items: center; padding-left: 2.5%;">
-    <h1 style="padding-top: 5%;"> YOUR COMPETITIONS: </h1>
-
+    <div class="row" style="padding-top: 5%;">
+        <div class="col-4">
+        <h1> YOUR COMPETITIONS: </h1>
+        </div>
+        <div class="col" style="display: flex; justify-content: flex-end;">
+            <div style="display: flex; flex-flow:row nowrap; align-items:center;">
+                <div style="display: flex; flex-flow:row nowrap; align-items:center;">
+                    <a href="/Compete/Create" id="compCreateLink" class="float">
+                        <i class="fa fa-plus my-float"></i>
+                    </a>
+                    <p style="padding-left: 5px; padding-top: 18px; padding-right: 10px;">Achievement Battle</p>
+                </div>
+                <div style="display: flex; flex-flow:row nowrap; align-items:center;">
+                    <a href="/Compete/CreateSpeedRun" id="speedRunCreateLink" class="float">
+                        <i class="fa fa-plus my-float"></i>
+                    </a>
+                    <p style="padding-left: 5px; padding-top: 14px;"> Speed Run Challenge</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row" style="padding-top: 0%;">
         <h1> Running </h1>
         @if (Model.Competitions != null)
         {
             @foreach (var competition in Model.CompsRunning)
             {
-                <div class="col-md-4 competitionCol" >
+                <div class="col-md-4 competitionCol" style="padding-bottom: 20px">
                     <div class="competitionDiv" id=@competition.Id >
-                        <div class="card competitionCard" >
+                        <div class="card competitionCard"  style="background-color: @(competition.Goal != null ? "#808080" : "#FFFFFF")">
                             <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @competition.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @competition.Game.Name)">
                             <div class="card-body">
                                 <p class="card-title" style="overflow: hidden; white-space: nowrap; color: Black"> @competition.Game.Name </p>
+                                @if(competition.Goal == null)
+                                {
+                                    <p style="color: Black">Achievement Battle</p>
+                                }
+                                else
+                                {
+                                    <p style="color: Black">Speed Run</p>
+                                }
                                 <p style="color: Black"> Start: @competition.StartDate </p>
                                 <p style="color: Black"> End: @competition.EndDate </p>
                             </div>
@@ -50,6 +77,14 @@
                             <img class="card-img-top" src="@string.Format("https://steamcdn-a.akamaihd.net/steam/apps/{0}/header.jpg", @competition.Game.AppId)" style="height:215px;" alt="@string.Format("{0}", @competition.Game.Name)">
                             <div class="card-body">
                                 <p class="card-title" style="overflow: hidden; white-space: nowrap; color: Black"> @competition.Game.Name </p>
+                                @if(competition.Goal == null)
+                                {
+                                    <p style="color: Black">Achievement Battle</p>
+                                }
+                                else
+                                {
+                                    <p style="color: Black">Speed Run</p>
+                                }
                                 <p style="color: Black"> Start: @competition.StartDate </p>
                                 <p style="color: Black"> End: @competition.EndDate </p>
                             </div>
@@ -59,15 +94,14 @@
             }
         }
     </div>
-    <a href="/Compete/Create" id="compCreateLink" class="float">
+    @* <a href="/Compete/Create" id="compCreateLink" class="float">
         <i class="fa fa-plus my-float"></i> 
     </a>
     <p class="comp-Text">Achievement Battle</p>
     <a href="/Compete/CreateSpeedRun" id="speedRunCreateLink" class="float-speed-run">
         <i class="fa fa-plus my-float"></i> 
     </a>
-    <p class="speed-Text">Speed Run Challenge</p>
-
+    <p class="speed-Text">Speed Run Challenge</p> *@
 </div>
 
 @section Scripts {

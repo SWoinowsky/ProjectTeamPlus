@@ -118,12 +118,13 @@ public class CompeteController : Controller
         competitionIn = _competitionRepository.GetCompetitionById(compId);
 
 
+        var compAchievements = new List<CompetitionGameAchievement>();
+
         if (competitionIn != null)
         {
             var compPlayersList = new List<CompetitionPlayer>();
             compPlayersList = _competitionPlayerRepository.GetAllForCompetition(compId);
 
-            var compAchievements = new List<CompetitionGameAchievement>();
 
             if (DateTime.UtcNow >= competitionIn.EndDate)
             {
@@ -185,7 +186,7 @@ public class CompeteController : Controller
                 // Competition has not ended, fetch current game's achievements
                 compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
 
-                if (compAchievements == null && competitionIn.Goal != null)
+                if (compAchievements == null && competitionIn.Goal == null)
                 {
                     _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
                         competitionIn.GameId);
@@ -246,105 +247,118 @@ public class CompeteController : Controller
                 return RedirectToAction("SpeedRunDetails", new {compId = compId});
             }
 
+            if (compAchievements == null && competitionIn.Goal == null)
+            {
+                _competitionGameAchievementRepository.EnsureCompetitionGameAchievements(compId,
+                    competitionIn.GameId);
+                compAchievements = _competitionGameAchievementRepository.GetByCompetitionIdAndGameId(compId, competitionIn.Game.Id);
+            }
             _gameAchievementRepository.EnsureGameAchievements(gameAssociated.AppId, currentUser.SteamId, currentUser.Id);
 
-            var percentages = new List<GlobalAchievement>();
-            percentages = _steamService.GetGAP( competitionIn.Game.AppId ).achievementpercentages.achievements;
-
-
-
-            var gameAchievements = new List<GameAchievement>();
-            foreach( var ach in compAchievements )
+            if (compAchievements != null)
             {
+                var percentages = new List<GlobalAchievement>();
+                percentages = _steamService.GetGAP(competitionIn.Game.AppId).achievementpercentages.achievements;
 
-                var achievementFound = new GameAchievement();
-                achievementFound = _gameAchievementRepository.GetAll().Where( gAch => gAch.Id == ach.GameAchievementId ).FirstOrDefault();
 
-                if( achievementFound != null )
-                    gameAchievements.Add( achievementFound );
-            }
 
-            var pointProcessor = new GapProcessor();
-            foreach( var gameAch in gameAchievements )
-            {
-                foreach( var percent in percentages )
+                var gameAchievements = new List<GameAchievement>();
+                foreach (var ach in compAchievements)
                 {
-                    if( gameAch.ApiName == percent.name )
+
+                    var achievementFound = new GameAchievement();
+                    achievementFound = _gameAchievementRepository.GetAll().Where(gAch => gAch.Id == ach.GameAchievementId).FirstOrDefault();
+
+                    if (achievementFound != null)
+                        gameAchievements.Add(achievementFound);
+                }
+
+                var pointProcessor = new GapProcessor();
+                foreach (var gameAch in gameAchievements)
+                {
+                    foreach (var percent in percentages)
                     {
-                        gameAch.PointVal = pointProcessor.HandlePercent( percent.percent );
+                        if (gameAch.ApiName == percent.name)
+                        {
+                            gameAch.PointVal = pointProcessor.HandlePercent(percent.percent);
+                        }
                     }
                 }
-            }
-            
 
-            // Participant achievement grabbing
-            var userAchDict = new Dictionary<UserAchievement, User>();
-            foreach( var participant in userList )
-            {
-                var ListIntoDict = new List<UserAchievement>();
 
-                var userResponse = new AchievementRoot();
-                userResponse = _steamService.GetAchievements( participant.SteamId, gameAssociated.AppId );
+                // Participant achievement grabbing
+                var userAchDict = new Dictionary<UserAchievement, User>();
+                foreach (var participant in userList)
+                {
+                    var ListIntoDict = new List<UserAchievement>();
 
-                if( userResponse != null )
-                    foreach( var ach in gameAchievements )
-                    {
-                        var userAchOut = new UserAchievement();
-                        userAchOut = userAchOut.GetUserAchievementFromAPICall( ach, userResponse.playerstats.achievements );
-                        
-                        if( userAchOut.Achievement.DisplayName == "Lucatiel" && participant.SteamId == "76561198069530799" )
+                    var userResponse = new AchievementRoot();
+                    userResponse = _steamService.GetAchievements(participant.SteamId, gameAssociated.AppId);
+
+                    if (userResponse != null)
+                        foreach (var ach in gameAchievements)
                         {
-                            userAchOut.Achieved = true;
-                            userAchOut.UnlockTime = new DateTime(2023, 5, 12, 12, 27, 00, DateTimeKind.Local);
+                            var userAchOut = new UserAchievement();
+                            userAchOut = userAchOut.GetUserAchievementFromAPICall(ach, userResponse.playerstats.achievements);
+
+                            if (userAchOut.Achievement.DisplayName == "Lucatiel" && participant.SteamId == "76561198069530799")
+                            {
+                                userAchOut.Achieved = true;
+                                userAchOut.UnlockTime = new DateTime(2023, 5, 12, 12, 27, 00, DateTimeKind.Local);
+                            }
+
+                            if (userAchOut != null && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow(competitionIn))
+                                ListIntoDict.Add(userAchOut);
                         }
 
-                        if( userAchOut != null  && userAchOut.Achieved == true && userAchOut.AchievedWithinWindow( competitionIn ))
-                            ListIntoDict.Add( userAchOut );
+                    foreach (var achievement in ListIntoDict)
+                    {
+                        userAchDict.Add(achievement, participant);
                     }
-
-                foreach( var achievement in ListIntoDict )
-                {
-                    userAchDict.Add( achievement, participant );
                 }
-            }
 
-            var userAchList = new List<KeyValuePair<UserAchievement, User>>();
-            userAchList = userAchDict.OrderByDescending( p => p.Key.UnlockTime ).ToList<KeyValuePair<UserAchievement, User>>();
+                var userAchList = new List<KeyValuePair<UserAchievement, User>>();
+                userAchList = userAchDict.OrderByDescending(p => p.Key.UnlockTime).ToList<KeyValuePair<UserAchievement, User>>();
 
-            var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
-            foreach( var player in compPlayersList )
-            {
-                foreach( var user in userList )
+                var userScoreList = new List<KeyValuePair<User, CompetitionPlayer>>();
+                foreach (var player in compPlayersList)
                 {
-                    if( player.SteamId == user.SteamId )
-                        userScoreList.Add( new (user, player) );
+                    foreach (var user in userList)
+                    {
+                        if (player.SteamId == user.SteamId)
+                            userScoreList.Add(new(user, player));
+                    }
                 }
+
+
+                userScoreList = userScoreList.OrderByDescending(i => i.Value.Score).ThenBy(i => i.Key.SteamName).ToList<KeyValuePair<User, CompetitionPlayer>>();
+
+                userList.Clear();
+                foreach (var us in userScoreList)
+                {
+                    userList.Add(us.Key);
+                    foreach (var ua in userAchList)
+                    {
+                        if (us.Key == ua.Value)
+                        {
+                            us.Value.Score += ua.Key.Achievement.PointVal;
+                        }
+                    }
+                }
+
+                viewModel.GameAchList = gameAchievements;
+                viewModel.Tracking = userAchList;
+                viewModel.Scoreboard = userScoreList;
             }
 
             
-            userScoreList = userScoreList.OrderByDescending( i => i.Value.Score ).ThenBy( i => i.Key.SteamName ).ToList<KeyValuePair<User, CompetitionPlayer>>();
-
-            userList.Clear();
-            foreach( var us in userScoreList )
-            {
-                userList.Add( us.Key );
-                foreach( var ua in userAchList )
-                {
-                    if( us.Key == ua.Value )
-                    {
-                        us.Value.Score += ua.Key.Achievement.PointVal;
-                    }
-                }
-            }
 
             viewModel.CurrentComp = competitionIn;
             viewModel.Game = gameAssociated;
             viewModel.CompPlayers = compPlayersList;
             viewModel.Players = userList;
             viewModel.CompGameAchList = compAchievements;
-            viewModel.GameAchList = gameAchievements;
-            viewModel.Tracking = userAchList;
-            viewModel.Scoreboard = userScoreList;
+
             viewModel.Vote = competitionIn.CompetitionVotes.Where( v => v.UserId == SinId ).FirstOrDefault();
             viewModel.Status = competitionIn.Status;
         }
@@ -503,10 +517,15 @@ public class CompeteController : Controller
             }
 
             List<SpeedRun> topThreeRuns = new List<SpeedRun>();
-            foreach(var dict in viewModel.FastestRuns.Take(3))
+
+            if (viewModel.FastestRuns != null)
             {
-                topThreeRuns.Add(dict.Value);
+                foreach (var dict in viewModel.FastestRuns.Take(3))
+                {
+                    topThreeRuns.Add(dict.Value);
+                }
             }
+           
 
             User firstPlace = new User();
             User secondPlace = new User();

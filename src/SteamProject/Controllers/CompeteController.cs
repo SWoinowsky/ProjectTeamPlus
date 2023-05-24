@@ -854,7 +854,7 @@ public class CompeteController : Controller
             _competitionGameAchievementRepository.AddOrUpdate( compAch );
         }
 
-        return RedirectToRoute("Compete", new { controller = "Compete", action = "Details", compId = comp.Id });
+        return RedirectToRoute("Compete", new { controller = "Compete", action = "Index"});
 
     }
 

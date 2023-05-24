@@ -1,0 +1,231 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+}
+
+.team-header {
+    margin-top: 2rem;
+    margin-left: 3rem;
+    text-align: left;
+    font-weight: 800;
+}
+
+.search-input {
+    width: 235px;
+    border: 2px solid #000;
+    border-radius: 2rem;
+    background-color: #fff;
+    padding-left: 1rem;
+    margin-left: 3rem;
+}
+
+.search-and-create {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.create-team {
+    margin-left: 1.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.teams-container {
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+    margin-top: 2rem;
+}
+
+.team-cards {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+}
+
+.team-card {
+    margin: 0rem 1rem 1rem 1rem;
+    border-radius: 10px;
+    width: 40%;
+    height: 30%;
+    background-color: #47b8b5;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.card-left {
+    width: 50%;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-right {
+    width: 50%;
+    height: 100%;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    color: #fff;
+}
+
+.team-name {
+    padding-top: 1rem;
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+.team-motto {
+    padding-top: 0.25rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 200;
+}
+
+.team-img {
+    height: 80%;
+    width: 80%;
+    border: 2px solid #fff;
+    border-radius: 4px;
+}
+
+.member-icons {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.member-icon {
+    width: 0.8rem;
+    height: 0.8rem;
+}
+
+.combined-score-label, .combined-score {
+    font-size: 1.12rem;
+    font-weight: 400;
+}
+
+.extendo {
+    cursor: pointer;
+}
+/* 
+.extended {
+    position: relative;
+    height: 3rem;
+} */
+
+.member-details {
+    visibility: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #fff;
+    height: 69%;
+    border-radius: 0px 0px 10px 10px;
+    z-index: 10;
+    position: relative;
+    top: -0.5rem;
+}
+
+.member-details.extended {
+    visibility: visible;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #fff;
+    height: 69%;
+    border: 1px solid #C81E24;
+    border-radius: 0px 0px 10px 10px;
+    z-index: 2;
+    position: relative;
+    top: -0.5rem;
+}
+
+.member {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+}
+
+.member.taken {
+    cursor: pointer;
+}
+
+.member-icon.open {
+    cursor: pointer;
+    height: 1rem;
+    width: 1rem;
+}
+
+.member-avi {
+    height: 50px;
+    width: 50px;
+    border: 1px solid #000;
+    border-radius: 50%;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    background-image: none !important;
+}
+
+.modal-content {
+    background: linear-gradient(120deg, #09C6F9 0%, #045DE9 100%)  !important;
+}
+
+.close {
+    background: none;
+    border: none;
+}
+
+#name-input {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    width: 320px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+}
+
+#motto-input {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    width: 320px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+}
+
+#img-input {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    width: 320px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+}
+
+label {
+    color: #001E24 !important;
+}
+
+#send-creation {
+    background-color: #fff;
+    color: #001E24;
+}
+
+.lvl-remove {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.remove-img {
+    height: 1.1rem;
+}

@@ -1,0 +1,113 @@
+@model SteamProject.ViewModels.TeamsVM
+@{
+    ViewData["Title"] = "Teams";
+}
+
+<div class="wrapper">
+    @* <input class="cpt-state" type="text" value="@Model.IsCaptain" hidden>
+    <input class="mem-state" type="text" value="@Model.IsMember" hidden> *@
+    <div class="cpt-state" hidden>@Model.IsCaptain</div>
+    <div class="mem-state" hidden>@Model.IsMember</div>
+    <h1 class="team-header">S.I.N Teams</h1>
+    <div class="search-and-create">
+        <input class="search-input" type="search" placeholder="🔍 search for a team...">
+        @if (!Model.IsCaptain || !Model.IsMember) 
+        {
+            <i class="bi bi-patch-plus-fill create-team" title="Create a Team" data-toggle="modal" data-target="#createTeamModal"></i>
+        }
+    </div>
+    <div class="teams-container">
+        <div class="team-cards">
+        @foreach (var team in Model.Teams)
+        {
+            <div class="team-card @team.Name" id="@team.Id">
+                <div class="card-left">
+                    <img class="team-img" src="@team.ImageUrl" alt="">
+                </div>
+                <div class="card-right">
+                    <div class="team-name">@team.Name</div>
+                    <div class="team-motto">"@team.Motto"</div>
+                    <div class="combined-score-label">Combined Score:</div>
+                    <div class="combined-score">0</div>
+                    <div class="member-icons">
+                        <img class="member-icon" id="i-@team.Id" src="~/assets/person@2x.png" alt="">
+                        <img class="member-icon" id="i-@team.Id" src="~/assets/person@2x.png" alt="">
+                        <img class="member-icon" id="i-@team.Id" src="~/assets/person@2x.png" alt="">
+                        <img class="member-icon" id="i-@team.Id" src="~/assets/person@2x.png" alt="">
+                        <img class="member-icon" id="i-@team.Id" src="~/assets/person@2x.png" alt="">
+                    </div>
+                    <i class="bi bi-chevron-compact-down extendo" id="extend-@team.Id" ></i>
+                </div>
+                <div class="member-details" id="details-@team.Id">
+                    <div class="member" id="mem-@team.Id">
+                        <img class="member-avi" src="~/assets/person@2x.png">
+                        <div class="member-name">Open</div>
+                        <div class="member-lvl">0</div>
+                        <div class="member-id" hidden></div>
+                    </div>
+                    <div class="member" id="mem-@team.Id">
+                        <img class="member-avi" src="~/assets/person@2x.png">
+                        <div class="member-name">Open</div>
+                        <div class="member-lvl">0</div>
+                        <div class="member-id" hidden></div>
+                    </div>
+                    <div class="member" id="mem-@team.Id">
+                        <img class="member-avi" src="~/assets/person@2x.png">
+                        <div class="member-name">Open</div>
+                        <div class="member-lvl">0</div>
+                        <div class="member-id" hidden></div>
+                    </div>
+                    <div class="member" id="mem-@team.Id">
+                        <img class="member-avi" src="~/assets/person@2x.png">
+                        <div class="member-name">Open</div>
+                        <div class="member-lvl">0</div>
+                        <div class="member-id" hidden></div>
+                    </div>
+                    <div class="member" id="mem-@team.Id">
+                        <img class="member-avi" src="~/assets/person@2x.png">
+                        <div class="member-name">Open</div>
+                        <div class="member-lvl">0</div>
+                        <div class="member-id" hidden></div>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="createTeamModal" tabindex="-1" role="dialog" aria-labelledby="createTeamModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createTeamModalLabel">Create a S.I.N Team!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><g><rect height="15.4956" opacity="0" width="15.4859" x="0" y="0"/><path d="M0.252699 15.2429C0.594496 15.575 1.1609 15.575 1.49293 15.2429L7.74293 8.99293L13.9929 15.2429C14.325 15.575 14.9011 15.5847 15.2332 15.2429C15.5652 14.9011 15.5652 14.3445 15.2332 14.0125L8.98317 7.7527L15.2332 1.5027C15.5652 1.17067 15.575 0.604261 15.2332 0.27223C14.8914-0.0695668 14.325-0.0695668 13.9929 0.27223L7.74293 6.52223L1.49293 0.27223C1.1609-0.0695668 0.58473-0.0793324 0.252699 0.27223C-0.0793324 0.614027-0.0793324 1.17067 0.252699 1.5027L6.5027 7.7527L0.252699 14.0125C-0.0793324 14.3445-0.0890981 14.9109 0.252699 15.2429Z" fill="#000000" fill-opacity="0.25"/></g></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 id="name-error" style="visibility:hidden;color:red;">Please enter a valid name!</h6>
+        <label for="name">Team Name: </label>
+        <input type="text" name="name" id="name-input" placeholder="The Sinners" maxlength="20" required>
+        <br>
+        <h6 id="motto-error" style="visibility:hidden;color:red;">Please enter a valid motto!</h6>
+        <label for="motto">Team Motto: </label>
+        <input type="text" name="motto" id="motto-input" placeholder="Too slow, I win!" maxlength="50" required>
+        <br>
+        <h6 id="img-error" style="visibility:hidden;color:red;">Please enter a valid url!</h6>
+        <label for="image">Team Image: </label>
+        <input type="text" name="image" id="img-input" placeholder="tenor.com/cool.gif" maxlength="255" required>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="send-creation" class="btn btn-primary">Create Team</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<link rel="stylesheet" href="~/css/Teams.css">
+<script src="~/js/Teams.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

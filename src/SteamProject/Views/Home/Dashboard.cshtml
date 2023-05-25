@@ -327,9 +327,30 @@ else
                                 var isActive = i == 0 ? "active" : "";
                                 <div class="carousel-item @isActive">
                                     <div class="competition-userCard">
-                                        <div class="row">
-                                            <h4 class="competition-card-title col">@competition.Game.Name</h4>
+                                        <div class="row align-items-center">
+                                            <div class="col-sm-4 text-left">
+                                                @if (Model.CurrentCompetitions[i].Goal == null)
+                                                {
+                                                    <h6>Achievement Battle</h6>
+                                                }
+                                                else
+                                                {
+                                                    <h6>SpeedRun</h6>
+                                                }
+                                            </div>
+                                            <div class="col-sm-4 text-center">
+                                                <h4>@competition.Game.Name</h4>
+                                            </div>
+                                            <div class="col-sm-4 text-right">
+                                                @if (Model.CurrentCompetitions[i].Goal != null)
+                                                {
+                                                    <div>
+                                                        <h6>Goal: @Model.CurrentCompetitions[i].Goal</h6>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
+
 
                                         <div id="countdown" class="countdown" data-start-date="@competition.StartDate.ToString("o")" data-end-date="@competition.EndDate.ToString("o")">
                                         </div>

@@ -43,4 +43,12 @@ public class CompetitionVoteRepository : Repository<CompetitionVote>, ICompetiti
         return GetAll().Where(vote => vote.CompetitionId == competitionId && vote.WantsToPlayAgain).Count();
     }
 
+    public void ClearVotes(int competitionId)
+    {
+        var votes = _ctx.CompetitionVotes.Where(cv => cv.CompetitionId == competitionId);
+        _ctx.CompetitionVotes.RemoveRange(votes);
+        _ctx.SaveChanges();
+    }
+
+
 }

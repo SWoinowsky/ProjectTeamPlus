@@ -9,4 +9,6 @@ public interface ICompetitionGameAchievementRepository : IRepository<Competition
     public List<CompetitionGameAchievement> GetByCompetitionIdAndGameId(int competitionId, int gameId);
 
     public void EnsureCompetitionGameAchievements(int competitionId, int gameId);
+
+    public void ClearCompetitionGameAchievements(int competitionId);
 }

@@ -338,7 +338,7 @@ public class CompeteController : Controller
                 }
 
 
-                userScoreList = userScoreList.OrderByDescending(i => i.Value.Score).ThenBy(i => i.Key.SteamName).ToList<KeyValuePair<User, CompetitionPlayer>>();
+                userScoreList = userScoreList.OrderByDescending(i => i.Value.Score).ToList<KeyValuePair<User, CompetitionPlayer>>();
 
                 userList.Clear();
                 foreach (var us in userScoreList)

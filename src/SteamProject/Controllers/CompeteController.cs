@@ -337,10 +337,6 @@ public class CompeteController : Controller
                     }
                 }
 
-
-                userScoreList = userScoreList.OrderByDescending(i => i.Value.Score).ToList<KeyValuePair<User, CompetitionPlayer>>();
-
-                userList.Clear();
                 foreach (var us in userScoreList)
                 {
                     userList.Add(us.Key);
@@ -353,6 +349,15 @@ public class CompeteController : Controller
                     }
                 }
 
+
+                userScoreList = userScoreList.OrderByDescending(i => i.Value.Score).ToList<KeyValuePair<User, CompetitionPlayer>>();
+
+                userList.Clear();
+                foreach (var us in userScoreList)
+                {
+                    userList.Add(us.Key);
+                }
+                
                 viewModel.GameAchList = gameAchievements;
                 viewModel.Tracking = userAchList;
                 viewModel.Scoreboard = userScoreList;

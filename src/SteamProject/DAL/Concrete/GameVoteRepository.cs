@@ -77,5 +77,13 @@ namespace SteamProject.DAL.Concrete
             return gameIdWithMostVotes;
 
         }
+
+        public void ClearVotes(int compId)
+        {
+            var votes = _ctx.GameVotes.Where(gv => gv.CompetitionId == compId);
+            _ctx.GameVotes.RemoveRange(votes);
+            _ctx.SaveChanges();
+        }
+
     }
 }

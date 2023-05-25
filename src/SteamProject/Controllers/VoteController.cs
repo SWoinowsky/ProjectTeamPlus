@@ -154,7 +154,7 @@ namespace SteamProject.Controllers
 
 
 
-
+        [Authorize]
         [HttpPut("GameVote")]
         public async Task<ActionResult> AddOrUpdateGameVote([FromBody] GameVotePOCO voteData)
         {
@@ -189,7 +189,7 @@ namespace SteamProject.Controllers
                 {
                     GameId = voteData.GameId,
                     UserId = user.Id,
-                    Vote = voteData.WantsToPlay, 
+                    Vote = voteData.WantsToPlay,
                     CompetitionId = voteData.CompetitionId
                 };
             }
@@ -201,11 +201,7 @@ namespace SteamProject.Controllers
 
             _gameVoteRepository.AddOrUpdate(existingVote);
 
-
-
-
-            // Get the competition Id associated with this game.
-            // You will need to implement this logic based on your data model.
+            // Fetch the competition
             var competition = _competitionRepository.GetCompetitionById(existingVote.CompetitionId);
 
             if (competition == null)
@@ -219,19 +215,6 @@ namespace SteamProject.Controllers
             // Get the total users in the competition
             var totalUsers = _competitionRepository.GetTotalUsers(competition.Id);
 
-            // If the vote count reaches a majority, update the competition with the new game
-            if (voteCount > totalUsers / 2)
-            {
-                var updatedCompetition = _competitionRepository.UpdateGameForCompetition(competition.Id, game.Id);
-
-                if (updatedCompetition == null)
-                {
-                    return BadRequest("Error updating competition");
-                }
-
-
-            }
-
             existingVote.User = null;
             existingVote.Game = null;
             existingVote.Competition = null;
@@ -241,6 +224,7 @@ namespace SteamProject.Controllers
         }
 
 
+        [Authorize]
         [HttpGet("GameVotes/{gameId}/{competitionId}")]
         public IActionResult GameVotes(int gameId, int competitionId)
         {

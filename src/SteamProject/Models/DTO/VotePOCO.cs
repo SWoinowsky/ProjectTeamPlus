@@ -8,12 +8,11 @@ public class CompetitionVotePOCO
 
 public class GameVotePOCO
 {
-    public int Id { get; set; }
-    public int UserId { get; set; }
     public int GameId { get; set; }
     public bool WantsToPlay { get; set; }
     public int CompetitionId { get; set; }
 }
+
 
 public class GameVoteDto
 {

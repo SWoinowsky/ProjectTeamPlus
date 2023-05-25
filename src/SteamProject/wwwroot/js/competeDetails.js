@@ -151,12 +151,14 @@ $(document).ready(function () {
     function attachGameClickHandler(gameId, userId, competitionId, currentVoteStatus) {
         $(`#${gameId}`).click(function () {
             console.log(`currentVoteStatus: ${currentVoteStatus}`);
+
             var voteData = {
                 GameId: gameId,
                 UserId: userId,
                 WantsToPlay: !currentVoteStatus,
-                CompetitionId: competitionId
+                CompetitionId: competitionId,
             };
+
 
             $.ajax({
                 type: 'PUT',
